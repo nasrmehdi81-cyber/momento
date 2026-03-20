@@ -3,671 +3,813 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Momento — Sign In</title>
+<title>Momento — Global Financial Intelligence</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #000;
-  --bg2: #0f0f0f;
-  --bg3: #161616;
-  --border: #2f2f2f;
-  --text: #e7e9ea;
-  --text2: #71767b;
-  --accent: #1d9bf0;
-  --green: #00ba7c;
-  --red: #f4212e;
-  --white: #fff;
-}
-
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.auth-wrap {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 100vh;
-  width: 100%;
-}
-
-/* Left side */
-.auth-left {
-  background: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-right: 1px solid var(--border);
-  padding: 40px;
-}
-
-.big-logo {
-  font-size: 120px;
-  font-weight: 900;
-  color: var(--white);
-  letter-spacing: -8px;
-  line-height: 1;
-  font-family: 'Inter', sans-serif;
-}
-
-/* Right side */
-.auth-right {
-  background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 60px 80px;
-  max-width: 600px;
-}
-
-.auth-logo {
-  font-size: 28px;
-  font-weight: 900;
-  color: var(--white);
-  letter-spacing: -1px;
-  margin-bottom: 40px;
-}
-
-.auth-title {
-  font-size: 36px;
-  font-weight: 800;
-  color: var(--white);
-  margin-bottom: 32px;
-  line-height: 1.1;
-}
-
-/* Social buttons */
-.social-btn {
-  width: 100%;
-  background: var(--white);
-  color: #000;
-  border: none;
-  border-radius: 9999px;
-  padding: 14px 20px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: opacity 0.2s;
-  margin-bottom: 10px;
-}
-
-.social-btn:hover { opacity: 0.88; }
-.social-btn.google { background: var(--white); }
-
-/* Divider */
-.divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 16px 0;
-}
-
-.divider-line { flex: 1; height: 1px; background: var(--border); }
-.divider-text { font-size: 14px; color: var(--text2); }
-
-/* Form */
-.form-group {
-  margin-bottom: 14px;
-}
-
-.form-input {
-  width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 14px 16px;
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-  font-size: 17px;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.form-input:focus { border-color: var(--accent); }
-.form-input::placeholder { color: var(--text2); }
-
-.submit-btn {
-  width: 100%;
-  background: var(--white);
-  color: #000;
-  border: none;
-  border-radius: 9999px;
-  padding: 14px;
-  font-size: 17px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: opacity 0.2s;
-  margin-top: 6px;
-}
-
-.submit-btn:hover { opacity: 0.88; }
-.submit-btn.accent-btn { background: var(--accent); color: white; }
-
-.forgot {
-  font-size: 14px;
-  color: var(--accent);
-  cursor: pointer;
-  text-align: right;
-  margin-top: 4px;
-}
-
-.switch-text {
-  font-size: 14px;
-  color: var(--text2);
-  margin-top: 20px;
-}
-
-.switch-link {
-  color: var(--accent);
-  cursor: pointer;
-  font-weight: 500;
-}
-
-/* Error / Success */
-.msg {
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  margin-bottom: 16px;
-  display: none;
-}
-
-.msg.error { background: rgba(244,33,46,0.1); border: 1px solid rgba(244,33,46,0.3); color: var(--red); display: block; }
-.msg.success { background: rgba(0,186,124,0.1); border: 1px solid rgba(0,186,124,0.3); color: var(--green); display: block; }
-
-/* Terms */
-.terms {
-  font-size: 12px;
-  color: var(--text2);
-  margin-top: 16px;
-  line-height: 1.5;
-}
-
-.terms a { color: var(--accent); text-decoration: none; }
-
-/* Loading */
-.loading {
-  display: none;
-  text-align: center;
-  padding: 20px;
-  color: var(--text2);
-  font-size: 14px;
-}
-
-/* Dashboard (shown after login) */
-.dashboard {
-  display: none;
-  width: 100%;
-  min-height: 100vh;
-  background: var(--bg);
-}
-
-.dash-nav {
-  height: 58px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  background: rgba(0,0,0,0.9);
-  backdrop-filter: blur(12px);
-  z-index: 100;
-}
-
-.dash-logo {
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--white);
-  letter-spacing: -1px;
-}
-
-.user-pill {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 9999px;
-  padding: 6px 14px 6px 6px;
-  cursor: pointer;
-}
-
-.user-av {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 12px;
-  color: white;
-}
-
-.user-name { font-size: 14px; font-weight: 600; }
-
-.signout-btn {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 9999px;
-  padding: 6px 14px;
-  color: var(--text2);
-  font-size: 13px;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s;
-}
-
-.signout-btn:hover { border-color: var(--red); color: var(--red); }
-
-.dash-content {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 32px 24px;
-}
-
-.welcome-card {
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 32px;
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.welcome-icon { font-size: 48px; margin-bottom: 16px; }
-.welcome-title { font-size: 24px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
-.welcome-sub { font-size: 15px; color: var(--text2); line-height: 1.6; }
-
-.status-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.status-card {
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-}
-
-.sc-val { font-size: 28px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
-.sc-lbl { font-size: 12px; color: var(--text2); font-family: 'DM Mono', monospace; letter-spacing: 1px; }
-.sc-val.green { color: var(--green); }
-.sc-val.blue { color: var(--accent); }
-
-.next-steps {
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-}
-
-.ns-title { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 16px; }
-
-.ns-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-
-.ns-item:last-child { border-bottom: none; }
-.ns-item:hover { opacity: 0.7; }
-
-.ns-icon { font-size: 22px; width: 36px; text-align: center; flex-shrink: 0; }
-.ns-info { flex: 1; }
-.ns-name { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
-.ns-desc { font-size: 13px; color: var(--text2); }
-.ns-arrow { color: var(--text2); font-size: 18px; }
-
-@media(max-width: 768px) {
-  .auth-wrap { grid-template-columns: 1fr; }
-  .auth-left { display: none; }
-  .auth-right { padding: 40px 24px; max-width: 100%; }
-  .status-grid { grid-template-columns: 1fr; }
-}
+:root{--bg:#000;--bg2:#0f0f0f;--bg3:#161616;--bg4:#1c1c1c;--border:#2f2f2f;--border2:#1f1f1f;--text:#e7e9ea;--text2:#71767b;--text3:#536471;--accent:#1d9bf0;--green:#00ba7c;--red:#f4212e;--gold:#ffd400;--white:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;}
+.auth-page{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;}
+.auth-left{border-right:1px solid var(--border);display:flex;align-items:center;justify-content:center;}
+.big-m{font-size:150px;font-weight:900;color:var(--white);letter-spacing:-10px;line-height:1;}
+.auth-right{padding:60px 72px;display:flex;flex-direction:column;justify-content:center;max-width:560px;}
+.a-logo{font-size:26px;font-weight:900;color:var(--white);letter-spacing:-1px;margin-bottom:36px;}
+.a-title{font-size:32px;font-weight:800;color:var(--white);margin-bottom:24px;line-height:1.1;}
+.g-btn{width:100%;background:var(--white);color:#000;border:none;border-radius:9999px;padding:12px 20px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;transition:opacity .2s;}
+.g-btn:hover{opacity:.88;}
+.divider{display:flex;align-items:center;gap:10px;margin:12px 0;}
+.dline{flex:1;height:1px;background:var(--border);}
+.dtxt{font-size:13px;color:var(--text2);}
+.amsg{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:10px;display:none;}
+.amsg.err{background:rgba(244,33,46,.1);border:1px solid rgba(244,33,46,.3);color:var(--red);display:block;}
+.amsg.ok{background:rgba(0,186,124,.1);border:1px solid rgba(0,186,124,.3);color:var(--green);display:block;}
+.ainp{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px 14px;color:var(--text);font-family:'Inter',sans-serif;font-size:16px;outline:none;transition:border-color .2s;margin-bottom:10px;}
+.ainp:focus{border-color:var(--accent);}
+.ainp::placeholder{color:var(--text2);}
+.abtn{width:100%;background:var(--accent);color:#fff;border:none;border-radius:9999px;padding:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity .2s;margin-top:4px;}
+.abtn:hover{opacity:.88;}
+.abtn:disabled{opacity:.5;cursor:not-allowed;}
+.aswitch{font-size:14px;color:var(--text2);margin-top:16px;}
+.aswitch a{color:var(--accent);cursor:pointer;}
+.aforgot{font-size:13px;color:var(--accent);cursor:pointer;text-align:right;margin-top:-4px;margin-bottom:8px;}
+.aterms{font-size:11px;color:var(--text2);margin-top:12px;line-height:1.5;}
+.aterms a{color:var(--accent);}
+.trial-banner{background:rgba(29,155,240,.1);border:1px solid rgba(29,155,240,.2);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--accent);}
+.app-page{display:none;}
+.app{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:275px 600px 1fr;min-height:100vh;}
+.lnav{border-right:1px solid var(--border);padding:0 12px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;overflow-y:auto;}
+.lnav::-webkit-scrollbar{display:none;}
+.llogo{font-size:26px;font-weight:900;color:var(--white);letter-spacing:-1px;padding:14px 12px 8px;cursor:pointer;}
+.nitem{display:flex;align-items:center;gap:18px;padding:11px 14px;border-radius:9999px;cursor:pointer;color:var(--text);font-size:18px;font-weight:400;margin-bottom:2px;border:none;background:none;font-family:'Inter',sans-serif;width:100%;text-align:left;transition:background .15s;}
+.nitem:hover{background:rgba(255,255,255,.07);}
+.nitem.active{font-weight:700;}
+.nico{font-size:22px;width:26px;text-align:center;flex-shrink:0;}
+.nlabel{font-size:18px;}
+.nbadge{background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:9999px;margin-left:auto;font-family:'DM Mono',monospace;}
+.pro-nav{background:linear-gradient(135deg,#ffd400,#f97316);color:#000;font-size:10px;font-weight:800;padding:2px 8px;border-radius:9999px;margin-left:auto;font-family:'DM Mono',monospace;}
+.post-nav-btn{background:var(--accent);color:#fff;border:none;border-radius:9999px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin:12px 12px;width:calc(100% - 24px);transition:background .15s;}
+.post-nav-btn:hover{background:#1a8cd8;}
+.upill{margin-top:auto;margin-bottom:10px;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9999px;cursor:pointer;transition:background .15s;}
+.upill:hover{background:rgba(255,255,255,.07);}
+.uav{width:38px;height:38px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0;}
+.uname{font-size:14px;font-weight:700;}
+.uhandle{font-size:12px;color:var(--text2);}
+.udots{margin-left:auto;color:var(--text2);}
+.main-col{border-right:1px solid var(--border);}
+.feed-top{position:sticky;top:0;z-index:100;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.fhdr{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+.ftitle{font-size:20px;font-weight:800;color:var(--white);}
+.live-ind{display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:11px;color:var(--green);}
+.ldot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.page-tabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.page-tabs::-webkit-scrollbar{display:none;}
+.ptab{flex-shrink:0;padding:14px 16px;font-size:15px;font-weight:500;color:var(--text2);cursor:pointer;position:relative;transition:background .15s;border:none;background:none;font-family:'Inter',sans-serif;}
+.ptab:hover{background:rgba(255,255,255,.03);}
+.ptab.active{color:var(--white);font-weight:700;}
+.ptab.active::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:52px;height:4px;background:var(--accent);border-radius:9999px;}
+.ticker-w{padding:7px 16px;border-bottom:1px solid var(--border);overflow:hidden;}
+.ticker-i{display:flex;gap:20px;animation:tscroll 55s linear infinite;white-space:nowrap;}
+.ticker-i:hover{animation-play-state:paused;}
+@keyframes tscroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.tick{display:flex;align-items:center;gap:5px;flex-shrink:0;cursor:pointer;}
+.tn{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);}
+.tp{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;}
+.tc{font-family:'DM Mono',monospace;font-size:10px;}
+.up{color:var(--green);}.dn{color:var(--red);}
+.compose{padding:12px 16px;display:flex;gap:12px;border-bottom:1px solid var(--border);}
+.cav{width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0;margin-top:4px;}
+.cright{flex:1;}
+.cinp{width:100%;background:none;border:none;color:var(--text);font-family:'Inter',sans-serif;font-size:19px;outline:none;resize:none;height:50px;padding:8px 0;line-height:1.4;transition:height .2s;}
+.cinp:focus{height:90px;}
+.cinp::placeholder{color:var(--text2);}
+.cdiv{border:none;border-top:1px solid var(--border);margin:8px 0;}
+.cbot{display:flex;align-items:center;justify-content:space-between;}
+.ctools{display:flex;gap:2px;}
+.ctool{background:none;border:none;color:var(--accent);font-size:18px;cursor:pointer;padding:7px;border-radius:50%;transition:background .15s;}
+.ctool:hover{background:rgba(29,155,240,.1);}
+.csend{background:var(--accent);color:#fff;border:none;border-radius:9999px;padding:7px 18px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s;}
+.csend:hover{background:#1a8cd8;}
+.csend:disabled{opacity:.5;cursor:not-allowed;}
+.post{padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;animation:pIn .2s ease both;}
+.post:hover{background:rgba(255,255,255,.02);}
+@keyframes pIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.prow{display:flex;gap:12px;}
+.pav{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0;margin-top:2px;}
+.pbody{flex:1;min-width:0;}
+.pmeta{display:flex;align-items:center;gap:4px;margin-bottom:3px;flex-wrap:wrap;}
+.pname{font-size:15px;font-weight:700;color:var(--white);}
+.phandle{font-size:14px;color:var(--text2);}
+.pdot{color:var(--text3);font-size:12px;}
+.ptime{font-size:14px;color:var(--text2);}
+.pmore{margin-left:auto;color:var(--text2);font-size:16px;padding:3px;border-radius:50%;cursor:pointer;}
+.ptxt{font-size:15px;line-height:1.55;color:var(--text);margin-bottom:10px;word-break:break-word;}
+.ptag{color:var(--accent);}
+.nembed{border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:10px;}
+.nimg{width:100%;height:160px;object-fit:cover;display:block;background:var(--bg3);}
+.nimg-ph{width:100%;height:100px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:28px;}
+.nbody{padding:12px;}
+.nsrc{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);margin-bottom:4px;}
+.nhl{font-size:15px;font-weight:700;color:var(--white);line-height:1.35;margin-bottom:4px;}
+.nsum{font-size:13px;color:var(--text2);line-height:1.4;}
+.signal{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:9999px;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;margin-bottom:10px;}
+.sbuy{border:1px solid var(--green);color:var(--green);}
+.swait{border:1px solid var(--gold);color:var(--gold);}
+.pacts{display:flex;gap:16px;}
+.pact{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--text2);cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif;padding:5px;border-radius:9999px;transition:all .15s;}
+.pact:hover{color:var(--accent);background:rgba(29,155,240,.08);}
+.pact.liked{color:var(--red);}
+.pico{font-size:17px;}
+.loading-p{padding:32px;text-align:center;color:var(--text2);font-size:14px;}
+/* TRADING */
+.platforms-page{padding:20px;}
+.platforms-title{font-size:24px;font-weight:800;color:var(--white);margin-bottom:6px;}
+.platforms-sub{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:20px;}
+.platforms-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:24px;}
+.pc{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:20px;transition:all .2s;text-decoration:none;display:block;}
+.pc:hover{border-color:var(--accent);transform:translateY(-2px);}
+.pc-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.pc-logo{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.pc-name{font-size:16px;font-weight:700;color:var(--white);}
+.pc-type{font-size:11px;color:var(--text2);font-family:'DM Mono',monospace;}
+.pc-desc{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:10px;}
+.pc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.pc-tag{font-size:11px;padding:3px 8px;border-radius:9999px;background:var(--bg4);color:var(--text2);font-family:'DM Mono',monospace;}
+.pc-footer{display:flex;align-items:center;justify-content:space-between;}
+.pc-reg{font-size:11px;color:var(--green);}
+.pc-btn{background:var(--accent);color:#fff;border:none;border-radius:9999px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;}
+.pc-btn:hover{background:#1a8cd8;}
+.sec-title{font-size:13px;font-weight:700;color:var(--text2);letter-spacing:1px;font-family:'DM Mono',monospace;margin-bottom:12px;margin-top:8px;}
+.aff-banner{background:rgba(29,155,240,.08);border:1px solid rgba(29,155,240,.2);border-radius:16px;padding:18px;margin-bottom:20px;}
+.aff-title{font-size:15px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.aff-sub{font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.5;}
+.aff-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.aff-stat{text-align:center;}
+.aff-val{font-size:20px;font-weight:800;color:var(--accent);font-family:'DM Mono',monospace;}
+.aff-lbl{font-size:11px;color:var(--text2);}
+/* RIGHT */
+.rbar{padding:0 16px;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.rbar::-webkit-scrollbar{display:none;}
+.swrap{position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:10;}
+.sbox{background:var(--bg3);border:1px solid transparent;border-radius:9999px;padding:10px 16px;display:flex;align-items:center;gap:10px;}
+.sbox:focus-within{background:var(--bg);border-color:var(--accent);}
+.sico{color:var(--text2);font-size:16px;}
+.sbox input{background:none;border:none;outline:none;color:var(--text);font-family:'Inter',sans-serif;font-size:15px;width:100%;}
+.sbox input::placeholder{color:var(--text2);}
+.widget{background:var(--bg3);border-radius:16px;padding:16px;margin-bottom:14px;}
+.wt{font-size:20px;font-weight:800;color:var(--white);margin-bottom:14px;}
+.fg-num{font-size:38px;font-weight:900;text-align:center;margin:2px 0;}
+.fg-lbl{font-size:13px;font-weight:600;text-align:center;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.fg-bar{height:4px;background:var(--bg4);border-radius:9999px;overflow:hidden;margin-bottom:5px;}
+.fg-fill{height:100%;border-radius:9999px;}
+.fg-row{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:10px;color:var(--text2);}
+.mrow{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border2);cursor:pointer;}
+.mrow:last-child{border-bottom:none;}
+.mn{font-size:14px;font-weight:500;}
+.mp{font-family:'DM Mono',monospace;font-size:13px;}
+.mc{font-family:'DM Mono',monospace;font-size:12px;}
+.trend{padding:9px 0;border-bottom:1px solid var(--border2);cursor:pointer;}
+.trend:last-child{border-bottom:none;}
+.tcat{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);}
+.ttag{font-size:15px;font-weight:700;color:var(--white);margin:1px 0;}
+.tct{font-size:13px;color:var(--text2);}
+.aform{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
+.asel,.aino{background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;outline:none;width:100%;}
+.asel:focus,.aino:focus{border-color:var(--accent);}
+.asel option{background:var(--bg3);}
+.abtn2{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;}
+.alert-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border2);font-family:'DM Mono',monospace;font-size:11px;}
+.alert-row:last-child{border-bottom:none;}
+.adot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+.ainfo{flex:1;}
+.apair{color:var(--text);font-weight:500;}
+.aprice{color:var(--text2);font-size:10px;}
+.adel{background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;}
+.adel:hover{color:var(--red);}
+.user-side{background:var(--bg3);border-radius:14px;padding:14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.us-av{width:38px;height:38px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0;}
+.us-info{flex:1;min-width:0;}
+.us-name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.us-email{font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.us-out{background:none;border:1px solid var(--border);border-radius:9999px;padding:5px 12px;color:var(--text2);font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;flex-shrink:0;}
+.us-out:hover{border-color:var(--red);color:var(--red);}
+.trial-w{background:rgba(29,155,240,.08);border:1px solid rgba(29,155,240,.2);border-radius:14px;padding:16px;margin-bottom:14px;}
+.trial-title{font-size:15px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.trial-sub{font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5;}
+.trial-bar-w{height:4px;background:var(--bg4);border-radius:9999px;margin-bottom:6px;overflow:hidden;}
+.trial-bar{height:100%;background:var(--accent);border-radius:9999px;}
+.trial-days{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);margin-bottom:12px;}
+.upgrade-btn{width:100%;background:var(--white);color:#000;border:none;border-radius:9999px;padding:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;}
+.upgrade-btn.urgent{background:linear-gradient(135deg,var(--gold),#f97316);color:#000;}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;align-items:center;justify-content:center;}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:32px;max-width:440px;width:90%;animation:mIn .35s cubic-bezier(.34,1.56,.64,1);}
+@keyframes mIn{from{opacity:0;transform:scale(.85);}to{opacity:1;transform:scale(1);}}
+.m-title{font-size:24px;font-weight:800;color:var(--white);margin-bottom:6px;}
+.m-sub{font-size:14px;color:var(--text2);margin-bottom:24px;line-height:1.5;}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.plan{background:var(--bg3);border:2px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:all .2s;text-align:center;}
+.plan:hover,.plan.sel{border-color:var(--accent);background:rgba(29,155,240,.06);}
+.plan-name{font-size:14px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.plan-price{font-family:'DM Mono',monospace;font-size:22px;font-weight:700;color:var(--accent);margin-bottom:4px;}
+.plan-price span{font-size:12px;color:var(--text2);}
+.plan-save{font-size:11px;color:var(--green);font-weight:600;margin-bottom:8px;}
+.plan-feats{list-style:none;text-align:left;}
+.plan-feats li{font-size:12px;color:var(--text2);padding:2px 0;display:flex;align-items:center;gap:5px;}
+.plan-feats li::before{content:'✓';color:var(--green);font-size:10px;}
+.m-cta{width:100%;background:var(--accent);color:#fff;border:none;border-radius:9999px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;}
+.m-close{width:100%;background:none;border:none;color:var(--text2);font-size:14px;cursor:pointer;font-family:'Inter',sans-serif;padding:6px;}
+/* TOAST */
+.toast-w{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9998;pointer-events:none;}
+.toast{background:var(--accent);color:#fff;padding:11px 20px;border-radius:9999px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.4);animation:tIn .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;pointer-events:all;}
+@keyframes tIn{from{opacity:0;transform:translateY(16px) scale(.9);}to{opacity:1;transform:translateY(0) scale(1);}}
+@media(max-width:1100px){.app{grid-template-columns:72px 1fr;}.rbar{display:none;}.nlabel{display:none;}.nitem{justify-content:center;padding:12px;}.nbadge,.pro-nav{display:none;}.post-nav-btn{width:48px;height:48px;border-radius:50%;margin:10px auto;padding:0;font-size:20px;}.uname,.uhandle,.udots{display:none;}.upill{justify-content:center;}.platforms-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.auth-page{grid-template-columns:1fr;}.auth-left{display:none;}.auth-right{padding:36px 20px;max-width:100%;}.app{grid-template-columns:1fr;}.lnav{display:none;}}
 </style>
 </head>
 <body>
-
-<!-- AUTH PAGE -->
-<div class="auth-wrap" id="authPage">
-
-  <!-- Left -->
-  <div class="auth-left">
-    <div class="big-logo">M</div>
-  </div>
-
-  <!-- Right -->
-  <div class="auth-right">
-    <div class="auth-logo">momento</div>
-
-    <!-- LOGIN FORM -->
-    <div id="loginForm">
-      <div class="auth-title">Sign in to Momento</div>
-
-      <button class="social-btn google" onclick="signInGoogle()">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        Continue with Google
-      </button>
-
-      <div class="divider">
-        <div class="divider-line"></div>
-        <div class="divider-text">or</div>
-        <div class="divider-line"></div>
+<div class="toast-w" id="toastW"></div>
+<div class="modal-overlay" id="upgradeModal">
+  <div class="modal">
+    <div class="m-title">Upgrade to Pro ✦</div>
+    <div class="m-sub">Your 14-day free trial has ended. Upgrade to keep full access.</div>
+    <div class="plans">
+      <div class="plan sel" onclick="selPlan(this,'monthly')">
+        <div class="plan-name">Monthly</div>
+        <div class="plan-price">$9.99<span>/mo</span></div>
+        <ul class="plan-feats"><li>Unlimited alerts</li><li>AI signals</li><li>Expert analyses</li><li>All news sources</li></ul>
       </div>
-
-      <div id="loginMsg" class="msg"></div>
-
-      <div class="form-group">
-        <input class="form-input" id="loginEmail" type="email" placeholder="Email address">
-      </div>
-      <div class="form-group">
-        <input class="form-input" id="loginPassword" type="password" placeholder="Password">
-        <div class="forgot" onclick="showForgot()">Forgot password?</div>
-      </div>
-
-      <button class="submit-btn accent-btn" onclick="signIn()">Sign in</button>
-
-      <div class="terms">
-        By signing in, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
-      </div>
-
-      <div class="switch-text">
-        Don't have an account? <span class="switch-link" onclick="showSignup()">Sign up</span>
+      <div class="plan" onclick="selPlan(this,'yearly')">
+        <div class="plan-name">Yearly</div>
+        <div class="plan-price">$79<span>/yr</span></div>
+        <div class="plan-save">Save 34% 🎉</div>
+        <ul class="plan-feats"><li>Everything Monthly</li><li>Annual report</li><li>Expert badge</li><li>VIP community</li></ul>
       </div>
     </div>
-
-    <!-- SIGNUP FORM -->
-    <div id="signupForm" style="display:none">
-      <div class="auth-title">Join Momento</div>
-
-      <button class="social-btn google" onclick="signInGoogle()">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        Sign up with Google
-      </button>
-
-      <div class="divider">
-        <div class="divider-line"></div>
-        <div class="divider-text">or</div>
-        <div class="divider-line"></div>
-      </div>
-
-      <div id="signupMsg" class="msg"></div>
-
-      <div class="form-group">
-        <input class="form-input" id="signupEmail" type="email" placeholder="Email address">
-      </div>
-      <div class="form-group">
-        <input class="form-input" id="signupPassword" type="password" placeholder="Password (min 8 chars)">
-      </div>
-
-      <button class="submit-btn accent-btn" onclick="signUp()">Create account</button>
-
-      <div class="terms">
-        By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. Free 14-day Pro trial included.
-      </div>
-
-      <div class="switch-text">
-        Already have an account? <span class="switch-link" onclick="showLogin()">Sign in</span>
-      </div>
-    </div>
-
-    <!-- FORGOT PASSWORD -->
-    <div id="forgotForm" style="display:none">
-      <div class="auth-title">Reset password</div>
-      <p style="font-size:15px;color:var(--text2);margin-bottom:24px">Enter your email and we'll send you a reset link.</p>
-
-      <div id="forgotMsg" class="msg"></div>
-
-      <div class="form-group">
-        <input class="form-input" id="forgotEmail" type="email" placeholder="Email address">
-      </div>
-
-      <button class="submit-btn accent-btn" onclick="resetPassword()">Send reset link</button>
-
-      <div class="switch-text">
-        <span class="switch-link" onclick="showLogin()">← Back to sign in</span>
-      </div>
-    </div>
-
+    <button class="m-cta" onclick="goUpgrade()">Start Pro Now →</button>
+    <button class="m-close" onclick="closeModal()">Maybe later</button>
   </div>
 </div>
 
-<!-- DASHBOARD (shown after login) -->
-<div class="dashboard" id="dashboardPage">
-  <div class="dash-nav">
-    <div class="dash-logo">momento</div>
-    <div style="display:flex;align-items:center;gap:10px">
-      <div class="user-pill">
-        <div class="user-av" id="userAv">?</div>
-        <div class="user-name" id="userName">Loading...</div>
-      </div>
-      <button class="signout-btn" onclick="signOut()">Sign out</button>
+<!-- AUTH -->
+<div class="auth-page" id="authPage">
+  <div class="auth-left"><div class="big-m">M</div></div>
+  <div class="auth-right">
+    <div class="a-logo">momento</div>
+    <div id="loginForm">
+      <div class="a-title">Sign in to Momento</div>
+      <button class="g-btn" onclick="googleLogin()"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Continue with Google</button>
+      <div class="divider"><div class="dline"></div><div class="dtxt">or</div><div class="dline"></div></div>
+      <div id="lMsg" class="amsg"></div>
+      <input class="ainp" id="lEmail" type="email" placeholder="Email address">
+      <input class="ainp" id="lPwd" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+      <div class="aforgot" onclick="showF('forgot')">Forgot password?</div>
+      <button class="abtn" onclick="doLogin()">Sign in</button>
+      <div class="aterms">By signing in you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></div>
+      <div class="aswitch">No account? <a onclick="showF('signup')">Sign up — 14 days Pro free</a></div>
+    </div>
+    <div id="signupForm" style="display:none">
+      <div class="a-title">Join Momento</div>
+      <div class="trial-banner">🎁 14-day Pro trial — no credit card needed</div>
+      <button class="g-btn" onclick="googleLogin()"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Sign up with Google</button>
+      <div class="divider"><div class="dline"></div><div class="dtxt">or</div><div class="dline"></div></div>
+      <div id="sMsg" class="amsg"></div>
+      <input class="ainp" id="sEmail" type="email" placeholder="Email address">
+      <input class="ainp" id="sPwd" type="password" placeholder="Password (min 8 chars)">
+      <button class="abtn" onclick="doSignup()">Create account — Free 14-day Pro</button>
+      <div class="aterms">By signing up you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></div>
+      <div class="aswitch">Already have an account? <a onclick="showF('login')">Sign in</a></div>
+    </div>
+    <div id="forgotForm" style="display:none">
+      <div class="a-title">Reset password</div>
+      <p style="font-size:14px;color:var(--text2);margin-bottom:20px">We'll send a reset link to your email.</p>
+      <div id="fMsg" class="amsg"></div>
+      <input class="ainp" id="fEmail" type="email" placeholder="Email address">
+      <button class="abtn" onclick="doReset()">Send reset link</button>
+      <div class="aswitch"><a onclick="showF('login')">← Back to sign in</a></div>
     </div>
   </div>
+</div>
 
-  <div class="dash-content">
-    <div class="welcome-card">
-      <div class="welcome-icon">🎉</div>
-      <div class="welcome-title">Welcome to Momento!</div>
-      <div class="welcome-sub">Your account is live and connected to our real-time financial intelligence platform. Your 14-day Pro trial has started.</div>
+<!-- APP -->
+<div class="app-page" id="appPage">
+  <div class="app">
+    <div class="lnav">
+      <div class="llogo">M</div>
+      <button class="nitem active" onclick="sw('feed',this)"><span class="nico">🏠</span><span class="nlabel">Home</span></button>
+      <button class="nitem" onclick="sw('news',this)"><span class="nico">📰</span><span class="nlabel">News</span></button>
+      <button class="nitem" onclick="sw('markets',this)"><span class="nico">📊</span><span class="nlabel">Markets</span></button>
+      <button class="nitem" onclick="sw('signals',this)"><span class="nico">🎯</span><span class="nlabel">Signals</span><span class="pro-nav">PRO</span></button>
+      <button class="nitem" onclick="sw('trading',this)"><span class="nico">💹</span><span class="nlabel">Trade</span></button>
+      <button class="nitem" onclick="sw('alerts',this)"><span class="nico">🔔</span><span class="nlabel">Alerts</span><span class="nbadge" id="alertBadge">0</span></button>
+      <button class="nitem" onclick="sw('experts',this)"><span class="nico">🎓</span><span class="nlabel">Experts</span></button>
+      <button class="nitem" onclick="sw('profile',this)"><span class="nico">👤</span><span class="nlabel">Profile</span></button>
+      <button class="nitem" onclick="sw('support',this)"><span class="nico">💬</span><span class="nlabel">Support</span></button>
+      <button class="post-nav-btn" onclick="focusCompose()">Post</button>
+      <div class="upill" onclick="doSignout()">
+        <div class="uav" id="navAv">?</div>
+        <div><div class="uname" id="navName">—</div><div class="uhandle" id="navHandle">—</div></div>
+        <div class="udots">···</div>
+      </div>
     </div>
 
-    <div class="status-grid">
-      <div class="status-card">
-        <div class="sc-val green">✓ Active</div>
-        <div class="sc-lbl">ACCOUNT STATUS</div>
+    <div class="main-col">
+      <div class="feed-top">
+        <div class="fhdr">
+          <div class="ftitle" id="feedTitle">Home</div>
+          <div class="live-ind"><div class="ldot"></div>LIVE</div>
+        </div>
+        <div class="page-tabs">
+          <button class="ptab active" onclick="sw('feed',this)">Feed</button>
+          <button class="ptab" onclick="sw('news',this)">News</button>
+          <button class="ptab" onclick="sw('markets',this)">Markets</button>
+          <button class="ptab" onclick="sw('signals',this)">Signals ✦</button>
+          <button class="ptab" onclick="sw('trading',this)">💹 Trade</button>
+        </div>
+        <div class="ticker-w"><div class="ticker-i" id="tickerEl"></div></div>
       </div>
-      <div class="status-card">
-        <div class="sc-val blue">14 Days</div>
-        <div class="sc-lbl">PRO TRIAL LEFT</div>
+
+      <div id="tab-feed">
+        <div class="compose">
+          <div class="cav" id="composeAv">?</div>
+          <div class="cright">
+            <textarea class="cinp" id="composeText" placeholder="Share your market insight..."></textarea>
+            <hr class="cdiv">
+            <div class="cbot">
+              <div class="ctools">
+                <button class="ctool">📊</button>
+                <button class="ctool">🔗</button>
+                <button class="ctool">🌐</button>
+              </div>
+              <button class="csend" id="sendBtn" onclick="submitPost()">Post</button>
+            </div>
+          </div>
+        </div>
+        <div id="feedEl"><div class="loading-p">Loading feed...</div></div>
+      </div>
+
+      <div id="tab-news" style="display:none"><div id="newsEl"><div class="loading-p">Loading news...</div></div></div>
+
+      <div id="tab-markets" style="display:none">
+        <div style="padding:16px">
+          <div style="font-size:22px;font-weight:800;color:var(--white);margin-bottom:16px">Live Markets</div>
+          <div id="marketsFullEl"></div>
+        </div>
+      </div>
+
+      <div id="tab-signals" style="display:none"><div id="signalsEl"></div></div>
+
+      <div id="tab-trading" style="display:none">
+        <div class="platforms-page">
+          <div class="platforms-title">💹 Trading Platforms</div>
+          <div class="platforms-sub">Start trading with the world's most trusted brokers. Register through Momento and get exclusive bonuses.</div>
+          <div class="aff-banner">
+            <div class="aff-title">✦ Earn with Momento Affiliate Program</div>
+            <div class="aff-sub">Share your referral link and earn commissions when friends sign up and trade.</div>
+            <div class="aff-stats">
+              <div class="aff-stat"><div class="aff-val">$250</div><div class="aff-lbl">Per signup</div></div>
+              <div class="aff-stat"><div class="aff-val">40%</div><div class="aff-lbl">Revenue share</div></div>
+              <div class="aff-stat"><div class="aff-val">∞</div><div class="aff-lbl">No limit</div></div>
+            </div>
+          </div>
+          <div class="sec-title">FOREX & CFD</div>
+          <div class="platforms-grid">
+            <a class="pc" href="https://www.etoro.com" target="_blank">
+              <div class="pc-top"><div class="pc-logo" style="background:#1B4A8A">🌐</div><div><div class="pc-name">eToro</div><div class="pc-type">SOCIAL TRADING</div></div></div>
+              <div class="pc-desc">World's leading social trading platform. Copy top traders and trade 3,000+ assets.</div>
+              <div class="pc-tags"><span class="pc-tag">Forex</span><span class="pc-tag">Stocks</span><span class="pc-tag">Crypto</span><span class="pc-tag">Copy Trading</span></div>
+              <div class="pc-footer"><div class="pc-reg">✓ FCA · CySEC · ASIC</div><button class="pc-btn" onclick="event.preventDefault();window.open('https://www.etoro.com','_blank')">Open Account →</button></div>
+            </a>
+            <a class="pc" href="https://www.xm.com" target="_blank">
+              <div class="pc-top"><div class="pc-logo" style="background:#C8102E">🔴</div><div><div class="pc-name">XM Group</div><div class="pc-type">FOREX BROKER</div></div></div>
+              <div class="pc-desc">Global broker with 5M+ clients. 1000+ instruments, tight spreads from 0 pips.</div>
+              <div class="pc-tags"><span class="pc-tag">Forex</span><span class="pc-tag">Gold</span><span class="pc-tag">Oil</span><span class="pc-tag">MT4/MT5</span></div>
+              <div class="pc-footer"><div class="pc-reg">✓ CySEC · ASIC · IFSC</div><button class="pc-btn" onclick="event.preventDefault();window.open('https://www.xm.com','_blank')">Open Account →</button></div>
+            </a>
+            <a class="pc" href="https://www.ig.com" target="_blank">
+              <div class="pc-top"><div class="pc-logo" style="background:#111">⚫</div><div><div class="pc-name">IG Markets</div><div class="pc-type">PROFESSIONAL CFD</div></div></div>
+              <div class="pc-desc">50+ years of expertise. Trade 17,000+ markets including forex, indices and shares.</div>
+              <div class="pc-tags"><span class="pc-tag">Forex</span><span class="pc-tag">Indices</span><span class="pc-tag">Shares</span><span class="pc-tag">Options</span></div>
+              <div class="pc-footer"><div class="pc-reg">✓ FCA · ASIC · BaFin</div><button class="pc-btn" onclick="event.preventDefault();window.open('https://www.ig.com','_blank')">Open Account →</button></div>
+            </a>
+            <a class="pc" href="https://www.plus500.com" target="_blank">
+              <div class="pc-top"><div class="pc-logo" style="background:#00A651">🟢</div><div><div class="pc-name">Plus500</div><div class="pc-type">CFD BROKER</div></div></div>
+              <div class="pc-desc">LSE-listed broker. Simple platform for trading CFDs on 2,800+ instruments worldwide.</div>
+              <div class="pc-tags"><span class="pc-tag">CFD</span><span class="pc-tag">Stocks</span><span class="pc-tag">ETFs</span><span class="pc-tag">Crypto</span></div>
+              <div class="pc-footer"><div class="pc-reg">✓ FCA · CySEC · ASIC</div><button class="pc-btn" onclick="event.preventDefault();window.open('https://www.plus500.com','_blank')">Open Account →</button></div>
+            </a>
+          </div>
+          <div class="sec-title">CRYPTOCURRENCY</div>
+          <div class="platforms-grid">
+            <a class="pc" href="https://www.binance.com" target="_blank">
+              <div class="pc-top"><div class="pc-logo" style="background:#F0B90B">₿</div><div><div class="pc-name">Binance</div><div class="pc-type">WORLD'S LARGEST CRYPTO</div></div></div>
+              <div class="pc-desc">World's largest crypto exchange by volume. Trade 350+ cryptocurrencies at lowest fees.</div>
+              <div class="pc-tags"><span class="pc-tag">BTC</span><span class="pc-tag">ETH</span><span class="pc-tag">Futures</span><span class="pc-tag">Staking</span></div>
+              <div class="pc-footer"><div class="pc-reg">✓ Licensed in 100+ countries</div><button class="pc-btn" onclick="event.preventDefault();window.open('https://www.binance.com','_blank')">Open Account →</button></div>
+            </a>
+            <a class="pc" href="https://www.coinbase.com" target="_blank">
+              <div class="pc-top"><div class="pc-logo" style="background:#0052FF">🔵</div><div><div class="pc-name">Coinbase</div><div class="pc-type">MOST TRUSTED CRYPTO</div></div></div>
+              <div class="pc-desc">NASDAQ-listed crypto platform. Most trusted exchange for beginners and institutions.</div>
+              <div class="pc-tags"><span class="pc-tag">BTC</span><span class="pc-tag">ETH</span><span class="pc-tag">Staking</span><span class="pc-tag">NASDAQ</span></div>
+              <div class="pc-footer"><div class="pc-reg">✓ SEC registered · FDIC</div><button class="pc-btn" onclick="event.preventDefault();window.open('https://www.coinbase.com','_blank')">Open Account →</button></div>
+            </a>
+            <a class="pc" href="https://www.bybit.com" target="_blank">
+              <div class="pc-top"><div class="pc-logo" style="background:#F7A600">🟡</div><div><div class="pc-name">Bybit</div><div class="pc-type">DERIVATIVES EXCHANGE</div></div></div>
+              <div class="pc-desc">Leading derivatives exchange with perpetual contracts. High leverage, deep liquidity.</div>
+              <div class="pc-tags"><span class="pc-tag">Perpetuals</span><span class="pc-tag">Options</span><span class="pc-tag">Copy Trade</span><span class="pc-tag">Leverage</span></div>
+              <div class="pc-footer"><div class="pc-reg">✓ Licensed multiple regions</div><button class="pc-btn" onclick="event.preventDefault();window.open('https://www.bybit.com','_blank')">Open Account →</button></div>
+            </a>
+            <a class="pc" href="https://www.kraken.com" target="_blank">
+              <div class="pc-top"><div class="pc-logo" style="background:#5741D9">🦑</div><div><div class="pc-name">Kraken</div><div class="pc-type">INSTITUTIONAL CRYPTO</div></div></div>
+              <div class="pc-desc">One of the oldest and most secure exchanges. Trusted by institutions globally since 2011.</div>
+              <div class="pc-tags"><span class="pc-tag">Spot</span><span class="pc-tag">Futures</span><span class="pc-tag">Staking</span><span class="pc-tag">OTC</span></div>
+              <div class="pc-footer"><div class="pc-reg">✓ FinCEN · FCA approved</div><button class="pc-btn" onclick="event.preventDefault();window.open('https://www.kraken.com','_blank')">Open Account →</button></div>
+            </a>
+          </div>
+          <div class="sec-title">STOCKS & INVESTING</div>
+          <div class="platforms-grid">
+            <a class="pc" href="https://www.interactivebrokers.com" target="_blank">
+              <div class="pc-top"><div class="pc-logo" style="background:#DA0A21">📈</div><div><div class="pc-name">Interactive Brokers</div><div class="pc-type">GLOBAL STOCKS</div></div></div>
+              <div class="pc-desc">Professional-grade platform. Access 135+ markets globally with the industry's lowest fees.</div>
+              <div class="pc-tags"><span class="pc-tag">Stocks</span><span class="pc-tag">Options</span><span class="pc-tag">Bonds</span><span class="pc-tag">135 Markets</span></div>
+              <div class="pc-footer"><div class="pc-reg">✓ SEC · FINRA · FCA</div><button class="pc-btn" onclick="event.preventDefault();window.open('https://www.interactivebrokers.com','_blank')">Open Account →</button></div>
+            </a>
+            <a class="pc" href="https://www.home.saxo" target="_blank">
+              <div class="pc-top"><div class="pc-logo" style="background:#003366">🏦</div><div><div class="pc-name">Saxo Bank</div><div class="pc-type">PREMIUM INVESTING</div></div></div>
+              <div class="pc-desc">Award-winning platform. Access 70,000+ instruments from stocks to forex in one account.</div>
+              <div class="pc-tags"><span class="pc-tag">Stocks</span><span class="pc-tag">Forex</span><span class="pc-tag">ETFs</span><span class="pc-tag">Premium</span></div>
+              <div class="pc-footer"><div class="pc-reg">✓ Danish FSA · FCA · MAS</div><button class="pc-btn" onclick="event.preventDefault();window.open('https://www.home.saxo','_blank')">Open Account →</button></div>
+            </a>
+          </div>
+          <div style="font-size:12px;color:var(--text3);text-align:center;padding:16px;line-height:1.6">⚠️ Trading involves significant risk. Past performance is not indicative of future results. Only trade with money you can afford to lose.</div>
+        </div>
+      </div>
+
+      <div id="tab-alerts" style="display:none">
+        <div style="padding:20px">
+          <div style="font-size:22px;font-weight:800;color:var(--white);margin-bottom:6px">Price Alerts</div>
+          <div style="font-size:14px;color:var(--text2);margin-bottom:20px">Sound + vibration alerts when prices hit your targets</div>
+          <div class="widget">
+            <div class="aform">
+              <select class="asel" id="alertPairFull"><option value="BTC">Bitcoin BTC/USD</option><option value="ETH">Ethereum ETH/USD</option><option value="SOL">Solana SOL/USD</option><option value="XRP">XRP/USD</option><option value="USDJPY">USD/JPY</option><option value="EURUSD">EUR/USD</option><option value="GBPUSD">GBP/USD</option><option value="GOLD">Gold XAU/USD</option><option value="SILVER">Silver XAG/USD</option><option value="OIL">WTI Oil</option><option value="SPX">S&P 500</option></select>
+              <input class="aino" id="alertPriceFull" type="number" placeholder="Target price">
+              <select class="asel" id="alertCond"><option value="above">Price goes ABOVE target</option><option value="below">Price goes BELOW target</option></select>
+              <button class="abtn2" onclick="addAlertFull()" style="padding:12px;font-size:14px">+ Set Alert</button>
+            </div>
+            <div id="alertsFullEl"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-experts" style="display:none">
+        <div style="padding:20px">
+          <div style="font-size:22px;font-weight:800;color:var(--white);margin-bottom:6px">Expert Analysts</div>
+          <div style="font-size:14px;color:var(--text2);margin-bottom:20px">Follow verified analysts and access premium market analyses</div>
+          <div id="expertsEl"></div>
+        </div>
+      </div>
+
+      <div id="tab-profile" style="display:none">
+        <div style="padding:20px">
+          <div style="font-size:22px;font-weight:800;color:var(--white);margin-bottom:20px">My Profile</div>
+          <div class="widget">
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+              <div style="width:72px;height:72px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff" id="profileAv">?</div>
+              <div><div style="font-size:20px;font-weight:700;color:var(--white)" id="profileName">—</div><div style="font-size:14px;color:var(--text2)" id="profileEmail">—</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+              <div style="text-align:center;background:var(--bg4);border-radius:10px;padding:14px"><div style="font-size:22px;font-weight:800;color:var(--white)">0</div><div style="font-size:11px;color:var(--text2);font-family:'DM Mono',monospace">POSTS</div></div>
+              <div style="text-align:center;background:var(--bg4);border-radius:10px;padding:14px"><div style="font-size:22px;font-weight:800;color:var(--white)">0</div><div style="font-size:11px;color:var(--text2);font-family:'DM Mono',monospace">FOLLOWERS</div></div>
+              <div style="text-align:center;background:var(--bg4);border-radius:10px;padding:14px"><div style="font-size:22px;font-weight:800;color:var(--accent)" id="trialDaysBig">14</div><div style="font-size:11px;color:var(--text2);font-family:'DM Mono',monospace">TRIAL DAYS</div></div>
+            </div>
+            <button style="width:100%;background:none;border:1px solid var(--red);border-radius:9999px;padding:11px;color:var(--red);font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif" onclick="doSignout()">Sign Out</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-support" style="display:none">
+        <div style="padding:20px">
+          <div style="font-size:22px;font-weight:800;color:var(--white);margin-bottom:6px">Support Center</div>
+          <div style="font-size:14px;color:var(--text2);margin-bottom:20px">We're here 24/7. Average response: 2h Pro · 24h Free</div>
+          <div class="widget" style="margin-bottom:14px">
+            <div style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:14px">Contact Support</div>
+            <select class="asel" style="margin-bottom:10px"><option>Billing & Payments</option><option>Account & Login</option><option>Price Alerts</option><option>Expert Account</option><option>Bug Report</option><option>Other</option></select>
+            <input class="aino" style="margin-bottom:10px" placeholder="Subject">
+            <textarea class="aino" style="min-height:100px;resize:vertical" placeholder="Describe your issue..."></textarea>
+            <button class="abtn2" style="margin-top:10px;padding:12px;font-size:14px;width:100%" onclick="toast('Support ticket submitted! We will respond within 24 hours.')">Send Message</button>
+          </div>
+          <div class="widget">
+            <div style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:14px">🚨 Report a Problem</div>
+            <select class="asel" style="margin-bottom:10px"><option>Fraud / Scam</option><option>False Information</option><option>Off-Topic Content</option><option>Harassment</option><option>Copyright Violation</option></select>
+            <textarea class="aino" style="min-height:80px;resize:vertical" placeholder="Describe what happened..."></textarea>
+            <button class="abtn2" style="margin-top:10px;padding:12px;font-size:14px;width:100%;background:rgba(244,33,46,.15);color:var(--red)" onclick="toast('Report submitted. Our team will review within 24 hours.')">Submit Report</button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="next-steps">
-      <div class="ns-title">Complete your setup</div>
-      <div class="ns-item">
-        <div class="ns-icon">👤</div>
-        <div class="ns-info">
-          <div class="ns-name">Complete your profile</div>
-          <div class="ns-desc">Add your bio, location and expertise</div>
-        </div>
-        <div class="ns-arrow">→</div>
+    <div class="rbar">
+      <div class="swrap"><div class="sbox"><span class="sico">🔍</span><input placeholder="Search Momento..."></div></div>
+      <div class="user-side">
+        <div class="us-av" id="sideAv">?</div>
+        <div class="us-info"><div class="us-name" id="sideName">—</div><div class="us-email" id="sideEmail">—</div></div>
+        <button class="us-out" onclick="doSignout()">Sign out</button>
       </div>
-      <div class="ns-item">
-        <div class="ns-icon">🔔</div>
-        <div class="ns-info">
-          <div class="ns-name">Set your first price alert</div>
-          <div class="ns-desc">Get notified when BTC, Gold or JPY hits your target</div>
-        </div>
-        <div class="ns-arrow">→</div>
+      <div class="trial-w" id="trialWidget">
+        <div class="trial-title">✦ Pro Trial Active</div>
+        <div class="trial-sub">Enjoy full Pro access free for 14 days.</div>
+        <div class="trial-bar-w"><div class="trial-bar" id="trialBar" style="width:100%"></div></div>
+        <div class="trial-days" id="trialDays">14 days remaining</div>
+        <button class="upgrade-btn" id="upgradeBtn" onclick="showUpgrade()">Upgrade to Pro →</button>
       </div>
-      <div class="ns-item">
-        <div class="ns-icon">🎓</div>
-        <div class="ns-info">
-          <div class="ns-name">Apply as Expert Analyst</div>
-          <div class="ns-desc">Monetize your financial expertise</div>
-        </div>
-        <div class="ns-arrow">→</div>
+      <div class="widget">
+        <div class="wt">Sentiment</div>
+        <canvas id="fgC" width="260" height="65"></canvas>
+        <div class="fg-num" id="fgN">—</div>
+        <div class="fg-lbl" id="fgL">—</div>
+        <div class="fg-bar"><div class="fg-fill" id="fgF"></div></div>
+        <div class="fg-row"><span>Fear</span><span>Neutral</span><span>Greed</span></div>
       </div>
-      <div class="ns-item">
-        <div class="ns-icon">📊</div>
-        <div class="ns-info">
-          <div class="ns-name">Explore the feed</div>
-          <div class="ns-desc">Follow top analysts and get market insights</div>
+      <div class="widget">
+        <div class="wt">Alerts</div>
+        <div class="aform">
+          <select class="asel" id="alertPair"><option value="BTC">BTC/USD</option><option value="ETH">ETH/USD</option><option value="USDJPY">USD/JPY</option><option value="EURUSD">EUR/USD</option><option value="GOLD">Gold</option><option value="OIL">WTI Oil</option></select>
+          <input class="aino" id="alertPrice" type="number" placeholder="Target price">
+          <button class="abtn2" onclick="addAlert()">+ Set Alert</button>
         </div>
-        <div class="ns-arrow">→</div>
+        <div id="alertsEl"><div style="font-size:12px;color:var(--text2);padding:4px 0">No alerts set.</div></div>
       </div>
+      <div class="widget"><div class="wt">Markets</div><div id="marketsEl"></div></div>
+      <div class="widget"><div class="wt">Trending</div><div id="trendEl"></div></div>
     </div>
   </div>
 </div>
 
 <script>
-// ── SUPABASE INIT ──
-const { createClient } = supabase;
-const sb = createClient(
-  'https://vrofpoerlphpqxtgzxpe.supabase.co',
-  'sb_publishable_XvmVHU6PfNNeLOpiiNQkWA_KeiMLF6U'
-);
+const {createClient}=supabase;
+const sb=createClient('https://vrofpoerlphpqxtgzxpe.supabase.co','sb_publishable_XvmVHU6PfNNeLOpiiNQkWA_KeiMLF6U');
+let currentUser=null,userAlerts=[],selPlanVal='monthly',audioCtx;
 
-// ── CHECK SESSION ──
-async function checkSession() {
-  const { data: { session } } = await sb.auth.getSession();
-  if (session) showDashboard(session.user);
+function initAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();}
+function playAlert(){
+  try{initAudio();const t=audioCtx.currentTime;
+  [[220,440,0],[440,880,.12],[880,440,.25]].forEach(([f1,f2,d])=>{
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.connect(g);g.connect(audioCtx.destination);o.type='sine';
+    o.frequency.setValueAtTime(f1,t+d);o.frequency.exponentialRampToValueAtTime(f2,t+d+.12);
+    g.gain.setValueAtTime(.18,t+d);g.gain.exponentialRampToValueAtTime(.001,t+d+.35);
+    o.start(t+d);o.stop(t+d+.35);
+  });if('vibrate'in navigator)navigator.vibrate([150,75,150]);}catch(e){}
 }
 
-checkSession();
-
-// ── SHOW/HIDE FORMS ──
-function showLogin() {
-  document.getElementById('loginForm').style.display = 'block';
-  document.getElementById('signupForm').style.display = 'none';
-  document.getElementById('forgotForm').style.display = 'none';
-}
-
-function showSignup() {
-  document.getElementById('loginForm').style.display = 'none';
-  document.getElementById('signupForm').style.display = 'block';
-  document.getElementById('forgotForm').style.display = 'none';
-}
-
-function showForgot() {
-  document.getElementById('loginForm').style.display = 'none';
-  document.getElementById('signupForm').style.display = 'none';
-  document.getElementById('forgotForm').style.display = 'block';
-}
-
-function showMsg(id, text, type) {
-  const el = document.getElementById(id);
-  el.textContent = text;
-  el.className = 'msg ' + type;
-}
-
-// ── SIGN IN ──
-async function signIn() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value;
-
-  if (!email || !password) {
-    showMsg('loginMsg', 'Please enter your email and password.', 'error');
-    return;
-  }
-
-  const { data, error } = await sb.auth.signInWithPassword({ email, password });
-
-  if (error) {
-    showMsg('loginMsg', error.message, 'error');
-    return;
-  }
-
-  showDashboard(data.user);
-}
-
-// ── SIGN UP ──
-async function signUp() {
-  const email = document.getElementById('signupEmail').value.trim();
-  const password = document.getElementById('signupPassword').value;
-
-  if (!email || !password) {
-    showMsg('signupMsg', 'Please fill in all fields.', 'error');
-    return;
-  }
-
-  if (password.length < 8) {
-    showMsg('signupMsg', 'Password must be at least 8 characters.', 'error');
-    return;
-  }
-
-  const { data, error } = await sb.auth.signUp({ email, password });
-
-  if (error) {
-    showMsg('signupMsg', error.message, 'error');
-    return;
-  }
-
-  showMsg('signupMsg', '✓ Account created! Check your email to confirm.', 'success');
-}
-
-// ── GOOGLE LOGIN ──
-async function signInGoogle() {
-  const { error } = await sb.auth.signInWithOAuth({
-    provider: 'google',
-    options: { redirectTo: 'https://momento-app-indol.vercel.app' }
+async function init(){
+  const{data:{session}}=await sb.auth.getSession();
+  if(session){currentUser=session.user;showApp();}
+  sb.auth.onAuthStateChange((e,s)=>{
+    if(e==='SIGNED_IN'&&s){currentUser=s.user;showApp();}
+    else if(e==='SIGNED_OUT'){currentUser=null;showAuth();}
   });
-  if (error) alert(error.message);
 }
 
-// ── RESET PASSWORD ──
-async function resetPassword() {
-  const email = document.getElementById('forgotEmail').value.trim();
-  if (!email) {
-    showMsg('forgotMsg', 'Please enter your email.', 'error');
+function showF(n){['login','signup','forgot'].forEach(f=>{document.getElementById(f+'Form').style.display=f===n?'block':'none';});}
+function setMsg(id,txt,type){const el=document.getElementById(id);el.textContent=txt;el.className='amsg '+type;}
+
+async function doLogin(){
+  const email=document.getElementById('lEmail').value.trim(),pwd=document.getElementById('lPwd').value;
+  if(!email||!pwd)return setMsg('lMsg','Please fill in all fields.','err');
+  const{error}=await sb.auth.signInWithPassword({email,password:pwd});
+  if(error)setMsg('lMsg',error.message,'err');
+}
+async function doSignup(){
+  const email=document.getElementById('sEmail').value.trim(),pwd=document.getElementById('sPwd').value;
+  if(!email||!pwd)return setMsg('sMsg','Please fill in all fields.','err');
+  if(pwd.length<8)return setMsg('sMsg','Password must be at least 8 characters.','err');
+  const{error}=await sb.auth.signUp({email,password:pwd});
+  if(error)setMsg('sMsg',error.message,'err');
+  else setMsg('sMsg','✓ Check your email to confirm!','ok');
+}
+async function googleLogin(){
+  const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:'https://momento-app-indol.vercel.app'}});
+  if(error)toast(error.message);
+}
+async function doReset(){
+  const email=document.getElementById('fEmail').value.trim();
+  if(!email)return setMsg('fMsg','Please enter your email.','err');
+  const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:'https://momento-app-indol.vercel.app'});
+  if(error)setMsg('fMsg',error.message,'err');
+  else setMsg('fMsg','✓ Reset link sent!','ok');
+}
+async function doSignout(){await sb.auth.signOut();}
+
+function showApp(){
+  document.getElementById('authPage').style.display='none';
+  document.getElementById('appPage').style.display='block';
+  updateUI();loadFeed();loadNews();renderMarkets();renderMarketsGrid();renderTrending();renderTicker();renderFG();renderSignals();renderExperts();updateTrial();
+  setInterval(updatePrices,3000);setInterval(renderFG,20000);
+}
+function showAuth(){
+  document.getElementById('appPage').style.display='none';
+  document.getElementById('authPage').style.display='grid';
+  showF('login');
+}
+function updateUI(){
+  if(!currentUser)return;
+  const email=currentUser.email||'';
+  const name=currentUser.user_metadata?.full_name||email.split('@')[0]||'User';
+  const ini=name.substring(0,2).toUpperCase();
+  const handle='@'+email.split('@')[0].replace(/[^a-zA-Z0-9]/g,'').toLowerCase();
+  ['navAv','composeAv','sideAv','profileAv'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=ini;});
+  ['navName','profileName'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=name;});
+  ['navHandle'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=handle;});
+  ['sideName'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=name;});
+  ['sideEmail','profileEmail'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=email;});
+}
+
+function updateTrial(){
+  if(!currentUser)return;
+  const created=new Date(currentUser.created_at);
+  const daysPassed=Math.floor((Date.now()-created)/(1000*60*60*24));
+  const daysLeft=Math.max(0,14-daysPassed);
+  const pct=Math.round((daysLeft/14)*100);
+  document.getElementById('trialBar').style.width=pct+'%';
+  document.getElementById('trialDays').textContent=daysLeft>0?`${daysLeft} days remaining`:'Trial ended';
+  if(document.getElementById('trialDaysBig'))document.getElementById('trialDaysBig').textContent=daysLeft;
+  if(daysLeft===0){
+    document.getElementById('upgradeBtn').className='upgrade-btn urgent';
+    document.getElementById('upgradeBtn').textContent='⚡ Upgrade Now!';
+    setTimeout(()=>showUpgrade(),1500);
+  }else if(daysLeft<=3){
+    document.getElementById('upgradeBtn').className='upgrade-btn urgent';
+    document.getElementById('upgradeBtn').textContent=`⚡ ${daysLeft} days left — Upgrade`;
+  }
+}
+
+function showUpgrade(){document.getElementById('upgradeModal').classList.add('show');}
+function closeModal(){document.getElementById('upgradeModal').classList.remove('show');}
+function selPlan(el,plan){document.querySelectorAll('.plan').forEach(p=>p.classList.remove('sel'));el.classList.add('sel');selPlanVal=plan;}
+function goUpgrade(){toast('Redirecting to payment... 💳');closeModal();}
+
+const TABS=['feed','news','markets','signals','trading','alerts','experts','profile','support'];
+function sw(name,tabEl){
+  TABS.forEach(t=>{const el=document.getElementById('tab-'+t);if(el)el.style.display=t===name?'block':'none';});
+  document.querySelectorAll('.ptab,.nitem').forEach(t=>t.classList.remove('active'));
+  if(tabEl)tabEl.classList.add('active');
+  const titles={feed:'Home',news:'News',markets:'Markets',signals:'Signals',trading:'Trade',alerts:'Alerts',experts:'Experts',profile:'Profile',support:'Support'};
+  document.getElementById('feedTitle').textContent=titles[name]||'Home';
+}
+
+async function loadFeed(){
+  const el=document.getElementById('feedEl');
+  el.innerHTML='<div class="loading-p">Loading feed...</div>';
+  const{data:posts,error}=await sb.from('posts').select('*,users(username,email)').order('created_at',{ascending:false}).limit(30);
+  if(error||!posts||!posts.length){
+    el.innerHTML='<div style="padding:48px 24px;text-align:center;color:var(--text2)"><div style="font-size:40px;margin-bottom:12px">📊</div><div style="font-size:20px;font-weight:700;color:var(--white);margin-bottom:6px">No posts yet</div><div>Be the first to share a market insight!</div></div>';
     return;
   }
-
-  const { error } = await sb.auth.resetPasswordForEmail(email);
-
-  if (error) {
-    showMsg('forgotMsg', error.message, 'error');
-    return;
-  }
-
-  showMsg('forgotMsg', '✓ Reset link sent! Check your email.', 'success');
+  el.innerHTML=posts.map((p,i)=>{
+    const u=p.users,name=u?.username||u?.email?.split('@')[0]||'Anonymous';
+    const handle='@'+name.replace(/[^a-zA-Z0-9]/g,'').toLowerCase();
+    const ini=name.substring(0,2).toUpperCase();
+    const colors=['#1d9bf0','#00ba7c','#f4212e','#ffd400','#a855f7','#f97316'];
+    const color=colors[name.charCodeAt(0)%colors.length];
+    return `<div class="post" style="animation-delay:${i*.05}s"><div class="prow"><div class="pav" style="background:${color}">${ini}</div><div class="pbody"><div class="pmeta"><span class="pname">${name}</span><span class="phandle">${handle}</span><span class="pdot">·</span><span class="ptime">${tAgo(p.created_at)}</span><span class="pmore">···</span></div><div class="ptxt">${fmtT(p.content)}</div><div class="pacts"><button class="pact"><span class="pico">💬</span>${p.comments_count||0}</button><button class="pact"><span class="pico">↺</span>${p.reposts_count||0}</button><button class="pact" onclick="toggleLike(this,${p.likes_count||0})"><span class="pico">♡</span><span>${p.likes_count||0}</span></button><button class="pact"><span class="pico">↗</span></button></div></div></div></div>`;
+  }).join('');
 }
 
-// ── SIGN OUT ──
-async function signOut() {
-  await sb.auth.signOut();
-  document.getElementById('dashboardPage').style.display = 'none';
-  document.getElementById('authPage').style.display = 'grid';
-  showLogin();
+async function submitPost(){
+  const text=document.getElementById('composeText').value.trim();
+  if(!text||!currentUser)return;
+  const btn=document.getElementById('sendBtn');btn.disabled=true;btn.textContent='Posting...';
+  try{await sb.from('users').upsert({id:currentUser.id,email:currentUser.email,username:currentUser.user_metadata?.full_name||currentUser.email?.split('@')[0]||'user'},{onConflict:'id'});}catch(e){}
+  const{error}=await sb.from('posts').insert({user_id:currentUser.id,content:text});
+  btn.disabled=false;btn.textContent='Post';
+  if(error){toast('Error posting. Try again.');return;}
+  document.getElementById('composeText').value='';toast('Posted! ✓');loadFeed();
+}
+function toggleLike(btn,cur){
+  btn.classList.toggle('liked');
+  const sp=btn.querySelector('span:last-child');
+  sp.textContent=btn.classList.contains('liked')?cur+1:cur;
+  btn.querySelector('.pico').textContent=btn.classList.contains('liked')?'♥':'♡';
+}
+function focusCompose(){sw('feed');document.getElementById('composeText').focus();}
+
+const NEWS_PROXY='https://api.rss2json.com/v1/api.json?rss_url=';
+const NEWS_SOURCES=[
+  {name:'Reuters',url:'https://feeds.reuters.com/reuters/businessNews',icon:'🔴'},
+  {name:'BBC Business',url:'https://feeds.bbci.co.uk/news/business/rss.xml',icon:'🔵'},
+  {name:'CNBC',url:'https://www.cnbc.com/id/10001147/device/rss/rss.html',icon:'🟡'},
+  {name:'MarketWatch',url:'https://feeds.marketwatch.com/marketwatch/topstories',icon:'🟢'},
+];
+async function loadNews(){
+  const el=document.getElementById('newsEl');
+  const results=[];
+  await Promise.all(NEWS_SOURCES.map(async src=>{
+    try{const r=await fetch(NEWS_PROXY+encodeURIComponent(src.url)+'&count=6&api_key=public');const d=await r.json();
+    if(d.items)d.items.forEach(item=>{results.push({source:src.name,icon:src.icon,title:item.title,summary:(item.description||'').replace(/<[^>]*>/g,'').substring(0,120)+'...',image:item.enclosure?.link||item.thumbnail||null,url:item.link,time:item.pubDate});});}catch(e){}
+  }));
+  if(!results.length){el.innerHTML=fallbackNews();return;}
+  results.sort((a,b)=>new Date(b.time)-new Date(a.time));
+  el.innerHTML=results.slice(0,20).map((n,i)=>`<div class="post" style="animation-delay:${i*.04}s" onclick="window.open('${n.url}','_blank')"><div class="nembed">${n.image?`<img class="nimg" src="${n.image}" alt="" onerror="this.style.display='none'">`:`<div class="nimg-ph">${n.icon}</div>`}<div class="nbody"><div class="nsrc">${n.icon} ${n.source} · ${tAgo(n.time)}</div><div class="nhl">${n.title}</div><div class="nsum">${n.summary}</div></div></div></div>`).join('');
+}
+function fallbackNews(){
+  return[{ico:'🔴',src:'Reuters',hl:'Fed signals cautious approach as inflation stays above target',sum:'Federal Reserve officials see no rate cuts until inflation convincingly moves to 2%...'},
+  {ico:'🔵',src:'BBC Business',hl:'Bank of Japan holds rates as yen weakens past 150',sum:'BOJ Governor signals patience with current monetary settings despite pressure...'},
+  {ico:'🟡',src:'CNBC',hl:'Bitcoin surges past $67,000 on institutional demand',sum:'Major asset managers report record inflows into Bitcoin ETFs as market rallies...'},
+  {ico:'🟢',src:'MarketWatch',hl:'Gold hits record high amid geopolitical uncertainty',sum:'Safe-haven demand pushes gold to all-time highs as investors seek protection...'},
+  {ico:'🔴',src:'Reuters',hl:'OPEC+ extends production cuts to support oil prices',sum:'Saudi Arabia and Russia maintain supply restrictions through Q2 2025...'},
+  {ico:'🟡',src:'CNBC',hl:'S&P 500 near record as tech earnings beat expectations',sum:'Nvidia and Meta lead gains as strong results boost market sentiment...'},
+  ].map((n,i)=>`<div class="post" style="animation-delay:${i*.04}s"><div class="nembed"><div class="nimg-ph">${n.ico}</div><div class="nbody"><div class="nsrc">${n.ico} ${n.src}</div><div class="nhl">${n.hl}</div><div class="nsum">${n.sum}</div></div></div></div>`).join('');
 }
 
-// ── SHOW DASHBOARD ──
-function showDashboard(user) {
-  document.getElementById('authPage').style.display = 'none';
-  document.getElementById('dashboardPage').style.display = 'block';
-
-  const email = user.email || '';
-  const initials = email.substring(0, 2).toUpperCase();
-  document.getElementById('userAv').textContent = initials;
-  document.getElementById('userName').textContent = email;
+function renderSignals(){
+  const s=[
+    {pair:'USD/JPY',sig:'PAY NOW',desc:'BOJ decision Thursday. JPY historically strengthens post-meeting. Pay importers before Thursday.',conf:87,type:'buy'},
+    {pair:'BTC/USD',sig:'ACCUMULATE',desc:'Whale accumulation confirmed on-chain. 67k support holding for 3rd time. Strong setup.',conf:73,type:'buy'},
+    {pair:'XAU/USD',sig:'LONG GOLD',desc:'Breaking $2,318 resistance. Geopolitical risk + dollar weakness. Target $2,400 Q2.',conf:79,type:'buy'},
+    {pair:'EUR/USD',sig:'WAIT',desc:'Fed minutes created uncertainty. Wait for clearer direction before large positions.',conf:55,type:'wait'},
+    {pair:'WTI OIL',sig:'MONITOR',desc:'OPEC+ cut extension priced in. Watch China demand data this week.',conf:48,type:'wait'},
+  ];
+  document.getElementById('signalsEl').innerHTML=s.map((x,i)=>`<div class="post" style="animation-delay:${i*.06}s"><div class="pbody"><div style="font-size:12px;color:var(--text2);font-family:'DM Mono',monospace;margin-bottom:6px">${x.pair}</div><div class="signal s${x.type}">${x.type==='buy'?'▲':'◆'} ${x.sig} · ${x.conf}% CONFIDENCE</div><div class="ptxt" style="font-size:14px">${x.desc}</div><div style="height:3px;background:var(--border);border-radius:9999px;overflow:hidden"><div style="height:100%;width:${x.conf}%;background:${x.type==='buy'?'var(--green)':'var(--gold)'};border-radius:9999px"></div></div></div></div>`).join('');
 }
 
-// ── AUTH STATE CHANGE ──
-sb.auth.onAuthStateChange((event, session) => {
-  if (event === 'SIGNED_IN' && session) {
-    showDashboard(session.user);
-  } else if (event === 'SIGNED_OUT') {
-    document.getElementById('dashboardPage').style.display = 'none';
-    document.getElementById('authPage').style.display = 'grid';
-  }
-});
+function renderExperts(){
+  const e=[
+    {name:'Takeshi Kimura',handle:'@tkimura_fx',spec:'USD/JPY · Macro',rating:'94%',followers:'12.4K',verified:true,color:'#1d9bf0'},
+    {name:'Sarah Reynolds',handle:'@sarah_macro',spec:'Fed Policy · Rates',rating:'91%',followers:'8.7K',verified:true,color:'#a855f7'},
+    {name:'Ahmed Al-Mansouri',handle:'@ahmed_trades',spec:'Crypto · DeFi',rating:'88%',followers:'5.2K',verified:false,color:'#00ba7c'},
+    {name:'Liu Wei',handle:'@liuwei_quant',spec:'Gold · Commodities',rating:'86%',followers:'3.8K',verified:true,color:'#f97316'},
+  ];
+  document.getElementById('expertsEl').innerHTML=e.map(x=>`<div class="post"><div class="prow"><div class="pav" style="background:${x.color}">${x.name.substring(0,2).toUpperCase()}</div><div class="pbody"><div class="pmeta"><span class="pname">${x.name}</span>${x.verified?'<span style="color:var(--accent);font-size:13px">✓</span>':''}<span class="phandle">${x.handle}</span></div><div style="font-size:13px;color:var(--text2);margin-bottom:8px">📊 ${x.spec}</div><div style="display:flex;gap:16px;margin-bottom:10px"><span style="font-size:13px;color:var(--green);font-weight:600">✓ ${x.rating} accuracy</span><span style="font-size:13px;color:var(--text2)">${x.followers} followers</span></div><div style="display:flex;gap:8px"><button style="background:var(--accent);color:#fff;border:none;border-radius:9999px;padding:6px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif" onclick="toast('Following ${x.name}!')">Follow</button><button style="background:none;border:1px solid var(--border);color:var(--text);border-radius:9999px;padding:6px 16px;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif" onclick="toast('Upgrade to Pro to access expert analyses')">View Analyses</button></div></div></div></div>`).join('');
+}
+
+const prices={BTC:67420,ETH:3512,SOL:142.3,XRP:.61,USDJPY:149.82,EURUSD:1.0821,GBPUSD:1.2634,GOLD:2318,SILVER:27.4,OIL:78.42,SPX:5234,NDX:18420};
+const changes={BTC:+2.14,ETH:+1.87,SOL:+3.21,XRP:+4.12,USDJPY:+.34,EURUSD:-.12,GBPUSD:-.08,GOLD:+.45,SILVER:+.88,OIL:-.67,SPX:+.23,NDX:+.31};
+const tickers=[{n:'BTC/USD',k:'BTC'},{n:'ETH/USD',k:'ETH'},{n:'SOL/USD',k:'SOL'},{n:'USD/JPY',k:'USDJPY'},{n:'EUR/USD',k:'EURUSD'},{n:'GBP/USD',k:'GBPUSD'},{n:'XAU/USD',k:'GOLD'},{n:'WTI',k:'OIL'},{n:'S&P 500',k:'SPX'},{n:'XRP/USD',k:'XRP'},{n:'SILVER',k:'SILVER'},{n:'NDX',k:'NDX'}];
+function fmt(p){if(p>=10000)return p.toLocaleString('en',{maximumFractionDigits:0});if(p>=100)return p.toFixed(2);return p.toFixed(4);}
+function renderTicker(){
+  const items=[...tickers,...tickers];
+  document.getElementById('tickerEl').innerHTML=items.map(t=>{const c=changes[t.k]||0,up=c>=0;return `<div class="tick"><span class="tn">${t.n}</span><span class="tp">${fmt(prices[t.k])}</span><span class="tc ${up?'up':'dn'}">${up?'+':''}${c}%</span></div><span style="color:#2f2f2f;padding:0 4px">·</span>`;}).join('');
+}
+function renderMarkets(){
+  const m=[{n:'Bitcoin',k:'BTC'},{n:'Ethereum',k:'ETH'},{n:'USD/JPY',k:'USDJPY'},{n:'Gold',k:'GOLD'},{n:'EUR/USD',k:'EURUSD'},{n:'WTI Oil',k:'OIL'}];
+  document.getElementById('marketsEl').innerHTML=m.map(x=>{const c=changes[x.k]||0,up=c>=0;return `<div class="mrow"><span class="mn">${x.n}</span><span class="mp">${fmt(prices[x.k])}</span><span class="mc ${up?'up':'dn'}">${up?'+':''}${c}%</span></div>`;}).join('');
+}
+function renderMarketsGrid(){
+  const all=[{n:'Bitcoin',k:'BTC'},{n:'Ethereum',k:'ETH'},{n:'Solana',k:'SOL'},{n:'XRP',k:'XRP'},{n:'USD/JPY',k:'USDJPY'},{n:'EUR/USD',k:'EURUSD'},{n:'GBP/USD',k:'GBPUSD'},{n:'Gold',k:'GOLD'},{n:'Silver',k:'SILVER'},{n:'WTI Oil',k:'OIL'},{n:'S&P 500',k:'SPX'},{n:'Nasdaq',k:'NDX'}];
+  document.getElementById('marketsFullEl').innerHTML=`<table style="width:100%;border-collapse:collapse"><thead><tr style="border-bottom:1px solid var(--border)"><th style="text-align:left;padding:10px 0;font-size:12px;color:var(--text2);font-weight:500;font-family:'DM Mono',monospace">ASSET</th><th style="text-align:right;padding:10px 0;font-size:12px;color:var(--text2);font-weight:500;font-family:'DM Mono',monospace">PRICE</th><th style="text-align:right;padding:10px 0;font-size:12px;color:var(--text2);font-weight:500;font-family:'DM Mono',monospace">24H</th></tr></thead><tbody>${all.map(x=>{const c=changes[x.k]||0,up=c>=0;return `<tr style="border-bottom:1px solid var(--border2)"><td style="padding:12px 0;font-size:15px;font-weight:500">${x.n}</td><td style="padding:12px 0;text-align:right;font-family:'DM Mono',monospace;font-size:14px">${fmt(prices[x.k])}</td><td style="padding:12px 0;text-align:right;font-family:'DM Mono',monospace;font-size:13px;color:${up?'var(--green)':'var(--red)'}">${up?'+':''}${c}%</td></tr>`;}).join('')}</tbody></table>`;
+}
+function renderTrending(){
+  const t=[{cat:'Finance · Trending',tag:'#USDJPY',ct:'12.4K posts'},{cat:'Crypto · Trending',tag:'#Bitcoin',ct:'89.2K posts'},{cat:'Macro · Trending',tag:'#FedMeeting',ct:'34.1K posts'},{cat:'Commodities',tag:'#GoldRally',ct:'8.7K posts'},{cat:'Trending',tag:'#Momento',ct:'2.1K posts'}];
+  document.getElementById('trendEl').innerHTML=t.map(x=>`<div class="trend"><div class="tcat">${x.cat}</div><div class="ttag">${x.tag}</div><div class="tct">${x.ct}</div></div>`).join('');
+}
+function updatePrices(){
+  Object.keys(prices).forEach(k=>{prices[k]*=(1+(Math.random()*.002-.001));prices[k]=parseFloat(prices[k].toFixed(prices[k]>1000?0:prices[k]>10?2:4));});
+  renderTicker();renderMarkets();checkAlerts();
+}
+function renderFG(){
+  const v=Math.round(38+Math.random()*38);
+  const c=document.getElementById('fgC'),ctx=c.getContext('2d');
+  const W=260,H=65,cx=W/2,cy=H-2,r=56;c.width=W;c.height=H;ctx.clearRect(0,0,W,H);
+  ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,0);ctx.strokeStyle='rgba(255,255,255,.05)';ctx.lineWidth=8;ctx.stroke();
+  const g=ctx.createLinearGradient(cx-r,0,cx+r,0);g.addColorStop(0,'#f4212e');g.addColorStop(.5,'#ffd400');g.addColorStop(1,'#00ba7c');
+  ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,Math.PI+(v/100)*Math.PI);ctx.strokeStyle=g;ctx.lineWidth=8;ctx.lineCap='round';ctx.stroke();
+  const a=Math.PI+(v/100)*Math.PI;ctx.save();ctx.translate(cx,cy);ctx.rotate(a);ctx.beginPath();ctx.moveTo(-2,0);ctx.lineTo(0,-44);ctx.lineTo(2,0);ctx.fillStyle='rgba(255,255,255,.9)';ctx.fill();ctx.restore();
+  ctx.beginPath();ctx.arc(cx,cy,3,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
+  const lbl=v<25?'Extreme Fear':v<45?'Fear':v<55?'Neutral':v<75?'Greed':'Extreme Greed',col=v<45?'#f4212e':v<55?'#ffd400':'#00ba7c';
+  document.getElementById('fgN').textContent=v;document.getElementById('fgN').style.color=col;
+  document.getElementById('fgL').textContent=lbl;document.getElementById('fgL').style.color=col;
+  document.getElementById('fgF').style.width=v+'%';document.getElementById('fgF').style.background='linear-gradient(90deg,#f4212e,#ffd400,#00ba7c)';
+}
+
+function addAlert(){
+  const pair=document.getElementById('alertPair').value,price=parseFloat(document.getElementById('alertPrice').value);
+  if(!price)return;userAlerts.push({id:Date.now(),pair,price});document.getElementById('alertPrice').value='';
+  renderAlerts();updateAlertBadge();toast(`Alert set — ${pair} at ${price.toLocaleString()}`);
+}
+function addAlertFull(){
+  const pair=document.getElementById('alertPairFull').value,price=parseFloat(document.getElementById('alertPriceFull').value);
+  if(!price)return;userAlerts.push({id:Date.now(),pair,price});document.getElementById('alertPriceFull').value='';
+  renderAlerts();updateAlertBadge();toast(`Alert set — ${pair} at ${price.toLocaleString()}`);
+}
+function removeAlert(id){userAlerts=userAlerts.filter(a=>a.id!==id);renderAlerts();updateAlertBadge();}
+function renderAlerts(){
+  const html=userAlerts.length?userAlerts.map(a=>`<div class="alert-row"><div class="adot"></div><div class="ainfo"><div class="apair">${a.pair}/USD</div><div class="aprice">→ ${a.price.toLocaleString()}</div></div><button class="adel" onclick="removeAlert(${a.id})">✕</button></div>`).join(''):'<div style="font-size:12px;color:var(--text2);padding:4px 0">No alerts set.</div>';
+  document.getElementById('alertsEl').innerHTML=html;
+  if(document.getElementById('alertsFullEl'))document.getElementById('alertsFullEl').innerHTML=html;
+}
+function checkAlerts(){
+  userAlerts.forEach(a=>{const cur=prices[a.pair];if(cur&&Math.abs(cur-a.price)/a.price<.005){playAlert();toast(`🎯 ${a.pair} reached ${a.price.toLocaleString()}`);} });
+}
+function updateAlertBadge(){document.getElementById('alertBadge').textContent=userAlerts.length;}
+
+function fmtT(t){return t.replace(/#(\w+)/g,'<span class="ptag">#$1</span>').replace(/\$(\w+)/g,'<span class="ptag">$$$1</span>');}
+function tAgo(d){const s=(Date.now()-new Date(d))/1000;if(s<60)return Math.floor(s)+'s';if(s<3600)return Math.floor(s/60)+'m';if(s<86400)return Math.floor(s/3600)+'h';return Math.floor(s/86400)+'d';}
+function toast(msg){const w=document.getElementById('toastW');const el=document.createElement('div');el.className='toast';el.textContent=msg;w.appendChild(el);setTimeout(()=>el.remove(),3000);}
+
+init();
 </script>
 </body>
 </html>
