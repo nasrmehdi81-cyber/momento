@@ -617,7 +617,7 @@ async function signUp() {
 async function signInGoogle() {
   const { error } = await sb.auth.signInWithOAuth({
     provider: 'google',
-    options: { redirectTo: window.location.href }
+    options: { redirectTo: 'https://momento-app-indol.vercel.app' }
   });
   if (error) alert(error.message);
 }
