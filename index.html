@@ -1160,7 +1160,11 @@ async function doReset(){
   if(error)setMsg('fMsg',error.message,'err');
   else setMsg('fMsg','✓ Reset link sent!','ok');
 }
-async function doSignout(){await sb.auth.signOut();closePM();}
+async function doSignout(){
+  await sb.auth.signOut();
+  closePM();
+  setTimeout(()=>{ window.location.href=window.location.origin; }, 300);
+}
 
 function showApp(){
   document.getElementById('authPg').style.display='none';
