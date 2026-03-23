@@ -857,7 +857,7 @@ animation:alertPulse 3s ease infinite;
       <div class="feat-item"><div class="feat-ico" style="background:rgba(0,212,170,.1)">🎯</div><div class="feat-info"><div class="feat-title">AI Trading Signals</div><div class="feat-desc">Entry, Take Profit & Stop Loss for Forex, Crypto, Gold & Indices.</div></div></div>
       <div class="feat-item"><div class="feat-ico" style="background:rgba(247,195,95,.1)">📅</div><div class="feat-info"><div class="feat-title">Payment Calendar</div><div class="feat-desc">Know the best day to pay your suppliers. Green/yellow/red for every day.</div></div></div>
       <div class="feat-item"><div class="feat-ico" style="background:rgba(255,61,87,.1)">🔔</div><div class="feat-info"><div class="feat-title">Instant Price Alerts</div><div class="feat-desc">Sound + vibration the moment prices hit your target.</div></div></div>
-      <div class="feat-item"><div class="feat-ico" style="background:rgba(26,111,212,.1)">🤖</div><div class="feat-info"><div class="feat-title">Claude AI Analysis</div><div class="feat-desc">Ask AI to explain any signal or market condition in plain language.</div></div></div>
+      <div class="feat-item"><div class="feat-ico" style="background:rgba(26,111,212,.1)">🤖</div><div class="feat-info"><div class="feat-title">Momento AI Analysis</div><div class="feat-desc">Ask AI to explain any signal or market condition in plain language.</div></div></div>
     </div>
   </div>
   <div class="ob1-bottom">
@@ -1008,7 +1008,7 @@ animation:alertPulse 3s ease infinite;
         <div class="ai-brain">🤖</div>
         <div>
           <div class="ai-title">Momento AI</div>
-          <div class="ai-subtitle" id="aiSubtitle">Powered by Claude AI · Live market data</div>
+          <div class="ai-subtitle" id="aiSubtitle">Powered by Momento AI · Live market data</div>
         </div>
       </div>
       <div id="aiBody"><div class="ai-loading"><div class="ai-dots"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div><span style="margin-left:6px;font-size:12px">Analyzing market conditions...</span></div></div>
@@ -1613,7 +1613,7 @@ async function runCalAI(){
     const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:`You are Momento AI. Analyze ${curr?.l||selCurr} for payment timing. Rate: ${fmt(PR[selCurr]||0)}, signal: ${data.s.toUpperCase()} "${data.a}", confidence: ${data.conf}%. Write 3 sentences for importers/exporters. Use <strong> for key terms. Under 80 words.`}]})});
     const d=await res.json();
     const text=d.content?.[0]?.text||'';
-    if(text){bodyEl.innerHTML=`<div class="ai-body">${text}</div>`;if(subEl)subEl.textContent='Updated '+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})+' · Claude AI';}
+    if(text){bodyEl.innerHTML=`<div class="ai-body">${text}</div>`;if(subEl)subEl.textContent='Updated '+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})+' · Momento AI';}
     else throw new Error();
   }catch(e){
     bodyEl.innerHTML=FALLBACKS[selCurr]||`<div class="ai-body"><strong>${curr?.l||selCurr}</strong> showing ${data.s} conditions. ${data.sub}</div>`;
