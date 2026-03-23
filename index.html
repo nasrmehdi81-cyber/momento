@@ -3,6 +3,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Momento — AI Financial Intelligence</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -734,10 +742,148 @@ animation:alertPulse 3s ease infinite;
 .logout-btn{margin:0 14px 16px;width:calc(100% - 28px);background:rgba(255,61,87,.06);border:1.5px solid rgba(255,61,87,.18);border-radius:12px;padding:13px;color:#ff3d57;font-size:14px;font-weight:700;cursor:pointer;font-family:‘Space Grotesk’,sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;}
 .logout-btn:active{background:rgba(255,61,87,.12);}
 .logout-btn svg{width:16px;height:16px;fill:none;stroke:#ff3d57;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ══ LANGUAGE SELECTOR ══ */
+.lang-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9995;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px);}
+.lang-modal-bg.show{display:flex;}
+.lang-modal{background:#0a1a2e;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:480px;animation:mUp .3s cubic-bezier(.34,1.4,.64,1);border-top:1px solid rgba(0,212,170,.2);max-height:80vh;overflow-y:auto;}
+.lang-title{font-family:‘Syne’,sans-serif;font-size:18px;font-weight:800;color:#f0f8ff;margin-bottom:4px;}
+.lang-sub{font-family:‘JetBrains Mono’,monospace;font-size:10px;color:#3a6080;letter-spacing:1px;margin-bottom:16px;}
+.lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.lang-opt{background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.06);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s;}
+.lang-opt:active{transform:scale(.97);}
+.lang-opt.active{background:rgba(0,212,170,.1);border-color:rgba(0,212,170,.4);}
+.lang-flag{font-size:22px;flex-shrink:0;}
+.lang-name{font-size:13px;font-weight:600;color:#f0f8ff;}
+.lang-native{font-size:11px;color:#3a6080;margin-top:1px;}
+.lang-check{margin-left:auto;color:#00d4aa;font-size:16px;display:none;}
+.lang-opt.active .lang-check{display:block;}
+
+/* ══ SHARE MODAL ══ */
+.share-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9995;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px);}
+.share-modal-bg.show{display:flex;}
+.share-modal{background:#0a1a2e;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:480px;animation:mUp .3s cubic-bezier(.34,1.4,.64,1);border-top:1px solid rgba(0,212,170,.2);}
+.share-title{font-size:18px;font-weight:800;color:#f0f8ff;margin-bottom:4px;}
+.share-sub{font-size:12px;color:#3a6080;margin-bottom:16px;}
+.share-options{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.share-opt{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:10px 6px;border-radius:12px;transition:all .2s;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);}
+.share-opt:active{transform:scale(.95);background:rgba(0,212,170,.08);}
+.share-opt-ico{font-size:24px;}
+.share-opt-lbl{font-family:‘JetBrains Mono’,monospace;font-size:9px;color:#8ab8d8;letter-spacing:.5px;}
+.share-link-row{display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 12px;}
+.share-link-txt{flex:1;font-family:‘JetBrains Mono’,monospace;font-size:11px;color:#8ab8d8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.share-copy-btn{background:linear-gradient(135deg,#00d4aa,#1a6fd4);border:none;border-radius:8px;padding:7px 14px;font-family:‘JetBrains Mono’,monospace;font-size:10px;font-weight:700;color:#fff;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+
+/* ══ ABOUT PAGE ══ */
+.about-hero{background:linear-gradient(135deg,#061220,#0a1a2e);padding:32px 20px 24px;text-align:center;border-bottom:1px solid rgba(0,212,170,.1);}
+.about-logo{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#00d4aa,#1a6fd4);display:flex;align-items:center;justify-content:center;font-family:‘Syne’,sans-serif;font-size:24px;font-weight:800;color:#fff;margin:0 auto 12px;box-shadow:0 0 30px rgba(0,212,170,.3);}
+.about-name{font-family:‘Syne’,sans-serif;font-size:28px;font-weight:800;color:#f0f8ff;margin-bottom:4px;}
+.about-tagline{font-size:14px;color:#8ab8d8;line-height:1.5;}
+.about-section{padding:16px 16px 0;}
+.about-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:16px;margin-bottom:12px;}
+.about-card-title{font-size:14px;font-weight:700;color:#f0f8ff;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.about-card-txt{font-size:13px;color:#8ab8d8;line-height:1.65;}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.about-stat{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:12px 8px;text-align:center;}
+.about-stat-v{font-family:‘JetBrains Mono’,monospace;font-size:20px;font-weight:700;color:#00d4aa;}
+.about-stat-l{font-size:11px;color:#3a6080;margin-top:3px;}
+.about-team{display:flex;flex-direction:column;gap:8px;}
+.about-member{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:12px;}
+.about-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#00d4aa,#1a6fd4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff;flex-shrink:0;}
+.about-member-info{flex:1;}
+.about-member-name{font-size:13px;font-weight:700;color:#f0f8ff;}
+.about-member-role{font-size:11px;color:#3a6080;margin-top:2px;}
+
+/* ══ PRICE TICKER ALERTS HOME ══ */
+.price-alert-banner{margin:0 14px 10px;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;animation:fadeUp .4s ease;}
+.price-alert-banner.up{background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.2);}
+.price-alert-banner.dn{background:rgba(255,61,87,.06);border:1px solid rgba(255,61,87,.15);}
+.pab-ico{font-size:18px;flex-shrink:0;}
+.pab-info{flex:1;}
+.pab-pair{font-family:‘JetBrains Mono’,monospace;font-size:12px;font-weight:700;color:#f0f8ff;}
+.pab-msg{font-size:11px;margin-top:1px;}
+.pab-msg.up{color:#00d4aa;}
+.pab-msg.dn{color:#ff3d57;}
+.pab-price{font-family:‘JetBrains Mono’,monospace;font-size:13px;font-weight:700;}
+.pab-price.up{color:#00d4aa;}
+.pab-price.dn{color:#ff3d57;}
+
+/* ══ LIGHT MODE ══ */
+body.light-mode{background:#f0f4f8;color:#0a1628;}
+body.light-mode .page{background:#f0f4f8;}
+body.light-mode .status-bar{background:linear-gradient(90deg,#e8edf2,#f0f4f8,#e8edf2);border-bottom:1px solid rgba(0,180,140,.2);}
+body.light-mode .bot-nav{background:rgba(240,244,248,.97);border-top:1px solid rgba(0,180,140,.2);}
+body.light-mode .bn-ico svg{stroke:#5a7a9a;}
+body.light-mode .bn-lbl{color:#5a7a9a;}
+body.light-mode .bn.active .bn-ico svg{stroke:#00b894;}
+body.light-mode .bn.active .bn-lbl{color:#00b894;}
+body.light-mode .pulse-card,
+body.light-mode .price-card,
+body.light-mode .sig-item,
+body.light-mode .post-card,
+body.light-mode .set-row,
+body.light-mode .settings-card,
+body.light-mode .aff-section,
+body.light-mode .aff-opt,
+body.light-mode .alert-item,
+body.light-mode .sig-card,
+body.light-mode .ai-card,
+body.light-mode .cal-card,
+body.light-mode .event-item,
+body.light-mode .form-card,
+body.light-mode .about-card,
+body.light-mode .signal-card{background:rgba(255,255,255,.9);border-color:rgba(0,0,0,.08);}
+body.light-mode .sbt-name,body.light-mode .sb-page-label,body.light-mode .bn-lbl{color:#5a7a9a;}
+body.light-mode .sbt-price,body.light-mode .prof-name,body.light-mode .set-t,body.light-mode .ai-pair{color:#0a1628;}
+body.light-mode .sbt-up{color:#00a86b;background:rgba(0,168,107,.1);}
+body.light-mode .sbt-dn{color:#e53935;background:rgba(229,57,53,.1);}
+body.light-mode .prof-cover{background:linear-gradient(135deg,#d0e8f0,#c0d8e8,rgba(0,212,170,.1));}
+body.light-mode .opp-alert{background:linear-gradient(135deg,rgba(0,212,170,.06),rgba(26,111,212,.04));border-color:rgba(0,180,140,.2);}
+body.light-mode .news-crawl{background:rgba(26,111,212,.05);border-color:rgba(26,111,212,.1);}
+body.light-mode .sentiment-row,body.light-mode .curr-price-row{background:rgba(255,255,255,.8);border-color:rgba(0,0,0,.08);}
+body.light-mode .f-sel,body.light-mode .f-inp{background:#fff;border-color:rgba(0,0,0,.12);color:#0a1628;}
+body.light-mode .cal-cell{color:#0a1628;}
+body.light-mode .cal-cell.past{opacity:.3;}
+body.light-mode .cal-cell.today{background:rgba(0,212,170,.1);border-color:rgba(0,212,170,.4);}
+body.light-mode .set-s,body.light-mode .prof-bio,body.light-mode .prof-email,body.light-mode .feat-desc,body.light-mode .sc-reason{color:#4a6a8a;}
+body.light-mode .sb-time{color:#00a86b;}
+body.light-mode .about-stat,body.light-mode .ps,body.light-mode .sc-lv,body.light-mode .factor{background:rgba(255,255,255,.8);border-color:rgba(0,0,0,.08);}
+body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4);}
 </style>
 
 </head>
 <body>
+
+<!-- LANGUAGE MODAL -->
+
+<div class="lang-modal-bg" id="langModal" onclick="if(event.target===this)closeLangModal()">
+  <div class="lang-modal">
+    <div class="lang-title" id="langModalTitle">Choose Language</div>
+    <div class="lang-sub" id="langModalSub">SELECT YOUR PREFERRED LANGUAGE</div>
+    <div class="lang-grid" id="langGrid"></div>
+    <div style="height:8px"></div>
+  </div>
+</div>
+
+<!-- SHARE MODAL -->
+
+<div class="share-modal-bg" id="shareModal" onclick="if(event.target===this)closeShareModal()">
+  <div class="share-modal">
+    <div class="share-title">Share Momento 🚀</div>
+    <div class="share-sub">Share with traders & importers who need better market timing</div>
+    <div class="share-options">
+      <div class="share-opt" onclick="shareApp('whatsapp')"><div class="share-opt-ico">💬</div><div class="share-opt-lbl">WHATSAPP</div></div>
+      <div class="share-opt" onclick="shareApp('telegram')"><div class="share-opt-ico">✈️</div><div class="share-opt-lbl">TELEGRAM</div></div>
+      <div class="share-opt" onclick="shareApp('twitter')"><div class="share-opt-ico">🐦</div><div class="share-opt-lbl">X/TWITTER</div></div>
+      <div class="share-opt" onclick="shareApp('copy')"><div class="share-opt-ico">🔗</div><div class="share-opt-lbl">COPY LINK</div></div>
+    </div>
+    <div class="share-link-row">
+      <div class="share-link-txt">https://momento-app-indol.vercel.app</div>
+      <button class="share-copy-btn" onclick="shareApp('copy')">COPY</button>
+    </div>
+    <div style="height:8px"></div>
+  </div>
+</div>
 
 <div class="toast-wrap" id="tw"></div>
 
@@ -896,7 +1042,7 @@ animation:alertPulse 3s ease infinite;
   <div class="ob1-bottom">
     <div class="ob-progress"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot active"></div></div>
     <button class="ob-cta" onclick="obFinish()">Start 14-Day Free Trial →</button>
-    <div class="ob-signin" style="cursor:pointer" onclick="obFinish()">I'll decide later</div>
+    <div class="ob-signin" style="cursor:pointer" onclick="obFinish()">I\'ll decide later</div>
   </div>
 </div>
 ```
@@ -929,7 +1075,11 @@ animation:alertPulse 3s ease infinite;
       </div>
     </div>
   </div>
+  <!-- PRICE ALERTS TICKER -->
+  <div id="priceAlertBanner"></div>
+
   <!-- OPP ALERT -->
+
   <div class="opp-alert" onclick="goPage('signals')">
     <div class="opp-blink"></div>
     <div class="opp-info">
@@ -1200,12 +1350,12 @@ animation:alertPulse 3s ease infinite;
     </div>
   </div>
   <div class="trial-banner" onclick="toast('Upgrade options — coming soon! 💳')">
-    <div class="tb-left"><div class="tb-title">✦ Pro Trial Active</div><div class="tb-sub">Keep Pro free by opening a trading account</div></div>
-    <div class="tb-days">14 DAYS LEFT</div>
+    <div class="tb-left"><div class="tb-title" id="trialTitle">✦ Pro Trial Active</div><div class="tb-sub" id="trialSub">Keep Pro free by opening a trading account</div></div>
+    <div class="tb-days" id="trialBadge">14 DAYS LEFT</div>
   </div>
   <div class="aff-section">
-    <div class="aff-title">🚀 Get Pro Free Forever</div>
-    <div class="aff-sub">Open a trading account through Momento = Pro for life. No monthly fees.</div>
+    <div class="aff-title" id="affTitle">🚀 Get Pro Free Forever</div>
+    <div class="aff-sub" id="affSub">Open a trading account through Momento = Pro for life. No monthly fees.</div>
     <div class="aff-options">
       <div class="aff-opt hot" onclick="toast('Opening Binance! Pro activates after signup 🎉','success')"><div class="aff-opt-ico">₿</div><div class="aff-opt-info"><div class="aff-opt-name">Binance</div><div class="aff-opt-desc">Crypto · World's largest exchange</div></div><div class="aff-badge">FREE ∞</div></div>
       <div class="aff-opt hot" onclick="toast('Opening eToro! 🎉','success')"><div class="aff-opt-ico">🌐</div><div class="aff-opt-info"><div class="aff-opt-name">eToro</div><div class="aff-opt-desc">Stocks · Forex · Copy trading</div></div><div class="aff-badge">FREE ∞</div></div>
@@ -1228,26 +1378,81 @@ animation:alertPulse 3s ease infinite;
       <div class="set-body"><div class="set-t">Notifications</div><div class="set-s">Alert sounds & push notifications</div></div>
       <div class="tog on" id="notifTog" onclick="event.stopPropagation();toggleTog(this)"><div class="tog-t"></div></div>
     </div>
-    <div class="set-row" onclick="toast('Dark mode always on 🌙')">
+    <div class="set-row" onclick="openLangModal()">
+      <div class="set-ico" style="background:linear-gradient(135deg,#f7971e,#ffd200)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      <div class="set-body"><div class="set-t" id="langRowT">Language</div><div class="set-s" id="langRowS">English</div></div>
+      <div class="set-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+    <div class="set-row" onclick="event.stopPropagation()">
       <div class="set-ico" style="background:linear-gradient(135deg,#3a6080,#1a3050)"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
-      <div class="set-body"><div class="set-t">Dark Mode</div><div class="set-s">Always on</div></div>
-      <div class="tog on"><div class="tog-t"></div></div>
+      <div class="set-body"><div class="set-t" id="darkModeT">Dark Mode</div><div class="set-s" id="darkModeS">Dark</div></div>
+      <div class="tog on" id="darkTog" onclick="toggleDarkMode(this)"><div class="tog-t"></div></div>
     </div>
     <div class="set-row" onclick="toast('Trading Platforms →')">
       <div class="set-ico" style="background:linear-gradient(135deg,var(--green),#00b894)"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
       <div class="set-body"><div class="set-t">Trading Platforms</div><div class="set-s">Browse brokers & affiliate</div></div>
       <div class="set-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
-    <div class="set-row" onclick="toast('Help & Support →')">
+    <div class="set-row" onclick="goPage('about')">
       <div class="set-ico" style="background:linear-gradient(135deg,#f093fb,#f5576c)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-      <div class="set-body"><div class="set-t">Help & Support</div><div class="set-s">FAQ · Contact · Feedback</div></div>
+      <div class="set-body"><div class="set-t">About Momento</div><div class="set-s">Mission · Features · Contact</div></div>
+      <div class="set-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+    <div class="set-row" onclick="openShareModal()">
+      <div class="set-ico" style="background:linear-gradient(135deg,#43e97b,#38f9d7)"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+      <div class="set-body"><div class="set-t" id="shareRowT">Share Momento</div><div class="set-s" id="shareRowS">Invite friends & traders</div></div>
       <div class="set-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
   </div>
-  <button class="logout-btn" onclick="doLogout()">
+  <button class="logout-btn" id="logoutBtn" onclick="doLogout()">
     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-    Log Out
+    <span id="logoutTxt">Log Out</span>
   </button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: ABOUT
+══════════════════════════════════════════ -->
+
+<div class="page" id="page-about">
+  <div class="about-hero">
+    <div class="about-logo">M</div>
+    <div class="about-name">Momento</div>
+    <div class="about-tagline">AI Financial Intelligence for Traders,<br>Importers & Currency Watchers</div>
+  </div>
+  <div class="about-section">
+    <div class="about-stats">
+      <div class="about-stat"><div class="about-stat-v">10+</div><div class="about-stat-l">Assets Tracked</div></div>
+      <div class="about-stat"><div class="about-stat-v">10</div><div class="about-stat-l">Languages</div></div>
+      <div class="about-stat"><div class="about-stat-v">AI</div><div class="about-stat-l">Powered</div></div>
+    </div>
+    <div class="about-card">
+      <div class="about-card-title">🎯 Our Mission</div>
+      <div class="about-card-txt">Momento helps traders, importers and currency watchers know exactly when to act. We combine AI signals, payment timing intelligence and real-time alerts into one powerful platform.</div>
+    </div>
+    <div class="about-card">
+      <div class="about-card-title">⚡ What We Offer</div>
+      <div class="about-card-txt">
+        <strong style="color:#f0f8ff">AI Trading Signals</strong> — Entry, TP & SL for Forex, Crypto, Gold & Indices.<br><br>
+        <strong style="color:#f0f8ff">Payment Calendar</strong> — Know the best day to pay your suppliers in any currency.<br><br>
+        <strong style="color:#f0f8ff">Smart Alerts</strong> — Sound + vibration the moment prices hit your target.<br><br>
+        <strong style="color:#f0f8ff">AI Analysis</strong> — Plain language explanations of any market condition.
+      </div>
+    </div>
+    <div class="about-card">
+      <div class="about-card-title">💎 Pro Free Forever</div>
+      <div class="about-card-txt">Open a trading account through Momento and get Pro access for life — no monthly fees. We earn a referral commission so you pay nothing.</div>
+    </div>
+    <div class="about-card">
+      <div class="about-card-title">📬 Contact Us</div>
+      <div class="about-card-txt">
+        Have questions or feedback?<br>
+        <span style="color:#00d4aa">support@momento.app</span><br><br>
+        Follow us for market updates and tips.
+      </div>
+    </div>
+    <div style="height:16px"></div>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -1271,7 +1476,7 @@ function fmtShort(p){if(p>=10000)return '$'+Math.round(p/1000)+'K';if(p>=100)ret
 // PAGE NAVIGATION
 // ════════════════════════════════════
 let currentPage='onboard';
-const PAGE_LABELS={home:'HOME',calendar:'CALENDAR',signals:'SIGNALS',alerts:'ALERTS',profile:'PROFILE'};
+const PAGE_LABELS={home:'HOME',calendar:'CALENDAR',signals:'SIGNALS',alerts:'ALERTS',profile:'PROFILE',about:'ABOUT'};
 
 function goPage(name){
   // hide all
@@ -2066,6 +2271,592 @@ function toast(msg,type=''){
   // start ticker
   renderTicker();
 })();
+
+// ════════════════════════════════════
+// TRANSLATIONS — 10 LANGUAGES
+// ════════════════════════════════════
+const LANGS = {
+  en: {
+    flag:'🇬🇧', name:'English', native:'English', dir:'ltr',
+    home:'HOME', calendar:'CALENDAR', signals:'SIGNALS', alerts:'ALERTS', profile:'PROFILE', about:'ABOUT',
+    getStarted:'Get Started Free ⚡', continue:'Continue →', startTrial:'Start 14-Day Free Trial →',
+    alreadyAccount:'Already have an account?', signIn:'Sign In', skipIntro:'Skip intro', decideLater:"I\'ll decide later",
+    marketPulse:'⚡ Market Pulse', livePrices:'Live Prices', aiSignals:'AI Signals', communityFeed:'Community Feed',
+    shareInsight:'Share a market insight...', viewAllSignals:'VIEW ALL SIGNALS →',
+    payToday:'PAY TODAY ✓', doNotPay:'DO NOT PAY ✗', waitDays:'WAIT 1-2 DAYS ⚠', monitor:'MONITOR ◎',
+    buyOpp:'BUY OPPORTUNITY ✓', buyAcc:'BUY / ACCUMULATE ✓',
+    newAlert:'New Alert', setAlertNow:'Set Alert Now', activeAlerts:'Active Alerts', recentHistory:'Recent History',
+    asset:'ASSET', condition:'CONDITION', targetPrice:'TARGET PRICE', enterTarget:'Enter target price...',
+    priceGoesAbove:'Goes ABOVE ↑', priceGoesBelow:'Goes BELOW ↓',
+    alertWhen:'ALERT WHEN', priceAbove:'↑ PRICE GOES ABOVE', priceBelow:'↓ PRICE GOES BELOW',
+    currentPrice:'CURRENT PRICE', aiSuggested:'AI SUGGESTED TARGETS',
+    resistance:'RESISTANCE', target:'TARGET', support:'SUPPORT',
+    noAlerts:'No alerts yet', noAlertsDesc:'Set your first alert above.',
+    language:'Language', darkMode:'Dark Mode', notifications:'Notifications',
+    proTrialActive:'✦ Pro Trial Active', keepProFree:'Keep Pro free by opening a trading account',
+    daysLeft:'DAYS LEFT', getProFree:'🚀 Get Pro Free Forever',
+    shareApp:'Share Momento 🚀', copyLink:'COPY LINK', linkCopied:'Link copied! 🔗',
+    aboutMomento:'About Momento', shareInvite:'Invite friends & traders',
+    logOut:'Log Out', editProfile:'✏ Edit Profile',
+    payNow:'PAY NOW', wait:'WAIT', avoid:'AVOID',
+    selectCurrency:'Select Currency Pair', todaySignal:"Today\'s Signal",
+    aiAnalysis:'AI Analysis', paymentCalendar:'Payment Calendar', upcomingEvents:'Upcoming Market Events',
+    activeSignals:'Active Signals', all:'ALL', forex:'FOREX', crypto:'CRYPTO',
+    commodities:'COMMODITIES', indices:'INDICES', buyOnly:'BUY ONLY', sellOnly:'SELL ONLY',
+    setAlert:'Set Alert', hideAi:'Hide', aiAnalysisBtn:'AI Analysis',
+    tapToTest:'TAP TO TEST · TOUCH SCREEN FIRST', momentoAlertSound:'Momento Alert Sound',
+    active:'ACTIVE', triggered:'TRIGGERED', totalSet:'TOTAL SET',
+    fear:'FEAR', greed:'GREED',
+  },
+  ar: {
+    flag:'🇸🇦', name:'Arabic', native:'العربية', dir:'rtl',
+    home:'الرئيسية', calendar:'التقويم', signals:'الإشارات', alerts:'التنبيهات', profile:'الملف', about:'من نحن',
+    getStarted:'ابدأ مجاناً ⚡', continue:'متابعة →', startTrial:'ابدأ تجربة 14 يوم →',
+    alreadyAccount:'لديك حساب بالفعل؟', signIn:'تسجيل الدخول', skipIntro:'تخطي', decideLater:'لاحقاً',
+    marketPulse:'⚡ نبضة السوق', livePrices:'الأسعار المباشرة', aiSignals:'إشارات الذكاء الاصطناعي', communityFeed:'مجتمع التداول',
+    shareInsight:'شارك تحليلاً للسوق...', viewAllSignals:'عرض كل الإشارات →',
+    payToday:'ادفع اليوم ✓', doNotPay:'لا تدفع الآن ✗', waitDays:'انتظر 1-2 أيام ⚠', monitor:'راقب ◎',
+    buyOpp:'فرصة شراء ✓', buyAcc:'اشترِ / راكم ✓',
+    newAlert:'تنبيه جديد', setAlertNow:'تعيين التنبيه', activeAlerts:'التنبيهات النشطة', recentHistory:'السجل الأخير',
+    asset:'الأصل', condition:'الشرط', targetPrice:'السعر المستهدف', enterTarget:'أدخل السعر المستهدف...',
+    priceGoesAbove:'يصعد فوق ↑', priceGoesBelow:'ينزل تحت ↓',
+    alertWhen:'تنبيه عندما', priceAbove:'↑ السعر يرتفع فوق', priceBelow:'↓ السعر ينخفض تحت',
+    currentPrice:'السعر الحالي', aiSuggested:'أهداف مقترحة بالذكاء الاصطناعي',
+    resistance:'مقاومة', target:'هدف', support:'دعم',
+    noAlerts:'لا توجد تنبيهات', noAlertsDesc:'أضف أول تنبيه أعلاه.',
+    language:'اللغة', darkMode:'الوضع الداكن', notifications:'الإشعارات',
+    proTrialActive:'✦ الإصدار التجريبي Pro نشط', keepProFree:'احتفظ بـ Pro مجاناً بفتح حساب تداول',
+    daysLeft:'أيام متبقية', getProFree:'🚀 احصل على Pro مجاناً للأبد',
+    shareApp:'شارك Momento 🚀', copyLink:'نسخ الرابط', linkCopied:'تم نسخ الرابط! 🔗',
+    aboutMomento:'عن Momento', shareInvite:'دعوة أصدقاء ومتداولين',
+    logOut:'تسجيل الخروج', editProfile:'✏ تعديل الملف',
+    payNow:'ادفع الآن', wait:'انتظر', avoid:'تجنب',
+    selectCurrency:'اختر زوج العملة', todaySignal:'إشارة اليوم',
+    aiAnalysis:'تحليل الذكاء الاصطناعي', paymentCalendar:'تقويم المدفوعات', upcomingEvents:'الأحداث القادمة',
+    activeSignals:'الإشارات النشطة', all:'الكل', forex:'فوركس', crypto:'كريبتو',
+    commodities:'سلع', indices:'مؤشرات', buyOnly:'شراء فقط', sellOnly:'بيع فقط',
+    setAlert:'تعيين تنبيه', hideAi:'إخفاء', aiAnalysisBtn:'تحليل AI',
+    tapToTest:'اضغط للاختبار', momentoAlertSound:'صوت تنبيه Momento',
+    active:'نشط', triggered:'تفعّل', totalSet:'المجموع',
+    fear:'خوف', greed:'طمع',
+  },
+  fr: {
+    flag:'🇫🇷', name:'French', native:'Français', dir:'ltr',
+    home:'ACCUEIL', calendar:'CALENDRIER', signals:'SIGNAUX', alerts:'ALERTES', profile:'PROFIL', about:'À PROPOS',
+    getStarted:'Commencer Gratuitement ⚡', continue:'Continuer →', startTrial:"Démarrer l\'essai 14 jours →",
+    alreadyAccount:'Déjà un compte?', signIn:'Se connecter', skipIntro:'Passer', decideLater:'Plus tard',
+    marketPulse:'⚡ Pouls du marché', livePrices:'Prix en direct', aiSignals:'Signaux IA', communityFeed:'Fil communautaire',
+    shareInsight:'Partager une analyse...', viewAllSignals:'VOIR TOUS LES SIGNAUX →',
+    payToday:'PAYER AUJOURD\'HUI ✓', doNotPay:'NE PAS PAYER ✗', waitDays:'ATTENDRE 1-2 JOURS ⚠', monitor:'SURVEILLER ◎',
+    buyOpp:'OPPORTUNITÉ D\'ACHAT ✓', buyAcc:'ACHETER / ACCUMULER ✓',
+    newAlert:'Nouvelle alerte', setAlertNow:'Définir l\'alerte', activeAlerts:'Alertes actives', recentHistory:'Historique récent',
+    asset:'ACTIF', condition:'CONDITION', targetPrice:'PRIX CIBLE', enterTarget:'Entrez le prix cible...',
+    priceGoesAbove:'Monte au-dessus ↑', priceGoesBelow:'Descend en dessous ↓',
+    alertWhen:'ALERTER QUAND', priceAbove:'↑ PRIX MONTE AU-DESSUS', priceBelow:'↓ PRIX DESCEND EN DESSOUS',
+    currentPrice:'PRIX ACTUEL', aiSuggested:'CIBLES SUGGÉRÉES PAR IA',
+    resistance:'RÉSISTANCE', target:'CIBLE', support:'SUPPORT',
+    noAlerts:'Aucune alerte', noAlertsDesc:'Définissez votre première alerte ci-dessus.',
+    language:'Langue', darkMode:'Mode sombre', notifications:'Notifications',
+    proTrialActive:'✦ Essai Pro actif', keepProFree:'Gardez Pro gratuit en ouvrant un compte de trading',
+    daysLeft:'JOURS RESTANTS', getProFree:'🚀 Obtenez Pro Gratuit Pour Toujours',
+    shareApp:'Partager Momento 🚀', copyLink:'COPIER LE LIEN', linkCopied:'Lien copié! 🔗',
+    aboutMomento:'À propos de Momento', shareInvite:'Inviter des amis et traders',
+    logOut:'Se déconnecter', editProfile:'✏ Modifier le profil',
+    payNow:'PAYER', wait:'ATTENDRE', avoid:'ÉVITER',
+    selectCurrency:'Sélectionner la paire', todaySignal:"Signal d\'aujourd\'hui",
+    aiAnalysis:'Analyse IA', paymentCalendar:'Calendrier des paiements', upcomingEvents:'Événements à venir',
+    activeSignals:'Signaux actifs', all:'TOUS', forex:'FOREX', crypto:'CRYPTO',
+    commodities:'MATIÈRES PREMIÈRES', indices:'INDICES', buyOnly:'ACHAT UNIQUEMENT', sellOnly:'VENTE UNIQUEMENT',
+    setAlert:'Définir alerte', hideAi:'Masquer', aiAnalysisBtn:'Analyse IA',
+    tapToTest:'APPUYER POUR TESTER', momentoAlertSound:'Son d\'alerte Momento',
+    active:'ACTIF', triggered:'DÉCLENCHÉ', totalSet:'TOTAL',
+    fear:'PEUR', greed:'AVIDITÉ',
+  },
+  es: {
+    flag:'🇪🇸', name:'Spanish', native:'Español', dir:'ltr',
+    home:'INICIO', calendar:'CALENDARIO', signals:'SEÑALES', alerts:'ALERTAS', profile:'PERFIL', about:'SOBRE',
+    getStarted:'Empezar Gratis ⚡', continue:'Continuar →', startTrial:'Iniciar prueba 14 días →',
+    alreadyAccount:'¿Ya tienes cuenta?', signIn:'Iniciar sesión', skipIntro:'Saltar', decideLater:'Más tarde',
+    marketPulse:'⚡ Pulso del mercado', livePrices:'Precios en vivo', aiSignals:'Señales IA', communityFeed:'Feed comunidad',
+    shareInsight:'Comparte un análisis...', viewAllSignals:'VER TODAS LAS SEÑALES →',
+    payToday:'PAGAR HOY ✓', doNotPay:'NO PAGAR ✗', waitDays:'ESPERAR 1-2 DÍAS ⚠', monitor:'MONITOREAR ◎',
+    buyOpp:'OPORTUNIDAD DE COMPRA ✓', buyAcc:'COMPRAR / ACUMULAR ✓',
+    newAlert:'Nueva alerta', setAlertNow:'Establecer alerta', activeAlerts:'Alertas activas', recentHistory:'Historial reciente',
+    asset:'ACTIVO', condition:'CONDICIÓN', targetPrice:'PRECIO OBJETIVO', enterTarget:'Ingrese el precio objetivo...',
+    priceGoesAbove:'Sube por encima ↑', priceGoesBelow:'Baja por debajo ↓',
+    alertWhen:'ALERTAR CUANDO', priceAbove:'↑ PRECIO SUBE SOBRE', priceBelow:'↓ PRECIO BAJA BAJO',
+    currentPrice:'PRECIO ACTUAL', aiSuggested:'OBJETIVOS SUGERIDOS POR IA',
+    resistance:'RESISTENCIA', target:'OBJETIVO', support:'SOPORTE',
+    noAlerts:'Sin alertas', noAlertsDesc:'Establece tu primera alerta arriba.',
+    language:'Idioma', darkMode:'Modo oscuro', notifications:'Notificaciones',
+    proTrialActive:'✦ Prueba Pro activa', keepProFree:'Mantén Pro gratis abriendo una cuenta de trading',
+    daysLeft:'DÍAS RESTANTES', getProFree:'🚀 Obtén Pro Gratis Para Siempre',
+    shareApp:'Compartir Momento 🚀', copyLink:'COPIAR ENLACE', linkCopied:'¡Enlace copiado! 🔗',
+    aboutMomento:'Sobre Momento', shareInvite:'Invitar amigos y traders',
+    logOut:'Cerrar sesión', editProfile:'✏ Editar perfil',
+    payNow:'PAGAR', wait:'ESPERAR', avoid:'EVITAR',
+    selectCurrency:'Seleccionar par', todaySignal:'Señal de hoy',
+    aiAnalysis:'Análisis IA', paymentCalendar:'Calendario de pagos', upcomingEvents:'Próximos eventos',
+    activeSignals:'Señales activas', all:'TODOS', forex:'FOREX', crypto:'CRIPTO',
+    commodities:'MATERIAS PRIMAS', indices:'ÍNDICES', buyOnly:'SOLO COMPRA', sellOnly:'SOLO VENTA',
+    setAlert:'Establecer alerta', hideAi:'Ocultar', aiAnalysisBtn:'Análisis IA',
+    tapToTest:'TOCA PARA PROBAR', momentoAlertSound:'Sonido de alerta Momento',
+    active:'ACTIVO', triggered:'ACTIVADO', totalSet:'TOTAL',
+    fear:'MIEDO', greed:'CODICIA',
+  },
+  pt: {
+    flag:'🇧🇷', name:'Portuguese', native:'Português', dir:'ltr',
+    home:'INÍCIO', calendar:'CALENDÁRIO', signals:'SINAIS', alerts:'ALERTAS', profile:'PERFIL', about:'SOBRE',
+    getStarted:'Começar Grátis ⚡', continue:'Continuar →', startTrial:'Iniciar teste 14 dias →',
+    alreadyAccount:'Já tem conta?', signIn:'Entrar', skipIntro:'Pular', decideLater:'Mais tarde',
+    marketPulse:'⚡ Pulso do mercado', livePrices:'Preços ao vivo', aiSignals:'Sinais IA', communityFeed:'Feed comunidade',
+    shareInsight:'Compartilhe uma análise...', viewAllSignals:'VER TODOS OS SINAIS →',
+    payToday:'PAGAR HOJE ✓', doNotPay:'NÃO PAGAR ✗', waitDays:'AGUARDAR 1-2 DIAS ⚠', monitor:'MONITORAR ◎',
+    buyOpp:'OPORTUNIDADE DE COMPRA ✓', buyAcc:'COMPRAR / ACUMULAR ✓',
+    newAlert:'Novo alerta', setAlertNow:'Definir alerta', activeAlerts:'Alertas ativos', recentHistory:'Histórico recente',
+    asset:'ATIVO', condition:'CONDIÇÃO', targetPrice:'PREÇO ALVO', enterTarget:'Digite o preço alvo...',
+    priceGoesAbove:'Sobe acima ↑', priceGoesBelow:'Desce abaixo ↓',
+    alertWhen:'ALERTAR QUANDO', priceAbove:'↑ PREÇO SOBE ACIMA', priceBelow:'↓ PREÇO DESCE ABAIXO',
+    currentPrice:'PREÇO ATUAL', aiSuggested:'ALVOS SUGERIDOS POR IA',
+    resistance:'RESISTÊNCIA', target:'ALVO', support:'SUPORTE',
+    noAlerts:'Sem alertas', noAlertsDesc:'Defina seu primeiro alerta acima.',
+    language:'Idioma', darkMode:'Modo escuro', notifications:'Notificações',
+    proTrialActive:'✦ Teste Pro ativo', keepProFree:'Mantenha Pro grátis abrindo conta de trading',
+    daysLeft:'DIAS RESTANTES', getProFree:'🚀 Obtenha Pro Grátis Para Sempre',
+    shareApp:'Compartilhar Momento 🚀', copyLink:'COPIAR LINK', linkCopied:'Link copiado! 🔗',
+    aboutMomento:'Sobre Momento', shareInvite:'Convidar amigos e traders',
+    logOut:'Sair', editProfile:'✏ Editar perfil',
+    payNow:'PAGAR', wait:'AGUARDAR', avoid:'EVITAR',
+    selectCurrency:'Selecionar par', todaySignal:'Sinal de hoje',
+    aiAnalysis:'Análise IA', paymentCalendar:'Calendário de pagamentos', upcomingEvents:'Próximos eventos',
+    activeSignals:'Sinais ativos', all:'TODOS', forex:'FOREX', crypto:'CRIPTO',
+    commodities:'COMMODITIES', indices:'ÍNDICES', buyOnly:'SÓ COMPRA', sellOnly:'SÓ VENDA',
+    setAlert:'Definir alerta', hideAi:'Ocultar', aiAnalysisBtn:'Análise IA',
+    tapToTest:'TOQUE PARA TESTAR', momentoAlertSound:'Som de alerta Momento',
+    active:'ATIVO', triggered:'ATIVADO', totalSet:'TOTAL',
+    fear:'MEDO', greed:'GANÂNCIA',
+  },
+  ru: {
+    flag:'🇷🇺', name:'Russian', native:'Русский', dir:'ltr',
+    home:'ГЛАВНАЯ', calendar:'КАЛЕНДАРЬ', signals:'СИГНАЛЫ', alerts:'ОПОВЕЩЕНИЯ', profile:'ПРОФИЛЬ', about:'О НАС',
+    getStarted:'Начать бесплатно ⚡', continue:'Продолжить →', startTrial:'Начать пробный период 14 дней →',
+    alreadyAccount:'Уже есть аккаунт?', signIn:'Войти', skipIntro:'Пропустить', decideLater:'Позже',
+    marketPulse:'⚡ Пульс рынка', livePrices:'Живые цены', aiSignals:'Сигналы ИИ', communityFeed:'Лента сообщества',
+    shareInsight:'Поделитесь анализом...', viewAllSignals:'СМОТРЕТЬ ВСЕ СИГНАЛЫ →',
+    payToday:'ПЛАТИТЬ СЕГОДНЯ ✓', doNotPay:'НЕ ПЛАТИТЬ ✗', waitDays:'ПОДОЖДАТЬ 1-2 ДНЯ ⚠', monitor:'МОНИТОРИНГ ◎',
+    buyOpp:'ВОЗМОЖНОСТЬ ПОКУПКИ ✓', buyAcc:'ПОКУПАТЬ / НАКАПЛИВАТЬ ✓',
+    newAlert:'Новое оповещение', setAlertNow:'Установить оповещение', activeAlerts:'Активные оповещения', recentHistory:'Недавняя история',
+    asset:'АКТИВ', condition:'УСЛОВИЕ', targetPrice:'ЦЕЛЕВАЯ ЦЕНА', enterTarget:'Введите целевую цену...',
+    priceGoesAbove:'Поднимается выше ↑', priceGoesBelow:'Опускается ниже ↓',
+    alertWhen:'ОПОВЕЩАТЬ КОГДА', priceAbove:'↑ ЦЕНА РАСТЁТ ВЫШЕ', priceBelow:'↓ ЦЕНА ПАДАЕТ НИЖЕ',
+    currentPrice:'ТЕКУЩАЯ ЦЕНА', aiSuggested:'ЦЕЛИ ОТ ИИ',
+    resistance:'СОПРОТИВЛЕНИЕ', target:'ЦЕЛЬ', support:'ПОДДЕРЖКА',
+    noAlerts:'Нет оповещений', noAlertsDesc:'Установите первое оповещение выше.',
+    language:'Язык', darkMode:'Тёмный режим', notifications:'Уведомления',
+    proTrialActive:'✦ Пробный период Pro активен', keepProFree:'Сохраните Pro бесплатно, открыв торговый счёт',
+    daysLeft:'ДНЕЙ ОСТАЛОСЬ', getProFree:'🚀 Получите Pro Бесплатно Навсегда',
+    shareApp:'Поделиться Momento 🚀', copyLink:'КОПИРОВАТЬ ССЫЛКУ', linkCopied:'Ссылка скопирована! 🔗',
+    aboutMomento:'О Momento', shareInvite:'Пригласить друзей и трейдеров',
+    logOut:'Выйти', editProfile:'✏ Редактировать профиль',
+    payNow:'ПЛАТИТЬ', wait:'ЖДАТЬ', avoid:'ИЗБЕГАТЬ',
+    selectCurrency:'Выбрать валютную пару', todaySignal:'Сигнал сегодня',
+    aiAnalysis:'Анализ ИИ', paymentCalendar:'Календарь платежей', upcomingEvents:'Предстоящие события',
+    activeSignals:'Активные сигналы', all:'ВСЕ', forex:'ФОРЕКС', crypto:'КРИПТО',
+    commodities:'ТОВАРЫ', indices:'ИНДЕКСЫ', buyOnly:'ТОЛЬКО ПОКУПКА', sellOnly:'ТОЛЬКО ПРОДАЖА',
+    setAlert:'Установить оповещение', hideAi:'Скрыть', aiAnalysisBtn:'Анализ ИИ',
+    tapToTest:'НАЖМИТЕ ДЛЯ ТЕСТА', momentoAlertSound:'Звук оповещения Momento',
+    active:'АКТИВНО', triggered:'СРАБОТАЛО', totalSet:'ВСЕГО',
+    fear:'СТРАХ', greed:'ЖАДНОСТЬ',
+  },
+  ja: {
+    flag:'🇯🇵', name:'Japanese', native:'日本語', dir:'ltr',
+    home:'ホーム', calendar:'カレンダー', signals:'シグナル', alerts:'アラート', profile:'プロフィール', about:'について',
+    getStarted:'無料で始める ⚡', continue:'続ける →', startTrial:'14日間無料トライアル開始 →',
+    alreadyAccount:'すでにアカウントをお持ちですか？', signIn:'サインイン', skipIntro:'スキップ', decideLater:'後で',
+    marketPulse:'⚡ マーケットパルス', livePrices:'ライブ価格', aiSignals:'AIシグナル', communityFeed:'コミュニティ',
+    shareInsight:'市場分析を共有...', viewAllSignals:'すべてのシグナルを見る →',
+    payToday:'本日支払い ✓', doNotPay:'支払い不可 ✗', waitDays:'1-2日待機 ⚠', monitor:'監視 ◎',
+    buyOpp:'買いチャンス ✓', buyAcc:'買い/積立 ✓',
+    newAlert:'新しいアラート', setAlertNow:'アラートを設定', activeAlerts:'アクティブアラート', recentHistory:'最近の履歴',
+    asset:'資産', condition:'条件', targetPrice:'目標価格', enterTarget:'目標価格を入力...',
+    priceGoesAbove:'上昇 ↑', priceGoesBelow:'下落 ↓',
+    alertWhen:'通知タイミング', priceAbove:'↑ 価格が上昇したら', priceBelow:'↓ 価格が下落したら',
+    currentPrice:'現在価格', aiSuggested:'AI推奨ターゲット',
+    resistance:'レジスタンス', target:'ターゲット', support:'サポート',
+    noAlerts:'アラートなし', noAlertsDesc:'上記で最初のアラートを設定してください。',
+    language:'言語', darkMode:'ダークモード', notifications:'通知',
+    proTrialActive:'✦ Proトライアル中', keepProFree:'取引口座を開設してProを無料で維持',
+    daysLeft:'日残り', getProFree:'🚀 Proを永久無料で取得',
+    shareApp:'Momentoをシェア 🚀', copyLink:'リンクをコピー', linkCopied:'リンクがコピーされました! 🔗',
+    aboutMomento:'Momentoについて', shareInvite:'友達とトレーダーを招待',
+    logOut:'ログアウト', editProfile:'✏ プロフィール編集',
+    payNow:'今すぐ支払う', wait:'待機', avoid:'避ける',
+    selectCurrency:'通貨ペアを選択', todaySignal:'本日のシグナル',
+    aiAnalysis:'AI分析', paymentCalendar:'支払いカレンダー', upcomingEvents:'今後のイベント',
+    activeSignals:'アクティブシグナル', all:'全て', forex:'外為', crypto:'仮想通貨',
+    commodities:'商品', indices:'指数', buyOnly:'買いのみ', sellOnly:'売りのみ',
+    setAlert:'アラート設定', hideAi:'非表示', aiAnalysisBtn:'AI分析',
+    tapToTest:'タップしてテスト', momentoAlertSound:'Momentoアラート音',
+    active:'アクティブ', triggered:'発動', totalSet:'合計',
+    fear:'恐怖', greed:'強欲',
+  },
+  zh: {
+    flag:'🇨🇳', name:'Chinese', native:'中文', dir:'ltr',
+    home:'首页', calendar:'日历', signals:'信号', alerts:'提醒', profile:'个人', about:'关于',
+    getStarted:'免费开始 ⚡', continue:'继续 →', startTrial:'开始14天免费试用 →',
+    alreadyAccount:'已有账户？', signIn:'登录', skipIntro:'跳过', decideLater:'稍后',
+    marketPulse:'⚡ 市场脉搏', livePrices:'实时价格', aiSignals:'AI信号', communityFeed:'社区动态',
+    shareInsight:'分享市场见解...', viewAllSignals:'查看所有信号 →',
+    payToday:'今日付款 ✓', doNotPay:'暂勿付款 ✗', waitDays:'等待1-2天 ⚠', monitor:'监控 ◎',
+    buyOpp:'买入机会 ✓', buyAcc:'买入/积累 ✓',
+    newAlert:'新提醒', setAlertNow:'设置提醒', activeAlerts:'活跃提醒', recentHistory:'最近历史',
+    asset:'资产', condition:'条件', targetPrice:'目标价格', enterTarget:'输入目标价格...',
+    priceGoesAbove:'上涨至 ↑', priceGoesBelow:'下跌至 ↓',
+    alertWhen:'提醒时机', priceAbove:'↑ 价格上涨超过', priceBelow:'↓ 价格下跌低于',
+    currentPrice:'当前价格', aiSuggested:'AI建议目标',
+    resistance:'阻力', target:'目标', support:'支撑',
+    noAlerts:'暂无提醒', noAlertsDesc:'在上方设置您的第一个提醒。',
+    language:'语言', darkMode:'深色模式', notifications:'通知',
+    proTrialActive:'✦ Pro试用中', keepProFree:'开通交易账户永久免费使用Pro',
+    daysLeft:'天剩余', getProFree:'🚀 永久免费获得Pro',
+    shareApp:'分享Momento 🚀', copyLink:'复制链接', linkCopied:'链接已复制! 🔗',
+    aboutMomento:'关于Momento', shareInvite:'邀请朋友和交易者',
+    logOut:'退出', editProfile:'✏ 编辑资料',
+    payNow:'立即付款', wait:'等待', avoid:'避免',
+    selectCurrency:'选择货币对', todaySignal:'今日信号',
+    aiAnalysis:'AI分析', paymentCalendar:'付款日历', upcomingEvents:'即将到来的事件',
+    activeSignals:'活跃信号', all:'全部', forex:'外汇', crypto:'加密货币',
+    commodities:'大宗商品', indices:'指数', buyOnly:'仅买入', sellOnly:'仅卖出',
+    setAlert:'设置提醒', hideAi:'隐藏', aiAnalysisBtn:'AI分析',
+    tapToTest:'点击测试', momentoAlertSound:'Momento提醒音',
+    active:'活跃', triggered:'已触发', totalSet:'总计',
+    fear:'恐惧', greed:'贪婪',
+  },
+  hi: {
+    flag:'🇮🇳', name:'Hindi', native:'हिन्दी', dir:'ltr',
+    home:'होम', calendar:'कैलेंडर', signals:'सिग्नल', alerts:'अलर्ट', profile:'प्रोफ़ाइल', about:'बारे में',
+    getStarted:'मुफ्त शुरू करें ⚡', continue:'जारी रखें →', startTrial:'14 दिन मुफ्त ट्रायल →',
+    alreadyAccount:'पहले से खाता है?', signIn:'साइन इन', skipIntro:'छोड़ें', decideLater:'बाद में',
+    marketPulse:'⚡ मार्केट पल्स', livePrices:'लाइव कीमतें', aiSignals:'AI सिग्नल', communityFeed:'कम्युनिटी फीड',
+    shareInsight:'मार्केट इनसाइट शेयर करें...', viewAllSignals:'सभी सिग्नल देखें →',
+    payToday:'आज भुगतान करें ✓', doNotPay:'भुगतान न करें ✗', waitDays:'1-2 दिन प्रतीक्षा करें ⚠', monitor:'निगरानी करें ◎',
+    buyOpp:'खरीद का मौका ✓', buyAcc:'खरीदें/जमा करें ✓',
+    newAlert:'नया अलर्ट', setAlertNow:'अलर्ट सेट करें', activeAlerts:'सक्रिय अलर्ट', recentHistory:'हाल का इतिहास',
+    asset:'संपत्ति', condition:'शर्त', targetPrice:'लक्ष्य मूल्य', enterTarget:'लक्ष्य मूल्य दर्ज करें...',
+    priceGoesAbove:'ऊपर जाता है ↑', priceGoesBelow:'नीचे जाता है ↓',
+    alertWhen:'अलर्ट कब', priceAbove:'↑ मूल्य ऊपर जाए', priceBelow:'↓ मूल्य नीचे जाए',
+    currentPrice:'वर्तमान मूल्य', aiSuggested:'AI सुझाए लक्ष्य',
+    resistance:'प्रतिरोध', target:'लक्ष्य', support:'समर्थन',
+    noAlerts:'कोई अलर्ट नहीं', noAlertsDesc:'ऊपर अपना पहला अलर्ट सेट करें।',
+    language:'भाषा', darkMode:'डार्क मोड', notifications:'सूचनाएं',
+    proTrialActive:'✦ Pro ट्रायल सक्रिय', keepProFree:'ट्रेडिंग खाता खोलकर Pro मुफ्त रखें',
+    daysLeft:'दिन शेष', getProFree:'🚀 Pro हमेशा के लिए मुफ्त पाएं',
+    shareApp:'Momento शेयर करें 🚀', copyLink:'लिंक कॉपी करें', linkCopied:'लिंक कॉपी हो गया! 🔗',
+    aboutMomento:'Momento के बारे में', shareInvite:'दोस्तों और ट्रेडर्स को आमंत्रित करें',
+    logOut:'लॉग आउट', editProfile:'✏ प्रोफ़ाइल संपादित करें',
+    payNow:'अभी भुगतान करें', wait:'प्रतीक्षा करें', avoid:'बचें',
+    selectCurrency:'मुद्रा जोड़ी चुनें', todaySignal:'आज का सिग्नल',
+    aiAnalysis:'AI विश्लेषण', paymentCalendar:'भुगतान कैलेंडर', upcomingEvents:'आगामी कार्यक्रम',
+    activeSignals:'सक्रिय सिग्नल', all:'सभी', forex:'फॉरेक्स', crypto:'क्रिप्टो',
+    commodities:'कमोडिटी', indices:'सूचकांक', buyOnly:'केवल खरीद', sellOnly:'केवल बिक्री',
+    setAlert:'अलर्ट सेट करें', hideAi:'छुपाएं', aiAnalysisBtn:'AI विश्लेषण',
+    tapToTest:'टेस्ट के लिए टैप करें', momentoAlertSound:'Momento अलर्ट ध्वनि',
+    active:'सक्रिय', triggered:'ट्रिगर हुआ', totalSet:'कुल',
+    fear:'डर', greed:'लालच',
+  },
+  id: {
+    flag:'🇮🇩', name:'Indonesian', native:'Bahasa Indonesia', dir:'ltr',
+    home:'BERANDA', calendar:'KALENDER', signals:'SINYAL', alerts:'PERINGATAN', profile:'PROFIL', about:'TENTANG',
+    getStarted:'Mulai Gratis ⚡', continue:'Lanjutkan →', startTrial:'Mulai Uji Coba 14 Hari →',
+    alreadyAccount:'Sudah punya akun?', signIn:'Masuk', skipIntro:'Lewati', decideLater:'Nanti saja',
+    marketPulse:'⚡ Denyut Pasar', livePrices:'Harga Langsung', aiSignals:'Sinyal AI', communityFeed:'Feed Komunitas',
+    shareInsight:'Bagikan analisis pasar...', viewAllSignals:'LIHAT SEMUA SINYAL →',
+    payToday:'BAYAR HARI INI ✓', doNotPay:'JANGAN BAYAR ✗', waitDays:'TUNGGU 1-2 HARI ⚠', monitor:'PANTAU ◎',
+    buyOpp:'PELUANG BELI ✓', buyAcc:'BELI / AKUMULASI ✓',
+    newAlert:'Peringatan Baru', setAlertNow:'Atur Peringatan', activeAlerts:'Peringatan Aktif', recentHistory:'Riwayat Terkini',
+    asset:'ASET', condition:'KONDISI', targetPrice:'HARGA TARGET', enterTarget:'Masukkan harga target...',
+    priceGoesAbove:'Naik di atas ↑', priceGoesBelow:'Turun di bawah ↓',
+    alertWhen:'PERINGATKAN KETIKA', priceAbove:'↑ HARGA NAIK DI ATAS', priceBelow:'↓ HARGA TURUN DI BAWAH',
+    currentPrice:'HARGA SAAT INI', aiSuggested:'TARGET SARAN AI',
+    resistance:'RESISTENSI', target:'TARGET', support:'DUKUNGAN',
+    noAlerts:'Belum ada peringatan', noAlertsDesc:'Atur peringatan pertama Anda di atas.',
+    language:'Bahasa', darkMode:'Mode Gelap', notifications:'Notifikasi',
+    proTrialActive:'✦ Uji Coba Pro Aktif', keepProFree:'Pertahankan Pro gratis dengan membuka akun trading',
+    daysLeft:'HARI TERSISA', getProFree:'🚀 Dapatkan Pro Gratis Selamanya',
+    shareApp:'Bagikan Momento 🚀', copyLink:'SALIN TAUTAN', linkCopied:'Tautan disalin! 🔗',
+    aboutMomento:'Tentang Momento', shareInvite:'Undang teman dan trader',
+    logOut:'Keluar', editProfile:'✏ Edit Profil',
+    payNow:'BAYAR', wait:'TUNGGU', avoid:'HINDARI',
+    selectCurrency:'Pilih Pasangan Mata Uang', todaySignal:'Sinyal Hari Ini',
+    aiAnalysis:'Analisis AI', paymentCalendar:'Kalender Pembayaran', upcomingEvents:'Acara Mendatang',
+    activeSignals:'Sinyal Aktif', all:'SEMUA', forex:'FOREX', crypto:'KRIPTO',
+    commodities:'KOMODITAS', indices:'INDEKS', buyOnly:'BELI SAJA', sellOnly:'JUAL SAJA',
+    setAlert:'Atur peringatan', hideAi:'Sembunyikan', aiAnalysisBtn:'Analisis AI',
+    tapToTest:'KETUK UNTUK UJI', momentoAlertSound:'Suara Peringatan Momento',
+    active:'AKTIF', triggered:'TERPICU', totalSet:'TOTAL',
+    fear:'TAKUT', greed:'SERAKAH',
+  },
+  tr: {
+    flag:'🇹🇷', name:'Turkish', native:'Türkçe', dir:'ltr',
+    home:'ANA SAYFA', calendar:'TAKVİM', signals:'SİNYALLER', alerts:'UYARILAR', profile:'PROFİL', about:'HAKKINDA',
+    getStarted:'Ücretsiz Başla ⚡', continue:'Devam →', startTrial:'14 Günlük Deneme Başlat →',
+    alreadyAccount:'Zaten hesabınız var mı?', signIn:'Giriş Yap', skipIntro:'Atla', decideLater:'Sonra',
+    marketPulse:'⚡ Piyasa Nabzı', livePrices:'Canlı Fiyatlar', aiSignals:'AI Sinyalleri', communityFeed:'Topluluk Akışı',
+    shareInsight:'Piyasa analizi paylaş...', viewAllSignals:'TÜM SİNYALLERİ GÖR →',
+    payToday:'BUGÜN ÖDE ✓', doNotPay:'ÖDEME YAPMA ✗', waitDays:'1-2 GÜN BEKLE ⚠', monitor:'İZLE ◎',
+    buyOpp:'ALIM FIRSATI ✓', buyAcc:'AL / BİRİKTİR ✓',
+    newAlert:'Yeni Uyarı', setAlertNow:'Uyarı Kur', activeAlerts:'Aktif Uyarılar', recentHistory:'Son Geçmiş',
+    asset:'VARLIK', condition:'KOŞUL', targetPrice:'HEDEF FİYAT', enterTarget:'Hedef fiyatı girin...',
+    priceGoesAbove:'Yukarı çıkar ↑', priceGoesBelow:'Aşağı iner ↓',
+    alertWhen:'UYARI VER', priceAbove:'↑ FİYAT YUKARI ÇIKARSA', priceBelow:'↓ FİYAT AŞAĞI İNERSE',
+    currentPrice:'MEVCUT FİYAT', aiSuggested:'AI ÖNERİLEN HEDEFLER',
+    resistance:'DİRENÇ', target:'HEDEF', support:'DESTEK',
+    noAlerts:'Uyarı yok', noAlertsDesc:'Yukarıdan ilk uyarınızı ekleyin.',
+    language:'Dil', darkMode:'Karanlık Mod', notifications:'Bildirimler',
+    proTrialActive:'✦ Pro Deneme Aktif', keepProFree:'İşlem hesabı açarak Pro\'yu ücretsiz tutun',
+    daysLeft:'GÜN KALDI', getProFree:'🚀 Pro\'yu Sonsuza Dek Ücretsiz Al',
+    shareApp:"Momento\'yu Paylaş 🚀", copyLink:'BAĞLANTI KOPYALA', linkCopied:'Bağlantı kopyalandı! 🔗',
+    aboutMomento:"Momento Hakkında", shareInvite:'Arkadaşları ve yatırımcıları davet et',
+    logOut:'Çıkış Yap', editProfile:'✏ Profili Düzenle',
+    payNow:'ÖDE', wait:'BEKLE', avoid:'KAÇIN',
+    selectCurrency:'Döviz Çifti Seç', todaySignal:'Bugünün Sinyali',
+    aiAnalysis:'AI Analizi', paymentCalendar:'Ödeme Takvimi', upcomingEvents:'Yaklaşan Etkinlikler',
+    activeSignals:'Aktif Sinyaller', all:'TÜMÜ', forex:'FOREX', crypto:'KRİPTO',
+    commodities:'EMTİA', indices:'ENDEKSLer', buyOnly:'SADECE AL', sellOnly:'SADECE SAT',
+    setAlert:'Uyarı kur', hideAi:'Gizle', aiAnalysisBtn:'AI Analizi',
+    tapToTest:'TEST İÇİN DOKUN', momentoAlertSound:'Momento Uyarı Sesi',
+    active:'AKTİF', triggered:'TETİKLENDİ', totalSet:'TOPLAM',
+    fear:'KORKU', greed:'AÇGÖZLÜLÜK',
+  },
+};
+
+// ════════════════════════════════════
+// LANGUAGE SYSTEM
+// ════════════════════════════════════
+let currentLang = localStorage.getItem('momento_lang') || 'en';
+let T = LANGS[currentLang] || LANGS.en;
+
+function applyLang(lang) {
+  currentLang = lang;
+  T = LANGS[lang] || LANGS.en;
+  localStorage.setItem('momento_lang', lang);
+  
+  // RTL support for Arabic
+  document.documentElement.dir = T.dir || 'ltr';
+  document.documentElement.lang = lang;
+  
+  // Update bottom nav labels
+  const navMap = {home:'HOME',calendar:'CALENDAR',signals:'SIGNALS',alerts:'ALERTS',profile:'PROFILE'};
+  Object.keys(navMap).forEach(k => {
+    const bn = document.getElementById('bn-'+k);
+    if(bn) {
+      const lbl = bn.querySelector('.bn-lbl');
+      if(lbl) lbl.textContent = T[k] || navMap[k];
+    }
+  });
+  
+  // Update language row in settings
+  const lr = document.getElementById('langRowS');
+  if(lr) lr.textContent = T.native;
+  
+  // Update share row
+  const sr = document.getElementById('shareRowT');
+  if(sr) sr.textContent = T.shareApp ? T.shareApp.replace(' 🚀','') : 'Share Momento';
+  const ss = document.getElementById('shareRowS');
+  if(ss) ss.textContent = T.shareInvite || 'Invite friends & traders';
+  
+  // Update about row
+  const ar2 = document.querySelector(".set-row[onclick*='about'] .set-t");
+  if(ar2) ar2.textContent = T.aboutMomento || 'About Momento';
+  
+  // Update status bar label
+  const spl = document.getElementById('sbPageLabel');
+  if(spl) spl.textContent = T[currentPage] || currentPage.toUpperCase();
+  
+  // Update current page content
+  refreshPageText();
+  refreshProfileTexts();
+  closeLangModal();
+  toast((lang === 'ar' ? 'تم تغيير اللغة ✓' : lang === 'fr' ? 'Langue changée ✓' : lang === 'es' ? 'Idioma cambiado ✓' : lang === 'ja' ? '言語を変更しました ✓' : lang === 'zh' ? '语言已更改 ✓' : lang === 'ru' ? 'Язык изменён ✓' : 'Language changed ✓'), 'success');
+}
+
+
+function refreshProfileTexts() {
+  // Trial banner
+  const tt = document.getElementById('trialTitle');
+  if(tt) tt.textContent = T.proTrialActive || '✦ Pro Trial Active';
+  const ts = document.getElementById('trialSub');
+  if(ts) ts.textContent = T.keepProFree || 'Keep Pro free by opening a trading account';
+  const tb = document.getElementById('trialBadge');
+  if(tb) tb.textContent = '14 ' + (T.daysLeft || 'DAYS LEFT');
+  // Affiliate
+  const at = document.getElementById('affTitle');
+  if(at) at.textContent = T.getProFree || '🚀 Get Pro Free Forever';
+  // Logout
+  const lt = document.getElementById('logoutTxt');
+  if(lt) lt.textContent = T.logOut || 'Log Out';
+  // Edit profile btn
+  const ep = document.querySelector('.prof-edit-btn');
+  if(ep) ep.textContent = T.editProfile || '✏ Edit Profile';
+  // Dark mode label
+  const dm = document.getElementById('darkModeT');
+  if(dm) dm.textContent = T.darkMode || 'Dark Mode';
+  // Settings rows
+  const notifRow = document.querySelector('#notifTog')?.closest('.set-row')?.querySelector('.set-t');
+  if(notifRow) notifRow.textContent = T.notifications || 'Notifications';
+}
+
+function refreshPageText() {
+  // Refresh rendered content based on current page
+  if(currentPage === 'home') renderHome();
+  if(currentPage === 'calendar') initCalendarPage();
+  if(currentPage === 'signals') renderSignals();
+  if(currentPage === 'alerts') { renderPresets(); renderAlerts(); renderHistory(); }
+}
+
+function openLangModal() {
+  const grid = document.getElementById('langGrid');
+  if(grid) {
+    grid.innerHTML = Object.entries(LANGS).map(([code, l]) => `
+      <div class="lang-opt ${code===currentLang?'active':''}" onclick="applyLang('${code}')">
+        <div class="lang-flag">${l.flag}</div>
+        <div>
+          <div class="lang-name">${l.name}</div>
+          <div class="lang-native">${l.native}</div>
+        </div>
+        <div class="lang-check">✓</div>
+      </div>
+    `).join('');
+  }
+  const title = document.getElementById('langModalTitle');
+  if(title) title.textContent = T.language || 'Choose Language';
+  document.getElementById('langModal').classList.add('show');
+}
+function closeLangModal() { document.getElementById('langModal').classList.remove('show'); }
+
+// ════════════════════════════════════
+// SHARE SYSTEM
+// ════════════════════════════════════
+const APP_URL = 'https://momento-app-indol.vercel.app';
+const SHARE_TEXT = 'Check out Momento — AI financial intelligence for better trading & payment timing 🚀';
+
+function openShareModal() {
+  document.getElementById('shareModal').classList.add('show');
+}
+function closeShareModal() { document.getElementById('shareModal').classList.remove('show'); }
+
+function shareApp(platform) {
+  const url = encodeURIComponent(APP_URL);
+  const text = encodeURIComponent(SHARE_TEXT);
+  let shareUrl = '';
+  
+  switch(platform) {
+    case 'whatsapp':
+      shareUrl = `https://wa.me/?text=${text}%20${url}`;
+      window.open(shareUrl, '_blank');
+      break;
+    case 'telegram':
+      shareUrl = `https://t.me/share/url?url=${url}&text=${text}`;
+      window.open(shareUrl, '_blank');
+      break;
+    case 'twitter':
+      shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+      window.open(shareUrl, '_blank');
+      break;
+    case 'copy':
+      if(navigator.clipboard) {
+        navigator.clipboard.writeText(APP_URL).then(() => {
+          toast(T.linkCopied || 'Link copied! 🔗', 'success');
+        });
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = APP_URL;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        toast(T.linkCopied || 'Link copied! 🔗', 'success');
+      }
+      closeShareModal();
+      return;
+  }
+  closeShareModal();
+}
+
+// Native share if available
+function nativeShare() {
+  if(navigator.share) {
+    navigator.share({title:'Momento',text:SHARE_TEXT,url:APP_URL});
+  } else {
+    openShareModal();
+  }
+}
+
+// ════════════════════════════════════
+// PRICE ALERT BANNERS (HOME)
+// ════════════════════════════════════
+const PRICE_MOVEMENTS = [
+  {pair:'BTC/USD', key:'BTC', threshold:1.5, msgUp:'Breaking resistance!', msgDn:'Testing support'},
+  {pair:'USD/JPY', key:'USDJPY', threshold:0.3, msgUp:'JPY weakening — pay later', msgDn:'JPY strengthening — pay now!'},
+  {pair:'XAU/USD', key:'GOLD', threshold:0.4, msgUp:'Gold surging!', msgDn:'Gold pulling back'},
+  {pair:'GBP/USD', key:'GBPUSD', threshold:0.2, msgUp:'GBP rising — avoid paying', msgDn:'GBP falling — good time'},
+];
+
+let lastBannerIdx = 0;
+function updatePriceAlertBanner() {
+  const el = document.getElementById('priceAlertBanner');
+  if(!el || currentPage !== 'home') return;
+  
+  lastBannerIdx = (lastBannerIdx + 1) % PRICE_MOVEMENTS.length;
+  const pm = PRICE_MOVEMENTS[lastBannerIdx];
+  const chg = CH[pm.key] || 0;
+  const up = chg >= 0;
+  const bigMove = Math.abs(chg) >= pm.threshold;
+  
+  if(!bigMove) { el.innerHTML = ''; return; }
+  
+  el.innerHTML = `
+    <div class="price-alert-banner ${up?'up':'dn'}" onclick="goPage('signals')">
+      <div class="pab-ico">${up?'📈':'📉'}</div>
+      <div class="pab-info">
+        <div class="pab-pair">${pm.pair}</div>
+        <div class="pab-msg ${up?'up':'dn'}">${up?pm.msgUp:pm.msgDn}</div>
+      </div>
+      <div class="pab-price ${up?'up':'dn'}">${up?'+':''}${chg}%</div>
+    </div>`;
+}
+setInterval(updatePriceAlertBanner, 5000);
+
+
+// ════════════════════════════════════
+// DARK / LIGHT MODE
+// ════════════════════════════════════
+let isDark = localStorage.getItem('momento_dark') !== 'false';
+
+function applyDarkMode(dark) {
+  isDark = dark;
+  localStorage.setItem('momento_dark', dark);
+  document.body.classList.toggle('light-mode', !dark);
+  const tog = document.getElementById('darkTog');
+  if(tog) tog.className = 'tog' + (dark ? ' on' : '');
+  const s = document.getElementById('darkModeS');
+  if(s) s.textContent = dark ? 'Dark' : 'Light';
+}
+
+function toggleDarkMode(el) {
+  applyDarkMode(!isDark);
+}
+
+// Apply on load
+applyDarkMode(isDark);
+
+// ════════════════════════════════════
+// INIT LANGUAGE ON LOAD
+// ════════════════════════════════════
+setTimeout(() => {
+  applyLang(currentLang);
+}, 100);
+
 </script>
 
 </body>
