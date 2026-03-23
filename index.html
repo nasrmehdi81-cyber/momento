@@ -29,8 +29,8 @@ max-width:480px;margin:0 auto;min-height:100vh;overflow-x:hidden;
 }
 body::before{
 content:’’;position:fixed;inset:0;
-background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,212,170,.012) 2px,rgba(0,212,170,.012) 4px);
-pointer-events:none;z-index:9997;
+background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,212,170,.008) 2px,rgba(0,212,170,.008) 4px);
+pointer-events:none;z-index:2;
 }
 
 /* ══ PAGES ══ */
@@ -48,15 +48,16 @@ background:linear-gradient(90deg,#020810,#040d1a,#020810);
 border-bottom:1px solid rgba(0,212,170,.12);
 height:52px;display:flex;align-items:stretch;
 position:fixed;top:0;left:50%;transform:translateX(-50%);
-width:100%;max-width:480px;z-index:1000;
+width:100%;max-width:480px;z-index:9990;
+isolation:isolate;
 }
 .status-bar.hidden{display:none;}
-.sb-left{display:flex;align-items:center;padding:0 14px;gap:8px;border-right:1px solid rgba(0,212,170,.08);}
-.sb-logo{font-family:‘Syne’,sans-serif;font-size:18px;font-weight:800;background:var(–grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.sb-dot{width:6px;height:6px;border-radius:50%;background:var(–green);box-shadow:0 0 8px var(–green);animation:blink 2s infinite;}
+.sb-left{display:flex;align-items:center;padding:0 14px;gap:8px;border-right:1px solid rgba(0,212,170,.08);flex-shrink:0;}
+.sb-logo{font-family:‘Syne’,sans-serif;font-size:18px;font-weight:800;background:var(–grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1px;}
+.sb-dot{width:6px;height:6px;border-radius:50%;background:var(–green);box-shadow:0 0 8px var(–green);animation:blink 2s infinite;flex-shrink:0;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.4;}}
-.sb-center{flex:1;overflow:hidden;display:flex;align-items:center;}
-.sb-ticker{display:flex;gap:0;animation:tickScroll 7s linear infinite;white-space:nowrap;}
+.sb-center{flex:1;overflow:hidden;display:flex;align-items:center;min-width:0;}
+.sb-ticker{display:flex;gap:0;animation:tickScroll 7s linear infinite;white-space:nowrap;will-change:transform;}
 @keyframes tickScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 .sb-tick{display:inline-flex;align-items:center;gap:4px;padding:0 11px;border-right:1px solid rgba(0,212,170,.06);height:52px;}
 .sbt-name{font-family:‘JetBrains Mono’,monospace;font-size:9px;color:var(–white3);}
@@ -64,7 +65,7 @@ width:100%;max-width:480px;z-index:1000;
 .sbt-chg{font-family:‘JetBrains Mono’,monospace;font-size:9px;padding:1px 3px;border-radius:2px;}
 .sbt-up{color:var(–green);background:rgba(0,212,170,.1);}
 .sbt-dn{color:var(–red);background:rgba(255,61,87,.1);}
-.sb-right{display:flex;align-items:center;padding:0 12px;gap:8px;border-left:1px solid rgba(0,212,170,.08);}
+.sb-right{display:flex;align-items:center;padding:0 12px;gap:8px;border-left:1px solid rgba(0,212,170,.08);flex-shrink:0;}
 .sb-time{font-family:‘JetBrains Mono’,monospace;font-size:10px;color:var(–green);}
 .sb-page-label{font-family:‘JetBrains Mono’,monospace;font-size:9px;color:var(–white3);letter-spacing:2px;}
 
@@ -75,7 +76,8 @@ BOTTOM NAV
 position:fixed;bottom:0;left:50%;transform:translateX(-50%);
 width:100%;max-width:480px;height:64px;
 background:rgba(4,13,26,.97);border-top:1px solid rgba(0,212,170,.15);
-display:flex;align-items:center;z-index:1000;
+display:flex;align-items:center;z-index:9990;
+isolation:isolate;
 }
 .bot-nav.hidden{display:none;}
 .bot-nav::before{
@@ -85,10 +87,21 @@ background:linear-gradient(90deg,transparent,rgba(0,212,170,.4),rgba(26,111,212,
 .bn{
 flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
 gap:3px;cursor:pointer;padding:6px 4px;border:none;background:none;position:relative;
+-webkit-tap-highlight-color:transparent;
 }
-.bn-ico svg{width:21px;height:21px;fill:none;stroke:var(–white3);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s;}
-.bn-lbl{font-family:‘JetBrains Mono’,monospace;font-size:10px;color:var(–white3);font-weight:600;transition:color .2s;}
-.bn.active .bn-ico svg{stroke:var(–green);}
+.bn-ico{width:22px;height:22px;display:flex;align-items:center;justify-content:center;}
+.bn-ico svg{
+width:21px;height:21px;
+fill:none !important;
+stroke:var(–white3);
+stroke-width:1.8;
+stroke-linecap:round;
+stroke-linejoin:round;
+transition:stroke .2s;
+display:block;
+}
+.bn-lbl{font-family:‘JetBrains Mono’,monospace;font-size:10px;color:var(–white3);font-weight:600;transition:color .2s;letter-spacing:.3px;}
+.bn.active .bn-ico svg{stroke:var(–green) !important;}
 .bn.active .bn-lbl{color:var(–green);}
 .bn-badge{
 position:absolute;top:4px;right:50%;margin-right:-18px;
@@ -226,7 +239,7 @@ cursor:pointer;font-family:‘Space Grotesk’,sans-serif;
 background:rgba(26,111,212,.08);border-bottom:1px solid rgba(26,111,212,.15);
 height:24px;display:flex;align-items:center;overflow:hidden;
 position:fixed;top:52px;left:50%;transform:translateX(-50%);
-width:100%;max-width:480px;z-index:999;
+width:100%;max-width:480px;z-index:8999;
 }
 .news-crawl.hidden{display:none;}
 .nc-tag{
@@ -756,25 +769,25 @@ animation:alertPulse 3s ease infinite;
 
 <div class="bot-nav hidden" id="botNav">
   <button class="bn" id="bn-home" onclick="goPage('home')">
-    <div class="bn-ico"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+    <div class="bn-ico"><svg width="21" height="21" fill="none" stroke="#3a6080" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
     <div class="bn-lbl">HOME</div>
   </button>
   <button class="bn" id="bn-calendar" onclick="goPage('calendar')">
-    <div class="bn-ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+    <div class="bn-ico"><svg width="21" height="21" fill="none" stroke="#3a6080" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
     <div class="bn-lbl">CALENDAR</div>
   </button>
   <button class="bn" id="bn-signals" onclick="goPage('signals')">
-    <div class="bn-ico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+    <div class="bn-ico"><svg width="21" height="21" fill="none" stroke="#3a6080" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
     <div class="bn-lbl">SIGNALS</div>
     <div class="bn-badge show" id="sigsBadge">8</div>
   </button>
   <button class="bn" id="bn-alerts" onclick="goPage('alerts')">
-    <div class="bn-ico"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+    <div class="bn-ico"><svg width="21" height="21" fill="none" stroke="#3a6080" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
     <div class="bn-lbl">ALERTS</div>
     <div class="bn-badge" id="alertsBadge">0</div>
   </button>
   <button class="bn" id="bn-profile" onclick="goPage('profile')">
-    <div class="bn-ico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+    <div class="bn-ico"><svg width="21" height="21" fill="none" stroke="#3a6080" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
     <div class="bn-lbl">PROFILE</div>
   </button>
 </div>
@@ -1263,10 +1276,18 @@ function goPage(name){
   // hide all
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
-  // nav active
-  document.querySelectorAll('.bn').forEach(b=>b.classList.remove('active'));
+  // nav active — reset all SVG strokes
+  document.querySelectorAll('.bn').forEach(b=>{
+    b.classList.remove('active');
+    const svg=b.querySelector('svg');
+    if(svg)svg.setAttribute('stroke','#3a6080');
+  });
   const bn=document.getElementById('bn-'+name);
-  if(bn)bn.classList.add('active');
+  if(bn){
+    bn.classList.add('active');
+    const svg=bn.querySelector('svg');
+    if(svg)svg.setAttribute('stroke','#00d4aa');
+  }
   // status bar label
   document.getElementById('sbPageLabel').textContent=PAGE_LABELS[name]||name.toUpperCase();
   // news crawl only on home
