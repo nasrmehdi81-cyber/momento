@@ -1,0 +1,20 @@
+// Momento Service Worker — Push Notifications
+self.addEventListener(‘install’, e => self.skipWaiting());
+self.addEventListener(‘activate’, e => e.waitUntil(self.clients.claim()));
+
+self.addEventListener(‘push’, e => {
+const data = e.data ? e.data.json() : {title:‘Momento Alert’,body:‘Price target reached!’};
+e.waitUntil(
+self.registration.showNotification(data.title, {
+body: data.body,
+tag: ‘momento-alert’,
+requireInteraction: true,
+vibrate: [200, 100, 200]
+})
+);
+});
+
+self.addEventListener(‘notificationclick’, e => {
+e.notification.close();
+e.waitUntil(clients.openWindow(’/’));
+});
