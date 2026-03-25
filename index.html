@@ -849,6 +849,38 @@ body.light-mode .set-s,body.light-mode .prof-bio,body.light-mode .prof-email,bod
 body.light-mode .sb-time{color:#00a86b;}
 body.light-mode .about-stat,body.light-mode .ps,body.light-mode .sc-lv,body.light-mode .factor{background:rgba(255,255,255,.8);border-color:rgba(0,0,0,.08);}
 body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4);}
+
+/* ══ DISCLAIMER BAR ══ */
+.disclaimer-bar{
+position:fixed;bottom:64px;left:50%;transform:translateX(-50%);
+width:100%;max-width:480px;
+background:rgba(247,195,95,.08);
+border-top:1px solid rgba(247,195,95,.15);
+padding:6px 14px;
+display:flex;align-items:center;gap:8px;
+font-size:10px;color:#f7c35f;
+font-family:‘JetBrains Mono’,monospace;
+z-index:100;
+line-height:1.4;
+}
+.disclaimer-bar.hidden{display:none;}
+.disclaimer-ico{font-size:12px;flex-shrink:0;}
+
+/* ══ DATA SOURCE BADGE ══ */
+.data-source-badge{
+display:flex;align-items:center;gap:6px;
+padding:6px 14px;
+background:rgba(26,111,212,.06);
+border-bottom:1px solid rgba(26,111,212,.1);
+font-family:‘JetBrains Mono’,monospace;
+font-size:9px;color:#3a6080;
+letter-spacing:.5px;
+}
+.ds-dot{
+width:5px;height:5px;border-radius:50%;
+background:#00d4aa;animation:blink 1.5s infinite;
+flex-shrink:0;
+}
 </style>
 
 </head>
@@ -883,6 +915,13 @@ body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4)
     </div>
     <div style="height:8px"></div>
   </div>
+</div>
+
+<!-- DISCLAIMER BAR -->
+
+<div class="disclaimer-bar">
+  <span class="disclaimer-ico">⚠️</span>
+  <span>This is not financial advice. Always do your own research before making financial decisions.</span>
 </div>
 
 <div class="toast-wrap" id="tw"></div>
@@ -988,7 +1027,7 @@ body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4)
   </div>
   <div class="ob1-bottom">
     <div class="ob-progress"><div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
-    <button class="ob-cta" onclick="obNext()">Get Started Free ⚡</button>
+    <button class="ob-cta" onclick="obNext()">Try Momento Free — No Credit Card ⚡</button>
     <div class="ob-signin">Already have an account? <a onclick="obFinish()">Sign In</a></div>
   </div>
 </div>
@@ -1018,7 +1057,7 @@ body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4)
   <div class="ob3-content">
     <div class="ob3-icon">🚀</div>
     <div class="ob3-title">Get <span>Pro Free</span><br>Forever</div>
-    <div class="ob3-sub">Start with 14 days free. Then keep Pro forever by opening a trading account through Momento.</div>
+    <div class="ob3-sub">Open a partner trading account and get Pro included — or subscribe directly for full access.</div>
     <div class="ob3-options">
       <div class="ob3-opt hot" onclick="toast('Opening Binance... Pro activates after signup! 🎉','success')">
         <div class="ob3-opt-ico" style="background:rgba(240,185,11,.08)">₿</div>
@@ -1056,6 +1095,11 @@ body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4)
 
 <div class="page" id="page-home">
   <!-- MARKET PULSE -->
+  <div class="data-source-badge">
+  <span class="ds-dot"></span>
+  <span>Live data from Binance API</span>
+  <span class="last-updated" style="margin-left:auto;opacity:.6">Updating...</span>
+</div>
   <div class="pulse-section">
     <div class="pulse-header">
       <div class="pulse-title">⚡ Market Pulse</div>
@@ -1340,7 +1384,7 @@ body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4)
   </div>
   <div class="prof-info">
     <div class="prof-name">Van</div>
-    <div class="prof-email">user@momento.app</div>
+    <div class="prof-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ff8a8c9a8dbf9290929a918b90d19e8f8f">[email&#160;protected]</a></div>
     <div class="prof-bio">Trader & Importer · Tokyo, Japan 🇯🇵<br>Using Momento for USD/JPY payment timing</div>
     <div class="prof-stats">
       <div class="ps"><div class="ps-v">0</div><div class="ps-l">POSTS</div></div>
@@ -1350,16 +1394,16 @@ body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4)
     </div>
   </div>
   <div class="trial-banner" onclick="toast('Upgrade options — coming soon! 💳')">
-    <div class="tb-left"><div class="tb-title" id="trialTitle">✦ Pro Trial Active</div><div class="tb-sub" id="trialSub">Keep Pro free by opening a trading account</div></div>
+    <div class="tb-left"><div class="tb-title" id="trialTitle">✦ Pro Trial Active</div><div class="tb-sub" id="trialSub">Open a partner account to extend your Pro access</div></div>
     <div class="tb-days" id="trialBadge">14 DAYS LEFT</div>
   </div>
   <div class="aff-section">
-    <div class="aff-title" id="affTitle">🚀 Get Pro Free Forever</div>
-    <div class="aff-sub" id="affSub">Open a trading account through Momento = Pro for life. No monthly fees.</div>
+    <div class="aff-title" id="affTitle">🚀 Unlock Momento Pro</div>
+    <div class="aff-sub" id="affSub">Open a trading account through our trusted partners and get Pro included — or subscribe directly.</div>
     <div class="aff-options">
-      <div class="aff-opt hot" onclick="toast('Opening Binance! Pro activates after signup 🎉','success')"><div class="aff-opt-ico">₿</div><div class="aff-opt-info"><div class="aff-opt-name">Binance</div><div class="aff-opt-desc">Crypto · World's largest exchange</div></div><div class="aff-badge">FREE ∞</div></div>
-      <div class="aff-opt hot" onclick="toast('Opening eToro! 🎉','success')"><div class="aff-opt-ico">🌐</div><div class="aff-opt-info"><div class="aff-opt-name">eToro</div><div class="aff-opt-desc">Stocks · Forex · Copy trading</div></div><div class="aff-badge">FREE ∞</div></div>
-      <div class="aff-opt" onclick="toast('Opening XM! 🎉','success')"><div class="aff-opt-ico">🔴</div><div class="aff-opt-info"><div class="aff-opt-name">XM Group</div><div class="aff-opt-desc">Forex & CFD · 0 pip spreads</div></div><div class="aff-badge">FREE ∞</div></div>
+      <div class="aff-opt hot" onclick="toast('Opening Binance! Pro activates after signup 🎉','success')"><div class="aff-opt-ico">₿</div><div class="aff-opt-info"><div class="aff-opt-name">Binance</div><div class="aff-opt-desc">Crypto · World's largest exchange</div></div><div class="aff-badge">UNLOCK PRO</div></div>
+      <div class="aff-opt hot" onclick="toast('Opening eToro! 🎉','success')"><div class="aff-opt-ico">🌐</div><div class="aff-opt-info"><div class="aff-opt-name">eToro</div><div class="aff-opt-desc">Stocks · Forex · Copy trading</div></div><div class="aff-badge">UNLOCK PRO</div></div>
+      <div class="aff-opt" onclick="toast('Opening XM! 🎉','success')"><div class="aff-opt-ico">🔴</div><div class="aff-opt-info"><div class="aff-opt-name">XM Group</div><div class="aff-opt-desc">Forex & CFD · 0 pip spreads</div></div><div class="aff-badge">UNLOCK PRO</div></div>
     </div>
   </div>
   <div class="settings-card">
@@ -1447,7 +1491,7 @@ body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4)
       <div class="about-card-title">📬 Contact Us</div>
       <div class="about-card-txt">
         Have questions or feedback?<br>
-        <span style="color:#00d4aa">support@momento.app</span><br><br>
+        <span style="color:#00d4aa"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ff8c8a8f8f908d8bbf9290929a918b90d19e8f8f">[email&#160;protected]</a></span><br><br>
         Follow us for market updates and tips.
       </div>
     </div>
@@ -1459,93 +1503,94 @@ body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4)
      JAVASCRIPT — UNIFIED APP
 ══════════════════════════════════════════ -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
 // ════════════════════════════════════
 // MARKET DATA
 // ════════════════════════════════════
 const PR={BTC:67420,ETH:3512,SOL:142.3,XRP:.61,USDJPY:149.82,EURUSD:1.0821,GBPUSD:1.2634,AUDUSD:.6524,USDCAD:1.3612,GOLD:2318,SILVER:27.4,OIL:78.42,SPX:5234,NDX:18420,BNB:412};
 const CH={BTC:+2.14,ETH:+1.87,SOL:+3.21,XRP:+4.12,USDJPY:+.34,EURUSD:-.12,GBPUSD:-.08,AUDUSD:-.15,USDCAD:+.08,GOLD:+.45,SILVER:+.88,OIL:-.67,SPX:+.23,NDX:+.31,BNB:+1.05};
-const NAMES={BTC:'Bitcoin',ETH:'Ethereum',SOL:'Solana',XRP:'XRP',USDJPY:'USD/JPY',EURUSD:'EUR/USD',GBPUSD:'GBP/USD',GOLD:'Gold',SILVER:'Silver',OIL:'WTI Oil',SPX:'S&P 500',NDX:'Nasdaq 100',BNB:'BNB',AUDUSD:'AUD/USD',USDCAD:'USD/CAD'};
-const ICONS={BTC:'₿',ETH:'Ξ',SOL:'◎',XRP:'✕',USDJPY:'¥',EURUSD:'€',GBPUSD:'£',GOLD:'⬡',SILVER:'◈',OIL:'⬟',SPX:'📈',NDX:'💻',BNB:'◆',AUDUSD:'A$',USDCAD:'C$'};
-const TICKS=[{n:'BTC',k:'BTC'},{n:'ETH',k:'ETH'},{n:'USD/JPY',k:'USDJPY'},{n:'EUR/USD',k:'EURUSD'},{n:'GBP/USD',k:'GBPUSD'},{n:'GOLD',k:'GOLD'},{n:'WTI',k:'OIL'},{n:'S&P',k:'SPX'},{n:'SOL',k:'SOL'}];
+const NAMES={BTC:‘Bitcoin’,ETH:‘Ethereum’,SOL:‘Solana’,XRP:‘XRP’,USDJPY:‘USD/JPY’,EURUSD:‘EUR/USD’,GBPUSD:‘GBP/USD’,GOLD:‘Gold’,SILVER:‘Silver’,OIL:‘WTI Oil’,SPX:‘S&P 500’,NDX:‘Nasdaq 100’,BNB:‘BNB’,AUDUSD:‘AUD/USD’,USDCAD:‘USD/CAD’};
+const ICONS={BTC:‘₿’,ETH:‘Ξ’,SOL:‘◎’,XRP:‘✕’,USDJPY:‘¥’,EURUSD:‘€’,GBPUSD:‘£’,GOLD:‘⬡’,SILVER:‘◈’,OIL:‘⬟’,SPX:‘📈’,NDX:‘💻’,BNB:‘◆’,AUDUSD:‘A$’,USDCAD:‘C$’};
+const TICKS=[{n:‘BTC’,k:‘BTC’},{n:‘ETH’,k:‘ETH’},{n:‘USD/JPY’,k:‘USDJPY’},{n:‘EUR/USD’,k:‘EURUSD’},{n:‘GBP/USD’,k:‘GBPUSD’},{n:‘GOLD’,k:‘GOLD’},{n:‘WTI’,k:‘OIL’},{n:‘S&P’,k:‘SPX’},{n:‘SOL’,k:‘SOL’}];
 
-function fmt(p){if(p>=10000)return p.toLocaleString('en',{maximumFractionDigits:0});if(p>=100)return p.toFixed(2);return p.toFixed(4);}
-function fmtShort(p){if(p>=10000)return '$'+Math.round(p/1000)+'K';if(p>=100)return '$'+p.toFixed(0);return p.toFixed(4);}
+function fmt(p){if(p>=10000)return p.toLocaleString(‘en’,{maximumFractionDigits:0});if(p>=100)return p.toFixed(2);return p.toFixed(4);}
+function fmtShort(p){if(p>=10000)return ‘$’+Math.round(p/1000)+‘K’;if(p>=100)return ‘$’+p.toFixed(0);return p.toFixed(4);}
 
 // ════════════════════════════════════
 // PAGE NAVIGATION
 // ════════════════════════════════════
-let currentPage='onboard';
-const PAGE_LABELS={home:'HOME',calendar:'CALENDAR',signals:'SIGNALS',alerts:'ALERTS',profile:'PROFILE',about:'ABOUT'};
+let currentPage=‘onboard’;
+const PAGE_LABELS={home:‘HOME’,calendar:‘CALENDAR’,signals:‘SIGNALS’,alerts:‘ALERTS’,profile:‘PROFILE’,about:‘ABOUT’};
 
 function goPage(name){
-  // hide all
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  // nav active — reset all SVG strokes
-  document.querySelectorAll('.bn').forEach(b=>{
-    b.classList.remove('active');
-    const svg=b.querySelector('svg');
-    if(svg)svg.setAttribute('stroke','#3a6080');
-  });
-  const bn=document.getElementById('bn-'+name);
-  if(bn){
-    bn.classList.add('active');
-    const svg=bn.querySelector('svg');
-    if(svg)svg.setAttribute('stroke','#00d4aa');
-  }
-  // status bar label
-  document.getElementById('sbPageLabel').textContent=PAGE_LABELS[name]||name.toUpperCase();
-  // news crawl only on home
-  document.getElementById('newsCrawl').classList.toggle('hidden',name!=='home');
-  // top padding for home (extra crawl bar)
-  document.getElementById('page-home').style.paddingTop=name==='home'?'76px':'52px';
-  currentPage=name;
-  // page-specific init
-  if(name==='calendar'){initCalendarPage();}
-  if(name==='signals'){renderSignals();renderLiveAlerts();}
-  if(name==='alerts'){updateAlertCurrentPrice();renderAlerts();renderHistory();}
-  if(name==='home'){renderHome();}
-  // scroll to top
-  window.scrollTo(0,0);
+// hide all
+document.querySelectorAll(’.page’).forEach(p=>p.classList.remove(‘active’));
+document.getElementById(‘page-’+name).classList.add(‘active’);
+// nav active — reset all SVG strokes
+document.querySelectorAll(’.bn’).forEach(b=>{
+b.classList.remove(‘active’);
+const svg=b.querySelector(‘svg’);
+if(svg)svg.setAttribute(‘stroke’,’#3a6080’);
+});
+const bn=document.getElementById(‘bn-’+name);
+if(bn){
+bn.classList.add(‘active’);
+const svg=bn.querySelector(‘svg’);
+if(svg)svg.setAttribute(‘stroke’,’#00d4aa’);
+}
+// status bar label
+document.getElementById(‘sbPageLabel’).textContent=PAGE_LABELS[name]||name.toUpperCase();
+// news crawl only on home
+document.getElementById(‘newsCrawl’).classList.toggle(‘hidden’,name!==‘home’);
+// top padding for home (extra crawl bar)
+document.getElementById(‘page-home’).style.paddingTop=name===‘home’?‘76px’:‘52px’;
+currentPage=name;
+// page-specific init
+if(name===‘calendar’){initCalendarPage();}
+if(name===‘signals’){renderSignals();renderLiveAlerts();}
+if(name===‘alerts’){updateAlertCurrentPrice();renderAlerts();renderHistory();}
+if(name===‘home’){renderHome();}
+// scroll to top
+window.scrollTo(0,0);
 }
 
 function showAppUI(){
-  document.getElementById('statusBar').classList.remove('hidden');
-  document.getElementById('botNav').classList.remove('hidden');
-  goPage('home');
+document.getElementById(‘statusBar’).classList.remove(‘hidden’);
+document.getElementById(‘botNav’).classList.remove(‘hidden’);
+goPage(‘home’);
 }
 
 // ════════════════════════════════════
 // CLOCK + TICKER
 // ════════════════════════════════════
 function updateClock(){
-  const n=new Date();
-  const el=document.getElementById('sbTime');
-  if(el)el.textContent=`${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`;
+const n=new Date();
+const el=document.getElementById(‘sbTime’);
+if(el)el.textContent=`${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`;
 }
 setInterval(updateClock,1000);updateClock();
 
 function renderTicker(){
-  const items=[...TICKS,...TICKS,...TICKS];
-  const el=document.getElementById('sbTicker');
-  if(!el)return;
-  el.innerHTML=items.map(t=>{
-    const c=CH[t.k]||0,up=c>=0;
-    return `<div class="sb-tick"><span class="sbt-name">${t.n}</span><span class="sbt-price"> ${fmt(PR[t.k])}</span><span class="sbt-chg ${up?'sbt-up':'sbt-dn'}"> ${up?'▲':'▼'}${Math.abs(c)}%</span></div>`;
-  }).join('');
+const items=[…TICKS,…TICKS,…TICKS];
+const el=document.getElementById(‘sbTicker’);
+if(!el)return;
+el.innerHTML=items.map(t=>{
+const c=CH[t.k]||0,up=c>=0;
+return `<div class="sb-tick"><span class="sbt-name">${t.n}</span><span class="sbt-price"> ${fmt(PR[t.k])}</span><span class="sbt-chg ${up?'sbt-up':'sbt-dn'}"> ${up?'▲':'▼'}${Math.abs(c)}%</span></div>`;
+}).join(’’);
 }
 
 // price ticking
 setInterval(()=>{
-  Object.keys(PR).forEach(k=>{
-    PR[k]*=(1+(Math.random()*.003-.0015));
-    PR[k]=parseFloat(PR[k].toFixed(PR[k]>1000?0:PR[k]>10?2:4));
-  });
-  renderTicker();
-  if(currentPage==='home')updatePricesGrid();
-  if(currentPage==='alerts'){checkAlerts();updateAlertCurrentPrice();}
-  if(currentPage==='calendar'){const el=document.getElementById('sigPairPrice');if(el&&PR[selCurr])el.textContent=fmt(PR[selCurr]);}
+Object.keys(PR).forEach(k=>{
+PR[k]*=(1+(Math.random()*.003-.0015));
+PR[k]=parseFloat(PR[k].toFixed(PR[k]>1000?0:PR[k]>10?2:4));
+});
+renderTicker();
+if(currentPage===‘home’)updatePricesGrid();
+if(currentPage===‘alerts’){checkAlerts();updateAlertCurrentPrice();}
+if(currentPage===‘calendar’){const el=document.getElementById(‘sigPairPrice’);if(el&&PR[selCurr])el.textContent=fmt(PR[selCurr]);}
 },1500);
 
 // ════════════════════════════════════
@@ -1553,182 +1598,135 @@ setInterval(()=>{
 // ════════════════════════════════════
 let obSlide=0;
 function obNext(){
-  if(obSlide<2){
-    obSlide++;
-    document.getElementById('obSlides').style.transform=`translateX(-${obSlide*33.333}%)`;
-  }
+if(obSlide<2){
+obSlide++;
+document.getElementById(‘obSlides’).style.transform=`translateX(-${obSlide*33.333}%)`;
+}
 }
 function obFinish(){
-  const ob=document.getElementById('page-onboard');
-  ob.style.opacity='0';ob.style.transition='opacity .4s';
-  setTimeout(()=>{ob.style.display='none';showAppUI();},400);
+const ob=document.getElementById(‘page-onboard’);
+ob.style.opacity=‘0’;ob.style.transition=‘opacity .4s’;
+setTimeout(()=>{ob.style.display=‘none’;showAppUI();},400);
 }
 // particles
 (function(){
-  const c=document.getElementById('particles');
-  if(!c)return;
-  const cols=['rgba(0,212,170,.5)','rgba(26,111,212,.4)','rgba(0,255,157,.4)'];
-  for(let i=0;i<18;i++){
-    const p=document.createElement('div');
-    const sz=Math.random()*3+1.5;
-    p.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:${cols[Math.floor(Math.random()*cols.length)]};left:${Math.random()*100}%;animation:pFloat ${Math.random()*8+5}s linear ${Math.random()*6}s infinite;`;
-    c.appendChild(p);
-  }
+const c=document.getElementById(‘particles’);
+if(!c)return;
+const cols=[‘rgba(0,212,170,.5)’,‘rgba(26,111,212,.4)’,‘rgba(0,255,157,.4)’];
+for(let i=0;i<18;i++){
+const p=document.createElement(‘div’);
+const sz=Math.random()*3+1.5;
+p.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:${cols[Math.floor(Math.random()*cols.length)]};left:${Math.random()*100}%;animation:pFloat ${Math.random()*8+5}s linear ${Math.random()*6}s infinite;`;
+c.appendChild(p);
+}
 })();
 
 // ════════════════════════════════════
 // HOME PAGE
 // ════════════════════════════════════
-const NEWS_ITEMS=['Fed signals cautious rate path · No cuts until inflation at 2%','BTC breaks $67,500 resistance · Analysts target $71K next','BOJ policy shift approaching · JPY may strengthen sharply','Gold hits record on geopolitical tensions · $2,350 target','OPEC+ extends cuts through Q2 · WTI holds $78 support','S&P 500 near all-time highs · Tech earnings beat estimates','ECB meeting Thursday · EUR/USD volatility expected'];
+const NEWS_ITEMS=[‘Fed signals cautious rate path · No cuts until inflation at 2%’,‘BTC breaks $67,500 resistance · Analysts target $71K next’,‘BOJ policy shift approaching · JPY may strengthen sharply’,‘Gold hits record on geopolitical tensions · $2,350 target’,‘OPEC+ extends cuts through Q2 · WTI holds $78 support’,‘S&P 500 near all-time highs · Tech earnings beat estimates’,‘ECB meeting Thursday · EUR/USD volatility expected’];
 const PULSE_DATA=[
-  {pair:'BTC/USD',price:'BTC',sig:'BUY',type:'buy',conf:82},
-  {pair:'USD/JPY',price:'USDJPY',sig:'PAY NOW',type:'buy',conf:78},
-  {pair:'GOLD',price:'GOLD',sig:'LONG',type:'buy',conf:74},
+{pair:‘BTC/USD’,price:‘BTC’,sig:‘BUY’,type:‘buy’,conf:82},
+{pair:‘USD/JPY’,price:‘USDJPY’,sig:‘PAY NOW’,type:‘buy’,conf:78},
+{pair:‘GOLD’,price:‘GOLD’,sig:‘LONG’,type:‘buy’,conf:74},
 ];
 const PRICE_CARDS=[
-  {name:'Bitcoin',sym:'BTC/USD',key:'BTC',ico:'₿',bg:'rgba(240,185,11,.1)',c:'#F0B90B'},
-  {name:'Ethereum',sym:'ETH/USD',key:'ETH',ico:'Ξ',bg:'rgba(98,126,234,.1)',c:'#627eea'},
-  {name:'USD/JPY',sym:'Forex',key:'USDJPY',ico:'¥',bg:'rgba(0,212,170,.08)',c:'#00d4aa'},
-  {name:'Gold',sym:'XAU/USD',key:'GOLD',ico:'⬡',bg:'rgba(255,215,0,.1)',c:'#FFD700'},
-  {name:'S&P 500',sym:'Index',key:'SPX',ico:'📈',bg:'rgba(26,111,212,.1)',c:'#1a6fd4'},
-  {name:'WTI Oil',sym:'USD/bbl',key:'OIL',ico:'⬟',bg:'rgba(120,80,40,.15)',c:'#a0856a'},
+{name:‘Bitcoin’,sym:‘BTC/USD’,key:‘BTC’,ico:‘₿’,bg:‘rgba(240,185,11,.1)’,c:’#F0B90B’},
+{name:‘Ethereum’,sym:‘ETH/USD’,key:‘ETH’,ico:‘Ξ’,bg:‘rgba(98,126,234,.1)’,c:’#627eea’},
+{name:‘USD/JPY’,sym:‘Forex’,key:‘USDJPY’,ico:‘¥’,bg:‘rgba(0,212,170,.08)’,c:’#00d4aa’},
+{name:‘Gold’,sym:‘XAU/USD’,key:‘GOLD’,ico:‘⬡’,bg:‘rgba(255,215,0,.1)’,c:’#FFD700’},
+{name:‘S&P 500’,sym:‘Index’,key:‘SPX’,ico:‘📈’,bg:‘rgba(26,111,212,.1)’,c:’#1a6fd4’},
+{name:‘WTI Oil’,sym:‘USD/bbl’,key:‘OIL’,ico:‘⬟’,bg:‘rgba(120,80,40,.15)’,c:’#a0856a’},
 ];
 const HOME_SIGS=[
-  {pair:'BTC/USD',type:'buy',entry:67500,tp:71000,sl:65000,rr:'1:1.4',conf:82,tf:'4H',reason:'Strong $67k support held × 3. Whale accumulation confirmed.'},
-  {pair:'USD/JPY',type:'buy',entry:149.80,tp:147.50,sl:151.20,rr:'1:1.6',conf:76,tf:'1D',reason:'BOJ shift approaching — pay suppliers before JPY surges.'},
-  {pair:'XAU/USD',type:'buy',entry:2315,tp:2380,sl:2280,rr:'1:1.8',conf:79,tf:'4H',reason:'Breaking $2,318 resistance. Geopolitics + weak USD.'},
+{pair:‘BTC/USD’,type:‘buy’,entry:67500,tp:71000,sl:65000,rr:‘1:1.4’,conf:82,tf:‘4H’,reason:‘Strong $67k support held × 3. Whale accumulation confirmed.’},
+{pair:‘USD/JPY’,type:‘buy’,entry:149.80,tp:147.50,sl:151.20,rr:‘1:1.6’,conf:76,tf:‘1D’,reason:‘BOJ shift approaching — pay suppliers before JPY surges.’},
+{pair:‘XAU/USD’,type:‘buy’,entry:2315,tp:2380,sl:2280,rr:‘1:1.8’,conf:79,tf:‘4H’,reason:‘Breaking $2,318 resistance. Geopolitics + weak USD.’},
 ];
 const FEED_POSTS=[
-  {av:'A',bg:'linear-gradient(135deg,#667eea,#764ba2)',name:'Alex Trader',handle:'@alextrader_fx',time:'2m ago',txt:'Just loaded up more BTC at $67,200. <span class="tag">#BTC</span> holding that support perfectly. This level has been tested 3 times — strong floor. Adding to my position with tight stop at 65k. 🚀',likes:47,comments:12},
-  {av:'S',bg:'linear-gradient(135deg,#f093fb,#f5576c)',name:'Sara FX',handle:'@sara_forex',time:'18m ago',txt:'USD/JPY importers — <span class="tag">#USDJPY</span> at 149.82 is a great time to pay your Japanese suppliers. BOJ meeting Thursday could push JPY stronger. Don\'t wait! The window may close.',likes:89,comments:23},
-  {av:'M',bg:'linear-gradient(135deg,#4facfe,#00f2fe)',name:'Market Mike',handle:'@marketmike',time:'45m ago',txt:'Gold breaking out 🔥 <span class="tag">#GOLD</span> at $2,318, targeting $2,350-2,380. Classic breakout with volume confirmation. Geopolitical demand + weak dollar = bullish setup. Long since $2,290.',likes:134,comments:38},
+{av:‘A’,bg:‘linear-gradient(135deg,#667eea,#764ba2)’,name:‘Alex Trader’,handle:’@alextrader_fx’,time:‘2m ago’,txt:‘Just loaded up more BTC at $67,200. <span class="tag">#BTC</span> holding that support perfectly. This level has been tested 3 times — strong floor. Adding to my position with tight stop at 65k. 🚀’,likes:47,comments:12},
+{av:‘S’,bg:‘linear-gradient(135deg,#f093fb,#f5576c)’,name:‘Sara FX’,handle:’@sara_forex’,time:‘18m ago’,txt:‘USD/JPY importers — <span class="tag">#USDJPY</span> at 149.82 is a great time to pay your Japanese suppliers. BOJ meeting Thursday could push JPY stronger. Don't wait! The window may close.’,likes:89,comments:23},
+{av:‘M’,bg:‘linear-gradient(135deg,#4facfe,#00f2fe)’,name:‘Market Mike’,handle:’@marketmike’,time:‘45m ago’,txt:‘Gold breaking out 🔥 <span class="tag">#GOLD</span> at $2,318, targeting $2,350-2,380. Classic breakout with volume confirmation. Geopolitical demand + weak dollar = bullish setup. Long since $2,290.’,likes:134,comments:38},
 ];
 const OPP_MSGS=[
-  {title:'⚡ <span>BTC breaking</span> $67,500 resistance right now',sub:'Signal triggered · 82% AI confidence'},
-  {title:'🎯 <span>USD/JPY opportunity</span> — pay suppliers today',sub:'BOJ meeting Thursday · rate may shift'},
-  {title:'💰 <span>Gold breakout</span> confirmed at $2,318',sub:'Geopolitical demand + weak USD · long signal'},
+{title:‘⚡ <span>BTC breaking</span> $67,500 resistance right now’,sub:‘Signal triggered · 82% AI confidence’},
+{title:‘🎯 <span>USD/JPY opportunity</span> — pay suppliers today’,sub:‘BOJ meeting Thursday · rate may shift’},
+{title:‘💰 <span>Gold breakout</span> confirmed at $2,318’,sub:‘Geopolitical demand + weak USD · long signal’},
 ];
 let oppIdx=0;
 
 function renderHome(){
-  renderTicker();
-  renderNewsCrawl();
-  renderPulseGrid();
-  updateSentiment();
-  renderPricesGrid();
-  renderSignalsPreview();
-  renderFeed();
-  rotateOpp();
+renderTicker();
+renderNewsCrawl();
+renderPulseGrid();
+updateSentiment();
+renderPricesGrid();
+renderSignalsPreview();
+renderFeed();
+rotateOpp();
 }
 
 function renderNewsCrawl(){
-  const items=[...NEWS_ITEMS,...NEWS_ITEMS];
-  const el=document.getElementById('ncInner');
-  if(el)el.innerHTML=items.map(n=>`<div class="nc-item"><div class="nc-sep">◆</div>${n}</div>`).join('');
+const items=[…NEWS_ITEMS,…NEWS_ITEMS];
+const el=document.getElementById(‘ncInner’);
+if(el)el.innerHTML=items.map(n=>`<div class="nc-item"><div class="nc-sep">◆</div>${n}</div>`).join(’’);
 }
 
 function renderPulseGrid(){
-  const el=document.getElementById('pulseGrid');
-  if(!el)return;
-  el.innerHTML=PULSE_DATA.map(d=>`
-    <div class="pulse-card ${d.type}" onclick="goPage('signals')">
-      <div class="pc-pair">${d.pair}</div>
-      <div class="pc-price">${fmt(PR[d.price])}</div>
-      <div class="pc-sig ${d.type}">${d.type==='buy'?'▲':d.type==='sell'?'▼':'◎'} ${d.sig}</div>
-      <div class="pc-conf">AI: ${d.conf}%</div>
-    </div>
-  `).join('');
+const el=document.getElementById(‘pulseGrid’);
+if(!el)return;
+el.innerHTML=PULSE_DATA.map(d=>`<div class="pulse-card ${d.type}" onclick="goPage('signals')"> <div class="pc-pair">${d.pair}</div> <div class="pc-price">${fmt(PR[d.price])}</div> <div class="pc-sig ${d.type}">${d.type==='buy'?'▲':d.type==='sell'?'▼':'◎'} ${d.sig}</div> <div class="pc-conf">AI: ${d.conf}%</div> </div>`).join(’’);
 }
 
 function updateSentiment(){
-  const v=Math.round(55+Math.random()*20);
-  const n=document.getElementById('sentNeedle'),vEl=document.getElementById('sentVal'),lEl=document.getElementById('sentLbl');
-  if(!n)return;
-  n.style.left=v+'%';
-  const col=v<40?'var(--red)':v<55?'var(--gold)':'var(--green)';
-  const label=v<40?'FEAR':v<55?'NEUTRAL':v<72?'GREED':'EXTREME GREED';
-  if(vEl){vEl.textContent=v;vEl.style.color=col;}
-  if(lEl){lEl.textContent=label;lEl.style.color=col;}
+const v=Math.round(55+Math.random()*20);
+const n=document.getElementById(‘sentNeedle’),vEl=document.getElementById(‘sentVal’),lEl=document.getElementById(‘sentLbl’);
+if(!n)return;
+n.style.left=v+’%’;
+const col=v<40?‘var(–red)’:v<55?‘var(–gold)’:‘var(–green)’;
+const label=v<40?‘FEAR’:v<55?‘NEUTRAL’:v<72?‘GREED’:‘EXTREME GREED’;
+if(vEl){vEl.textContent=v;vEl.style.color=col;}
+if(lEl){lEl.textContent=label;lEl.style.color=col;}
 }
 
 function renderPricesGrid(){
-  const el=document.getElementById('pricesGrid');
-  if(!el)return;
-  el.innerHTML=PRICE_CARDS.map(p=>{
-    const c=CH[p.key]||0,up=c>=0;
-    return `<div class="price-card" id="pc-${p.key}" onclick="toast('${p.name}: ${fmt(PR[p.key])} — ${up?'+':''}${c}% today')">
-      <div class="price-ico" style="background:${p.bg};color:${p.c}">${p.ico}</div>
-      <div class="price-info"><div class="price-name">${p.name}</div><div class="price-sym">${p.sym}</div></div>
-      <div class="price-right">
-        <div class="price-val">${fmt(PR[p.key])}</div>
-        <div class="price-chg ${up?'pup':'pdn'}">${up?'+':''}${c}%</div>
-      </div>
-    </div>`;
-  }).join('');
+const el=document.getElementById(‘pricesGrid’);
+if(!el)return;
+el.innerHTML=PRICE_CARDS.map(p=>{
+const c=CH[p.key]||0,up=c>=0;
+return `<div class="price-card" id="pc-${p.key}" onclick="toast('${p.name}: ${fmt(PR[p.key])} — ${up?'+':''}${c}% today')"> <div class="price-ico" style="background:${p.bg};color:${p.c}">${p.ico}</div> <div class="price-info"><div class="price-name">${p.name}</div><div class="price-sym">${p.sym}</div></div> <div class="price-right"> <div class="price-val">${fmt(PR[p.key])}</div> <div class="price-chg ${up?'pup':'pdn'}">${up?'+':''}${c}%</div> </div> </div>`;
+}).join(’’);
 }
 
 function updatePricesGrid(){renderPricesGrid();}
 
 function renderSignalsPreview(){
-  const el=document.getElementById('signalsPreview');
-  if(!el)return;
-  el.innerHTML=HOME_SIGS.map((s,i)=>{
-    const tl={buy:'▲ BUY',sell:'▼ SELL',watch:'◎ WATCH'}[s.type];
-    return `<div class="sig-item ${s.type}" style="animation-delay:${i*.1}s" onclick="goPage('signals')">
-      <div class="si-left">
-        <div class="si-pair">${s.pair}</div>
-        <div class="si-reason">${s.reason}</div>
-        <div class="si-meta"><span class="si-tf">${s.tf}</span><span class="si-tf">R:R ${s.rr}</span><span class="si-conf">AI ${s.conf}%</span></div>
-      </div>
-      <div class="si-right">
-        <div class="si-badge ${s.type}">${tl}</div>
-        <div class="si-levels"><span class="si-lv si-tp">TP ${fmt(s.tp)}</span><span class="si-lv si-sl">SL ${fmt(s.sl)}</span></div>
-      </div>
-    </div>`;
-  }).join('');
+const el=document.getElementById(‘signalsPreview’);
+if(!el)return;
+el.innerHTML=HOME_SIGS.map((s,i)=>{
+const tl={buy:‘▲ BUY’,sell:‘▼ SELL’,watch:‘◎ WATCH’}[s.type];
+return `<div class="sig-item ${s.type}" style="animation-delay:${i*.1}s" onclick="goPage('signals')"> <div class="si-left"> <div class="si-pair">${s.pair}</div> <div class="si-reason">${s.reason}</div> <div class="si-meta"><span class="si-tf">${s.tf}</span><span class="si-tf">R:R ${s.rr}</span><span class="si-conf">AI ${s.conf}%</span></div> </div> <div class="si-right"> <div class="si-badge ${s.type}">${tl}</div> <div class="si-levels"><span class="si-lv si-tp">TP ${fmt(s.tp)}</span><span class="si-lv si-sl">SL ${fmt(s.sl)}</span></div> </div> </div>`;
+}).join(’’);
 }
 
 let likedPosts=new Set();
 function renderFeed(){
-  const el=document.getElementById('feedEl');
-  if(!el)return;
-  el.innerHTML=FEED_POSTS.map((p,i)=>`
-    <div class="post-card" style="animation-delay:${i*.12}s">
-      <div class="post-hdr">
-        <div class="post-av" style="background:${p.bg}">${p.av}</div>
-        <div><div class="post-nm">${p.name}</div><div class="post-handle">${p.handle}</div></div>
-        <div class="post-time">${p.time}</div>
-      </div>
-      <div class="post-txt">${p.txt}</div>
-      <div class="post-actions">
-        <button class="pa ${likedPosts.has(i)?'liked':''}" onclick="toggleLike(${i},this)">
-          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          ${p.likes+(likedPosts.has(i)?1:0)}
-        </button>
-        <button class="pa" onclick="toast('Comments — coming soon! 💬')">
-          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          ${p.comments}
-        </button>
-        <button class="pa" onclick="toast('Shared! 🔗','success')">
-          <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-          Share
-        </button>
-      </div>
-    </div>
-  `).join('');
+const el=document.getElementById(‘feedEl’);
+if(!el)return;
+el.innerHTML=FEED_POSTS.map((p,i)=>`<div class="post-card" style="animation-delay:${i*.12}s"> <div class="post-hdr"> <div class="post-av" style="background:${p.bg}">${p.av}</div> <div><div class="post-nm">${p.name}</div><div class="post-handle">${p.handle}</div></div> <div class="post-time">${p.time}</div> </div> <div class="post-txt">${p.txt}</div> <div class="post-actions"> <button class="pa ${likedPosts.has(i)?'liked':''}" onclick="toggleLike(${i},this)"> <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> ${p.likes+(likedPosts.has(i)?1:0)} </button> <button class="pa" onclick="toast('Comments — coming soon! 💬')"> <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> ${p.comments} </button> <button class="pa" onclick="toast('Shared! 🔗','success')"> <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Share </button> </div> </div>`).join(’’);
 }
 
 function toggleLike(i,btn){
-  if(likedPosts.has(i)){likedPosts.delete(i);}else{likedPosts.add(i);}
-  renderFeed();
+if(likedPosts.has(i)){likedPosts.delete(i);}else{likedPosts.add(i);}
+renderFeed();
 }
 
 function rotateOpp(){
-  const t=document.getElementById('oppTitle'),s=document.getElementById('oppSub');
-  if(!t)return;
-  oppIdx=(oppIdx+1)%OPP_MSGS.length;
-  t.innerHTML=OPP_MSGS[oppIdx].title;
-  if(s)s.textContent=OPP_MSGS[oppIdx].sub;
+const t=document.getElementById(‘oppTitle’),s=document.getElementById(‘oppSub’);
+if(!t)return;
+oppIdx=(oppIdx+1)%OPP_MSGS.length;
+t.innerHTML=OPP_MSGS[oppIdx].title;
+if(s)s.textContent=OPP_MSGS[oppIdx].sub;
 }
 setInterval(rotateOpp,8000);
 setInterval(updateSentiment,15000);
@@ -1737,302 +1735,259 @@ setInterval(updateSentiment,15000);
 // CALENDAR PAGE
 // ════════════════════════════════════
 const CAL_CURRENCIES=[
-  {id:'USDJPY',l:'USD/JPY',emoji:'🇺🇸🇯🇵'},{id:'EURUSD',l:'EUR/USD',emoji:'🇪🇺🇺🇸'},
-  {id:'GBPUSD',l:'GBP/USD',emoji:'🇬🇧🇺🇸'},{id:'AUDUSD',l:'AUD/USD',emoji:'🇦🇺🇺🇸'},
-  {id:'USDCAD',l:'USD/CAD',emoji:'🇺🇸🇨🇦'},{id:'GOLD',l:'XAU/USD',emoji:'🥇'},
-  {id:'SILVER',l:'XAG/USD',emoji:'🥈'},{id:'OIL',l:'WTI/USD',emoji:'🛢️'},
-  {id:'BTC',l:'BTC/USD',emoji:'₿'},{id:'ETH',l:'ETH/USD',emoji:'Ξ'},
+{id:‘USDJPY’,l:‘USD/JPY’,emoji:‘🇺🇸🇯🇵’},{id:‘EURUSD’,l:‘EUR/USD’,emoji:‘🇪🇺🇺🇸’},
+{id:‘GBPUSD’,l:‘GBP/USD’,emoji:‘🇬🇧🇺🇸’},{id:‘AUDUSD’,l:‘AUD/USD’,emoji:‘🇦🇺🇺🇸’},
+{id:‘USDCAD’,l:‘USD/CAD’,emoji:‘🇺🇸🇨🇦’},{id:‘GOLD’,l:‘XAU/USD’,emoji:‘🥇’},
+{id:‘SILVER’,l:‘XAG/USD’,emoji:‘🥈’},{id:‘OIL’,l:‘WTI/USD’,emoji:‘🛢️’},
+{id:‘BTC’,l:‘BTC/USD’,emoji:‘₿’},{id:‘ETH’,l:‘ETH/USD’,emoji:‘Ξ’},
 ];
 const CAL_SIG={
-  USDJPY:{s:'green',a:'PAY TODAY ✓',sub:'Dollar weak vs Yen — ideal time to pay suppliers before JPY strengthens.',conf:78,f:[['BOJ POLICY','Dovish','↑ Bullish JPY','bull'],['US CPI','Cooling','↓ Bearish USD','bull'],['TREND 7D','-1.2%','↓ USD weaker','bull'],['VOLATILITY','Low','✓ Stable','bull']]},
-  EURUSD:{s:'yellow',a:'WAIT 1-2 DAYS ⚠',sub:'ECB meeting Thursday creates uncertainty. Wait before large EUR payments.',conf:55,f:[['ECB MEETING','Thursday','⚠ High risk','bear'],['EUR TREND','+0.3%','→ Neutral','neut'],['USD DXY','Stable','→ Unchanged','neut'],['VOLATILITY','Medium','⚠ Watch','bear']]},
-  GBPUSD:{s:'red',a:'DO NOT PAY ✗',sub:'GBP surging after hot UK inflation data. Wait 3-4 days.',conf:82,f:[['UK CPI','Hot!','↑ GBP surge','bear'],['BOE OUTLOOK','Hawkish','↑ Rate hike risk','bear'],['TREND 7D','+1.8%','↑ GBP strong','bear'],['VOLATILITY','HIGH','✗ Avoid','bear']]},
-  GOLD:{s:'green',a:'BUY / ACCUMULATE ✓',sub:'Gold breaking above $2,318 resistance. Geopolitical demand + weak USD.',conf:79,f:[['GEOPOLITICS','Elevated','↑ Safe haven','bull'],['USD INDEX','Weak','↑ Gold positive','bull'],['TREND 7D','+0.5%','↑ Bullish','bull'],['VOLATILITY','Medium','→ Normal','neut']]},
-  BTC:{s:'green',a:'BUY OPPORTUNITY ✓',sub:'$67k support held 3 times. On-chain data showing whale accumulation.',conf:73,f:[['WHALE DATA','Buying','↑ Accumulating','bull'],['SUPPORT','67k ×3','✓ Very strong','bull'],['TREND 7D','+2.1%','↑ Uptrend','bull'],['VOLATILITY','Med','→ Normal','neut']]},
+USDJPY:{s:‘green’,a:‘PAY TODAY ✓’,sub:‘Dollar weak vs Yen — ideal time to pay suppliers before JPY strengthens.’,conf:78,f:[[‘BOJ POLICY’,‘Dovish’,‘↑ Bullish JPY’,‘bull’],[‘US CPI’,‘Cooling’,‘↓ Bearish USD’,‘bull’],[‘TREND 7D’,’-1.2%’,‘↓ USD weaker’,‘bull’],[‘VOLATILITY’,‘Low’,‘✓ Stable’,‘bull’]]},
+EURUSD:{s:‘yellow’,a:‘WAIT 1-2 DAYS ⚠’,sub:‘ECB meeting Thursday creates uncertainty. Wait before large EUR payments.’,conf:55,f:[[‘ECB MEETING’,‘Thursday’,‘⚠ High risk’,‘bear’],[‘EUR TREND’,’+0.3%’,‘→ Neutral’,‘neut’],[‘USD DXY’,‘Stable’,‘→ Unchanged’,‘neut’],[‘VOLATILITY’,‘Medium’,‘⚠ Watch’,‘bear’]]},
+GBPUSD:{s:‘red’,a:‘DO NOT PAY ✗’,sub:‘GBP surging after hot UK inflation data. Wait 3-4 days.’,conf:82,f:[[‘UK CPI’,‘Hot!’,‘↑ GBP surge’,‘bear’],[‘BOE OUTLOOK’,‘Hawkish’,‘↑ Rate hike risk’,‘bear’],[‘TREND 7D’,’+1.8%’,‘↑ GBP strong’,‘bear’],[‘VOLATILITY’,‘HIGH’,‘✗ Avoid’,‘bear’]]},
+GOLD:{s:‘green’,a:‘BUY / ACCUMULATE ✓’,sub:‘Gold breaking above $2,318 resistance. Geopolitical demand + weak USD.’,conf:79,f:[[‘GEOPOLITICS’,‘Elevated’,‘↑ Safe haven’,‘bull’],[‘USD INDEX’,‘Weak’,‘↑ Gold positive’,‘bull’],[‘TREND 7D’,’+0.5%’,‘↑ Bullish’,‘bull’],[‘VOLATILITY’,‘Medium’,‘→ Normal’,‘neut’]]},
+BTC:{s:‘green’,a:‘BUY OPPORTUNITY ✓’,sub:’$67k support held 3 times. On-chain data showing whale accumulation.’,conf:73,f:[[‘WHALE DATA’,‘Buying’,‘↑ Accumulating’,‘bull’],[‘SUPPORT’,‘67k ×3’,‘✓ Very strong’,‘bull’],[‘TREND 7D’,’+2.1%’,‘↑ Uptrend’,‘bull’],[‘VOLATILITY’,‘Med’,‘→ Normal’,‘neut’]]},
 };
-const CAL_DEF={s:'yellow',a:'MONITOR ◎',sub:'Standard market conditions. No strong signal today.',conf:53,f:[['TREND 7D','Flat','→ Sideways','neut'],['VOLATILITY','Low','→ Normal','neut'],['MOMENTUM','Neutral','→ Watch','neut'],['SIGNAL','Mixed','→ Wait','neut']]};
-let selCurr='USDJPY';
+const CAL_DEF={s:‘yellow’,a:‘MONITOR ◎’,sub:‘Standard market conditions. No strong signal today.’,conf:53,f:[[‘TREND 7D’,‘Flat’,‘→ Sideways’,‘neut’],[‘VOLATILITY’,‘Low’,‘→ Normal’,‘neut’],[‘MOMENTUM’,‘Neutral’,‘→ Watch’,‘neut’],[‘SIGNAL’,‘Mixed’,‘→ Wait’,‘neut’]]};
+let selCurr=‘USDJPY’;
 let calMonth=new Date().getMonth();
 let calYear=new Date().getFullYear();
-const CAL_MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const CAL_MONTHS=[‘January’,‘February’,‘March’,‘April’,‘May’,‘June’,‘July’,‘August’,‘September’,‘October’,‘November’,‘December’];
 const CAL_EVENTS=[
-  {day:25,month:2,name:'BOJ Interest Rate Decision',impact:'high',sig:'r',pairs:'USD/JPY · All JPY pairs'},
-  {day:28,month:2,name:'US PCE Inflation Data',impact:'high',sig:'y',pairs:'EUR/USD · GBP/USD · USD pairs'},
-  {day:6,month:3,name:'ECB Monetary Policy Meeting',impact:'high',sig:'r',pairs:'EUR/USD'},
-  {day:12,month:3,name:'US CPI Report',impact:'high',sig:'r',pairs:'All USD pairs'},
-  {day:18,month:3,name:'FOMC Meeting & Rate Decision',impact:'high',sig:'r',pairs:'All USD pairs'},
-  {day:20,month:3,name:'Bank of England Meeting',impact:'high',sig:'y',pairs:'GBP/USD'},
+{day:25,month:2,name:‘BOJ Interest Rate Decision’,impact:‘high’,sig:‘r’,pairs:‘USD/JPY · All JPY pairs’},
+{day:28,month:2,name:‘US PCE Inflation Data’,impact:‘high’,sig:‘y’,pairs:‘EUR/USD · GBP/USD · USD pairs’},
+{day:6,month:3,name:‘ECB Monetary Policy Meeting’,impact:‘high’,sig:‘r’,pairs:‘EUR/USD’},
+{day:12,month:3,name:‘US CPI Report’,impact:‘high’,sig:‘r’,pairs:‘All USD pairs’},
+{day:18,month:3,name:‘FOMC Meeting & Rate Decision’,impact:‘high’,sig:‘r’,pairs:‘All USD pairs’},
+{day:20,month:3,name:‘Bank of England Meeting’,impact:‘high’,sig:‘y’,pairs:‘GBP/USD’},
 ];
 
 function initCalendarPage(){
-  renderCurrencies();
-  updateCalSignal();
-  renderCalendar();
-  renderEvents();
-  runCalAI();
-  document.getElementById('sigDateVal').textContent=new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+renderCurrencies();
+updateCalSignal();
+renderCalendar();
+renderEvents();
+runCalAI();
+document.getElementById(‘sigDateVal’).textContent=new Date().toLocaleDateString(‘en-US’,{weekday:‘short’,month:‘short’,day:‘numeric’});
 }
 
 function renderCurrencies(){
-  const el=document.getElementById('currScroll');
-  if(!el)return;
-  el.innerHTML=CAL_CURRENCIES.map(c=>`<div class="curr-chip ${c.id===selCurr?'sel':''}" onclick="selectCurr('${c.id}')">${c.emoji} ${c.l}</div>`).join('');
+const el=document.getElementById(‘currScroll’);
+if(!el)return;
+el.innerHTML=CAL_CURRENCIES.map(c=>`<div class="curr-chip ${c.id===selCurr?'sel':''}" onclick="selectCurr('${c.id}')">${c.emoji} ${c.l}</div>`).join(’’);
 }
 
 function selectCurr(id){selCurr=id;renderCurrencies();updateCalSignal();renderCalendar();runCalAI();}
 
 function updateCalSignal(){
-  const curr=CAL_CURRENCIES.find(c=>c.id===selCurr);
-  const data=CAL_SIG[selCurr]||CAL_DEF;
-  const col=data.s==='green'?'var(--green)':data.s==='red'?'var(--red)':'var(--gold)';
-  document.getElementById('sigPairName').textContent=curr?.l||selCurr;
-  document.getElementById('sigPairPrice').textContent=fmt(PR[selCurr]||0);
-  document.getElementById('sigActionTitle').textContent=data.a;
-  document.getElementById('sigActionTitle').style.color=col;
-  document.getElementById('sigActionSub').textContent=data.sub;
-  document.getElementById('signalCard').className=`signal-card ${data.s}-sig`;
-  ['tlR','tlY','tlG'].forEach(id=>{const e=document.getElementById(id);if(e)e.classList.remove('active');});
-  const tl=data.s==='green'?'tlG':data.s==='red'?'tlR':'tlY';
-  const tlEl=document.getElementById(tl);if(tlEl)tlEl.classList.add('active');
-  const cbf=document.getElementById('confBarF'),cv=document.getElementById('confValEl');
-  if(cbf){cbf.style.width=data.conf+'%';cbf.style.background=col;}
-  if(cv){cv.textContent=data.conf+'%';cv.style.color=col;}
-  const fg=document.getElementById('factorsGrid');
-  if(fg)fg.innerHTML=data.f.map(f=>`<div class="factor"><div class="factor-label">${f[0]}</div><div class="factor-val">${f[1]}</div><div class="factor-trend ${f[3]}">${f[2]}</div></div>`).join('');
+const curr=CAL_CURRENCIES.find(c=>c.id===selCurr);
+const data=CAL_SIG[selCurr]||CAL_DEF;
+const col=data.s===‘green’?‘var(–green)’:data.s===‘red’?‘var(–red)’:‘var(–gold)’;
+document.getElementById(‘sigPairName’).textContent=curr?.l||selCurr;
+document.getElementById(‘sigPairPrice’).textContent=fmt(PR[selCurr]||0);
+document.getElementById(‘sigActionTitle’).textContent=data.a;
+document.getElementById(‘sigActionTitle’).style.color=col;
+document.getElementById(‘sigActionSub’).textContent=data.sub;
+document.getElementById(‘signalCard’).className=`signal-card ${data.s}-sig`;
+[‘tlR’,‘tlY’,‘tlG’].forEach(id=>{const e=document.getElementById(id);if(e)e.classList.remove(‘active’);});
+const tl=data.s===‘green’?‘tlG’:data.s===‘red’?‘tlR’:‘tlY’;
+const tlEl=document.getElementById(tl);if(tlEl)tlEl.classList.add(‘active’);
+const cbf=document.getElementById(‘confBarF’),cv=document.getElementById(‘confValEl’);
+if(cbf){cbf.style.width=data.conf+’%’;cbf.style.background=col;}
+if(cv){cv.textContent=data.conf+’%’;cv.style.color=col;}
+const fg=document.getElementById(‘factorsGrid’);
+if(fg)fg.innerHTML=data.f.map(f=>`<div class="factor"><div class="factor-label">${f[0]}</div><div class="factor-val">${f[1]}</div><div class="factor-trend ${f[3]}">${f[2]}</div></div>`).join(’’);
 }
 
 async function runCalAI(){
-  const bodyEl=document.getElementById('aiBody'),subEl=document.getElementById('aiSubtitle');
-  if(!bodyEl)return;
-  bodyEl.innerHTML=`<div class="ai-loading"><div class="ai-dots"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div><span style="margin-left:6px;font-size:12px">Analyzing market conditions...</span></div>`;
-  const curr=CAL_CURRENCIES.find(c=>c.id===selCurr);
-  const data=CAL_SIG[selCurr]||CAL_DEF;
-  const FALLBACKS={
-    USDJPY:`<div class="ai-body"><strong>USD/JPY at ¥${fmt(PR.USDJPY)}</strong> with a <span class="bull">bullish JPY outlook</span> as BOJ signals policy shift. <strong>Recommendation: Pay USD obligations today</strong> — rates likely to move in Yen's favor by week's end.</div>`,
-    EURUSD:`<div class="ai-body"><strong>EUR/USD holding ${fmt(PR.EURUSD)}</strong> in a <span class="neut">neutral range</span> before Thursday's ECB meeting. <strong>Wait 48 hours</strong> for post-ECB clarity before making large EUR payments.</div>`,
-    GBPUSD:`<div class="ai-body"><strong>GBP/USD surging to ${fmt(PR.GBPUSD)}</strong> after <span class="bear">hotter-than-expected UK inflation data</span>. <strong>Avoid large USD payments for 3-4 days</strong> — wait for GBP volatility to settle.</div>`,
-    GOLD:`<div class="ai-body"><strong>Gold breaking above $${fmt(PR.GOLD)} resistance</strong> with <span class="bull">strong bullish momentum</span>. <strong>Buy or accumulate now</strong> — next target $2,350-2,380. Strong technical and fundamental support.</div>`,
-    BTC:`<div class="ai-body"><strong>BTC holding $${fmt(PR.BTC)} support</strong> for the <span class="bull">third consecutive test</span> — historically a strong signal. <strong>High-confidence buy opportunity</strong> with clear target at $71,000.</div>`,
-  };
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:`You are Momento AI. Analyze ${curr?.l||selCurr} for payment timing. Rate: ${fmt(PR[selCurr]||0)}, signal: ${data.s.toUpperCase()} "${data.a}", confidence: ${data.conf}%. Write 3 sentences for importers/exporters. Use <strong> for key terms. Under 80 words.`}]})});
-    const d=await res.json();
-    const text=d.content?.[0]?.text||'';
-    if(text){bodyEl.innerHTML=`<div class="ai-body">${text}</div>`;if(subEl)subEl.textContent='Updated '+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})+' · Momento AI';}
-    else throw new Error();
-  }catch(e){
-    bodyEl.innerHTML=FALLBACKS[selCurr]||`<div class="ai-body"><strong>${curr?.l||selCurr}</strong> showing ${data.s} conditions. ${data.sub}</div>`;
-    if(subEl)subEl.textContent='Offline analysis · '+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-  }
+const bodyEl=document.getElementById(‘aiBody’),subEl=document.getElementById(‘aiSubtitle’);
+if(!bodyEl)return;
+bodyEl.innerHTML=`<div class="ai-loading"><div class="ai-dots"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div><span style="margin-left:6px;font-size:12px">Analyzing market conditions...</span></div>`;
+const curr=CAL_CURRENCIES.find(c=>c.id===selCurr);
+const data=CAL_SIG[selCurr]||CAL_DEF;
+const FALLBACKS={
+USDJPY:`<div class="ai-body"><strong>USD/JPY at ¥${fmt(PR.USDJPY)}</strong> with a <span class="bull">bullish JPY outlook</span> as BOJ signals policy shift. <strong>Recommendation: Pay USD obligations today</strong> — rates likely to move in Yen's favor by week's end.</div>`,
+EURUSD:`<div class="ai-body"><strong>EUR/USD holding ${fmt(PR.EURUSD)}</strong> in a <span class="neut">neutral range</span> before Thursday's ECB meeting. <strong>Wait 48 hours</strong> for post-ECB clarity before making large EUR payments.</div>`,
+GBPUSD:`<div class="ai-body"><strong>GBP/USD surging to ${fmt(PR.GBPUSD)}</strong> after <span class="bear">hotter-than-expected UK inflation data</span>. <strong>Avoid large USD payments for 3-4 days</strong> — wait for GBP volatility to settle.</div>`,
+GOLD:`<div class="ai-body"><strong>Gold breaking above $${fmt(PR.GOLD)} resistance</strong> with <span class="bull">strong bullish momentum</span>. <strong>Buy or accumulate now</strong> — next target $2,350-2,380. Strong technical and fundamental support.</div>`,
+BTC:`<div class="ai-body"><strong>BTC holding $${fmt(PR.BTC)} support</strong> for the <span class="bull">third consecutive test</span> — historically a strong signal. <strong>High-confidence buy opportunity</strong> with clear target at $71,000.</div>`,
+};
+try{
+const res=await fetch(‘https://api.anthropic.com/v1/messages’,{method:‘POST’,headers:{‘Content-Type’:‘application/json’},body:JSON.stringify({model:‘claude-sonnet-4-20250514’,max_tokens:600,messages:[{role:‘user’,content:`You are Momento AI. Analyze ${curr?.l||selCurr} for payment timing. Rate: ${fmt(PR[selCurr]||0)}, signal: ${data.s.toUpperCase()} "${data.a}", confidence: ${data.conf}%. Write 3 sentences for importers/exporters. Use <strong> for key terms. Under 80 words.`}]})});
+const d=await res.json();
+const text=d.content?.[0]?.text||’’;
+if(text){bodyEl.innerHTML=`<div class="ai-body">${text}</div>`;if(subEl)subEl.textContent=‘Updated ‘+new Date().toLocaleTimeString(‘en-US’,{hour:‘2-digit’,minute:‘2-digit’})+’ · Momento AI’;}
+else throw new Error();
+}catch(e){
+bodyEl.innerHTML=FALLBACKS[selCurr]||`<div class="ai-body"><strong>${curr?.l||selCurr}</strong> showing ${data.s} conditions. ${data.sub}</div>`;
+if(subEl)subEl.textContent=’Offline analysis · ’+new Date().toLocaleTimeString(‘en-US’,{hour:‘2-digit’,minute:‘2-digit’});
+}
 }
 
 function getDaySig(y,m,d){
-  const seed=(y*10000+m*100+d+(selCurr.charCodeAt(0)+selCurr.charCodeAt(1))*7)%100;
-  const data=CAL_SIG[selCurr]||CAL_DEF;
-  if(data.s==='green'){if(seed<52)return'g';if(seed<74)return'y';return'r';}
-  if(data.s==='red'){if(seed<52)return'r';if(seed<74)return'y';return'g';}
-  if(seed<33)return'g';if(seed<66)return'y';return'r';
+const seed=(y*10000+m*100+d+(selCurr.charCodeAt(0)+selCurr.charCodeAt(1))*7)%100;
+const data=CAL_SIG[selCurr]||CAL_DEF;
+if(data.s===‘green’){if(seed<52)return’g’;if(seed<74)return’y’;return’r’;}
+if(data.s===‘red’){if(seed<52)return’r’;if(seed<74)return’y’;return’g’;}
+if(seed<33)return’g’;if(seed<66)return’y’;return’r’;
 }
 function isWeekend(y,m,d){const day=new Date(y,m,d).getDay();return day===0||day===6;}
 function renderCalendar(){
-  const el=document.getElementById('calGrid');if(!el)return;
-  const nameEl=document.getElementById('calMonthName');if(nameEl)nameEl.textContent=CAL_MONTHS[calMonth]+' '+calYear;
-  const now=new Date();
-  const firstDay=new Date(calYear,calMonth,1).getDay();
-  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
-  let html='';
-  for(let i=0;i<firstDay;i++)html+='<div class="cal-cell empty"></div>';
-  for(let d=1;d<=daysInMonth;d++){
-    const isPast=new Date(calYear,calMonth,d)<new Date(now.getFullYear(),now.getMonth(),now.getDate());
-    const isToday=d===now.getDate()&&calMonth===now.getMonth()&&calYear===now.getFullYear();
-    const wknd=isWeekend(calYear,calMonth,d);
-    const sig=!isPast&&!wknd?getDaySig(calYear,calMonth,d):'';
-    let cls='cal-cell';
-    if(isPast||wknd)cls+=' past';
-    else if(isToday)cls+=' today';
-    else if(sig)cls+=' c'+sig;
-    html+=`<div class="${cls}" onclick="selectCalDay(${d},${calYear},${calMonth})">${d}${sig&&!isPast&&!wknd?'<div class="cal-dot"></div>':''}</div>`;
-  }
-  el.innerHTML=html;
+const el=document.getElementById(‘calGrid’);if(!el)return;
+const nameEl=document.getElementById(‘calMonthName’);if(nameEl)nameEl.textContent=CAL_MONTHS[calMonth]+’ ‘+calYear;
+const now=new Date();
+const firstDay=new Date(calYear,calMonth,1).getDay();
+const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+let html=’’;
+for(let i=0;i<firstDay;i++)html+=’<div class="cal-cell empty"></div>’;
+for(let d=1;d<=daysInMonth;d++){
+const isPast=new Date(calYear,calMonth,d)<new Date(now.getFullYear(),now.getMonth(),now.getDate());
+const isToday=d===now.getDate()&&calMonth===now.getMonth()&&calYear===now.getFullYear();
+const wknd=isWeekend(calYear,calMonth,d);
+const sig=!isPast&&!wknd?getDaySig(calYear,calMonth,d):’’;
+let cls=‘cal-cell’;
+if(isPast||wknd)cls+=’ past’;
+else if(isToday)cls+=’ today’;
+else if(sig)cls+=’ c’+sig;
+html+=`<div class="${cls}" onclick="selectCalDay(${d},${calYear},${calMonth})">${d}${sig&&!isPast&&!wknd?'<div class="cal-dot"></div>':''}</div>`;
+}
+el.innerHTML=html;
 }
 function changeCalMonth(dir){
-  calMonth+=dir;
-  if(calMonth>11){calMonth=0;calYear++;}
-  if(calMonth<0){calMonth=11;calYear--;}
-  renderCalendar();
-  const dd=document.getElementById('dayDetail');if(dd)dd.classList.remove('show');
+calMonth+=dir;
+if(calMonth>11){calMonth=0;calYear++;}
+if(calMonth<0){calMonth=11;calYear–;}
+renderCalendar();
+const dd=document.getElementById(‘dayDetail’);if(dd)dd.classList.remove(‘show’);
 }
 function selectCalDay(d,y,m){
-  document.querySelectorAll('.cal-cell').forEach(c=>c.classList.remove('sel'));
-  const cells=document.querySelectorAll('#calGrid .cal-cell');
-  const firstDay=new Date(y,m,1).getDay();
-  const idx=firstDay+d-1;
-  if(cells[idx])cells[idx].classList.add('sel');
-  if(isWeekend(y,m,d)){showDayDetail('Weekend — markets closed 🔒','No trading or payments needed today.');return;}
-  const sig=getDaySig(y,m,d);
-  const date=new Date(y,m,d).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
-  const msgs={g:{icon:'✅',title:`Great day to pay`,msg:`Favorable conditions for ${CAL_CURRENCIES.find(c=>c.id===selCurr)?.l||selCurr} payments.`},y:{icon:'⚠️',title:`Neutral — monitor`,msg:'Mixed conditions. Consider splitting payment if urgent.'},r:{icon:'❌',title:`Avoid payment`,msg:'Unfavorable conditions predicted. Wait 1-3 days.'}};
-  const info=msgs[sig];
-  if(info)showDayDetail(info.icon+' '+info.title+' — '+date.split(',')[0],info.msg);
+document.querySelectorAll(’.cal-cell’).forEach(c=>c.classList.remove(‘sel’));
+const cells=document.querySelectorAll(’#calGrid .cal-cell’);
+const firstDay=new Date(y,m,1).getDay();
+const idx=firstDay+d-1;
+if(cells[idx])cells[idx].classList.add(‘sel’);
+if(isWeekend(y,m,d)){showDayDetail(‘Weekend — markets closed 🔒’,‘No trading or payments needed today.’);return;}
+const sig=getDaySig(y,m,d);
+const date=new Date(y,m,d).toLocaleDateString(‘en-US’,{weekday:‘long’,month:‘long’,day:‘numeric’,year:‘numeric’});
+const msgs={g:{icon:‘✅’,title:`Great day to pay`,msg:`Favorable conditions for ${CAL_CURRENCIES.find(c=>c.id===selCurr)?.l||selCurr} payments.`},y:{icon:‘⚠️’,title:`Neutral — monitor`,msg:‘Mixed conditions. Consider splitting payment if urgent.’},r:{icon:‘❌’,title:`Avoid payment`,msg:‘Unfavorable conditions predicted. Wait 1-3 days.’}};
+const info=msgs[sig];
+if(info)showDayDetail(info.icon+’ ‘+info.title+’ — ‘+date.split(’,’)[0],info.msg);
 }
 function showDayDetail(title,msg){
-  const el=document.getElementById('dayDetail');if(!el)return;
-  el.innerHTML=`<div class="dd-date">${selCurr} SIGNAL</div><div class="dd-msg"><strong>${title}</strong><br><span style="font-size:12px;color:var(--white3);font-weight:400">${msg}</span></div>`;
-  el.classList.add('show');
+const el=document.getElementById(‘dayDetail’);if(!el)return;
+el.innerHTML=`<div class="dd-date">${selCurr} SIGNAL</div><div class="dd-msg"><strong>${title}</strong><br><span style="font-size:12px;color:var(--white3);font-weight:400">${msg}</span></div>`;
+el.classList.add(‘show’);
 }
 function renderEvents(){
-  const el=document.getElementById('eventsEl');if(!el)return;
-  const MTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  el.innerHTML=CAL_EVENTS.map(e=>`
-    <div class="event-item" onclick="toast('${e.name} — ${e.impact==='high'?'HIGH':'MED'} IMPACT','alert-t')">
-      <div class="ev-date-box"><div class="ev-d">${e.day}</div><div class="ev-m">${MTHS[e.month]}</div></div>
-      <div class="ev-info">
-        <div class="ev-name">${e.name}</div>
-        <div class="ev-tags"><span class="ev-tag ${e.impact==='high'?'ev-high':'ev-med'}">${e.impact==='high'?'HIGH IMPACT':'MED IMPACT'}</span><span class="ev-pairs">${e.pairs}</span></div>
-      </div>
-      <div class="ev-sig">${{g:'🟢',y:'🟡',r:'🔴'}[e.sig]}</div>
-    </div>
-  `).join('');
+const el=document.getElementById(‘eventsEl’);if(!el)return;
+const MTHS=[‘Jan’,‘Feb’,‘Mar’,‘Apr’,‘May’,‘Jun’,‘Jul’,‘Aug’,‘Sep’,‘Oct’,‘Nov’,‘Dec’];
+el.innerHTML=CAL_EVENTS.map(e=>`<div class="event-item" onclick="toast('${e.name} — ${e.impact==='high'?'HIGH':'MED'} IMPACT','alert-t')"> <div class="ev-date-box"><div class="ev-d">${e.day}</div><div class="ev-m">${MTHS[e.month]}</div></div> <div class="ev-info"> <div class="ev-name">${e.name}</div> <div class="ev-tags"><span class="ev-tag ${e.impact==='high'?'ev-high':'ev-med'}">${e.impact==='high'?'HIGH IMPACT':'MED IMPACT'}</span><span class="ev-pairs">${e.pairs}</span></div> </div> <div class="ev-sig">${{g:'🟢',y:'🟡',r:'🔴'}[e.sig]}</div> </div>`).join(’’);
 }
 
 // ════════════════════════════════════
 // SIGNALS PAGE
 // ════════════════════════════════════
 const SIGNALS_DATA=[
-  {id:1,pair:'BTC/USD',type:'buy',cat:'crypto',price:'BTC',entry:67500,tp:71000,sl:65000,rr:'1:1.4',conf:82,tf:'4H',isNew:true,tags:['Momentum','Support×3','Whale Acc.','Bullish RSI'],reason:'<strong>$67,000 support held 3 consecutive times</strong> — historically very bullish. On-chain whale wallets accumulating aggressively. RSI showing bullish divergence on 4H.',aiAnalysis:null},
-  {id:2,pair:'USD/JPY',type:'sell',cat:'forex',price:'USDJPY',entry:149.80,tp:147.50,sl:151.20,rr:'1:1.6',conf:76,tf:'1D',isNew:true,tags:['BOJ Risk','Reversal','Bearish Div.','High R:R'],reason:'<strong>BOJ policy shift approaching Thursday</strong>. Yen historically surges post-BOJ hawkish signals. Clear bearish divergence on daily. Excellent R:R.',aiAnalysis:null},
-  {id:3,pair:'XAU/USD',type:'buy',cat:'commodities',price:'GOLD',entry:2315,tp:2380,sl:2280,rr:'1:1.8',conf:79,tf:'4H',isNew:false,tags:['Breakout','Geopolitics','Weak USD','Volume Conf.'],reason:'<strong>Breaking $2,318 resistance</strong> with strong volume confirmation. Geopolitical demand surge + weak dollar = textbook setup.',aiAnalysis:null},
-  {id:4,pair:'EUR/USD',type:'watch',cat:'forex',price:'EURUSD',entry:null,tp:null,sl:null,rr:null,conf:55,tf:'1D',isNew:false,tags:['ECB Thursday','High Volatility','Wait'],reason:'<strong>ECB meeting Thursday creates uncertainty</strong>. No clear directional edge currently. Wait for post-meeting clarity.',aiAnalysis:null},
-  {id:5,pair:'ETH/USD',type:'buy',cat:'crypto',price:'ETH',entry:3520,tp:3900,sl:3200,rr:'1:1.2',conf:71,tf:'4H',isNew:false,tags:['BTC Follow','L2 Activity','Support Hold'],reason:'<strong>Following BTC bullish structure</strong>. Layer 2 activity surging. Clear support at $3,400 confirmed twice.',aiAnalysis:null},
-  {id:6,pair:'WTI OIL',type:'sell',cat:'commodities',price:'OIL',entry:78.50,tp:74.00,sl:80.50,rr:'1:2.2',conf:68,tf:'1D',isNew:false,tags:['Bearish Candle','China Demand','High R:R'],reason:'<strong>OPEC+ cuts already fully priced in</strong>. Chinese demand disappointing for 3rd consecutive week. Bearish engulfing candle on daily.',aiAnalysis:null},
-  {id:7,pair:'S&P 500',type:'buy',cat:'indices',price:'SPX',entry:5240,tp:5450,sl:5100,rr:'1:1.5',conf:80,tf:'1W',isNew:false,tags:['Bull Market','Earnings Beat','Fed Pause'],reason:'<strong>Bull market structure intact</strong>. Tech earnings beating estimates by 12% average. Fed pause supportive of equity valuations.',aiAnalysis:null},
-  {id:8,pair:'GBP/USD',type:'sell',cat:'forex',price:'GBPUSD',entry:1.2640,tp:1.2400,sl:1.2750,rr:'1:2.1',conf:74,tf:'4H',isNew:true,tags:['UK CPI Hot','Overbought','Key Resistance'],reason:'<strong>GBP overbought after hot UK inflation data</strong>. Price at key resistance 1.2640. RSI > 70.',aiAnalysis:null},
+{id:1,pair:‘BTC/USD’,type:‘buy’,cat:‘crypto’,price:‘BTC’,entry:67500,tp:71000,sl:65000,rr:‘1:1.4’,conf:82,tf:‘4H’,isNew:true,tags:[‘Momentum’,‘Support×3’,‘Whale Acc.’,‘Bullish RSI’],reason:’<strong>$67,000 support held 3 consecutive times</strong> — historically very bullish. On-chain whale wallets accumulating aggressively. RSI showing bullish divergence on 4H.’,aiAnalysis:null},
+{id:2,pair:‘USD/JPY’,type:‘sell’,cat:‘forex’,price:‘USDJPY’,entry:149.80,tp:147.50,sl:151.20,rr:‘1:1.6’,conf:76,tf:‘1D’,isNew:true,tags:[‘BOJ Risk’,‘Reversal’,‘Bearish Div.’,‘High R:R’],reason:’<strong>BOJ policy shift approaching Thursday</strong>. Yen historically surges post-BOJ hawkish signals. Clear bearish divergence on daily. Excellent R:R.’,aiAnalysis:null},
+{id:3,pair:‘XAU/USD’,type:‘buy’,cat:‘commodities’,price:‘GOLD’,entry:2315,tp:2380,sl:2280,rr:‘1:1.8’,conf:79,tf:‘4H’,isNew:false,tags:[‘Breakout’,‘Geopolitics’,‘Weak USD’,‘Volume Conf.’],reason:’<strong>Breaking $2,318 resistance</strong> with strong volume confirmation. Geopolitical demand surge + weak dollar = textbook setup.’,aiAnalysis:null},
+{id:4,pair:‘EUR/USD’,type:‘watch’,cat:‘forex’,price:‘EURUSD’,entry:null,tp:null,sl:null,rr:null,conf:55,tf:‘1D’,isNew:false,tags:[‘ECB Thursday’,‘High Volatility’,‘Wait’],reason:’<strong>ECB meeting Thursday creates uncertainty</strong>. No clear directional edge currently. Wait for post-meeting clarity.’,aiAnalysis:null},
+{id:5,pair:‘ETH/USD’,type:‘buy’,cat:‘crypto’,price:‘ETH’,entry:3520,tp:3900,sl:3200,rr:‘1:1.2’,conf:71,tf:‘4H’,isNew:false,tags:[‘BTC Follow’,‘L2 Activity’,‘Support Hold’],reason:’<strong>Following BTC bullish structure</strong>. Layer 2 activity surging. Clear support at $3,400 confirmed twice.’,aiAnalysis:null},
+{id:6,pair:‘WTI OIL’,type:‘sell’,cat:‘commodities’,price:‘OIL’,entry:78.50,tp:74.00,sl:80.50,rr:‘1:2.2’,conf:68,tf:‘1D’,isNew:false,tags:[‘Bearish Candle’,‘China Demand’,‘High R:R’],reason:’<strong>OPEC+ cuts already fully priced in</strong>. Chinese demand disappointing for 3rd consecutive week. Bearish engulfing candle on daily.’,aiAnalysis:null},
+{id:7,pair:‘S&P 500’,type:‘buy’,cat:‘indices’,price:‘SPX’,entry:5240,tp:5450,sl:5100,rr:‘1:1.5’,conf:80,tf:‘1W’,isNew:false,tags:[‘Bull Market’,‘Earnings Beat’,‘Fed Pause’],reason:’<strong>Bull market structure intact</strong>. Tech earnings beating estimates by 12% average. Fed pause supportive of equity valuations.’,aiAnalysis:null},
+{id:8,pair:‘GBP/USD’,type:‘sell’,cat:‘forex’,price:‘GBPUSD’,entry:1.2640,tp:1.2400,sl:1.2750,rr:‘1:2.1’,conf:74,tf:‘4H’,isNew:true,tags:[‘UK CPI Hot’,‘Overbought’,‘Key Resistance’],reason:’<strong>GBP overbought after hot UK inflation data</strong>. Price at key resistance 1.2640. RSI > 70.’,aiAnalysis:null},
 ];
 const LIVE_ALERTS_DATA=[
-  {ico:'🚨',pair:'BTC/USD',msg:'Broke $67,500 resistance',badge:'BUY',bc:'af-buy'},
-  {ico:'⚡',pair:'XAU/USD',msg:'Momentum at $2,318',badge:'BUY',bc:'af-buy'},
-  {ico:'📉',pair:'GBP/USD',msg:'Exit signal triggered',badge:'SELL',bc:'af-sell'},
-  {ico:'📊',pair:'USD/JPY',msg:'Near BOJ intervention zone',badge:'INFO',bc:'af-info-b'},
-  {ico:'⚠️',pair:'WTI OIL',msg:'Support test at $78.00',badge:'WATCH',bc:'af-info-b'},
-  {ico:'🎯',pair:'EUR/USD',msg:'TP hit at 1.0850',badge:'INFO',bc:'af-info-b'},
+{ico:‘🚨’,pair:‘BTC/USD’,msg:‘Broke $67,500 resistance’,badge:‘BUY’,bc:‘af-buy’},
+{ico:‘⚡’,pair:‘XAU/USD’,msg:‘Momentum at $2,318’,badge:‘BUY’,bc:‘af-buy’},
+{ico:‘📉’,pair:‘GBP/USD’,msg:‘Exit signal triggered’,badge:‘SELL’,bc:‘af-sell’},
+{ico:‘📊’,pair:‘USD/JPY’,msg:‘Near BOJ intervention zone’,badge:‘INFO’,bc:‘af-info-b’},
+{ico:‘⚠️’,pair:‘WTI OIL’,msg:‘Support test at $78.00’,badge:‘WATCH’,bc:‘af-info-b’},
+{ico:‘🎯’,pair:‘EUR/USD’,msg:‘TP hit at 1.0850’,badge:‘INFO’,bc:‘af-info-b’},
 ];
-let sigFilter='all';
+let sigFilter=‘all’;
 const expandedAI=new Set();
-let modalPairSig='';
+let modalPairSig=’’;
 
 function renderLiveAlerts(){
-  const el=document.getElementById('afScroll');if(!el)return;
-  el.innerHTML=LIVE_ALERTS_DATA.map(a=>`
-    <div class="af-item" onclick="toast('${a.pair}: ${a.msg}','alert-t')">
-      <div class="af-ico" style="background:rgba(255,255,255,.04)">${a.ico}</div>
-      <div class="af-info"><div class="af-pair">${a.pair}</div><div class="af-msg">${a.msg}</div></div>
-      <div class="af-badge ${a.bc}">${a.badge}</div>
-    </div>
-  `).join('');
+const el=document.getElementById(‘afScroll’);if(!el)return;
+el.innerHTML=LIVE_ALERTS_DATA.map(a=>`<div class="af-item" onclick="toast('${a.pair}: ${a.msg}','alert-t')"> <div class="af-ico" style="background:rgba(255,255,255,.04)">${a.ico}</div> <div class="af-info"><div class="af-pair">${a.pair}</div><div class="af-msg">${a.msg}</div></div> <div class="af-badge ${a.bc}">${a.badge}</div> </div>`).join(’’);
 }
 
 function filterSigs(filter,el){
-  sigFilter=filter;
-  document.querySelectorAll('#filterTabs .f-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  renderSignals();
+sigFilter=filter;
+document.querySelectorAll(’#filterTabs .f-tab’).forEach(t=>t.classList.remove(‘active’));
+el.classList.add(‘active’);
+renderSignals();
 }
 
 function getFilteredSigs(){
-  if(sigFilter==='all')return SIGNALS_DATA;
-  if(sigFilter==='buy')return SIGNALS_DATA.filter(s=>s.type==='buy');
-  if(sigFilter==='sell')return SIGNALS_DATA.filter(s=>s.type==='sell');
-  return SIGNALS_DATA.filter(s=>s.cat===sigFilter);
+if(sigFilter===‘all’)return SIGNALS_DATA;
+if(sigFilter===‘buy’)return SIGNALS_DATA.filter(s=>s.type===‘buy’);
+if(sigFilter===‘sell’)return SIGNALS_DATA.filter(s=>s.type===‘sell’);
+return SIGNALS_DATA.filter(s=>s.cat===sigFilter);
 }
 
 function renderSignals(){
-  const el=document.getElementById('signalsList');if(!el)return;
-  const sigs=getFilteredSigs();
-  if(!sigs.length){el.innerHTML=`<div style="text-align:center;padding:48px 24px;color:var(--white3)">No signals match this filter</div>`;return;}
-  el.innerHTML=sigs.map((s,i)=>{
-    const tl={buy:'▲ BUY',sell:'▼ SELL',watch:'◎ WATCH'}[s.type];
-    const confCol=s.conf>=75?'var(--green)':s.conf>=60?'var(--gold)':'var(--red)';
-    const rrNum=s.rr?parseFloat(s.rr.split(':')[1]):0;
-    const aiExpanded=expandedAI.has(s.id);
-    return `<div class="sig-card" id="sig-${s.id}" style="animation-delay:${i*.07}s">
-      <div class="sig-card-line ${s.type}"></div>
-      <div class="sig-card-body">
-        <div class="sc-header">
-          <div><div class="sc-pair">${s.pair}</div>
-            <div class="sc-meta"><span class="sc-price">${fmt(PR[s.price]||0)}</span><span class="sc-tf">${s.tf}</span>${s.isNew?'<span class="sc-new">NEW</span>':''}</div>
-          </div>
-          <div class="sc-type"><div class="sc-badge ${s.type}">${tl}</div></div>
-        </div>
-        ${s.type!=='watch'?`
-        <div class="sc-levels">
-          <div class="sc-lv entry"><div class="sc-lv-l">ENTRY</div><div class="sc-lv-v">${fmt(s.entry)}</div></div>
-          <div class="sc-lv tp"><div class="sc-lv-l">TAKE PROFIT</div><div class="sc-lv-v">${fmt(s.tp)}</div></div>
-          <div class="sc-lv sl"><div class="sc-lv-l">STOP LOSS</div><div class="sc-lv-v">${fmt(s.sl)}</div></div>
-        </div>
-        <div class="sc-rr-row">
-          <span class="sc-rr-label">RISK : REWARD</span><span class="sc-rr-val">${s.rr}</span>
-          <div class="sc-rr-bar-w"><div class="sc-rr-bar" style="width:${Math.min(rrNum/3*100,100)}%"></div></div>
-        </div>`:''}
-        <div class="sc-conf-row">
-          <span class="sc-conf-l">AI CONFIDENCE</span>
-          <div class="sc-conf-w"><div class="sc-conf-f" style="width:${s.conf}%;background:${confCol}"></div></div>
-          <span class="sc-conf-v" style="color:${confCol}">${s.conf}%</span>
-        </div>
-        <div class="sc-reason">${s.reason}</div>
-        <div class="sc-tags">${s.tags.map(t=>`<span class="sc-tag">${t}</span>`).join('')}</div>
-        <div class="sc-actions">
-          <button class="sc-btn sc-btn-primary" onclick="openAlertModal('${s.pair}',${s.tp||PR[s.price]||0})">
-            <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Set Alert</button>
-          <button class="sc-btn sc-btn-sec" onclick="toggleSigAI(${s.id})">🤖 ${aiExpanded?'Hide':'AI Analysis'}</button>
-          ${s.type!=='watch'?`<button class="sc-btn sc-btn-alert" onclick="toast('Trade saved! 💼','success')">+ Trade</button>`:''}
-        </div>
-      </div>
-      <div class="sc-ai-expand ${aiExpanded?'show':''}" id="ai-${s.id}">
-        <div class="sc-ai-header"><span class="sc-ai-icon">🤖</span><span class="sc-ai-title">MOMENTO AI ANALYSIS</span></div>
-        ${s.aiAnalysis?`<div class="sc-ai-body">${s.aiAnalysis}</div>`:`<div class="sc-ai-loading"><div class="ai-dots"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div><span style="margin-left:6px">Loading AI analysis...</span></div>`}
-      </div>
-    </div>`;
-  }).join('');
+const el=document.getElementById(‘signalsList’);if(!el)return;
+const sigs=getFilteredSigs();
+if(!sigs.length){el.innerHTML=`<div style="text-align:center;padding:48px 24px;color:var(--white3)">No signals match this filter</div>`;return;}
+el.innerHTML=sigs.map((s,i)=>{
+const tl={buy:‘▲ BUY’,sell:‘▼ SELL’,watch:‘◎ WATCH’}[s.type];
+const confCol=s.conf>=75?‘var(–green)’:s.conf>=60?‘var(–gold)’:‘var(–red)’;
+const rrNum=s.rr?parseFloat(s.rr.split(’:’)[1]):0;
+const aiExpanded=expandedAI.has(s.id);
+return `<div class="sig-card" id="sig-${s.id}" style="animation-delay:${i*.07}s"> <div class="sig-card-line ${s.type}"></div> <div class="sig-card-body"> <div class="sc-header"> <div><div class="sc-pair">${s.pair}</div> <div class="sc-meta"><span class="sc-price">${fmt(PR[s.price]||0)}</span><span class="sc-tf">${s.tf}</span>${s.isNew?'<span class="sc-new">NEW</span>':''}</div> </div> <div class="sc-type"><div class="sc-badge ${s.type}">${tl}</div></div> </div> ${s.type!=='watch'?`
+<div class="sc-levels">
+<div class="sc-lv entry"><div class="sc-lv-l">ENTRY</div><div class="sc-lv-v">${fmt(s.entry)}</div></div>
+<div class="sc-lv tp"><div class="sc-lv-l">TAKE PROFIT</div><div class="sc-lv-v">${fmt(s.tp)}</div></div>
+<div class="sc-lv sl"><div class="sc-lv-l">STOP LOSS</div><div class="sc-lv-v">${fmt(s.sl)}</div></div>
+</div>
+<div class="sc-rr-row">
+<span class="sc-rr-label">RISK : REWARD</span><span class="sc-rr-val">${s.rr}</span>
+<div class="sc-rr-bar-w"><div class="sc-rr-bar" style="width:${Math.min(rrNum/3*100,100)}%"></div></div>
+</div>`:''} <div class="sc-conf-row"> <span class="sc-conf-l">AI CONFIDENCE</span> <div class="sc-conf-w"><div class="sc-conf-f" style="width:${s.conf}%;background:${confCol}"></div></div> <span class="sc-conf-v" style="color:${confCol}">${s.conf}%</span> </div> <div class="sc-reason">${s.reason}</div> <div class="sc-tags">${s.tags.map(t=>`<span class="sc-tag">${t}</span>`).join('')}</div> <div class="sc-actions"> <button class="sc-btn sc-btn-primary" onclick="openAlertModal('${s.pair}',${s.tp||PR[s.price]||0})"> <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Set Alert</button> <button class="sc-btn sc-btn-sec" onclick="toggleSigAI(${s.id})">🤖 ${aiExpanded?'Hide':'AI Analysis'}</button> ${s.type!=='watch'?`<button class="sc-btn sc-btn-alert" onclick="toast('Trade saved! 💼','success')">+ Trade</button>`:''} </div> </div> <div class="sc-ai-expand ${aiExpanded?'show':''}" id="ai-${s.id}"> <div class="sc-ai-header"><span class="sc-ai-icon">🤖</span><span class="sc-ai-title">MOMENTO AI ANALYSIS</span></div> ${s.aiAnalysis?`<div class="sc-ai-body">${s.aiAnalysis}</div>`:`<div class="sc-ai-loading"><div class="ai-dots"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div><span style="margin-left:6px">Loading AI analysis…</span></div>`} </div> </div>`;
+}).join(’’);
 }
 
 async function toggleSigAI(id){
-  const sig=SIGNALS_DATA.find(s=>s.id===id);if(!sig)return;
-  if(expandedAI.has(id)){expandedAI.delete(id);renderSignals();return;}
-  expandedAI.add(id);renderSignals();
-  if(sig.aiAnalysis)return;
-  const FALLBACKS={
-    1:`<strong>BTC showing classic accumulation</strong> at $67k — whale wallets adding aggressively. Key risk: brief dip below $66.5k. <strong>Execute in parts:</strong> 50% now, 50% on dip to $66,800.`,
-    2:`<strong>BOJ meeting is the catalyst</strong> — hawkish language sends JPY sharply higher. Key risk: BOJ disappoints. <strong>Enter after BOJ announcement</strong> to confirm direction.`,
-    3:`<strong>Gold breakout confirmed with strong volume</strong> — not a false breakout. Key risk: strong US data causes USD reversal. <strong>Set stop below $2,295.</strong>`,
-    4:`<strong>ECB uncertainty is genuine</strong> — don't force a trade. <strong>Set alerts at 1.0750 and 1.0900</strong> and wait for the break after Thursday.`,
-    5:`<strong>ETH lagging BTC is bullish</strong> — rotation into ETH typically follows. Key risk: BTC reversal. <strong>Entry: 40% now, add on break above $3,600.</strong>`,
-    6:`<strong>Oil demand destruction narrative gaining strength.</strong> Key risk: Middle East escalation. <strong>Keep stop tight at $80.50</strong> — geopolitical risk is real.`,
-    7:`<strong>S&P bull market supported by earnings and Fed pause.</strong> Key risk: inflation re-acceleration. <strong>Buy with 3-6 month horizon</strong> — trend is intact.`,
-    8:`<strong>GBP overbought at key resistance.</strong> Market over-reacts to CPI — fade the move. <strong>Enter short in two parts:</strong> first now, second on spike to 1.2660.`,
-  };
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,messages:[{role:'user',content:`Momento AI. Signal: ${sig.pair} ${sig.type.toUpperCase()} @ ${fmt(PR[sig.price]||0)}, confidence ${sig.conf}%, timeframe ${sig.tf}. Write 3 sentences: why it makes sense, key risk, execution tip. Use <strong> for key terms. Under 60 words.`}]})});
-    const d=await res.json();
-    sig.aiAnalysis=d.content?.[0]?.text||FALLBACKS[id]||`<strong>${sig.pair}</strong> ${sig.type} signal at ${sig.conf}% confidence.`;
-  }catch(e){sig.aiAnalysis=FALLBACKS[id]||`<strong>${sig.pair}</strong> ${sig.type} signal at ${sig.conf}% confidence.`;}
-  renderSignals();
+const sig=SIGNALS_DATA.find(s=>s.id===id);if(!sig)return;
+if(expandedAI.has(id)){expandedAI.delete(id);renderSignals();return;}
+expandedAI.add(id);renderSignals();
+if(sig.aiAnalysis)return;
+const FALLBACKS={
+1:`<strong>BTC showing classic accumulation</strong> at $67k — whale wallets adding aggressively. Key risk: brief dip below $66.5k. <strong>Execute in parts:</strong> 50% now, 50% on dip to $66,800.`,
+2:`<strong>BOJ meeting is the catalyst</strong> — hawkish language sends JPY sharply higher. Key risk: BOJ disappoints. <strong>Enter after BOJ announcement</strong> to confirm direction.`,
+3:`<strong>Gold breakout confirmed with strong volume</strong> — not a false breakout. Key risk: strong US data causes USD reversal. <strong>Set stop below $2,295.</strong>`,
+4:`<strong>ECB uncertainty is genuine</strong> — don't force a trade. <strong>Set alerts at 1.0750 and 1.0900</strong> and wait for the break after Thursday.`,
+5:`<strong>ETH lagging BTC is bullish</strong> — rotation into ETH typically follows. Key risk: BTC reversal. <strong>Entry: 40% now, add on break above $3,600.</strong>`,
+6:`<strong>Oil demand destruction narrative gaining strength.</strong> Key risk: Middle East escalation. <strong>Keep stop tight at $80.50</strong> — geopolitical risk is real.`,
+7:`<strong>S&P bull market supported by earnings and Fed pause.</strong> Key risk: inflation re-acceleration. <strong>Buy with 3-6 month horizon</strong> — trend is intact.`,
+8:`<strong>GBP overbought at key resistance.</strong> Market over-reacts to CPI — fade the move. <strong>Enter short in two parts:</strong> first now, second on spike to 1.2660.`,
+};
+try{
+const res=await fetch(‘https://api.anthropic.com/v1/messages’,{method:‘POST’,headers:{‘Content-Type’:‘application/json’},body:JSON.stringify({model:‘claude-sonnet-4-20250514’,max_tokens:400,messages:[{role:‘user’,content:`Momento AI. Signal: ${sig.pair} ${sig.type.toUpperCase()} @ ${fmt(PR[sig.price]||0)}, confidence ${sig.conf}%, timeframe ${sig.tf}. Write 3 sentences: why it makes sense, key risk, execution tip. Use <strong> for key terms. Under 60 words.`}]})});
+const d=await res.json();
+sig.aiAnalysis=d.content?.[0]?.text||FALLBACKS[id]||`<strong>${sig.pair}</strong> ${sig.type} signal at ${sig.conf}% confidence.`;
+}catch(e){sig.aiAnalysis=FALLBACKS[id]||`<strong>${sig.pair}</strong> ${sig.type} signal at ${sig.conf}% confidence.`;}
+renderSignals();
 }
 
 function openAlertModal(pair,price){
-  modalPairSig=pair;
-  document.getElementById('modalTitle').textContent=`Set Alert — ${pair}`;
-  document.getElementById('modalSub').textContent=`Current: ${fmt(PR[pair.split('/')[0]]||price)}`;
-  document.getElementById('modalPrice').value=price;
-  document.getElementById('alertModal').classList.add('show');
+modalPairSig=pair;
+document.getElementById(‘modalTitle’).textContent=`Set Alert — ${pair}`;
+document.getElementById(‘modalSub’).textContent=`Current: ${fmt(PR[pair.split('/')[0]]||price)}`;
+document.getElementById(‘modalPrice’).value=price;
+document.getElementById(‘alertModal’).classList.add(‘show’);
 }
-function closeAlertModal(){document.getElementById('alertModal').classList.remove('show');}
+function closeAlertModal(){document.getElementById(‘alertModal’).classList.remove(‘show’);}
 function saveAlertFromModal(){
-  const price=document.getElementById('modalPrice').value;
-  const dir=document.getElementById('modalDir').value;
-  if(!price){toast('Enter a target price!');return;}
-  closeAlertModal();
-  playMomento();
-  toast(`🔔 Alert set: ${modalPairSig} ${dir==='above'?'↑ above':'↓ below'} ${parseFloat(price).toLocaleString()}!`,'success');
+const price=document.getElementById(‘modalPrice’).value;
+const dir=document.getElementById(‘modalDir’).value;
+if(!price){toast(‘Enter a target price!’);return;}
+closeAlertModal();
+playMomento();
+toast(`🔔 Alert set: ${modalPairSig} ${dir==='above'?'↑ above':'↓ below'} ${parseFloat(price).toLocaleString()}!`,‘success’);
 }
 
 // ════════════════════════════════════
@@ -2041,810 +1996,756 @@ function saveAlertFromModal(){
 let userAlerts=[];
 let triggeredCount=0;
 let totalSetCount=0;
-let alertDirSel='above';
+let alertDirSel=‘above’;
 let alertHistory=[];
 const DEMO_HISTORY=[
-  {pair:'BTC',icon:'₿',price:67000,dir:'above',triggeredAt:new Date(Date.now()-2*3600000)},
-  {pair:'GOLD',icon:'⬡',price:2310,dir:'above',triggeredAt:new Date(Date.now()-5*3600000)},
-  {pair:'USDJPY',icon:'¥',price:149.50,dir:'above',triggeredAt:new Date(Date.now()-24*3600000)},
+{pair:‘BTC’,icon:‘₿’,price:67000,dir:‘above’,triggeredAt:new Date(Date.now()-2*3600000)},
+{pair:‘GOLD’,icon:‘⬡’,price:2310,dir:‘above’,triggeredAt:new Date(Date.now()-5*3600000)},
+{pair:‘USDJPY’,icon:‘¥’,price:149.50,dir:‘above’,triggeredAt:new Date(Date.now()-24*3600000)},
 ];
 const ALERT_PRESETS=[
-  {pair:'BTC',label:'BTC Breakout',price:68000,dir:'above'},
-  {pair:'GOLD',label:'Gold Target',price:2350,dir:'above'},
-  {pair:'USDJPY',label:'JPY Alert',price:150.00,dir:'above'},
-  {pair:'ETH',label:'ETH Support',price:3400,dir:'below'},
-  {pair:'SPX',label:'S&P Target',price:5300,dir:'above'},
+{pair:‘BTC’,label:‘BTC Breakout’,price:68000,dir:‘above’},
+{pair:‘GOLD’,label:‘Gold Target’,price:2350,dir:‘above’},
+{pair:‘USDJPY’,label:‘JPY Alert’,price:150.00,dir:‘above’},
+{pair:‘ETH’,label:‘ETH Support’,price:3400,dir:‘below’},
+{pair:‘SPX’,label:‘S&P Target’,price:5300,dir:‘above’},
 ];
 
 function renderPresets(){
-  const el=document.getElementById('presetsEl');if(!el)return;
-  el.innerHTML=ALERT_PRESETS.map(p=>`
-    <div class="preset" onclick="applyPreset('${p.pair}',${p.price},'${p.dir}')">
-      <div class="preset-ico">${ICONS[p.pair]||'◆'}</div>
-      <div class="preset-info"><div class="preset-pair">${p.label}</div><div class="preset-price">${fmt(p.price)}</div></div>
-    </div>
-  `).join('');
+const el=document.getElementById(‘presetsEl’);if(!el)return;
+el.innerHTML=ALERT_PRESETS.map(p=>`<div class="preset" onclick="applyPreset('${p.pair}',${p.price},'${p.dir}')"> <div class="preset-ico">${ICONS[p.pair]||'◆'}</div> <div class="preset-info"><div class="preset-pair">${p.label}</div><div class="preset-price">${fmt(p.price)}</div></div> </div>`).join(’’);
 }
 function applyPreset(pair,price,dir){
-  document.getElementById('fPair').value=pair;
-  document.getElementById('fPrice').value=price;
-  setAlertDir(dir);
-  updateAlertCurrentPrice();
-  toast(`Preset: ${NAMES[pair]||pair} @ ${fmt(price)}`,'success');
+document.getElementById(‘fPair’).value=pair;
+document.getElementById(‘fPrice’).value=price;
+setAlertDir(dir);
+updateAlertCurrentPrice();
+toast(`Preset: ${NAMES[pair]||pair} @ ${fmt(price)}`,‘success’);
 }
 function updateAlertCurrentPrice(){
-  const pair=document.getElementById('fPair');if(!pair)return;
-  const p=PR[pair.value]||0;
-  const c=CH[pair.value]||0;
-  const up=c>=0;
-  const cpEl=document.getElementById('cpPrice'),chEl=document.getElementById('cpChg');
-  if(cpEl){cpEl.textContent=fmt(p);cpEl.style.color=up?'var(--green)':'var(--red)';}
-  if(chEl){chEl.textContent=(up?'+':'')+c+'%';chEl.style.color=up?'var(--green)':'var(--red)';}
-  renderAlertSuggestions(pair.value,p);
+const pair=document.getElementById(‘fPair’);if(!pair)return;
+const p=PR[pair.value]||0;
+const c=CH[pair.value]||0;
+const up=c>=0;
+const cpEl=document.getElementById(‘cpPrice’),chEl=document.getElementById(‘cpChg’);
+if(cpEl){cpEl.textContent=fmt(p);cpEl.style.color=up?‘var(–green)’:‘var(–red)’;}
+if(chEl){chEl.textContent=(up?’+’:’’)+c+’%’;chEl.style.color=up?‘var(–green)’:‘var(–red)’;}
+renderAlertSuggestions(pair.value,p);
 }
 function renderAlertSuggestions(pair,price){
-  const el=document.getElementById('suggestionsEl');if(!el)return;
-  const up1=parseFloat((price*1.03).toFixed(price>100?0:4));
-  const up2=parseFloat((price*1.05).toFixed(price>100?0:4));
-  const dn1=parseFloat((price*.97).toFixed(price>100?0:4));
-  el.innerHTML=`
-    <div class="sugg" onclick="setSuggPrice(${up2},'above')"><div class="sugg-label">RESISTANCE</div><div class="sugg-val up">+5% ${fmtShort(up2)}</div></div>
-    <div class="sugg" onclick="setSuggPrice(${up1},'above')"><div class="sugg-label">TARGET</div><div class="sugg-val up">+3% ${fmtShort(up1)}</div></div>
-    <div class="sugg" onclick="setSuggPrice(${dn1},'below')"><div class="sugg-label">SUPPORT</div><div class="sugg-val dn">-3% ${fmtShort(dn1)}</div></div>
-  `;
+const el=document.getElementById(‘suggestionsEl’);if(!el)return;
+const up1=parseFloat((price*1.03).toFixed(price>100?0:4));
+const up2=parseFloat((price*1.05).toFixed(price>100?0:4));
+const dn1=parseFloat((price*.97).toFixed(price>100?0:4));
+el.innerHTML=`<div class="sugg" onclick="setSuggPrice(${up2},'above')"><div class="sugg-label">RESISTANCE</div><div class="sugg-val up">+5% ${fmtShort(up2)}</div></div> <div class="sugg" onclick="setSuggPrice(${up1},'above')"><div class="sugg-label">TARGET</div><div class="sugg-val up">+3% ${fmtShort(up1)}</div></div> <div class="sugg" onclick="setSuggPrice(${dn1},'below')"><div class="sugg-label">SUPPORT</div><div class="sugg-val dn">-3% ${fmtShort(dn1)}</div></div>`;
 }
-function setSuggPrice(price,dir){document.getElementById('fPrice').value=price;setAlertDir(dir);toast(`Target: ${fmt(price)}`,'success');}
+function setSuggPrice(price,dir){document.getElementById(‘fPrice’).value=price;setAlertDir(dir);toast(`Target: ${fmt(price)}`,‘success’);}
 function setAlertDir(dir){
-  alertDirSel=dir;
-  document.getElementById('fDir').value=dir;
-  document.getElementById('dirUp').className='dir-btn'+(dir==='above'?' active-up':'');
-  document.getElementById('dirDn').className='dir-btn'+(dir==='below'?' active-dn':'');
+alertDirSel=dir;
+document.getElementById(‘fDir’).value=dir;
+document.getElementById(‘dirUp’).className=‘dir-btn’+(dir===‘above’?’ active-up’:’’);
+document.getElementById(‘dirDn’).className=‘dir-btn’+(dir===‘below’?’ active-dn’:’’);
 }
 function addAlert(){
-  const pair=document.getElementById('fPair').value;
-  const price=parseFloat(document.getElementById('fPrice').value);
-  const dir=alertDirSel;
-  if(!price||isNaN(price)){toast('Please enter a target price!');return;}
-  const curPrice=PR[pair]||0;
-  if(dir==='above'&&price<=curPrice){toast('Target must be ABOVE current price ↑');return;}
-  if(dir==='below'&&price>=curPrice){toast('Target must be BELOW current price ↓');return;}
-  const al={id:Date.now(),pair,price,dir,name:NAMES[pair]||pair,icon:ICONS[pair]||'◆',setAt:curPrice,createdAt:new Date(),triggered:false};
-  userAlerts.unshift(al);
-  totalSetCount++;
-  document.getElementById('fPrice').value='';
-  renderAlerts();updateAlertStats();updateAlertsBadge();
-  playMomento();
-  toast(`🔔 Alert set! ${pair} ${dir==='above'?'↑ above':'↓ below'} ${fmt(price)}`,'success');
+const pair=document.getElementById(‘fPair’).value;
+const price=parseFloat(document.getElementById(‘fPrice’).value);
+const dir=alertDirSel;
+if(!price||isNaN(price)){toast(‘Please enter a target price!’);return;}
+const curPrice=PR[pair]||0;
+if(dir===‘above’&&price<=curPrice){toast(‘Target must be ABOVE current price ↑’);return;}
+if(dir===‘below’&&price>=curPrice){toast(‘Target must be BELOW current price ↓’);return;}
+const al={id:Date.now(),pair,price,dir,name:NAMES[pair]||pair,icon:ICONS[pair]||‘◆’,setAt:curPrice,createdAt:new Date(),triggered:false};
+userAlerts.unshift(al);
+totalSetCount++;
+document.getElementById(‘fPrice’).value=’’;
+renderAlerts();updateAlertStats();updateAlertsBadge();
+playMomento();
+toast(`🔔 Alert set! ${pair} ${dir==='above'?'↑ above':'↓ below'} ${fmt(price)}`,‘success’);
 }
 function renderAlerts(){
-  const el=document.getElementById('activeAlertsEl');if(!el)return;
-  if(!userAlerts.length){
-    el.innerHTML=`<div class="alerts-empty"><div class="ae-ico">🔔</div><div class="ae-t">No alerts yet</div><div class="ae-s">Set your first alert above.<br>Get notified the moment prices hit your target.</div></div>`;
-    return;
-  }
-  const active=userAlerts.filter(a=>!a.triggered);
-  const trig=userAlerts.filter(a=>a.triggered);
-  el.innerHTML=[...active,...trig].map((a,i)=>{
-    const cur=PR[a.pair]||a.price;
-    const progress=a.dir==='above'?Math.min(((cur-a.setAt)/(a.price-a.setAt))*100,100):Math.min(((a.setAt-cur)/(a.setAt-a.price))*100,100);
-    const pct=Math.max(0,Math.round(progress));
-    const col=a.dir==='above'?'var(--green)':'var(--red)';
-    return `<div class="alert-item ${a.dir}${a.triggered?' triggered':''}" id="al-${a.id}" style="animation-delay:${i*.06}s">
-      <div class="ai-icon" style="background:rgba(255,255,255,.03)">${a.icon}</div>
-      <div class="ai-info">
-        <div class="ai-pair">${a.pair}</div>
-        <div class="ai-condition">
-          <span class="ai-dir ${a.dir==='above'?'up':'dn'}">${a.dir==='above'?'↑ above':'↓ below'}</span>
-          <span class="ai-target">${fmt(a.price)}</span>
-          <span style="color:var(--white3);font-family:'JetBrains Mono',monospace;font-size:10px">· now ${fmt(cur)}</span>
-        </div>
-        <div class="ai-progress">
-          <div class="ai-prog-w"><div class="ai-prog-f" style="width:${pct}%;background:${col}"></div></div>
-          <div class="ai-prog-pct">${pct}% to target</div>
-        </div>
-      </div>
-      <div class="ai-right">
-        ${a.triggered?`<div class="ai-triggered-badge">TRIGGERED ✓</div>`:''}
-        <div class="ai-del" onclick="deleteAlert(${a.id})">
-          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
+const el=document.getElementById(‘activeAlertsEl’);if(!el)return;
+if(!userAlerts.length){
+el.innerHTML=`<div class="alerts-empty"><div class="ae-ico">🔔</div><div class="ae-t">No alerts yet</div><div class="ae-s">Set your first alert above.<br>Get notified the moment prices hit your target.</div></div>`;
+return;
 }
-function deleteAlert(id){userAlerts=userAlerts.filter(a=>a.id!==id);renderAlerts();updateAlertStats();updateAlertsBadge();toast('Alert removed');}
+const active=userAlerts.filter(a=>!a.triggered);
+const trig=userAlerts.filter(a=>a.triggered);
+el.innerHTML=[…active,…trig].map((a,i)=>{
+const cur=PR[a.pair]||a.price;
+const progress=a.dir===‘above’?Math.min(((cur-a.setAt)/(a.price-a.setAt))*100,100):Math.min(((a.setAt-cur)/(a.setAt-a.price))*100,100);
+const pct=Math.max(0,Math.round(progress));
+const col=a.dir===‘above’?‘var(–green)’:‘var(–red)’;
+return `<div class="alert-item ${a.dir}${a.triggered?' triggered':''}" id="al-${a.id}" style="animation-delay:${i*.06}s"> <div class="ai-icon" style="background:rgba(255,255,255,.03)">${a.icon}</div> <div class="ai-info"> <div class="ai-pair">${a.pair}</div> <div class="ai-condition"> <span class="ai-dir ${a.dir==='above'?'up':'dn'}">${a.dir==='above'?'↑ above':'↓ below'}</span> <span class="ai-target">${fmt(a.price)}</span> <span style="color:var(--white3);font-family:'JetBrains Mono',monospace;font-size:10px">· now ${fmt(cur)}</span> </div> <div class="ai-progress"> <div class="ai-prog-w"><div class="ai-prog-f" style="width:${pct}%;background:${col}"></div></div> <div class="ai-prog-pct">${pct}% to target</div> </div> </div> <div class="ai-right"> ${a.triggered?`<div class="ai-triggered-badge">TRIGGERED ✓</div>`:''} <div class="ai-del" onclick="deleteAlert(${a.id})"> <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> </div> </div> </div>`;
+}).join(’’);
+}
+function deleteAlert(id){userAlerts=userAlerts.filter(a=>a.id!==id);renderAlerts();updateAlertStats();updateAlertsBadge();toast(‘Alert removed’);}
 function updateAlertStats(){
-  const active=userAlerts.filter(a=>!a.triggered).length;
-  const s1=document.getElementById('stActive'),s2=document.getElementById('stTriggered'),s3=document.getElementById('stTotal');
-  if(s1)s1.textContent=active;if(s2)s2.textContent=triggeredCount;if(s3)s3.textContent=totalSetCount;
+const active=userAlerts.filter(a=>!a.triggered).length;
+const s1=document.getElementById(‘stActive’),s2=document.getElementById(‘stTriggered’),s3=document.getElementById(‘stTotal’);
+if(s1)s1.textContent=active;if(s2)s2.textContent=triggeredCount;if(s3)s3.textContent=totalSetCount;
 }
 function updateAlertsBadge(){
-  const n=userAlerts.filter(a=>!a.triggered).length;
-  const b=document.getElementById('alertsBadge');
-  if(b){b.textContent=n;b.classList.toggle('show',n>0);}
+const n=userAlerts.filter(a=>!a.triggered).length;
+const b=document.getElementById(‘alertsBadge’);
+if(b){b.textContent=n;b.classList.toggle(‘show’,n>0);}
 }
 function checkAlerts(){
-  userAlerts.forEach(a=>{
-    if(a.triggered)return;
-    const cur=PR[a.pair];if(!cur)return;
-    const hit=(a.dir==='above'&&cur>=a.price)||(a.dir==='below'&&cur<=a.price);
-    if(hit){
-      a.triggered=true;triggeredCount++;
-      alertHistory.unshift({pair:a.pair,price:a.price,dir:a.dir,icon:a.icon,triggeredAt:new Date()});
-      const el=document.getElementById('al-'+a.id);if(el)el.classList.add('flash-triggered');
-      playMomento();
-      toast(`🎯 ${a.pair} reached ${fmt(a.price)}! Alert triggered!`,'triggered');
-      if(currentPage==='alerts'){renderAlerts();renderHistory();}
-      updateAlertStats();updateAlertsBadge();
-    }
-  });
-  if(currentPage==='alerts')renderAlerts();
+userAlerts.forEach(a=>{
+if(a.triggered)return;
+const cur=PR[a.pair];if(!cur)return;
+const hit=(a.dir===‘above’&&cur>=a.price)||(a.dir===‘below’&&cur<=a.price);
+if(hit){
+a.triggered=true;triggeredCount++;
+alertHistory.unshift({pair:a.pair,price:a.price,dir:a.dir,icon:a.icon,triggeredAt:new Date()});
+const el=document.getElementById(‘al-’+a.id);if(el)el.classList.add(‘flash-triggered’);
+playMomento();
+toast(`🎯 ${a.pair} reached ${fmt(a.price)}! Alert triggered!`,‘triggered’);
+if(currentPage===‘alerts’){renderAlerts();renderHistory();}
+updateAlertStats();updateAlertsBadge();
+}
+});
+if(currentPage===‘alerts’)renderAlerts();
 }
 function renderHistory(){
-  const el=document.getElementById('historyEl');if(!el)return;
-  const items=[...alertHistory,...DEMO_HISTORY].slice(0,8);
-  el.innerHTML=items.map(h=>`
-    <div class="hist-item">
-      <div class="hist-ico">${h.icon}</div>
-      <div class="hist-info"><div class="hist-pair">${h.pair} ${h.dir==='above'?'↑':'↓'} ${fmt(h.price)}</div><div class="hist-detail">Target reached ✓ — alert triggered</div></div>
-      <div class="hist-time">${timeAgo(h.triggeredAt)}</div>
-    </div>
-  `).join('');
+const el=document.getElementById(‘historyEl’);if(!el)return;
+const items=[…alertHistory,…DEMO_HISTORY].slice(0,8);
+el.innerHTML=items.map(h=>`<div class="hist-item"> <div class="hist-ico">${h.icon}</div> <div class="hist-info"><div class="hist-pair">${h.pair} ${h.dir==='above'?'↑':'↓'} ${fmt(h.price)}</div><div class="hist-detail">Target reached ✓ — alert triggered</div></div> <div class="hist-time">${timeAgo(h.triggeredAt)}</div> </div>`).join(’’);
 }
 function timeAgo(d){
-  const s=(Date.now()-new Date(d))/1000;
-  if(s<60)return Math.floor(s)+'s ago';
-  if(s<3600)return Math.floor(s/60)+'m ago';
-  if(s<86400)return Math.floor(s/3600)+'h ago';
-  return Math.floor(s/86400)+'d ago';
+const s=(Date.now()-new Date(d))/1000;
+if(s<60)return Math.floor(s)+‘s ago’;
+if(s<3600)return Math.floor(s/60)+‘m ago’;
+if(s<86400)return Math.floor(s/3600)+‘h ago’;
+return Math.floor(s/86400)+‘d ago’;
 }
 
 // ════════════════════════════════════
 // PROFILE PAGE
 // ════════════════════════════════════
-function toggleTog(el){el.classList.toggle('on');toast(el.classList.contains('on')?'Notifications ON 🔔':'Notifications OFF 🔕');}
+function toggleTog(el){el.classList.toggle(‘on’);toast(el.classList.contains(‘on’)?‘Notifications ON 🔔’:‘Notifications OFF 🔕’);}
 function doLogout(){
-  toast('Logging out...');
-  setTimeout(()=>{
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.getElementById('statusBar').classList.add('hidden');
-    document.getElementById('botNav').classList.add('hidden');
-    document.getElementById('newsCrawl').classList.add('hidden');
-    document.getElementById('page-onboard').style.display='';
-    document.getElementById('page-onboard').style.opacity='';
-    document.getElementById('page-onboard').classList.add('active');
-    obSlide=0;
-    document.getElementById('obSlides').style.transform='translateX(0)';
-  },800);
+toast(‘Logging out…’);
+setTimeout(()=>{
+document.querySelectorAll(’.page’).forEach(p=>p.classList.remove(‘active’));
+document.getElementById(‘statusBar’).classList.add(‘hidden’);
+document.getElementById(‘botNav’).classList.add(‘hidden’);
+document.getElementById(‘newsCrawl’).classList.add(‘hidden’);
+document.getElementById(‘page-onboard’).style.display=’’;
+document.getElementById(‘page-onboard’).style.opacity=’’;
+document.getElementById(‘page-onboard’).classList.add(‘active’);
+obSlide=0;
+document.getElementById(‘obSlides’).style.transform=‘translateX(0)’;
+},800);
 }
 
 // ════════════════════════════════════
 // AUDIO
 // ════════════════════════════════════
 let AC;
-function initAC(){if(!AC){AC=new(window.AudioContext||window.webkitAudioContext)();}if(AC.state==='suspended')AC.resume();}
+function initAC(){if(!AC){AC=new(window.AudioContext||window.webkitAudioContext)();}if(AC.state===‘suspended’)AC.resume();}
 function testAlertSound(){
-  initAC();
-  const btn=document.getElementById('soundBtn');
-  btn.classList.add('playing');
-  playMomento();
-  setTimeout(()=>btn.classList.remove('playing'),1000);
-  toast('🔔 Momento alert sound!','success');
+initAC();
+const btn=document.getElementById(‘soundBtn’);
+btn.classList.add(‘playing’);
+playMomento();
+setTimeout(()=>btn.classList.remove(‘playing’),1000);
+toast(‘🔔 Momento alert sound!’,‘success’);
 }
 function playMomento(){
-  try{
-    initAC();const ctx=AC,t=ctx.currentTime;
-    const m=ctx.createGain();m.gain.setValueAtTime(.5,t);m.connect(ctx.destination);
-    [[440,880,0,.22],[880,1760,.1,.15],[2640,5280,.12,.06]].forEach(([f1,f2,d,v])=>{
-      const o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g);g.connect(m);o.type='sine';
-      o.frequency.setValueAtTime(f1,t+d);o.frequency.exponentialRampToValueAtTime(f2,t+d+.15);
-      g.gain.setValueAtTime(0,t+d);g.gain.linearRampToValueAtTime(v,t+d+.03);
-      g.gain.exponentialRampToValueAtTime(.001,t+d+.4);
-      o.start(t+d);o.stop(t+d+.45);
-    });
-    if('vibrate'in navigator)navigator.vibrate([60,30,100]);
-  }catch(e){}
+try{
+initAC();const ctx=AC,t=ctx.currentTime;
+const m=ctx.createGain();m.gain.setValueAtTime(.5,t);m.connect(ctx.destination);
+[[440,880,0,.22],[880,1760,.1,.15],[2640,5280,.12,.06]].forEach(([f1,f2,d,v])=>{
+const o=ctx.createOscillator(),g=ctx.createGain();
+o.connect(g);g.connect(m);o.type=‘sine’;
+o.frequency.setValueAtTime(f1,t+d);o.frequency.exponentialRampToValueAtTime(f2,t+d+.15);
+g.gain.setValueAtTime(0,t+d);g.gain.linearRampToValueAtTime(v,t+d+.03);
+g.gain.exponentialRampToValueAtTime(.001,t+d+.4);
+o.start(t+d);o.stop(t+d+.45);
+});
+if(‘vibrate’in navigator)navigator.vibrate([60,30,100]);
+}catch(e){}
 }
-document.addEventListener('touchstart',()=>{initAC();},{once:true,passive:true});
-document.addEventListener('click',()=>{initAC();},{once:true});
+document.addEventListener(‘touchstart’,()=>{initAC();},{once:true,passive:true});
+document.addEventListener(‘click’,()=>{initAC();},{once:true});
 
 // ════════════════════════════════════
 // TOAST
 // ════════════════════════════════════
-function toast(msg,type=''){
-  const el=document.createElement('div');
-  el.className='toast'+(type?' '+type:'');
-  el.textContent=msg;
-  document.getElementById('tw').appendChild(el);
-  setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300);},4500);
+function toast(msg,type=’’){
+const el=document.createElement(‘div’);
+el.className=‘toast’+(type?’ ‘+type:’’);
+el.textContent=msg;
+document.getElementById(‘tw’).appendChild(el);
+setTimeout(()=>{el.style.opacity=‘0’;el.style.transition=‘opacity .3s’;setTimeout(()=>el.remove(),300);},4500);
 }
 
 // ════════════════════════════════════
 // INIT
 // ════════════════════════════════════
 (function init(){
-  // Show onboarding
-  document.getElementById('page-onboard').classList.add('active');
-  // Init presets for alerts page (pre-render)
-  renderPresets();
-  // start ticker
-  renderTicker();
+// Show onboarding
+document.getElementById(‘page-onboard’).classList.add(‘active’);
+// Init presets for alerts page (pre-render)
+renderPresets();
+// start ticker
+renderTicker();
 })();
 
 // ════════════════════════════════════
 // TRANSLATIONS — 10 LANGUAGES
 // ════════════════════════════════════
 const LANGS = {
-  en: {
-    flag:'🇬🇧', name:'English', native:'English', dir:'ltr',
-    home:'HOME', calendar:'CALENDAR', signals:'SIGNALS', alerts:'ALERTS', profile:'PROFILE', about:'ABOUT',
-    getStarted:'Get Started Free ⚡', continue:'Continue →', startTrial:'Start 14-Day Free Trial →',
-    alreadyAccount:'Already have an account?', signIn:'Sign In', skipIntro:'Skip intro', decideLater:"I\'ll decide later",
-    marketPulse:'⚡ Market Pulse', livePrices:'Live Prices', aiSignals:'AI Signals', communityFeed:'Community Feed',
-    shareInsight:'Share a market insight...', viewAllSignals:'VIEW ALL SIGNALS →',
-    payToday:'PAY TODAY ✓', doNotPay:'DO NOT PAY ✗', waitDays:'WAIT 1-2 DAYS ⚠', monitor:'MONITOR ◎',
-    buyOpp:'BUY OPPORTUNITY ✓', buyAcc:'BUY / ACCUMULATE ✓',
-    newAlert:'New Alert', setAlertNow:'Set Alert Now', activeAlerts:'Active Alerts', recentHistory:'Recent History',
-    asset:'ASSET', condition:'CONDITION', targetPrice:'TARGET PRICE', enterTarget:'Enter target price...',
-    priceGoesAbove:'Goes ABOVE ↑', priceGoesBelow:'Goes BELOW ↓',
-    alertWhen:'ALERT WHEN', priceAbove:'↑ PRICE GOES ABOVE', priceBelow:'↓ PRICE GOES BELOW',
-    currentPrice:'CURRENT PRICE', aiSuggested:'AI SUGGESTED TARGETS',
-    resistance:'RESISTANCE', target:'TARGET', support:'SUPPORT',
-    noAlerts:'No alerts yet', noAlertsDesc:'Set your first alert above.',
-    language:'Language', darkMode:'Dark Mode', notifications:'Notifications',
-    proTrialActive:'✦ Pro Trial Active', keepProFree:'Keep Pro free by opening a trading account',
-    daysLeft:'DAYS LEFT', getProFree:'🚀 Get Pro Free Forever',
-    shareApp:'Share Momento 🚀', copyLink:'COPY LINK', linkCopied:'Link copied! 🔗',
-    aboutMomento:'About Momento', shareInvite:'Invite friends & traders',
-    logOut:'Log Out', editProfile:'✏ Edit Profile',
-    payNow:'PAY NOW', wait:'WAIT', avoid:'AVOID',
-    selectCurrency:'Select Currency Pair', todaySignal:"Today\'s Signal",
-    aiAnalysis:'AI Analysis', paymentCalendar:'Payment Calendar', upcomingEvents:'Upcoming Market Events',
-    activeSignals:'Active Signals', all:'ALL', forex:'FOREX', crypto:'CRYPTO',
-    commodities:'COMMODITIES', indices:'INDICES', buyOnly:'BUY ONLY', sellOnly:'SELL ONLY',
-    setAlert:'Set Alert', hideAi:'Hide', aiAnalysisBtn:'AI Analysis',
-    tapToTest:'TAP TO TEST · TOUCH SCREEN FIRST', momentoAlertSound:'Momento Alert Sound',
-    active:'ACTIVE', triggered:'TRIGGERED', totalSet:'TOTAL SET',
-    fear:'FEAR', greed:'GREED',
-  },
-  ar: {
-    flag:'🇸🇦', name:'Arabic', native:'العربية', dir:'rtl',
-    home:'الرئيسية', calendar:'التقويم', signals:'الإشارات', alerts:'التنبيهات', profile:'الملف', about:'من نحن',
-    getStarted:'ابدأ مجاناً ⚡', continue:'متابعة →', startTrial:'ابدأ تجربة 14 يوم →',
-    alreadyAccount:'لديك حساب بالفعل؟', signIn:'تسجيل الدخول', skipIntro:'تخطي', decideLater:'لاحقاً',
-    marketPulse:'⚡ نبضة السوق', livePrices:'الأسعار المباشرة', aiSignals:'إشارات الذكاء الاصطناعي', communityFeed:'مجتمع التداول',
-    shareInsight:'شارك تحليلاً للسوق...', viewAllSignals:'عرض كل الإشارات →',
-    payToday:'ادفع اليوم ✓', doNotPay:'لا تدفع الآن ✗', waitDays:'انتظر 1-2 أيام ⚠', monitor:'راقب ◎',
-    buyOpp:'فرصة شراء ✓', buyAcc:'اشترِ / راكم ✓',
-    newAlert:'تنبيه جديد', setAlertNow:'تعيين التنبيه', activeAlerts:'التنبيهات النشطة', recentHistory:'السجل الأخير',
-    asset:'الأصل', condition:'الشرط', targetPrice:'السعر المستهدف', enterTarget:'أدخل السعر المستهدف...',
-    priceGoesAbove:'يصعد فوق ↑', priceGoesBelow:'ينزل تحت ↓',
-    alertWhen:'تنبيه عندما', priceAbove:'↑ السعر يرتفع فوق', priceBelow:'↓ السعر ينخفض تحت',
-    currentPrice:'السعر الحالي', aiSuggested:'أهداف مقترحة بالذكاء الاصطناعي',
-    resistance:'مقاومة', target:'هدف', support:'دعم',
-    noAlerts:'لا توجد تنبيهات', noAlertsDesc:'أضف أول تنبيه أعلاه.',
-    language:'اللغة', darkMode:'الوضع الداكن', notifications:'الإشعارات',
-    proTrialActive:'✦ الإصدار التجريبي Pro نشط', keepProFree:'احتفظ بـ Pro مجاناً بفتح حساب تداول',
-    daysLeft:'أيام متبقية', getProFree:'🚀 احصل على Pro مجاناً للأبد',
-    shareApp:'شارك Momento 🚀', copyLink:'نسخ الرابط', linkCopied:'تم نسخ الرابط! 🔗',
-    aboutMomento:'عن Momento', shareInvite:'دعوة أصدقاء ومتداولين',
-    logOut:'تسجيل الخروج', editProfile:'✏ تعديل الملف',
-    payNow:'ادفع الآن', wait:'انتظر', avoid:'تجنب',
-    selectCurrency:'اختر زوج العملة', todaySignal:'إشارة اليوم',
-    aiAnalysis:'تحليل الذكاء الاصطناعي', paymentCalendar:'تقويم المدفوعات', upcomingEvents:'الأحداث القادمة',
-    activeSignals:'الإشارات النشطة', all:'الكل', forex:'فوركس', crypto:'كريبتو',
-    commodities:'سلع', indices:'مؤشرات', buyOnly:'شراء فقط', sellOnly:'بيع فقط',
-    setAlert:'تعيين تنبيه', hideAi:'إخفاء', aiAnalysisBtn:'تحليل AI',
-    tapToTest:'اضغط للاختبار', momentoAlertSound:'صوت تنبيه Momento',
-    active:'نشط', triggered:'تفعّل', totalSet:'المجموع',
-    fear:'خوف', greed:'طمع',
-  },
-  fr: {
-    flag:'🇫🇷', name:'French', native:'Français', dir:'ltr',
-    home:'ACCUEIL', calendar:'CALENDRIER', signals:'SIGNAUX', alerts:'ALERTES', profile:'PROFIL', about:'À PROPOS',
-    getStarted:'Commencer Gratuitement ⚡', continue:'Continuer →', startTrial:"Démarrer l\'essai 14 jours →",
-    alreadyAccount:'Déjà un compte?', signIn:'Se connecter', skipIntro:'Passer', decideLater:'Plus tard',
-    marketPulse:'⚡ Pouls du marché', livePrices:'Prix en direct', aiSignals:'Signaux IA', communityFeed:'Fil communautaire',
-    shareInsight:'Partager une analyse...', viewAllSignals:'VOIR TOUS LES SIGNAUX →',
-    payToday:'PAYER AUJOURD\'HUI ✓', doNotPay:'NE PAS PAYER ✗', waitDays:'ATTENDRE 1-2 JOURS ⚠', monitor:'SURVEILLER ◎',
-    buyOpp:'OPPORTUNITÉ D\'ACHAT ✓', buyAcc:'ACHETER / ACCUMULER ✓',
-    newAlert:'Nouvelle alerte', setAlertNow:'Définir l\'alerte', activeAlerts:'Alertes actives', recentHistory:'Historique récent',
-    asset:'ACTIF', condition:'CONDITION', targetPrice:'PRIX CIBLE', enterTarget:'Entrez le prix cible...',
-    priceGoesAbove:'Monte au-dessus ↑', priceGoesBelow:'Descend en dessous ↓',
-    alertWhen:'ALERTER QUAND', priceAbove:'↑ PRIX MONTE AU-DESSUS', priceBelow:'↓ PRIX DESCEND EN DESSOUS',
-    currentPrice:'PRIX ACTUEL', aiSuggested:'CIBLES SUGGÉRÉES PAR IA',
-    resistance:'RÉSISTANCE', target:'CIBLE', support:'SUPPORT',
-    noAlerts:'Aucune alerte', noAlertsDesc:'Définissez votre première alerte ci-dessus.',
-    language:'Langue', darkMode:'Mode sombre', notifications:'Notifications',
-    proTrialActive:'✦ Essai Pro actif', keepProFree:'Gardez Pro gratuit en ouvrant un compte de trading',
-    daysLeft:'JOURS RESTANTS', getProFree:'🚀 Obtenez Pro Gratuit Pour Toujours',
-    shareApp:'Partager Momento 🚀', copyLink:'COPIER LE LIEN', linkCopied:'Lien copié! 🔗',
-    aboutMomento:'À propos de Momento', shareInvite:'Inviter des amis et traders',
-    logOut:'Se déconnecter', editProfile:'✏ Modifier le profil',
-    payNow:'PAYER', wait:'ATTENDRE', avoid:'ÉVITER',
-    selectCurrency:'Sélectionner la paire', todaySignal:"Signal d\'aujourd\'hui",
-    aiAnalysis:'Analyse IA', paymentCalendar:'Calendrier des paiements', upcomingEvents:'Événements à venir',
-    activeSignals:'Signaux actifs', all:'TOUS', forex:'FOREX', crypto:'CRYPTO',
-    commodities:'MATIÈRES PREMIÈRES', indices:'INDICES', buyOnly:'ACHAT UNIQUEMENT', sellOnly:'VENTE UNIQUEMENT',
-    setAlert:'Définir alerte', hideAi:'Masquer', aiAnalysisBtn:'Analyse IA',
-    tapToTest:'APPUYER POUR TESTER', momentoAlertSound:'Son d\'alerte Momento',
-    active:'ACTIF', triggered:'DÉCLENCHÉ', totalSet:'TOTAL',
-    fear:'PEUR', greed:'AVIDITÉ',
-  },
-  es: {
-    flag:'🇪🇸', name:'Spanish', native:'Español', dir:'ltr',
-    home:'INICIO', calendar:'CALENDARIO', signals:'SEÑALES', alerts:'ALERTAS', profile:'PERFIL', about:'SOBRE',
-    getStarted:'Empezar Gratis ⚡', continue:'Continuar →', startTrial:'Iniciar prueba 14 días →',
-    alreadyAccount:'¿Ya tienes cuenta?', signIn:'Iniciar sesión', skipIntro:'Saltar', decideLater:'Más tarde',
-    marketPulse:'⚡ Pulso del mercado', livePrices:'Precios en vivo', aiSignals:'Señales IA', communityFeed:'Feed comunidad',
-    shareInsight:'Comparte un análisis...', viewAllSignals:'VER TODAS LAS SEÑALES →',
-    payToday:'PAGAR HOY ✓', doNotPay:'NO PAGAR ✗', waitDays:'ESPERAR 1-2 DÍAS ⚠', monitor:'MONITOREAR ◎',
-    buyOpp:'OPORTUNIDAD DE COMPRA ✓', buyAcc:'COMPRAR / ACUMULAR ✓',
-    newAlert:'Nueva alerta', setAlertNow:'Establecer alerta', activeAlerts:'Alertas activas', recentHistory:'Historial reciente',
-    asset:'ACTIVO', condition:'CONDICIÓN', targetPrice:'PRECIO OBJETIVO', enterTarget:'Ingrese el precio objetivo...',
-    priceGoesAbove:'Sube por encima ↑', priceGoesBelow:'Baja por debajo ↓',
-    alertWhen:'ALERTAR CUANDO', priceAbove:'↑ PRECIO SUBE SOBRE', priceBelow:'↓ PRECIO BAJA BAJO',
-    currentPrice:'PRECIO ACTUAL', aiSuggested:'OBJETIVOS SUGERIDOS POR IA',
-    resistance:'RESISTENCIA', target:'OBJETIVO', support:'SOPORTE',
-    noAlerts:'Sin alertas', noAlertsDesc:'Establece tu primera alerta arriba.',
-    language:'Idioma', darkMode:'Modo oscuro', notifications:'Notificaciones',
-    proTrialActive:'✦ Prueba Pro activa', keepProFree:'Mantén Pro gratis abriendo una cuenta de trading',
-    daysLeft:'DÍAS RESTANTES', getProFree:'🚀 Obtén Pro Gratis Para Siempre',
-    shareApp:'Compartir Momento 🚀', copyLink:'COPIAR ENLACE', linkCopied:'¡Enlace copiado! 🔗',
-    aboutMomento:'Sobre Momento', shareInvite:'Invitar amigos y traders',
-    logOut:'Cerrar sesión', editProfile:'✏ Editar perfil',
-    payNow:'PAGAR', wait:'ESPERAR', avoid:'EVITAR',
-    selectCurrency:'Seleccionar par', todaySignal:'Señal de hoy',
-    aiAnalysis:'Análisis IA', paymentCalendar:'Calendario de pagos', upcomingEvents:'Próximos eventos',
-    activeSignals:'Señales activas', all:'TODOS', forex:'FOREX', crypto:'CRIPTO',
-    commodities:'MATERIAS PRIMAS', indices:'ÍNDICES', buyOnly:'SOLO COMPRA', sellOnly:'SOLO VENTA',
-    setAlert:'Establecer alerta', hideAi:'Ocultar', aiAnalysisBtn:'Análisis IA',
-    tapToTest:'TOCA PARA PROBAR', momentoAlertSound:'Sonido de alerta Momento',
-    active:'ACTIVO', triggered:'ACTIVADO', totalSet:'TOTAL',
-    fear:'MIEDO', greed:'CODICIA',
-  },
-  pt: {
-    flag:'🇧🇷', name:'Portuguese', native:'Português', dir:'ltr',
-    home:'INÍCIO', calendar:'CALENDÁRIO', signals:'SINAIS', alerts:'ALERTAS', profile:'PERFIL', about:'SOBRE',
-    getStarted:'Começar Grátis ⚡', continue:'Continuar →', startTrial:'Iniciar teste 14 dias →',
-    alreadyAccount:'Já tem conta?', signIn:'Entrar', skipIntro:'Pular', decideLater:'Mais tarde',
-    marketPulse:'⚡ Pulso do mercado', livePrices:'Preços ao vivo', aiSignals:'Sinais IA', communityFeed:'Feed comunidade',
-    shareInsight:'Compartilhe uma análise...', viewAllSignals:'VER TODOS OS SINAIS →',
-    payToday:'PAGAR HOJE ✓', doNotPay:'NÃO PAGAR ✗', waitDays:'AGUARDAR 1-2 DIAS ⚠', monitor:'MONITORAR ◎',
-    buyOpp:'OPORTUNIDADE DE COMPRA ✓', buyAcc:'COMPRAR / ACUMULAR ✓',
-    newAlert:'Novo alerta', setAlertNow:'Definir alerta', activeAlerts:'Alertas ativos', recentHistory:'Histórico recente',
-    asset:'ATIVO', condition:'CONDIÇÃO', targetPrice:'PREÇO ALVO', enterTarget:'Digite o preço alvo...',
-    priceGoesAbove:'Sobe acima ↑', priceGoesBelow:'Desce abaixo ↓',
-    alertWhen:'ALERTAR QUANDO', priceAbove:'↑ PREÇO SOBE ACIMA', priceBelow:'↓ PREÇO DESCE ABAIXO',
-    currentPrice:'PREÇO ATUAL', aiSuggested:'ALVOS SUGERIDOS POR IA',
-    resistance:'RESISTÊNCIA', target:'ALVO', support:'SUPORTE',
-    noAlerts:'Sem alertas', noAlertsDesc:'Defina seu primeiro alerta acima.',
-    language:'Idioma', darkMode:'Modo escuro', notifications:'Notificações',
-    proTrialActive:'✦ Teste Pro ativo', keepProFree:'Mantenha Pro grátis abrindo conta de trading',
-    daysLeft:'DIAS RESTANTES', getProFree:'🚀 Obtenha Pro Grátis Para Sempre',
-    shareApp:'Compartilhar Momento 🚀', copyLink:'COPIAR LINK', linkCopied:'Link copiado! 🔗',
-    aboutMomento:'Sobre Momento', shareInvite:'Convidar amigos e traders',
-    logOut:'Sair', editProfile:'✏ Editar perfil',
-    payNow:'PAGAR', wait:'AGUARDAR', avoid:'EVITAR',
-    selectCurrency:'Selecionar par', todaySignal:'Sinal de hoje',
-    aiAnalysis:'Análise IA', paymentCalendar:'Calendário de pagamentos', upcomingEvents:'Próximos eventos',
-    activeSignals:'Sinais ativos', all:'TODOS', forex:'FOREX', crypto:'CRIPTO',
-    commodities:'COMMODITIES', indices:'ÍNDICES', buyOnly:'SÓ COMPRA', sellOnly:'SÓ VENDA',
-    setAlert:'Definir alerta', hideAi:'Ocultar', aiAnalysisBtn:'Análise IA',
-    tapToTest:'TOQUE PARA TESTAR', momentoAlertSound:'Som de alerta Momento',
-    active:'ATIVO', triggered:'ATIVADO', totalSet:'TOTAL',
-    fear:'MEDO', greed:'GANÂNCIA',
-  },
-  ru: {
-    flag:'🇷🇺', name:'Russian', native:'Русский', dir:'ltr',
-    home:'ГЛАВНАЯ', calendar:'КАЛЕНДАРЬ', signals:'СИГНАЛЫ', alerts:'ОПОВЕЩЕНИЯ', profile:'ПРОФИЛЬ', about:'О НАС',
-    getStarted:'Начать бесплатно ⚡', continue:'Продолжить →', startTrial:'Начать пробный период 14 дней →',
-    alreadyAccount:'Уже есть аккаунт?', signIn:'Войти', skipIntro:'Пропустить', decideLater:'Позже',
-    marketPulse:'⚡ Пульс рынка', livePrices:'Живые цены', aiSignals:'Сигналы ИИ', communityFeed:'Лента сообщества',
-    shareInsight:'Поделитесь анализом...', viewAllSignals:'СМОТРЕТЬ ВСЕ СИГНАЛЫ →',
-    payToday:'ПЛАТИТЬ СЕГОДНЯ ✓', doNotPay:'НЕ ПЛАТИТЬ ✗', waitDays:'ПОДОЖДАТЬ 1-2 ДНЯ ⚠', monitor:'МОНИТОРИНГ ◎',
-    buyOpp:'ВОЗМОЖНОСТЬ ПОКУПКИ ✓', buyAcc:'ПОКУПАТЬ / НАКАПЛИВАТЬ ✓',
-    newAlert:'Новое оповещение', setAlertNow:'Установить оповещение', activeAlerts:'Активные оповещения', recentHistory:'Недавняя история',
-    asset:'АКТИВ', condition:'УСЛОВИЕ', targetPrice:'ЦЕЛЕВАЯ ЦЕНА', enterTarget:'Введите целевую цену...',
-    priceGoesAbove:'Поднимается выше ↑', priceGoesBelow:'Опускается ниже ↓',
-    alertWhen:'ОПОВЕЩАТЬ КОГДА', priceAbove:'↑ ЦЕНА РАСТЁТ ВЫШЕ', priceBelow:'↓ ЦЕНА ПАДАЕТ НИЖЕ',
-    currentPrice:'ТЕКУЩАЯ ЦЕНА', aiSuggested:'ЦЕЛИ ОТ ИИ',
-    resistance:'СОПРОТИВЛЕНИЕ', target:'ЦЕЛЬ', support:'ПОДДЕРЖКА',
-    noAlerts:'Нет оповещений', noAlertsDesc:'Установите первое оповещение выше.',
-    language:'Язык', darkMode:'Тёмный режим', notifications:'Уведомления',
-    proTrialActive:'✦ Пробный период Pro активен', keepProFree:'Сохраните Pro бесплатно, открыв торговый счёт',
-    daysLeft:'ДНЕЙ ОСТАЛОСЬ', getProFree:'🚀 Получите Pro Бесплатно Навсегда',
-    shareApp:'Поделиться Momento 🚀', copyLink:'КОПИРОВАТЬ ССЫЛКУ', linkCopied:'Ссылка скопирована! 🔗',
-    aboutMomento:'О Momento', shareInvite:'Пригласить друзей и трейдеров',
-    logOut:'Выйти', editProfile:'✏ Редактировать профиль',
-    payNow:'ПЛАТИТЬ', wait:'ЖДАТЬ', avoid:'ИЗБЕГАТЬ',
-    selectCurrency:'Выбрать валютную пару', todaySignal:'Сигнал сегодня',
-    aiAnalysis:'Анализ ИИ', paymentCalendar:'Календарь платежей', upcomingEvents:'Предстоящие события',
-    activeSignals:'Активные сигналы', all:'ВСЕ', forex:'ФОРЕКС', crypto:'КРИПТО',
-    commodities:'ТОВАРЫ', indices:'ИНДЕКСЫ', buyOnly:'ТОЛЬКО ПОКУПКА', sellOnly:'ТОЛЬКО ПРОДАЖА',
-    setAlert:'Установить оповещение', hideAi:'Скрыть', aiAnalysisBtn:'Анализ ИИ',
-    tapToTest:'НАЖМИТЕ ДЛЯ ТЕСТА', momentoAlertSound:'Звук оповещения Momento',
-    active:'АКТИВНО', triggered:'СРАБОТАЛО', totalSet:'ВСЕГО',
-    fear:'СТРАХ', greed:'ЖАДНОСТЬ',
-  },
-  ja: {
-    flag:'🇯🇵', name:'Japanese', native:'日本語', dir:'ltr',
-    home:'ホーム', calendar:'カレンダー', signals:'シグナル', alerts:'アラート', profile:'プロフィール', about:'について',
-    getStarted:'無料で始める ⚡', continue:'続ける →', startTrial:'14日間無料トライアル開始 →',
-    alreadyAccount:'すでにアカウントをお持ちですか？', signIn:'サインイン', skipIntro:'スキップ', decideLater:'後で',
-    marketPulse:'⚡ マーケットパルス', livePrices:'ライブ価格', aiSignals:'AIシグナル', communityFeed:'コミュニティ',
-    shareInsight:'市場分析を共有...', viewAllSignals:'すべてのシグナルを見る →',
-    payToday:'本日支払い ✓', doNotPay:'支払い不可 ✗', waitDays:'1-2日待機 ⚠', monitor:'監視 ◎',
-    buyOpp:'買いチャンス ✓', buyAcc:'買い/積立 ✓',
-    newAlert:'新しいアラート', setAlertNow:'アラートを設定', activeAlerts:'アクティブアラート', recentHistory:'最近の履歴',
-    asset:'資産', condition:'条件', targetPrice:'目標価格', enterTarget:'目標価格を入力...',
-    priceGoesAbove:'上昇 ↑', priceGoesBelow:'下落 ↓',
-    alertWhen:'通知タイミング', priceAbove:'↑ 価格が上昇したら', priceBelow:'↓ 価格が下落したら',
-    currentPrice:'現在価格', aiSuggested:'AI推奨ターゲット',
-    resistance:'レジスタンス', target:'ターゲット', support:'サポート',
-    noAlerts:'アラートなし', noAlertsDesc:'上記で最初のアラートを設定してください。',
-    language:'言語', darkMode:'ダークモード', notifications:'通知',
-    proTrialActive:'✦ Proトライアル中', keepProFree:'取引口座を開設してProを無料で維持',
-    daysLeft:'日残り', getProFree:'🚀 Proを永久無料で取得',
-    shareApp:'Momentoをシェア 🚀', copyLink:'リンクをコピー', linkCopied:'リンクがコピーされました! 🔗',
-    aboutMomento:'Momentoについて', shareInvite:'友達とトレーダーを招待',
-    logOut:'ログアウト', editProfile:'✏ プロフィール編集',
-    payNow:'今すぐ支払う', wait:'待機', avoid:'避ける',
-    selectCurrency:'通貨ペアを選択', todaySignal:'本日のシグナル',
-    aiAnalysis:'AI分析', paymentCalendar:'支払いカレンダー', upcomingEvents:'今後のイベント',
-    activeSignals:'アクティブシグナル', all:'全て', forex:'外為', crypto:'仮想通貨',
-    commodities:'商品', indices:'指数', buyOnly:'買いのみ', sellOnly:'売りのみ',
-    setAlert:'アラート設定', hideAi:'非表示', aiAnalysisBtn:'AI分析',
-    tapToTest:'タップしてテスト', momentoAlertSound:'Momentoアラート音',
-    active:'アクティブ', triggered:'発動', totalSet:'合計',
-    fear:'恐怖', greed:'強欲',
-  },
-  zh: {
-    flag:'🇨🇳', name:'Chinese', native:'中文', dir:'ltr',
-    home:'首页', calendar:'日历', signals:'信号', alerts:'提醒', profile:'个人', about:'关于',
-    getStarted:'免费开始 ⚡', continue:'继续 →', startTrial:'开始14天免费试用 →',
-    alreadyAccount:'已有账户？', signIn:'登录', skipIntro:'跳过', decideLater:'稍后',
-    marketPulse:'⚡ 市场脉搏', livePrices:'实时价格', aiSignals:'AI信号', communityFeed:'社区动态',
-    shareInsight:'分享市场见解...', viewAllSignals:'查看所有信号 →',
-    payToday:'今日付款 ✓', doNotPay:'暂勿付款 ✗', waitDays:'等待1-2天 ⚠', monitor:'监控 ◎',
-    buyOpp:'买入机会 ✓', buyAcc:'买入/积累 ✓',
-    newAlert:'新提醒', setAlertNow:'设置提醒', activeAlerts:'活跃提醒', recentHistory:'最近历史',
-    asset:'资产', condition:'条件', targetPrice:'目标价格', enterTarget:'输入目标价格...',
-    priceGoesAbove:'上涨至 ↑', priceGoesBelow:'下跌至 ↓',
-    alertWhen:'提醒时机', priceAbove:'↑ 价格上涨超过', priceBelow:'↓ 价格下跌低于',
-    currentPrice:'当前价格', aiSuggested:'AI建议目标',
-    resistance:'阻力', target:'目标', support:'支撑',
-    noAlerts:'暂无提醒', noAlertsDesc:'在上方设置您的第一个提醒。',
-    language:'语言', darkMode:'深色模式', notifications:'通知',
-    proTrialActive:'✦ Pro试用中', keepProFree:'开通交易账户永久免费使用Pro',
-    daysLeft:'天剩余', getProFree:'🚀 永久免费获得Pro',
-    shareApp:'分享Momento 🚀', copyLink:'复制链接', linkCopied:'链接已复制! 🔗',
-    aboutMomento:'关于Momento', shareInvite:'邀请朋友和交易者',
-    logOut:'退出', editProfile:'✏ 编辑资料',
-    payNow:'立即付款', wait:'等待', avoid:'避免',
-    selectCurrency:'选择货币对', todaySignal:'今日信号',
-    aiAnalysis:'AI分析', paymentCalendar:'付款日历', upcomingEvents:'即将到来的事件',
-    activeSignals:'活跃信号', all:'全部', forex:'外汇', crypto:'加密货币',
-    commodities:'大宗商品', indices:'指数', buyOnly:'仅买入', sellOnly:'仅卖出',
-    setAlert:'设置提醒', hideAi:'隐藏', aiAnalysisBtn:'AI分析',
-    tapToTest:'点击测试', momentoAlertSound:'Momento提醒音',
-    active:'活跃', triggered:'已触发', totalSet:'总计',
-    fear:'恐惧', greed:'贪婪',
-  },
-  hi: {
-    flag:'🇮🇳', name:'Hindi', native:'हिन्दी', dir:'ltr',
-    home:'होम', calendar:'कैलेंडर', signals:'सिग्नल', alerts:'अलर्ट', profile:'प्रोफ़ाइल', about:'बारे में',
-    getStarted:'मुफ्त शुरू करें ⚡', continue:'जारी रखें →', startTrial:'14 दिन मुफ्त ट्रायल →',
-    alreadyAccount:'पहले से खाता है?', signIn:'साइन इन', skipIntro:'छोड़ें', decideLater:'बाद में',
-    marketPulse:'⚡ मार्केट पल्स', livePrices:'लाइव कीमतें', aiSignals:'AI सिग्नल', communityFeed:'कम्युनिटी फीड',
-    shareInsight:'मार्केट इनसाइट शेयर करें...', viewAllSignals:'सभी सिग्नल देखें →',
-    payToday:'आज भुगतान करें ✓', doNotPay:'भुगतान न करें ✗', waitDays:'1-2 दिन प्रतीक्षा करें ⚠', monitor:'निगरानी करें ◎',
-    buyOpp:'खरीद का मौका ✓', buyAcc:'खरीदें/जमा करें ✓',
-    newAlert:'नया अलर्ट', setAlertNow:'अलर्ट सेट करें', activeAlerts:'सक्रिय अलर्ट', recentHistory:'हाल का इतिहास',
-    asset:'संपत्ति', condition:'शर्त', targetPrice:'लक्ष्य मूल्य', enterTarget:'लक्ष्य मूल्य दर्ज करें...',
-    priceGoesAbove:'ऊपर जाता है ↑', priceGoesBelow:'नीचे जाता है ↓',
-    alertWhen:'अलर्ट कब', priceAbove:'↑ मूल्य ऊपर जाए', priceBelow:'↓ मूल्य नीचे जाए',
-    currentPrice:'वर्तमान मूल्य', aiSuggested:'AI सुझाए लक्ष्य',
-    resistance:'प्रतिरोध', target:'लक्ष्य', support:'समर्थन',
-    noAlerts:'कोई अलर्ट नहीं', noAlertsDesc:'ऊपर अपना पहला अलर्ट सेट करें।',
-    language:'भाषा', darkMode:'डार्क मोड', notifications:'सूचनाएं',
-    proTrialActive:'✦ Pro ट्रायल सक्रिय', keepProFree:'ट्रेडिंग खाता खोलकर Pro मुफ्त रखें',
-    daysLeft:'दिन शेष', getProFree:'🚀 Pro हमेशा के लिए मुफ्त पाएं',
-    shareApp:'Momento शेयर करें 🚀', copyLink:'लिंक कॉपी करें', linkCopied:'लिंक कॉपी हो गया! 🔗',
-    aboutMomento:'Momento के बारे में', shareInvite:'दोस्तों और ट्रेडर्स को आमंत्रित करें',
-    logOut:'लॉग आउट', editProfile:'✏ प्रोफ़ाइल संपादित करें',
-    payNow:'अभी भुगतान करें', wait:'प्रतीक्षा करें', avoid:'बचें',
-    selectCurrency:'मुद्रा जोड़ी चुनें', todaySignal:'आज का सिग्नल',
-    aiAnalysis:'AI विश्लेषण', paymentCalendar:'भुगतान कैलेंडर', upcomingEvents:'आगामी कार्यक्रम',
-    activeSignals:'सक्रिय सिग्नल', all:'सभी', forex:'फॉरेक्स', crypto:'क्रिप्टो',
-    commodities:'कमोडिटी', indices:'सूचकांक', buyOnly:'केवल खरीद', sellOnly:'केवल बिक्री',
-    setAlert:'अलर्ट सेट करें', hideAi:'छुपाएं', aiAnalysisBtn:'AI विश्लेषण',
-    tapToTest:'टेस्ट के लिए टैप करें', momentoAlertSound:'Momento अलर्ट ध्वनि',
-    active:'सक्रिय', triggered:'ट्रिगर हुआ', totalSet:'कुल',
-    fear:'डर', greed:'लालच',
-  },
-  id: {
-    flag:'🇮🇩', name:'Indonesian', native:'Bahasa Indonesia', dir:'ltr',
-    home:'BERANDA', calendar:'KALENDER', signals:'SINYAL', alerts:'PERINGATAN', profile:'PROFIL', about:'TENTANG',
-    getStarted:'Mulai Gratis ⚡', continue:'Lanjutkan →', startTrial:'Mulai Uji Coba 14 Hari →',
-    alreadyAccount:'Sudah punya akun?', signIn:'Masuk', skipIntro:'Lewati', decideLater:'Nanti saja',
-    marketPulse:'⚡ Denyut Pasar', livePrices:'Harga Langsung', aiSignals:'Sinyal AI', communityFeed:'Feed Komunitas',
-    shareInsight:'Bagikan analisis pasar...', viewAllSignals:'LIHAT SEMUA SINYAL →',
-    payToday:'BAYAR HARI INI ✓', doNotPay:'JANGAN BAYAR ✗', waitDays:'TUNGGU 1-2 HARI ⚠', monitor:'PANTAU ◎',
-    buyOpp:'PELUANG BELI ✓', buyAcc:'BELI / AKUMULASI ✓',
-    newAlert:'Peringatan Baru', setAlertNow:'Atur Peringatan', activeAlerts:'Peringatan Aktif', recentHistory:'Riwayat Terkini',
-    asset:'ASET', condition:'KONDISI', targetPrice:'HARGA TARGET', enterTarget:'Masukkan harga target...',
-    priceGoesAbove:'Naik di atas ↑', priceGoesBelow:'Turun di bawah ↓',
-    alertWhen:'PERINGATKAN KETIKA', priceAbove:'↑ HARGA NAIK DI ATAS', priceBelow:'↓ HARGA TURUN DI BAWAH',
-    currentPrice:'HARGA SAAT INI', aiSuggested:'TARGET SARAN AI',
-    resistance:'RESISTENSI', target:'TARGET', support:'DUKUNGAN',
-    noAlerts:'Belum ada peringatan', noAlertsDesc:'Atur peringatan pertama Anda di atas.',
-    language:'Bahasa', darkMode:'Mode Gelap', notifications:'Notifikasi',
-    proTrialActive:'✦ Uji Coba Pro Aktif', keepProFree:'Pertahankan Pro gratis dengan membuka akun trading',
-    daysLeft:'HARI TERSISA', getProFree:'🚀 Dapatkan Pro Gratis Selamanya',
-    shareApp:'Bagikan Momento 🚀', copyLink:'SALIN TAUTAN', linkCopied:'Tautan disalin! 🔗',
-    aboutMomento:'Tentang Momento', shareInvite:'Undang teman dan trader',
-    logOut:'Keluar', editProfile:'✏ Edit Profil',
-    payNow:'BAYAR', wait:'TUNGGU', avoid:'HINDARI',
-    selectCurrency:'Pilih Pasangan Mata Uang', todaySignal:'Sinyal Hari Ini',
-    aiAnalysis:'Analisis AI', paymentCalendar:'Kalender Pembayaran', upcomingEvents:'Acara Mendatang',
-    activeSignals:'Sinyal Aktif', all:'SEMUA', forex:'FOREX', crypto:'KRIPTO',
-    commodities:'KOMODITAS', indices:'INDEKS', buyOnly:'BELI SAJA', sellOnly:'JUAL SAJA',
-    setAlert:'Atur peringatan', hideAi:'Sembunyikan', aiAnalysisBtn:'Analisis AI',
-    tapToTest:'KETUK UNTUK UJI', momentoAlertSound:'Suara Peringatan Momento',
-    active:'AKTIF', triggered:'TERPICU', totalSet:'TOTAL',
-    fear:'TAKUT', greed:'SERAKAH',
-  },
-  tr: {
-    flag:'🇹🇷', name:'Turkish', native:'Türkçe', dir:'ltr',
-    home:'ANA SAYFA', calendar:'TAKVİM', signals:'SİNYALLER', alerts:'UYARILAR', profile:'PROFİL', about:'HAKKINDA',
-    getStarted:'Ücretsiz Başla ⚡', continue:'Devam →', startTrial:'14 Günlük Deneme Başlat →',
-    alreadyAccount:'Zaten hesabınız var mı?', signIn:'Giriş Yap', skipIntro:'Atla', decideLater:'Sonra',
-    marketPulse:'⚡ Piyasa Nabzı', livePrices:'Canlı Fiyatlar', aiSignals:'AI Sinyalleri', communityFeed:'Topluluk Akışı',
-    shareInsight:'Piyasa analizi paylaş...', viewAllSignals:'TÜM SİNYALLERİ GÖR →',
-    payToday:'BUGÜN ÖDE ✓', doNotPay:'ÖDEME YAPMA ✗', waitDays:'1-2 GÜN BEKLE ⚠', monitor:'İZLE ◎',
-    buyOpp:'ALIM FIRSATI ✓', buyAcc:'AL / BİRİKTİR ✓',
-    newAlert:'Yeni Uyarı', setAlertNow:'Uyarı Kur', activeAlerts:'Aktif Uyarılar', recentHistory:'Son Geçmiş',
-    asset:'VARLIK', condition:'KOŞUL', targetPrice:'HEDEF FİYAT', enterTarget:'Hedef fiyatı girin...',
-    priceGoesAbove:'Yukarı çıkar ↑', priceGoesBelow:'Aşağı iner ↓',
-    alertWhen:'UYARI VER', priceAbove:'↑ FİYAT YUKARI ÇIKARSA', priceBelow:'↓ FİYAT AŞAĞI İNERSE',
-    currentPrice:'MEVCUT FİYAT', aiSuggested:'AI ÖNERİLEN HEDEFLER',
-    resistance:'DİRENÇ', target:'HEDEF', support:'DESTEK',
-    noAlerts:'Uyarı yok', noAlertsDesc:'Yukarıdan ilk uyarınızı ekleyin.',
-    language:'Dil', darkMode:'Karanlık Mod', notifications:'Bildirimler',
-    proTrialActive:'✦ Pro Deneme Aktif', keepProFree:'İşlem hesabı açarak Pro\'yu ücretsiz tutun',
-    daysLeft:'GÜN KALDI', getProFree:'🚀 Pro\'yu Sonsuza Dek Ücretsiz Al',
-    shareApp:"Momento\'yu Paylaş 🚀", copyLink:'BAĞLANTI KOPYALA', linkCopied:'Bağlantı kopyalandı! 🔗',
-    aboutMomento:"Momento Hakkında", shareInvite:'Arkadaşları ve yatırımcıları davet et',
-    logOut:'Çıkış Yap', editProfile:'✏ Profili Düzenle',
-    payNow:'ÖDE', wait:'BEKLE', avoid:'KAÇIN',
-    selectCurrency:'Döviz Çifti Seç', todaySignal:'Bugünün Sinyali',
-    aiAnalysis:'AI Analizi', paymentCalendar:'Ödeme Takvimi', upcomingEvents:'Yaklaşan Etkinlikler',
-    activeSignals:'Aktif Sinyaller', all:'TÜMÜ', forex:'FOREX', crypto:'KRİPTO',
-    commodities:'EMTİA', indices:'ENDEKSLer', buyOnly:'SADECE AL', sellOnly:'SADECE SAT',
-    setAlert:'Uyarı kur', hideAi:'Gizle', aiAnalysisBtn:'AI Analizi',
-    tapToTest:'TEST İÇİN DOKUN', momentoAlertSound:'Momento Uyarı Sesi',
-    active:'AKTİF', triggered:'TETİKLENDİ', totalSet:'TOPLAM',
-    fear:'KORKU', greed:'AÇGÖZLÜLÜK',
-  },
+en: {
+flag:‘🇬🇧’, name:‘English’, native:‘English’, dir:‘ltr’,
+home:‘HOME’, calendar:‘CALENDAR’, signals:‘SIGNALS’, alerts:‘ALERTS’, profile:‘PROFILE’, about:‘ABOUT’,
+getStarted:‘Try Momento Free — No Credit Card ⚡’, continue:‘Continue →’, startTrial:‘Start 14-Day Free Trial →’,
+alreadyAccount:‘Already have an account?’, signIn:‘Sign In’, skipIntro:‘Skip intro’, decideLater:“I'll decide later”,
+marketPulse:‘⚡ Market Pulse’, livePrices:‘Live Prices’, aiSignals:‘AI Signals’, communityFeed:‘Community Feed’,
+shareInsight:‘Share a market insight…’, viewAllSignals:‘VIEW ALL SIGNALS →’,
+payToday:‘PAY TODAY ✓’, doNotPay:‘DO NOT PAY ✗’, waitDays:‘WAIT 1-2 DAYS ⚠’, monitor:‘MONITOR ◎’,
+buyOpp:‘BUY OPPORTUNITY ✓’, buyAcc:‘BUY / ACCUMULATE ✓’,
+newAlert:‘New Alert’, setAlertNow:‘Set Alert Now’, activeAlerts:‘Active Alerts’, recentHistory:‘Recent History’,
+asset:‘ASSET’, condition:‘CONDITION’, targetPrice:‘TARGET PRICE’, enterTarget:‘Enter target price…’,
+priceGoesAbove:‘Goes ABOVE ↑’, priceGoesBelow:‘Goes BELOW ↓’,
+alertWhen:‘ALERT WHEN’, priceAbove:‘↑ PRICE GOES ABOVE’, priceBelow:‘↓ PRICE GOES BELOW’,
+currentPrice:‘CURRENT PRICE’, aiSuggested:‘AI SUGGESTED TARGETS’,
+resistance:‘RESISTANCE’, target:‘TARGET’, support:‘SUPPORT’,
+noAlerts:‘No alerts yet’, noAlertsDesc:‘Set your first alert above.’,
+language:‘Language’, darkMode:‘Dark Mode’, notifications:‘Notifications’,
+proTrialActive:‘✦ Pro Trial Active’, keepProFree:‘Open a partner account to extend your Pro access’,
+daysLeft:‘DAYS LEFT’, getProFree:‘🚀 Unlock Momento Pro’,
+shareApp:‘Share Momento 🚀’, copyLink:‘COPY LINK’, linkCopied:‘Link copied! 🔗’,
+aboutMomento:‘About Momento’, shareInvite:‘Invite friends & traders’,
+logOut:‘Log Out’, editProfile:‘✏ Edit Profile’,
+payNow:‘PAY NOW’, wait:‘WAIT’, avoid:‘AVOID’,
+selectCurrency:‘Select Currency Pair’, todaySignal:“Today's Signal”,
+aiAnalysis:‘AI Analysis’, paymentCalendar:‘Payment Calendar’, upcomingEvents:‘Upcoming Market Events’,
+activeSignals:‘Active Signals’, all:‘ALL’, forex:‘FOREX’, crypto:‘CRYPTO’,
+commodities:‘COMMODITIES’, indices:‘INDICES’, buyOnly:‘BUY ONLY’, sellOnly:‘SELL ONLY’,
+setAlert:‘Set Alert’, hideAi:‘Hide’, aiAnalysisBtn:‘AI Analysis’,
+tapToTest:‘TAP TO TEST · TOUCH SCREEN FIRST’, momentoAlertSound:‘Momento Alert Sound’,
+active:‘ACTIVE’, triggered:‘TRIGGERED’, totalSet:‘TOTAL SET’,
+fear:‘FEAR’, greed:‘GREED’,
+},
+ar: {
+flag:‘🇸🇦’, name:‘Arabic’, native:‘العربية’, dir:‘rtl’,
+home:‘الرئيسية’, calendar:‘التقويم’, signals:‘الإشارات’, alerts:‘التنبيهات’, profile:‘الملف’, about:‘من نحن’,
+getStarted:‘ابدأ مجاناً ⚡’, continue:‘متابعة →’, startTrial:‘ابدأ تجربة 14 يوم →’,
+alreadyAccount:‘لديك حساب بالفعل؟’, signIn:‘تسجيل الدخول’, skipIntro:‘تخطي’, decideLater:‘لاحقاً’,
+marketPulse:‘⚡ نبضة السوق’, livePrices:‘الأسعار المباشرة’, aiSignals:‘إشارات الذكاء الاصطناعي’, communityFeed:‘مجتمع التداول’,
+shareInsight:‘شارك تحليلاً للسوق…’, viewAllSignals:‘عرض كل الإشارات →’,
+payToday:‘ادفع اليوم ✓’, doNotPay:‘لا تدفع الآن ✗’, waitDays:‘انتظر 1-2 أيام ⚠’, monitor:‘راقب ◎’,
+buyOpp:‘فرصة شراء ✓’, buyAcc:‘اشترِ / راكم ✓’,
+newAlert:‘تنبيه جديد’, setAlertNow:‘تعيين التنبيه’, activeAlerts:‘التنبيهات النشطة’, recentHistory:‘السجل الأخير’,
+asset:‘الأصل’, condition:‘الشرط’, targetPrice:‘السعر المستهدف’, enterTarget:‘أدخل السعر المستهدف…’,
+priceGoesAbove:‘يصعد فوق ↑’, priceGoesBelow:‘ينزل تحت ↓’,
+alertWhen:‘تنبيه عندما’, priceAbove:‘↑ السعر يرتفع فوق’, priceBelow:‘↓ السعر ينخفض تحت’,
+currentPrice:‘السعر الحالي’, aiSuggested:‘أهداف مقترحة بالذكاء الاصطناعي’,
+resistance:‘مقاومة’, target:‘هدف’, support:‘دعم’,
+noAlerts:‘لا توجد تنبيهات’, noAlertsDesc:‘أضف أول تنبيه أعلاه.’,
+language:‘اللغة’, darkMode:‘الوضع الداكن’, notifications:‘الإشعارات’,
+proTrialActive:‘✦ الإصدار التجريبي Pro نشط’, keepProFree:‘احتفظ بـ Pro مجاناً بفتح حساب تداول’,
+daysLeft:‘أيام متبقية’, getProFree:‘🚀 احصل على Pro مجاناً للأبد’,
+shareApp:‘شارك Momento 🚀’, copyLink:‘نسخ الرابط’, linkCopied:‘تم نسخ الرابط! 🔗’,
+aboutMomento:‘عن Momento’, shareInvite:‘دعوة أصدقاء ومتداولين’,
+logOut:‘تسجيل الخروج’, editProfile:‘✏ تعديل الملف’,
+payNow:‘ادفع الآن’, wait:‘انتظر’, avoid:‘تجنب’,
+selectCurrency:‘اختر زوج العملة’, todaySignal:‘إشارة اليوم’,
+aiAnalysis:‘تحليل الذكاء الاصطناعي’, paymentCalendar:‘تقويم المدفوعات’, upcomingEvents:‘الأحداث القادمة’,
+activeSignals:‘الإشارات النشطة’, all:‘الكل’, forex:‘فوركس’, crypto:‘كريبتو’,
+commodities:‘سلع’, indices:‘مؤشرات’, buyOnly:‘شراء فقط’, sellOnly:‘بيع فقط’,
+setAlert:‘تعيين تنبيه’, hideAi:‘إخفاء’, aiAnalysisBtn:‘تحليل AI’,
+tapToTest:‘اضغط للاختبار’, momentoAlertSound:‘صوت تنبيه Momento’,
+active:‘نشط’, triggered:‘تفعّل’, totalSet:‘المجموع’,
+fear:‘خوف’, greed:‘طمع’,
+},
+fr: {
+flag:‘🇫🇷’, name:‘French’, native:‘Français’, dir:‘ltr’,
+home:‘ACCUEIL’, calendar:‘CALENDRIER’, signals:‘SIGNAUX’, alerts:‘ALERTES’, profile:‘PROFIL’, about:‘À PROPOS’,
+getStarted:‘Commencer Gratuitement ⚡’, continue:‘Continuer →’, startTrial:“Démarrer l'essai 14 jours →”,
+alreadyAccount:‘Déjà un compte?’, signIn:‘Se connecter’, skipIntro:‘Passer’, decideLater:‘Plus tard’,
+marketPulse:‘⚡ Pouls du marché’, livePrices:‘Prix en direct’, aiSignals:‘Signaux IA’, communityFeed:‘Fil communautaire’,
+shareInsight:‘Partager une analyse…’, viewAllSignals:‘VOIR TOUS LES SIGNAUX →’,
+payToday:‘PAYER AUJOURD'HUI ✓’, doNotPay:‘NE PAS PAYER ✗’, waitDays:‘ATTENDRE 1-2 JOURS ⚠’, monitor:‘SURVEILLER ◎’,
+buyOpp:‘OPPORTUNITÉ D'ACHAT ✓’, buyAcc:‘ACHETER / ACCUMULER ✓’,
+newAlert:‘Nouvelle alerte’, setAlertNow:‘Définir l'alerte’, activeAlerts:‘Alertes actives’, recentHistory:‘Historique récent’,
+asset:‘ACTIF’, condition:‘CONDITION’, targetPrice:‘PRIX CIBLE’, enterTarget:‘Entrez le prix cible…’,
+priceGoesAbove:‘Monte au-dessus ↑’, priceGoesBelow:‘Descend en dessous ↓’,
+alertWhen:‘ALERTER QUAND’, priceAbove:‘↑ PRIX MONTE AU-DESSUS’, priceBelow:‘↓ PRIX DESCEND EN DESSOUS’,
+currentPrice:‘PRIX ACTUEL’, aiSuggested:‘CIBLES SUGGÉRÉES PAR IA’,
+resistance:‘RÉSISTANCE’, target:‘CIBLE’, support:‘SUPPORT’,
+noAlerts:‘Aucune alerte’, noAlertsDesc:‘Définissez votre première alerte ci-dessus.’,
+language:‘Langue’, darkMode:‘Mode sombre’, notifications:‘Notifications’,
+proTrialActive:‘✦ Essai Pro actif’, keepProFree:‘Gardez Pro gratuit en ouvrant un compte de trading’,
+daysLeft:‘JOURS RESTANTS’, getProFree:‘🚀 Obtenez Pro Gratuit Pour Toujours’,
+shareApp:‘Partager Momento 🚀’, copyLink:‘COPIER LE LIEN’, linkCopied:‘Lien copié! 🔗’,
+aboutMomento:‘À propos de Momento’, shareInvite:‘Inviter des amis et traders’,
+logOut:‘Se déconnecter’, editProfile:‘✏ Modifier le profil’,
+payNow:‘PAYER’, wait:‘ATTENDRE’, avoid:‘ÉVITER’,
+selectCurrency:‘Sélectionner la paire’, todaySignal:“Signal d'aujourd'hui”,
+aiAnalysis:‘Analyse IA’, paymentCalendar:‘Calendrier des paiements’, upcomingEvents:‘Événements à venir’,
+activeSignals:‘Signaux actifs’, all:‘TOUS’, forex:‘FOREX’, crypto:‘CRYPTO’,
+commodities:‘MATIÈRES PREMIÈRES’, indices:‘INDICES’, buyOnly:‘ACHAT UNIQUEMENT’, sellOnly:‘VENTE UNIQUEMENT’,
+setAlert:‘Définir alerte’, hideAi:‘Masquer’, aiAnalysisBtn:‘Analyse IA’,
+tapToTest:‘APPUYER POUR TESTER’, momentoAlertSound:‘Son d'alerte Momento’,
+active:‘ACTIF’, triggered:‘DÉCLENCHÉ’, totalSet:‘TOTAL’,
+fear:‘PEUR’, greed:‘AVIDITÉ’,
+},
+es: {
+flag:‘🇪🇸’, name:‘Spanish’, native:‘Español’, dir:‘ltr’,
+home:‘INICIO’, calendar:‘CALENDARIO’, signals:‘SEÑALES’, alerts:‘ALERTAS’, profile:‘PERFIL’, about:‘SOBRE’,
+getStarted:‘Empezar Gratis ⚡’, continue:‘Continuar →’, startTrial:‘Iniciar prueba 14 días →’,
+alreadyAccount:’¿Ya tienes cuenta?’, signIn:‘Iniciar sesión’, skipIntro:‘Saltar’, decideLater:‘Más tarde’,
+marketPulse:‘⚡ Pulso del mercado’, livePrices:‘Precios en vivo’, aiSignals:‘Señales IA’, communityFeed:‘Feed comunidad’,
+shareInsight:‘Comparte un análisis…’, viewAllSignals:‘VER TODAS LAS SEÑALES →’,
+payToday:‘PAGAR HOY ✓’, doNotPay:‘NO PAGAR ✗’, waitDays:‘ESPERAR 1-2 DÍAS ⚠’, monitor:‘MONITOREAR ◎’,
+buyOpp:‘OPORTUNIDAD DE COMPRA ✓’, buyAcc:‘COMPRAR / ACUMULAR ✓’,
+newAlert:‘Nueva alerta’, setAlertNow:‘Establecer alerta’, activeAlerts:‘Alertas activas’, recentHistory:‘Historial reciente’,
+asset:‘ACTIVO’, condition:‘CONDICIÓN’, targetPrice:‘PRECIO OBJETIVO’, enterTarget:‘Ingrese el precio objetivo…’,
+priceGoesAbove:‘Sube por encima ↑’, priceGoesBelow:‘Baja por debajo ↓’,
+alertWhen:‘ALERTAR CUANDO’, priceAbove:‘↑ PRECIO SUBE SOBRE’, priceBelow:‘↓ PRECIO BAJA BAJO’,
+currentPrice:‘PRECIO ACTUAL’, aiSuggested:‘OBJETIVOS SUGERIDOS POR IA’,
+resistance:‘RESISTENCIA’, target:‘OBJETIVO’, support:‘SOPORTE’,
+noAlerts:‘Sin alertas’, noAlertsDesc:‘Establece tu primera alerta arriba.’,
+language:‘Idioma’, darkMode:‘Modo oscuro’, notifications:‘Notificaciones’,
+proTrialActive:‘✦ Prueba Pro activa’, keepProFree:‘Mantén Pro gratis abriendo una cuenta de trading’,
+daysLeft:‘DÍAS RESTANTES’, getProFree:‘🚀 Obtén Pro Gratis Para Siempre’,
+shareApp:‘Compartir Momento 🚀’, copyLink:‘COPIAR ENLACE’, linkCopied:’¡Enlace copiado! 🔗’,
+aboutMomento:‘Sobre Momento’, shareInvite:‘Invitar amigos y traders’,
+logOut:‘Cerrar sesión’, editProfile:‘✏ Editar perfil’,
+payNow:‘PAGAR’, wait:‘ESPERAR’, avoid:‘EVITAR’,
+selectCurrency:‘Seleccionar par’, todaySignal:‘Señal de hoy’,
+aiAnalysis:‘Análisis IA’, paymentCalendar:‘Calendario de pagos’, upcomingEvents:‘Próximos eventos’,
+activeSignals:‘Señales activas’, all:‘TODOS’, forex:‘FOREX’, crypto:‘CRIPTO’,
+commodities:‘MATERIAS PRIMAS’, indices:‘ÍNDICES’, buyOnly:‘SOLO COMPRA’, sellOnly:‘SOLO VENTA’,
+setAlert:‘Establecer alerta’, hideAi:‘Ocultar’, aiAnalysisBtn:‘Análisis IA’,
+tapToTest:‘TOCA PARA PROBAR’, momentoAlertSound:‘Sonido de alerta Momento’,
+active:‘ACTIVO’, triggered:‘ACTIVADO’, totalSet:‘TOTAL’,
+fear:‘MIEDO’, greed:‘CODICIA’,
+},
+pt: {
+flag:‘🇧🇷’, name:‘Portuguese’, native:‘Português’, dir:‘ltr’,
+home:‘INÍCIO’, calendar:‘CALENDÁRIO’, signals:‘SINAIS’, alerts:‘ALERTAS’, profile:‘PERFIL’, about:‘SOBRE’,
+getStarted:‘Começar Grátis ⚡’, continue:‘Continuar →’, startTrial:‘Iniciar teste 14 dias →’,
+alreadyAccount:‘Já tem conta?’, signIn:‘Entrar’, skipIntro:‘Pular’, decideLater:‘Mais tarde’,
+marketPulse:‘⚡ Pulso do mercado’, livePrices:‘Preços ao vivo’, aiSignals:‘Sinais IA’, communityFeed:‘Feed comunidade’,
+shareInsight:‘Compartilhe uma análise…’, viewAllSignals:‘VER TODOS OS SINAIS →’,
+payToday:‘PAGAR HOJE ✓’, doNotPay:‘NÃO PAGAR ✗’, waitDays:‘AGUARDAR 1-2 DIAS ⚠’, monitor:‘MONITORAR ◎’,
+buyOpp:‘OPORTUNIDADE DE COMPRA ✓’, buyAcc:‘COMPRAR / ACUMULAR ✓’,
+newAlert:‘Novo alerta’, setAlertNow:‘Definir alerta’, activeAlerts:‘Alertas ativos’, recentHistory:‘Histórico recente’,
+asset:‘ATIVO’, condition:‘CONDIÇÃO’, targetPrice:‘PREÇO ALVO’, enterTarget:‘Digite o preço alvo…’,
+priceGoesAbove:‘Sobe acima ↑’, priceGoesBelow:‘Desce abaixo ↓’,
+alertWhen:‘ALERTAR QUANDO’, priceAbove:‘↑ PREÇO SOBE ACIMA’, priceBelow:‘↓ PREÇO DESCE ABAIXO’,
+currentPrice:‘PREÇO ATUAL’, aiSuggested:‘ALVOS SUGERIDOS POR IA’,
+resistance:‘RESISTÊNCIA’, target:‘ALVO’, support:‘SUPORTE’,
+noAlerts:‘Sem alertas’, noAlertsDesc:‘Defina seu primeiro alerta acima.’,
+language:‘Idioma’, darkMode:‘Modo escuro’, notifications:‘Notificações’,
+proTrialActive:‘✦ Teste Pro ativo’, keepProFree:‘Mantenha Pro grátis abrindo conta de trading’,
+daysLeft:‘DIAS RESTANTES’, getProFree:‘🚀 Obtenha Pro Grátis Para Sempre’,
+shareApp:‘Compartilhar Momento 🚀’, copyLink:‘COPIAR LINK’, linkCopied:‘Link copiado! 🔗’,
+aboutMomento:‘Sobre Momento’, shareInvite:‘Convidar amigos e traders’,
+logOut:‘Sair’, editProfile:‘✏ Editar perfil’,
+payNow:‘PAGAR’, wait:‘AGUARDAR’, avoid:‘EVITAR’,
+selectCurrency:‘Selecionar par’, todaySignal:‘Sinal de hoje’,
+aiAnalysis:‘Análise IA’, paymentCalendar:‘Calendário de pagamentos’, upcomingEvents:‘Próximos eventos’,
+activeSignals:‘Sinais ativos’, all:‘TODOS’, forex:‘FOREX’, crypto:‘CRIPTO’,
+commodities:‘COMMODITIES’, indices:‘ÍNDICES’, buyOnly:‘SÓ COMPRA’, sellOnly:‘SÓ VENDA’,
+setAlert:‘Definir alerta’, hideAi:‘Ocultar’, aiAnalysisBtn:‘Análise IA’,
+tapToTest:‘TOQUE PARA TESTAR’, momentoAlertSound:‘Som de alerta Momento’,
+active:‘ATIVO’, triggered:‘ATIVADO’, totalSet:‘TOTAL’,
+fear:‘MEDO’, greed:‘GANÂNCIA’,
+},
+ru: {
+flag:‘🇷🇺’, name:‘Russian’, native:‘Русский’, dir:‘ltr’,
+home:‘ГЛАВНАЯ’, calendar:‘КАЛЕНДАРЬ’, signals:‘СИГНАЛЫ’, alerts:‘ОПОВЕЩЕНИЯ’, profile:‘ПРОФИЛЬ’, about:‘О НАС’,
+getStarted:‘Начать бесплатно ⚡’, continue:‘Продолжить →’, startTrial:‘Начать пробный период 14 дней →’,
+alreadyAccount:‘Уже есть аккаунт?’, signIn:‘Войти’, skipIntro:‘Пропустить’, decideLater:‘Позже’,
+marketPulse:‘⚡ Пульс рынка’, livePrices:‘Живые цены’, aiSignals:‘Сигналы ИИ’, communityFeed:‘Лента сообщества’,
+shareInsight:‘Поделитесь анализом…’, viewAllSignals:‘СМОТРЕТЬ ВСЕ СИГНАЛЫ →’,
+payToday:‘ПЛАТИТЬ СЕГОДНЯ ✓’, doNotPay:‘НЕ ПЛАТИТЬ ✗’, waitDays:‘ПОДОЖДАТЬ 1-2 ДНЯ ⚠’, monitor:‘МОНИТОРИНГ ◎’,
+buyOpp:‘ВОЗМОЖНОСТЬ ПОКУПКИ ✓’, buyAcc:‘ПОКУПАТЬ / НАКАПЛИВАТЬ ✓’,
+newAlert:‘Новое оповещение’, setAlertNow:‘Установить оповещение’, activeAlerts:‘Активные оповещения’, recentHistory:‘Недавняя история’,
+asset:‘АКТИВ’, condition:‘УСЛОВИЕ’, targetPrice:‘ЦЕЛЕВАЯ ЦЕНА’, enterTarget:‘Введите целевую цену…’,
+priceGoesAbove:‘Поднимается выше ↑’, priceGoesBelow:‘Опускается ниже ↓’,
+alertWhen:‘ОПОВЕЩАТЬ КОГДА’, priceAbove:‘↑ ЦЕНА РАСТЁТ ВЫШЕ’, priceBelow:‘↓ ЦЕНА ПАДАЕТ НИЖЕ’,
+currentPrice:‘ТЕКУЩАЯ ЦЕНА’, aiSuggested:‘ЦЕЛИ ОТ ИИ’,
+resistance:‘СОПРОТИВЛЕНИЕ’, target:‘ЦЕЛЬ’, support:‘ПОДДЕРЖКА’,
+noAlerts:‘Нет оповещений’, noAlertsDesc:‘Установите первое оповещение выше.’,
+language:‘Язык’, darkMode:‘Тёмный режим’, notifications:‘Уведомления’,
+proTrialActive:‘✦ Пробный период Pro активен’, keepProFree:‘Сохраните Pro бесплатно, открыв торговый счёт’,
+daysLeft:‘ДНЕЙ ОСТАЛОСЬ’, getProFree:‘🚀 Получите Pro Бесплатно Навсегда’,
+shareApp:‘Поделиться Momento 🚀’, copyLink:‘КОПИРОВАТЬ ССЫЛКУ’, linkCopied:‘Ссылка скопирована! 🔗’,
+aboutMomento:‘О Momento’, shareInvite:‘Пригласить друзей и трейдеров’,
+logOut:‘Выйти’, editProfile:‘✏ Редактировать профиль’,
+payNow:‘ПЛАТИТЬ’, wait:‘ЖДАТЬ’, avoid:‘ИЗБЕГАТЬ’,
+selectCurrency:‘Выбрать валютную пару’, todaySignal:‘Сигнал сегодня’,
+aiAnalysis:‘Анализ ИИ’, paymentCalendar:‘Календарь платежей’, upcomingEvents:‘Предстоящие события’,
+activeSignals:‘Активные сигналы’, all:‘ВСЕ’, forex:‘ФОРЕКС’, crypto:‘КРИПТО’,
+commodities:‘ТОВАРЫ’, indices:‘ИНДЕКСЫ’, buyOnly:‘ТОЛЬКО ПОКУПКА’, sellOnly:‘ТОЛЬКО ПРОДАЖА’,
+setAlert:‘Установить оповещение’, hideAi:‘Скрыть’, aiAnalysisBtn:‘Анализ ИИ’,
+tapToTest:‘НАЖМИТЕ ДЛЯ ТЕСТА’, momentoAlertSound:‘Звук оповещения Momento’,
+active:‘АКТИВНО’, triggered:‘СРАБОТАЛО’, totalSet:‘ВСЕГО’,
+fear:‘СТРАХ’, greed:‘ЖАДНОСТЬ’,
+},
+ja: {
+flag:‘🇯🇵’, name:‘Japanese’, native:‘日本語’, dir:‘ltr’,
+home:‘ホーム’, calendar:‘カレンダー’, signals:‘シグナル’, alerts:‘アラート’, profile:‘プロフィール’, about:‘について’,
+getStarted:‘無料で始める ⚡’, continue:‘続ける →’, startTrial:‘14日間無料トライアル開始 →’,
+alreadyAccount:‘すでにアカウントをお持ちですか？’, signIn:‘サインイン’, skipIntro:‘スキップ’, decideLater:‘後で’,
+marketPulse:‘⚡ マーケットパルス’, livePrices:‘ライブ価格’, aiSignals:‘AIシグナル’, communityFeed:‘コミュニティ’,
+shareInsight:‘市場分析を共有…’, viewAllSignals:‘すべてのシグナルを見る →’,
+payToday:‘本日支払い ✓’, doNotPay:‘支払い不可 ✗’, waitDays:‘1-2日待機 ⚠’, monitor:‘監視 ◎’,
+buyOpp:‘買いチャンス ✓’, buyAcc:‘買い/積立 ✓’,
+newAlert:‘新しいアラート’, setAlertNow:‘アラートを設定’, activeAlerts:‘アクティブアラート’, recentHistory:‘最近の履歴’,
+asset:‘資産’, condition:‘条件’, targetPrice:‘目標価格’, enterTarget:‘目標価格を入力…’,
+priceGoesAbove:‘上昇 ↑’, priceGoesBelow:‘下落 ↓’,
+alertWhen:‘通知タイミング’, priceAbove:‘↑ 価格が上昇したら’, priceBelow:‘↓ 価格が下落したら’,
+currentPrice:‘現在価格’, aiSuggested:‘AI推奨ターゲット’,
+resistance:‘レジスタンス’, target:‘ターゲット’, support:‘サポート’,
+noAlerts:‘アラートなし’, noAlertsDesc:‘上記で最初のアラートを設定してください。’,
+language:‘言語’, darkMode:‘ダークモード’, notifications:‘通知’,
+proTrialActive:‘✦ Proトライアル中’, keepProFree:‘取引口座を開設してProを無料で維持’,
+daysLeft:‘日残り’, getProFree:‘🚀 Proを永久無料で取得’,
+shareApp:‘Momentoをシェア 🚀’, copyLink:‘リンクをコピー’, linkCopied:‘リンクがコピーされました! 🔗’,
+aboutMomento:‘Momentoについて’, shareInvite:‘友達とトレーダーを招待’,
+logOut:‘ログアウト’, editProfile:‘✏ プロフィール編集’,
+payNow:‘今すぐ支払う’, wait:‘待機’, avoid:‘避ける’,
+selectCurrency:‘通貨ペアを選択’, todaySignal:‘本日のシグナル’,
+aiAnalysis:‘AI分析’, paymentCalendar:‘支払いカレンダー’, upcomingEvents:‘今後のイベント’,
+activeSignals:‘アクティブシグナル’, all:‘全て’, forex:‘外為’, crypto:‘仮想通貨’,
+commodities:‘商品’, indices:‘指数’, buyOnly:‘買いのみ’, sellOnly:‘売りのみ’,
+setAlert:‘アラート設定’, hideAi:‘非表示’, aiAnalysisBtn:‘AI分析’,
+tapToTest:‘タップしてテスト’, momentoAlertSound:‘Momentoアラート音’,
+active:‘アクティブ’, triggered:‘発動’, totalSet:‘合計’,
+fear:‘恐怖’, greed:‘強欲’,
+},
+zh: {
+flag:‘🇨🇳’, name:‘Chinese’, native:‘中文’, dir:‘ltr’,
+home:‘首页’, calendar:‘日历’, signals:‘信号’, alerts:‘提醒’, profile:‘个人’, about:‘关于’,
+getStarted:‘免费开始 ⚡’, continue:‘继续 →’, startTrial:‘开始14天免费试用 →’,
+alreadyAccount:‘已有账户？’, signIn:‘登录’, skipIntro:‘跳过’, decideLater:‘稍后’,
+marketPulse:‘⚡ 市场脉搏’, livePrices:‘实时价格’, aiSignals:‘AI信号’, communityFeed:‘社区动态’,
+shareInsight:‘分享市场见解…’, viewAllSignals:‘查看所有信号 →’,
+payToday:‘今日付款 ✓’, doNotPay:‘暂勿付款 ✗’, waitDays:‘等待1-2天 ⚠’, monitor:‘监控 ◎’,
+buyOpp:‘买入机会 ✓’, buyAcc:‘买入/积累 ✓’,
+newAlert:‘新提醒’, setAlertNow:‘设置提醒’, activeAlerts:‘活跃提醒’, recentHistory:‘最近历史’,
+asset:‘资产’, condition:‘条件’, targetPrice:‘目标价格’, enterTarget:‘输入目标价格…’,
+priceGoesAbove:‘上涨至 ↑’, priceGoesBelow:‘下跌至 ↓’,
+alertWhen:‘提醒时机’, priceAbove:‘↑ 价格上涨超过’, priceBelow:‘↓ 价格下跌低于’,
+currentPrice:‘当前价格’, aiSuggested:‘AI建议目标’,
+resistance:‘阻力’, target:‘目标’, support:‘支撑’,
+noAlerts:‘暂无提醒’, noAlertsDesc:‘在上方设置您的第一个提醒。’,
+language:‘语言’, darkMode:‘深色模式’, notifications:‘通知’,
+proTrialActive:‘✦ Pro试用中’, keepProFree:‘开通交易账户永久免费使用Pro’,
+daysLeft:‘天剩余’, getProFree:‘🚀 永久免费获得Pro’,
+shareApp:‘分享Momento 🚀’, copyLink:‘复制链接’, linkCopied:‘链接已复制! 🔗’,
+aboutMomento:‘关于Momento’, shareInvite:‘邀请朋友和交易者’,
+logOut:‘退出’, editProfile:‘✏ 编辑资料’,
+payNow:‘立即付款’, wait:‘等待’, avoid:‘避免’,
+selectCurrency:‘选择货币对’, todaySignal:‘今日信号’,
+aiAnalysis:‘AI分析’, paymentCalendar:‘付款日历’, upcomingEvents:‘即将到来的事件’,
+activeSignals:‘活跃信号’, all:‘全部’, forex:‘外汇’, crypto:‘加密货币’,
+commodities:‘大宗商品’, indices:‘指数’, buyOnly:‘仅买入’, sellOnly:‘仅卖出’,
+setAlert:‘设置提醒’, hideAi:‘隐藏’, aiAnalysisBtn:‘AI分析’,
+tapToTest:‘点击测试’, momentoAlertSound:‘Momento提醒音’,
+active:‘活跃’, triggered:‘已触发’, totalSet:‘总计’,
+fear:‘恐惧’, greed:‘贪婪’,
+},
+hi: {
+flag:‘🇮🇳’, name:‘Hindi’, native:‘हिन्दी’, dir:‘ltr’,
+home:‘होम’, calendar:‘कैलेंडर’, signals:‘सिग्नल’, alerts:‘अलर्ट’, profile:‘प्रोफ़ाइल’, about:‘बारे में’,
+getStarted:‘मुफ्त शुरू करें ⚡’, continue:‘जारी रखें →’, startTrial:‘14 दिन मुफ्त ट्रायल →’,
+alreadyAccount:‘पहले से खाता है?’, signIn:‘साइन इन’, skipIntro:‘छोड़ें’, decideLater:‘बाद में’,
+marketPulse:‘⚡ मार्केट पल्स’, livePrices:‘लाइव कीमतें’, aiSignals:‘AI सिग्नल’, communityFeed:‘कम्युनिटी फीड’,
+shareInsight:‘मार्केट इनसाइट शेयर करें…’, viewAllSignals:‘सभी सिग्नल देखें →’,
+payToday:‘आज भुगतान करें ✓’, doNotPay:‘भुगतान न करें ✗’, waitDays:‘1-2 दिन प्रतीक्षा करें ⚠’, monitor:‘निगरानी करें ◎’,
+buyOpp:‘खरीद का मौका ✓’, buyAcc:‘खरीदें/जमा करें ✓’,
+newAlert:‘नया अलर्ट’, setAlertNow:‘अलर्ट सेट करें’, activeAlerts:‘सक्रिय अलर्ट’, recentHistory:‘हाल का इतिहास’,
+asset:‘संपत्ति’, condition:‘शर्त’, targetPrice:‘लक्ष्य मूल्य’, enterTarget:‘लक्ष्य मूल्य दर्ज करें…’,
+priceGoesAbove:‘ऊपर जाता है ↑’, priceGoesBelow:‘नीचे जाता है ↓’,
+alertWhen:‘अलर्ट कब’, priceAbove:‘↑ मूल्य ऊपर जाए’, priceBelow:‘↓ मूल्य नीचे जाए’,
+currentPrice:‘वर्तमान मूल्य’, aiSuggested:‘AI सुझाए लक्ष्य’,
+resistance:‘प्रतिरोध’, target:‘लक्ष्य’, support:‘समर्थन’,
+noAlerts:‘कोई अलर्ट नहीं’, noAlertsDesc:‘ऊपर अपना पहला अलर्ट सेट करें।’,
+language:‘भाषा’, darkMode:‘डार्क मोड’, notifications:‘सूचनाएं’,
+proTrialActive:‘✦ Pro ट्रायल सक्रिय’, keepProFree:‘ट्रेडिंग खाता खोलकर Pro मुफ्त रखें’,
+daysLeft:‘दिन शेष’, getProFree:‘🚀 Pro हमेशा के लिए मुफ्त पाएं’,
+shareApp:‘Momento शेयर करें 🚀’, copyLink:‘लिंक कॉपी करें’, linkCopied:‘लिंक कॉपी हो गया! 🔗’,
+aboutMomento:‘Momento के बारे में’, shareInvite:‘दोस्तों और ट्रेडर्स को आमंत्रित करें’,
+logOut:‘लॉग आउट’, editProfile:‘✏ प्रोफ़ाइल संपादित करें’,
+payNow:‘अभी भुगतान करें’, wait:‘प्रतीक्षा करें’, avoid:‘बचें’,
+selectCurrency:‘मुद्रा जोड़ी चुनें’, todaySignal:‘आज का सिग्नल’,
+aiAnalysis:‘AI विश्लेषण’, paymentCalendar:‘भुगतान कैलेंडर’, upcomingEvents:‘आगामी कार्यक्रम’,
+activeSignals:‘सक्रिय सिग्नल’, all:‘सभी’, forex:‘फॉरेक्स’, crypto:‘क्रिप्टो’,
+commodities:‘कमोडिटी’, indices:‘सूचकांक’, buyOnly:‘केवल खरीद’, sellOnly:‘केवल बिक्री’,
+setAlert:‘अलर्ट सेट करें’, hideAi:‘छुपाएं’, aiAnalysisBtn:‘AI विश्लेषण’,
+tapToTest:‘टेस्ट के लिए टैप करें’, momentoAlertSound:‘Momento अलर्ट ध्वनि’,
+active:‘सक्रिय’, triggered:‘ट्रिगर हुआ’, totalSet:‘कुल’,
+fear:‘डर’, greed:‘लालच’,
+},
+id: {
+flag:‘🇮🇩’, name:‘Indonesian’, native:‘Bahasa Indonesia’, dir:‘ltr’,
+home:‘BERANDA’, calendar:‘KALENDER’, signals:‘SINYAL’, alerts:‘PERINGATAN’, profile:‘PROFIL’, about:‘TENTANG’,
+getStarted:‘Mulai Gratis ⚡’, continue:‘Lanjutkan →’, startTrial:‘Mulai Uji Coba 14 Hari →’,
+alreadyAccount:‘Sudah punya akun?’, signIn:‘Masuk’, skipIntro:‘Lewati’, decideLater:‘Nanti saja’,
+marketPulse:‘⚡ Denyut Pasar’, livePrices:‘Harga Langsung’, aiSignals:‘Sinyal AI’, communityFeed:‘Feed Komunitas’,
+shareInsight:‘Bagikan analisis pasar…’, viewAllSignals:‘LIHAT SEMUA SINYAL →’,
+payToday:‘BAYAR HARI INI ✓’, doNotPay:‘JANGAN BAYAR ✗’, waitDays:‘TUNGGU 1-2 HARI ⚠’, monitor:‘PANTAU ◎’,
+buyOpp:‘PELUANG BELI ✓’, buyAcc:‘BELI / AKUMULASI ✓’,
+newAlert:‘Peringatan Baru’, setAlertNow:‘Atur Peringatan’, activeAlerts:‘Peringatan Aktif’, recentHistory:‘Riwayat Terkini’,
+asset:‘ASET’, condition:‘KONDISI’, targetPrice:‘HARGA TARGET’, enterTarget:‘Masukkan harga target…’,
+priceGoesAbove:‘Naik di atas ↑’, priceGoesBelow:‘Turun di bawah ↓’,
+alertWhen:‘PERINGATKAN KETIKA’, priceAbove:‘↑ HARGA NAIK DI ATAS’, priceBelow:‘↓ HARGA TURUN DI BAWAH’,
+currentPrice:‘HARGA SAAT INI’, aiSuggested:‘TARGET SARAN AI’,
+resistance:‘RESISTENSI’, target:‘TARGET’, support:‘DUKUNGAN’,
+noAlerts:‘Belum ada peringatan’, noAlertsDesc:‘Atur peringatan pertama Anda di atas.’,
+language:‘Bahasa’, darkMode:‘Mode Gelap’, notifications:‘Notifikasi’,
+proTrialActive:‘✦ Uji Coba Pro Aktif’, keepProFree:‘Pertahankan Pro gratis dengan membuka akun trading’,
+daysLeft:‘HARI TERSISA’, getProFree:‘🚀 Dapatkan Pro Gratis Selamanya’,
+shareApp:‘Bagikan Momento 🚀’, copyLink:‘SALIN TAUTAN’, linkCopied:‘Tautan disalin! 🔗’,
+aboutMomento:‘Tentang Momento’, shareInvite:‘Undang teman dan trader’,
+logOut:‘Keluar’, editProfile:‘✏ Edit Profil’,
+payNow:‘BAYAR’, wait:‘TUNGGU’, avoid:‘HINDARI’,
+selectCurrency:‘Pilih Pasangan Mata Uang’, todaySignal:‘Sinyal Hari Ini’,
+aiAnalysis:‘Analisis AI’, paymentCalendar:‘Kalender Pembayaran’, upcomingEvents:‘Acara Mendatang’,
+activeSignals:‘Sinyal Aktif’, all:‘SEMUA’, forex:‘FOREX’, crypto:‘KRIPTO’,
+commodities:‘KOMODITAS’, indices:‘INDEKS’, buyOnly:‘BELI SAJA’, sellOnly:‘JUAL SAJA’,
+setAlert:‘Atur peringatan’, hideAi:‘Sembunyikan’, aiAnalysisBtn:‘Analisis AI’,
+tapToTest:‘KETUK UNTUK UJI’, momentoAlertSound:‘Suara Peringatan Momento’,
+active:‘AKTIF’, triggered:‘TERPICU’, totalSet:‘TOTAL’,
+fear:‘TAKUT’, greed:‘SERAKAH’,
+},
+tr: {
+flag:‘🇹🇷’, name:‘Turkish’, native:‘Türkçe’, dir:‘ltr’,
+home:‘ANA SAYFA’, calendar:‘TAKVİM’, signals:‘SİNYALLER’, alerts:‘UYARILAR’, profile:‘PROFİL’, about:‘HAKKINDA’,
+getStarted:‘Ücretsiz Başla ⚡’, continue:‘Devam →’, startTrial:‘14 Günlük Deneme Başlat →’,
+alreadyAccount:‘Zaten hesabınız var mı?’, signIn:‘Giriş Yap’, skipIntro:‘Atla’, decideLater:‘Sonra’,
+marketPulse:‘⚡ Piyasa Nabzı’, livePrices:‘Canlı Fiyatlar’, aiSignals:‘AI Sinyalleri’, communityFeed:‘Topluluk Akışı’,
+shareInsight:‘Piyasa analizi paylaş…’, viewAllSignals:‘TÜM SİNYALLERİ GÖR →’,
+payToday:‘BUGÜN ÖDE ✓’, doNotPay:‘ÖDEME YAPMA ✗’, waitDays:‘1-2 GÜN BEKLE ⚠’, monitor:‘İZLE ◎’,
+buyOpp:‘ALIM FIRSATI ✓’, buyAcc:‘AL / BİRİKTİR ✓’,
+newAlert:‘Yeni Uyarı’, setAlertNow:‘Uyarı Kur’, activeAlerts:‘Aktif Uyarılar’, recentHistory:‘Son Geçmiş’,
+asset:‘VARLIK’, condition:‘KOŞUL’, targetPrice:‘HEDEF FİYAT’, enterTarget:‘Hedef fiyatı girin…’,
+priceGoesAbove:‘Yukarı çıkar ↑’, priceGoesBelow:‘Aşağı iner ↓’,
+alertWhen:‘UYARI VER’, priceAbove:‘↑ FİYAT YUKARI ÇIKARSA’, priceBelow:‘↓ FİYAT AŞAĞI İNERSE’,
+currentPrice:‘MEVCUT FİYAT’, aiSuggested:‘AI ÖNERİLEN HEDEFLER’,
+resistance:‘DİRENÇ’, target:‘HEDEF’, support:‘DESTEK’,
+noAlerts:‘Uyarı yok’, noAlertsDesc:‘Yukarıdan ilk uyarınızı ekleyin.’,
+language:‘Dil’, darkMode:‘Karanlık Mod’, notifications:‘Bildirimler’,
+proTrialActive:‘✦ Pro Deneme Aktif’, keepProFree:‘İşlem hesabı açarak Pro'yu ücretsiz tutun’,
+daysLeft:‘GÜN KALDI’, getProFree:‘🚀 Pro'yu Sonsuza Dek Ücretsiz Al’,
+shareApp:“Momento'yu Paylaş 🚀”, copyLink:‘BAĞLANTI KOPYALA’, linkCopied:‘Bağlantı kopyalandı! 🔗’,
+aboutMomento:“Momento Hakkında”, shareInvite:‘Arkadaşları ve yatırımcıları davet et’,
+logOut:‘Çıkış Yap’, editProfile:‘✏ Profili Düzenle’,
+payNow:‘ÖDE’, wait:‘BEKLE’, avoid:‘KAÇIN’,
+selectCurrency:‘Döviz Çifti Seç’, todaySignal:‘Bugünün Sinyali’,
+aiAnalysis:‘AI Analizi’, paymentCalendar:‘Ödeme Takvimi’, upcomingEvents:‘Yaklaşan Etkinlikler’,
+activeSignals:‘Aktif Sinyaller’, all:‘TÜMÜ’, forex:‘FOREX’, crypto:‘KRİPTO’,
+commodities:‘EMTİA’, indices:‘ENDEKSLer’, buyOnly:‘SADECE AL’, sellOnly:‘SADECE SAT’,
+setAlert:‘Uyarı kur’, hideAi:‘Gizle’, aiAnalysisBtn:‘AI Analizi’,
+tapToTest:‘TEST İÇİN DOKUN’, momentoAlertSound:‘Momento Uyarı Sesi’,
+active:‘AKTİF’, triggered:‘TETİKLENDİ’, totalSet:‘TOPLAM’,
+fear:‘KORKU’, greed:‘AÇGÖZLÜLÜK’,
+},
 };
 
 // ════════════════════════════════════
 // LANGUAGE SYSTEM
 // ════════════════════════════════════
-let currentLang = localStorage.getItem('momento_lang') || 'en';
+let currentLang = localStorage.getItem(‘momento_lang’) || ‘en’;
 let T = LANGS[currentLang] || LANGS.en;
 
 function applyLang(lang) {
-  currentLang = lang;
-  T = LANGS[lang] || LANGS.en;
-  localStorage.setItem('momento_lang', lang);
-  
-  // RTL support for Arabic
-  document.documentElement.dir = T.dir || 'ltr';
-  document.documentElement.lang = lang;
-  
-  // Update bottom nav labels
-  const navMap = {home:'HOME',calendar:'CALENDAR',signals:'SIGNALS',alerts:'ALERTS',profile:'PROFILE'};
-  Object.keys(navMap).forEach(k => {
-    const bn = document.getElementById('bn-'+k);
-    if(bn) {
-      const lbl = bn.querySelector('.bn-lbl');
-      if(lbl) lbl.textContent = T[k] || navMap[k];
-    }
-  });
-  
-  // Update language row in settings
-  const lr = document.getElementById('langRowS');
-  if(lr) lr.textContent = T.native;
-  
-  // Update share row
-  const sr = document.getElementById('shareRowT');
-  if(sr) sr.textContent = T.shareApp ? T.shareApp.replace(' 🚀','') : 'Share Momento';
-  const ss = document.getElementById('shareRowS');
-  if(ss) ss.textContent = T.shareInvite || 'Invite friends & traders';
-  
-  // Update about row
-  const ar2 = document.querySelector(".set-row[onclick*='about'] .set-t");
-  if(ar2) ar2.textContent = T.aboutMomento || 'About Momento';
-  
-  // Update status bar label
-  const spl = document.getElementById('sbPageLabel');
-  if(spl) spl.textContent = T[currentPage] || currentPage.toUpperCase();
-  
-  // Update current page content
-  refreshPageText();
-  refreshProfileTexts();
-  closeLangModal();
-  toast((lang === 'ar' ? 'تم تغيير اللغة ✓' : lang === 'fr' ? 'Langue changée ✓' : lang === 'es' ? 'Idioma cambiado ✓' : lang === 'ja' ? '言語を変更しました ✓' : lang === 'zh' ? '语言已更改 ✓' : lang === 'ru' ? 'Язык изменён ✓' : 'Language changed ✓'), 'success');
+currentLang = lang;
+T = LANGS[lang] || LANGS.en;
+localStorage.setItem(‘momento_lang’, lang);
+
+// RTL support for Arabic
+document.documentElement.dir = T.dir || ‘ltr’;
+document.documentElement.lang = lang;
+
+// Update bottom nav labels
+const navMap = {home:‘HOME’,calendar:‘CALENDAR’,signals:‘SIGNALS’,alerts:‘ALERTS’,profile:‘PROFILE’};
+Object.keys(navMap).forEach(k => {
+const bn = document.getElementById(‘bn-’+k);
+if(bn) {
+const lbl = bn.querySelector(’.bn-lbl’);
+if(lbl) lbl.textContent = T[k] || navMap[k];
+}
+});
+
+// Update language row in settings
+const lr = document.getElementById(‘langRowS’);
+if(lr) lr.textContent = T.native;
+
+// Update share row
+const sr = document.getElementById(‘shareRowT’);
+if(sr) sr.textContent = T.shareApp ? T.shareApp.replace(’ 🚀’,’’) : ‘Share Momento’;
+const ss = document.getElementById(‘shareRowS’);
+if(ss) ss.textContent = T.shareInvite || ‘Invite friends & traders’;
+
+// Update about row
+const ar2 = document.querySelector(”.set-row[onclick*=‘about’] .set-t”);
+if(ar2) ar2.textContent = T.aboutMomento || ‘About Momento’;
+
+// Update status bar label
+const spl = document.getElementById(‘sbPageLabel’);
+if(spl) spl.textContent = T[currentPage] || currentPage.toUpperCase();
+
+// Update current page content
+refreshPageText();
+refreshProfileTexts();
+closeLangModal();
+toast((lang === ‘ar’ ? ‘تم تغيير اللغة ✓’ : lang === ‘fr’ ? ‘Langue changée ✓’ : lang === ‘es’ ? ‘Idioma cambiado ✓’ : lang === ‘ja’ ? ‘言語を変更しました ✓’ : lang === ‘zh’ ? ‘语言已更改 ✓’ : lang === ‘ru’ ? ‘Язык изменён ✓’ : ‘Language changed ✓’), ‘success’);
 }
 
-
 function refreshProfileTexts() {
-  // Trial banner
-  const tt = document.getElementById('trialTitle');
-  if(tt) tt.textContent = T.proTrialActive || '✦ Pro Trial Active';
-  const ts = document.getElementById('trialSub');
-  if(ts) ts.textContent = T.keepProFree || 'Keep Pro free by opening a trading account';
-  const tb = document.getElementById('trialBadge');
-  if(tb) tb.textContent = '14 ' + (T.daysLeft || 'DAYS LEFT');
-  // Affiliate
-  const at = document.getElementById('affTitle');
-  if(at) at.textContent = T.getProFree || '🚀 Get Pro Free Forever';
-  // Logout
-  const lt = document.getElementById('logoutTxt');
-  if(lt) lt.textContent = T.logOut || 'Log Out';
-  // Edit profile btn
-  const ep = document.querySelector('.prof-edit-btn');
-  if(ep) ep.textContent = T.editProfile || '✏ Edit Profile';
-  // Dark mode label
-  const dm = document.getElementById('darkModeT');
-  if(dm) dm.textContent = T.darkMode || 'Dark Mode';
-  // Settings rows
-  const notifRow = document.querySelector('#notifTog')?.closest('.set-row')?.querySelector('.set-t');
-  if(notifRow) notifRow.textContent = T.notifications || 'Notifications';
+// Trial banner
+const tt = document.getElementById(‘trialTitle’);
+if(tt) tt.textContent = T.proTrialActive || ‘✦ Pro Trial Active’;
+const ts = document.getElementById(‘trialSub’);
+if(ts) ts.textContent = T.keepProFree || ‘Open a partner account to extend your Pro access’;
+const tb = document.getElementById(‘trialBadge’);
+if(tb) tb.textContent = ‘14 ’ + (T.daysLeft || ‘DAYS LEFT’);
+// Affiliate
+const at = document.getElementById(‘affTitle’);
+if(at) at.textContent = T.getProFree || ‘🚀 Unlock Momento Pro’;
+// Logout
+const lt = document.getElementById(‘logoutTxt’);
+if(lt) lt.textContent = T.logOut || ‘Log Out’;
+// Edit profile btn
+const ep = document.querySelector(’.prof-edit-btn’);
+if(ep) ep.textContent = T.editProfile || ‘✏ Edit Profile’;
+// Dark mode label
+const dm = document.getElementById(‘darkModeT’);
+if(dm) dm.textContent = T.darkMode || ‘Dark Mode’;
+// Settings rows
+const notifRow = document.querySelector(’#notifTog’)?.closest(’.set-row’)?.querySelector(’.set-t’);
+if(notifRow) notifRow.textContent = T.notifications || ‘Notifications’;
 }
 
 function refreshPageText() {
-  // Refresh rendered content based on current page
-  if(currentPage === 'home') renderHome();
-  if(currentPage === 'calendar') initCalendarPage();
-  if(currentPage === 'signals') renderSignals();
-  if(currentPage === 'alerts') { renderPresets(); renderAlerts(); renderHistory(); }
+// Refresh rendered content based on current page
+if(currentPage === ‘home’) renderHome();
+if(currentPage === ‘calendar’) initCalendarPage();
+if(currentPage === ‘signals’) renderSignals();
+if(currentPage === ‘alerts’) { renderPresets(); renderAlerts(); renderHistory(); }
 }
 
 function openLangModal() {
-  const grid = document.getElementById('langGrid');
-  if(grid) {
-    grid.innerHTML = Object.entries(LANGS).map(([code, l]) => `
-      <div class="lang-opt ${code===currentLang?'active':''}" onclick="applyLang('${code}')">
-        <div class="lang-flag">${l.flag}</div>
-        <div>
-          <div class="lang-name">${l.name}</div>
-          <div class="lang-native">${l.native}</div>
-        </div>
-        <div class="lang-check">✓</div>
-      </div>
-    `).join('');
-  }
-  const title = document.getElementById('langModalTitle');
-  if(title) title.textContent = T.language || 'Choose Language';
-  document.getElementById('langModal').classList.add('show');
+const grid = document.getElementById(‘langGrid’);
+if(grid) {
+grid.innerHTML = Object.entries(LANGS).map(([code, l]) => `<div class="lang-opt ${code===currentLang?'active':''}" onclick="applyLang('${code}')"> <div class="lang-flag">${l.flag}</div> <div> <div class="lang-name">${l.name}</div> <div class="lang-native">${l.native}</div> </div> <div class="lang-check">✓</div> </div>`).join(’’);
 }
-function closeLangModal() { document.getElementById('langModal').classList.remove('show'); }
+const title = document.getElementById(‘langModalTitle’);
+if(title) title.textContent = T.language || ‘Choose Language’;
+document.getElementById(‘langModal’).classList.add(‘show’);
+}
+function closeLangModal() { document.getElementById(‘langModal’).classList.remove(‘show’); }
 
 // ════════════════════════════════════
 // SHARE SYSTEM
 // ════════════════════════════════════
-const APP_URL = 'https://momento-app-indol.vercel.app';
-const SHARE_TEXT = 'Check out Momento — AI financial intelligence for better trading & payment timing 🚀';
+const APP_URL = ‘https://momento-app-indol.vercel.app’;
+const SHARE_TEXT = ‘Check out Momento — AI financial intelligence for better trading & payment timing 🚀’;
 
 function openShareModal() {
-  document.getElementById('shareModal').classList.add('show');
+document.getElementById(‘shareModal’).classList.add(‘show’);
 }
-function closeShareModal() { document.getElementById('shareModal').classList.remove('show'); }
+function closeShareModal() { document.getElementById(‘shareModal’).classList.remove(‘show’); }
 
 function shareApp(platform) {
-  const url = encodeURIComponent(APP_URL);
-  const text = encodeURIComponent(SHARE_TEXT);
-  let shareUrl = '';
-  
-  switch(platform) {
-    case 'whatsapp':
-      shareUrl = `https://wa.me/?text=${text}%20${url}`;
-      window.open(shareUrl, '_blank');
-      break;
-    case 'telegram':
-      shareUrl = `https://t.me/share/url?url=${url}&text=${text}`;
-      window.open(shareUrl, '_blank');
-      break;
-    case 'twitter':
-      shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
-      window.open(shareUrl, '_blank');
-      break;
-    case 'copy':
-      if(navigator.clipboard) {
-        navigator.clipboard.writeText(APP_URL).then(() => {
-          toast(T.linkCopied || 'Link copied! 🔗', 'success');
-        });
-      } else {
-        const ta = document.createElement('textarea');
-        ta.value = APP_URL;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        toast(T.linkCopied || 'Link copied! 🔗', 'success');
-      }
-      closeShareModal();
-      return;
-  }
-  closeShareModal();
+const url = encodeURIComponent(APP_URL);
+const text = encodeURIComponent(SHARE_TEXT);
+let shareUrl = ‘’;
+
+switch(platform) {
+case ‘whatsapp’:
+shareUrl = `https://wa.me/?text=${text}%20${url}`;
+window.open(shareUrl, ‘_blank’);
+break;
+case ‘telegram’:
+shareUrl = `https://t.me/share/url?url=${url}&text=${text}`;
+window.open(shareUrl, ‘_blank’);
+break;
+case ‘twitter’:
+shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+window.open(shareUrl, ‘_blank’);
+break;
+case ‘copy’:
+if(navigator.clipboard) {
+navigator.clipboard.writeText(APP_URL).then(() => {
+toast(T.linkCopied || ‘Link copied! 🔗’, ‘success’);
+});
+} else {
+const ta = document.createElement(‘textarea’);
+ta.value = APP_URL;
+document.body.appendChild(ta);
+ta.select();
+document.execCommand(‘copy’);
+document.body.removeChild(ta);
+toast(T.linkCopied || ‘Link copied! 🔗’, ‘success’);
+}
+closeShareModal();
+return;
+}
+closeShareModal();
 }
 
 // Native share if available
 function nativeShare() {
-  if(navigator.share) {
-    navigator.share({title:'Momento',text:SHARE_TEXT,url:APP_URL});
-  } else {
-    openShareModal();
-  }
+if(navigator.share) {
+navigator.share({title:‘Momento’,text:SHARE_TEXT,url:APP_URL});
+} else {
+openShareModal();
+}
 }
 
 // ════════════════════════════════════
 // PRICE ALERT BANNERS (HOME)
 // ════════════════════════════════════
 const PRICE_MOVEMENTS = [
-  {pair:'BTC/USD', key:'BTC', threshold:1.5, msgUp:'Breaking resistance!', msgDn:'Testing support'},
-  {pair:'USD/JPY', key:'USDJPY', threshold:0.3, msgUp:'JPY weakening — pay later', msgDn:'JPY strengthening — pay now!'},
-  {pair:'XAU/USD', key:'GOLD', threshold:0.4, msgUp:'Gold surging!', msgDn:'Gold pulling back'},
-  {pair:'GBP/USD', key:'GBPUSD', threshold:0.2, msgUp:'GBP rising — avoid paying', msgDn:'GBP falling — good time'},
+{pair:‘BTC/USD’, key:‘BTC’, threshold:1.5, msgUp:‘Breaking resistance!’, msgDn:‘Testing support’},
+{pair:‘USD/JPY’, key:‘USDJPY’, threshold:0.3, msgUp:‘JPY weakening — pay later’, msgDn:‘JPY strengthening — pay now!’},
+{pair:‘XAU/USD’, key:‘GOLD’, threshold:0.4, msgUp:‘Gold surging!’, msgDn:‘Gold pulling back’},
+{pair:‘GBP/USD’, key:‘GBPUSD’, threshold:0.2, msgUp:‘GBP rising — avoid paying’, msgDn:‘GBP falling — good time’},
 ];
 
 let lastBannerIdx = 0;
 function updatePriceAlertBanner() {
-  const el = document.getElementById('priceAlertBanner');
-  if(!el || currentPage !== 'home') return;
-  
-  lastBannerIdx = (lastBannerIdx + 1) % PRICE_MOVEMENTS.length;
-  const pm = PRICE_MOVEMENTS[lastBannerIdx];
-  const chg = CH[pm.key] || 0;
-  const up = chg >= 0;
-  const bigMove = Math.abs(chg) >= pm.threshold;
-  
-  if(!bigMove) { el.innerHTML = ''; return; }
-  
-  el.innerHTML = `
-    <div class="price-alert-banner ${up?'up':'dn'}" onclick="goPage('signals')">
-      <div class="pab-ico">${up?'📈':'📉'}</div>
-      <div class="pab-info">
-        <div class="pab-pair">${pm.pair}</div>
-        <div class="pab-msg ${up?'up':'dn'}">${up?pm.msgUp:pm.msgDn}</div>
-      </div>
-      <div class="pab-price ${up?'up':'dn'}">${up?'+':''}${chg}%</div>
-    </div>`;
+const el = document.getElementById(‘priceAlertBanner’);
+if(!el || currentPage !== ‘home’) return;
+
+lastBannerIdx = (lastBannerIdx + 1) % PRICE_MOVEMENTS.length;
+const pm = PRICE_MOVEMENTS[lastBannerIdx];
+const chg = CH[pm.key] || 0;
+const up = chg >= 0;
+const bigMove = Math.abs(chg) >= pm.threshold;
+
+if(!bigMove) { el.innerHTML = ‘’; return; }
+
+el.innerHTML = ` <div class="price-alert-banner ${up?'up':'dn'}" onclick="goPage('signals')"> <div class="pab-ico">${up?'📈':'📉'}</div> <div class="pab-info"> <div class="pab-pair">${pm.pair}</div> <div class="pab-msg ${up?'up':'dn'}">${up?pm.msgUp:pm.msgDn}</div> </div> <div class="pab-price ${up?'up':'dn'}">${up?'+':''}${chg}%</div> </div>`;
 }
 setInterval(updatePriceAlertBanner, 5000);
-
 
 // ════════════════════════════════════
 // DARK / LIGHT MODE
 // ════════════════════════════════════
-let isDark = localStorage.getItem('momento_dark') !== 'false';
+let isDark = localStorage.getItem(‘momento_dark’) !== ‘false’;
 
 function applyDarkMode(dark) {
-  isDark = dark;
-  localStorage.setItem('momento_dark', dark);
-  document.body.classList.toggle('light-mode', !dark);
-  const tog = document.getElementById('darkTog');
-  if(tog) tog.className = 'tog' + (dark ? ' on' : '');
-  const s = document.getElementById('darkModeS');
-  if(s) s.textContent = dark ? 'Dark' : 'Light';
+isDark = dark;
+localStorage.setItem(‘momento_dark’, dark);
+document.body.classList.toggle(‘light-mode’, !dark);
+const tog = document.getElementById(‘darkTog’);
+if(tog) tog.className = ‘tog’ + (dark ? ’ on’ : ‘’);
+const s = document.getElementById(‘darkModeS’);
+if(s) s.textContent = dark ? ‘Dark’ : ‘Light’;
 }
 
 function toggleDarkMode(el) {
-  applyDarkMode(!isDark);
+applyDarkMode(!isDark);
 }
 
 // Apply on load
@@ -2854,10 +2755,51 @@ applyDarkMode(isDark);
 // INIT LANGUAGE ON LOAD
 // ════════════════════════════════════
 setTimeout(() => {
-  applyLang(currentLang);
+applyLang(currentLang);
 }, 100);
 
-</script>
+// ════════════════════════════════════
+// BINANCE API — REAL BTC PRICE
+// ════════════════════════════════════
+let lastBtcUpdate = null;
+let btcFetchTimeout = null;
 
-</body>
-</html>
+async function fetchBTCPrice() {
+try {
+// Try Binance first
+const r1 = await fetch(‘https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT’);
+if (!r1.ok) throw new Error(‘Binance failed’);
+const d1 = await r1.json();
+PR[‘BTC’] = parseFloat(d1.lastPrice);
+CH[‘BTC’] = parseFloat(parseFloat(d1.priceChangePercent).toFixed(2));
+lastBtcUpdate = new Date();
+updateBTCDisplay(PR[‘BTC’], CH[‘BTC’]);
+updateLastUpdated();
+} catch(e1) {
+try {
+// Fallback to CoinGecko
+const r2 = await fetch(‘https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true’);
+if (!r2.ok) throw new Error(‘CoinGecko failed’);
+const d2 = await r2.json();
+PR[‘BTC’] = d2.bitcoin.usd;
+CH[‘BTC’] = parseFloat(d2.bitcoin.usd_24h_change.toFixed(2));
+lastBtcUpdate = new Date();
+updateBTCDisplay(PR[‘BTC’], CH[‘BTC’]);
+updateLastUpdated();
+} catch(e2) {
+// Use simulated data silently
+updateLastUpdated();
+}
+}
+}
+
+function updateBTCDisplay(price, change) {
+document.querySelectorAll(’.btc-price-live’).forEach(el => {
+el.textContent = ‘$’ + price.toLocaleString(‘en’, {maximumFractionDigits: 0});
+});
+document.querySelectorAll(’.btc-change-live’).forEach(el => {
+el.textContent = (change >= 0 ? ‘+’ : ‘’) + change.toFixed(2) + ‘%’;
+el.className = el.className.replace(/sbt-up|sbt-dn|pup|pdn/g, ‘’).trim();
+el.classList.add(change >= 0 ? ‘sbt-up’ : ‘sbt-dn’);
+});
+}
