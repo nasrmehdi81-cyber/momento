@@ -849,39 +849,7 @@ body.light-mode .set-s,body.light-mode .prof-bio,body.light-mode .prof-email,bod
 body.light-mode .sb-time{color:#00a86b;}
 body.light-mode .about-stat,body.light-mode .ps,body.light-mode .sc-lv,body.light-mode .factor{background:rgba(255,255,255,.8);border-color:rgba(0,0,0,.08);}
 body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4);}
-
-/* ══ DISCLAIMER BAR ══ */
-.disclaimer-bar{
-position:fixed;bottom:64px;left:50%;transform:translateX(-50%);
-width:100%;max-width:480px;
-background:rgba(247,195,95,.08);
-border-top:1px solid rgba(247,195,95,.15);
-padding:6px 14px;
-display:flex;align-items:center;gap:8px;
-font-size:10px;color:#f7c35f;
-font-family:‘JetBrains Mono’,monospace;
-z-index:100;
-line-height:1.4;
-}
-.disclaimer-bar.hidden{display:none;}
-.disclaimer-ico{font-size:12px;flex-shrink:0;}
-
-/* ══ DATA SOURCE BADGE ══ */
-.data-source-badge{
-display:flex;align-items:center;gap:6px;
-padding:6px 14px;
-background:rgba(26,111,212,.06);
-border-bottom:1px solid rgba(26,111,212,.1);
-font-family:‘JetBrains Mono’,monospace;
-font-size:9px;color:#3a6080;
-letter-spacing:.5px;
-}
-.ds-dot{
-width:5px;height:5px;border-radius:50%;
-background:#00d4aa;animation:blink 1.5s infinite;
-flex-shrink:0;
-}
-</style>
+.disclaimer-bar{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(247,195,95,.08);border-top:1px solid rgba(247,195,95,.15);padding:6px 14px;display:flex;align-items:center;gap:8px;font-size:10px;color:#f7c35f;font-family:‘JetBrains Mono’,monospace;z-index:200;line-height:1.4;}.disclaimer-bar.hidden{display:none;}.ds-badge{display:flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(26,111,212,.06);border-bottom:1px solid rgba(26,111,212,.1);font-family:‘JetBrains Mono’,monospace;font-size:9px;color:#3a6080;}.ds-dot{width:5px;height:5px;border-radius:50%;background:#00d4aa;animation:blink 1.5s infinite;flex-shrink:0;}</style>
 
 </head>
 <body>
@@ -917,13 +885,7 @@ flex-shrink:0;
   </div>
 </div>
 
-<!-- DISCLAIMER BAR -->
-
-<div class="disclaimer-bar">
-  <span class="disclaimer-ico">⚠️</span>
-  <span>This is not financial advice. Always do your own research before making financial decisions.</span>
-</div>
-
+<div class="disclaimer-bar hidden" id="disclaimerBar"><span style="font-size:12px;flex-shrink:0">⚠️</span><span>Not financial advice. Always do your own research before making decisions.</span></div>
 <div class="toast-wrap" id="tw"></div>
 
 <!-- ══════════════════════════════════════════
@@ -1027,7 +989,7 @@ flex-shrink:0;
   </div>
   <div class="ob1-bottom">
     <div class="ob-progress"><div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
-    <button class="ob-cta" onclick="obNext()">Try Momento Free — No Credit Card ⚡</button>
+    <button class="ob-cta" onclick="obNext()">Get Started Free ⚡</button>
     <div class="ob-signin">Already have an account? <a onclick="obFinish()">Sign In</a></div>
   </div>
 </div>
@@ -1056,23 +1018,23 @@ flex-shrink:0;
 <div class="ob-slide">
   <div class="ob3-content">
     <div class="ob3-icon">🚀</div>
-    <div class="ob3-title">Get <span>Pro Free</span><br>Forever</div>
-    <div class="ob3-sub">Open a partner trading account and get Pro included — or subscribe directly for full access.</div>
+    <div class="ob3-title">Unlock <span>Momento Pro</span></div>
+    <div class="ob3-sub">Open a partner trading account and get Pro included — or subscribe for full access.</div>
     <div class="ob3-options">
       <div class="ob3-opt hot" onclick="toast('Opening Binance... Pro activates after signup! 🎉','success')">
         <div class="ob3-opt-ico" style="background:rgba(240,185,11,.08)">₿</div>
         <div class="ob3-opt-info"><div class="ob3-opt-name">Open Binance Account</div><div class="ob3-opt-desc">World's largest crypto exchange</div></div>
-        <div class="ob3-badge green">PRO FREE ∞</div>
+        <div class="ob3-badge green">UNLOCK PRO</div>
       </div>
       <div class="ob3-opt hot" onclick="toast('Opening eToro... Pro activates! 🎉','success')">
         <div class="ob3-opt-ico" style="background:rgba(27,74,138,.08)">🌐</div>
         <div class="ob3-opt-info"><div class="ob3-opt-name">Open eToro Account</div><div class="ob3-opt-desc">Social trading — copy top traders</div></div>
-        <div class="ob3-badge green">PRO FREE ∞</div>
+        <div class="ob3-badge green">UNLOCK PRO</div>
       </div>
       <div class="ob3-opt" onclick="toast('Opening XM... Pro activates! 🎉','success')">
         <div class="ob3-opt-ico" style="background:rgba(200,16,46,.06)">🔴</div>
         <div class="ob3-opt-info"><div class="ob3-opt-name">Open XM Account</div><div class="ob3-opt-desc">Forex & CFD from 0 pips</div></div>
-        <div class="ob3-badge gold">PRO FREE ∞</div>
+        <div class="ob3-badge gold">UNLOCK PRO</div>
       </div>
     </div>
     <div class="ob3-or"><div class="ob3-or-line"></div><div class="ob3-or-txt">or subscribe monthly</div><div class="ob3-or-line"></div></div>
@@ -1081,7 +1043,7 @@ flex-shrink:0;
   <div class="ob1-bottom">
     <div class="ob-progress"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot active"></div></div>
     <button class="ob-cta" onclick="obFinish()">Start 14-Day Free Trial →</button>
-    <div class="ob-signin" style="cursor:pointer" onclick="obFinish()">I\'ll decide later</div>
+    <div class="ob-signin" style="cursor:pointer" onclick="obFinish()">Maybe later</div>
   </div>
 </div>
 ```
@@ -1095,11 +1057,6 @@ flex-shrink:0;
 
 <div class="page" id="page-home">
   <!-- MARKET PULSE -->
-  <div class="data-source-badge">
-  <span class="ds-dot"></span>
-  <span>Live data from Binance API</span>
-  <span class="last-updated" style="margin-left:auto;opacity:.6">Updating...</span>
-</div>
   <div class="pulse-section">
     <div class="pulse-header">
       <div class="pulse-title">⚡ Market Pulse</div>
@@ -1384,7 +1341,7 @@ flex-shrink:0;
   </div>
   <div class="prof-info">
     <div class="prof-name">Van</div>
-    <div class="prof-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ff8a8c9a8dbf9290929a918b90d19e8f8f">[email&#160;protected]</a></div>
+    <div class="prof-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="582d2b3d2a183537353d362c3776392828">[email&#160;protected]</a></div>
     <div class="prof-bio">Trader & Importer · Tokyo, Japan 🇯🇵<br>Using Momento for USD/JPY payment timing</div>
     <div class="prof-stats">
       <div class="ps"><div class="ps-v">0</div><div class="ps-l">POSTS</div></div>
@@ -1394,16 +1351,16 @@ flex-shrink:0;
     </div>
   </div>
   <div class="trial-banner" onclick="toast('Upgrade options — coming soon! 💳')">
-    <div class="tb-left"><div class="tb-title" id="trialTitle">✦ Pro Trial Active</div><div class="tb-sub" id="trialSub">Open a partner account to extend your Pro access</div></div>
+    <div class="tb-left"><div class="tb-title" id="trialTitle">✦ Pro Trial Active</div><div class="tb-sub" id="trialSub">Keep Pro free by opening a trading account</div></div>
     <div class="tb-days" id="trialBadge">14 DAYS LEFT</div>
   </div>
   <div class="aff-section">
     <div class="aff-title" id="affTitle">🚀 Unlock Momento Pro</div>
-    <div class="aff-sub" id="affSub">Open a trading account through our trusted partners and get Pro included — or subscribe directly.</div>
+    <div class="aff-sub" id="affSub">Open a trading account through Momento = Pro for life. No monthly fees.</div>
     <div class="aff-options">
-      <div class="aff-opt hot" onclick="toast('Opening Binance! Pro activates after signup 🎉','success')"><div class="aff-opt-ico">₿</div><div class="aff-opt-info"><div class="aff-opt-name">Binance</div><div class="aff-opt-desc">Crypto · World's largest exchange</div></div><div class="aff-badge">UNLOCK PRO</div></div>
-      <div class="aff-opt hot" onclick="toast('Opening eToro! 🎉','success')"><div class="aff-opt-ico">🌐</div><div class="aff-opt-info"><div class="aff-opt-name">eToro</div><div class="aff-opt-desc">Stocks · Forex · Copy trading</div></div><div class="aff-badge">UNLOCK PRO</div></div>
-      <div class="aff-opt" onclick="toast('Opening XM! 🎉','success')"><div class="aff-opt-ico">🔴</div><div class="aff-opt-info"><div class="aff-opt-name">XM Group</div><div class="aff-opt-desc">Forex & CFD · 0 pip spreads</div></div><div class="aff-badge">UNLOCK PRO</div></div>
+      <div class="aff-opt hot" onclick="toast('Opening Binance! Pro activates after signup 🎉','success')"><div class="aff-opt-ico">₿</div><div class="aff-opt-info"><div class="aff-opt-name">Binance</div><div class="aff-opt-desc">Crypto · World's largest exchange</div></div><div class="aff-badge">FREE ∞</div></div>
+      <div class="aff-opt hot" onclick="toast('Opening eToro! 🎉','success')"><div class="aff-opt-ico">🌐</div><div class="aff-opt-info"><div class="aff-opt-name">eToro</div><div class="aff-opt-desc">Stocks · Forex · Copy trading</div></div><div class="aff-badge">FREE ∞</div></div>
+      <div class="aff-opt" onclick="toast('Opening XM! 🎉','success')"><div class="aff-opt-ico">🔴</div><div class="aff-opt-info"><div class="aff-opt-name">XM Group</div><div class="aff-opt-desc">Forex & CFD · 0 pip spreads</div></div><div class="aff-badge">FREE ∞</div></div>
     </div>
   </div>
   <div class="settings-card">
@@ -1484,14 +1441,14 @@ flex-shrink:0;
       </div>
     </div>
     <div class="about-card">
-      <div class="about-card-title">💎 Pro Free Forever</div>
+      <div class="about-card-title">💎 Unlock Momento Pro</div>
       <div class="about-card-txt">Open a trading account through Momento and get Pro access for life — no monthly fees. We earn a referral commission so you pay nothing.</div>
     </div>
     <div class="about-card">
       <div class="about-card-title">📬 Contact Us</div>
       <div class="about-card-txt">
         Have questions or feedback?<br>
-        <span style="color:#00d4aa"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ff8c8a8f8f908d8bbf9290929a918b90d19e8f8f">[email&#160;protected]</a></span><br><br>
+        <span style="color:#00d4aa"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="98ebede8e8f7eaecd8f5f7f5fdf6ecf7b6f9e8e8">[email&#160;protected]</a></span><br><br>
         Follow us for market updates and tips.
       </div>
     </div>
@@ -2199,8 +2156,8 @@ const LANGS = {
 en: {
 flag:‘🇬🇧’, name:‘English’, native:‘English’, dir:‘ltr’,
 home:‘HOME’, calendar:‘CALENDAR’, signals:‘SIGNALS’, alerts:‘ALERTS’, profile:‘PROFILE’, about:‘ABOUT’,
-getStarted:‘Try Momento Free — No Credit Card ⚡’, continue:‘Continue →’, startTrial:‘Start 14-Day Free Trial →’,
-alreadyAccount:‘Already have an account?’, signIn:‘Sign In’, skipIntro:‘Skip intro’, decideLater:“I'll decide later”,
+getStarted:‘Get Started Free ⚡’, continue:‘Continue →’, startTrial:‘Start 14-Day Free Trial →’,
+alreadyAccount:‘Already have an account?’, signIn:‘Sign In’, skipIntro:‘Skip intro’, decideLater:“Maybe later”,
 marketPulse:‘⚡ Market Pulse’, livePrices:‘Live Prices’, aiSignals:‘AI Signals’, communityFeed:‘Community Feed’,
 shareInsight:‘Share a market insight…’, viewAllSignals:‘VIEW ALL SIGNALS →’,
 payToday:‘PAY TODAY ✓’, doNotPay:‘DO NOT PAY ✗’, waitDays:‘WAIT 1-2 DAYS ⚠’, monitor:‘MONITOR ◎’,
@@ -2213,7 +2170,7 @@ currentPrice:‘CURRENT PRICE’, aiSuggested:‘AI SUGGESTED TARGETS’,
 resistance:‘RESISTANCE’, target:‘TARGET’, support:‘SUPPORT’,
 noAlerts:‘No alerts yet’, noAlertsDesc:‘Set your first alert above.’,
 language:‘Language’, darkMode:‘Dark Mode’, notifications:‘Notifications’,
-proTrialActive:‘✦ Pro Trial Active’, keepProFree:‘Open a partner account to extend your Pro access’,
+proTrialActive:‘✦ Pro Trial Active’, keepProFree:‘Keep Pro free by opening a trading account’,
 daysLeft:‘DAYS LEFT’, getProFree:‘🚀 Unlock Momento Pro’,
 shareApp:‘Share Momento 🚀’, copyLink:‘COPY LINK’, linkCopied:‘Link copied! 🔗’,
 aboutMomento:‘About Momento’, shareInvite:‘Invite friends & traders’,
@@ -2605,7 +2562,7 @@ function refreshProfileTexts() {
 const tt = document.getElementById(‘trialTitle’);
 if(tt) tt.textContent = T.proTrialActive || ‘✦ Pro Trial Active’;
 const ts = document.getElementById(‘trialSub’);
-if(ts) ts.textContent = T.keepProFree || ‘Open a partner account to extend your Pro access’;
+if(ts) ts.textContent = T.keepProFree || ‘Keep Pro free by opening a trading account’;
 const tb = document.getElementById(‘trialBadge’);
 if(tb) tb.textContent = ‘14 ’ + (T.daysLeft || ‘DAYS LEFT’);
 // Affiliate
@@ -2759,47 +2716,109 @@ applyLang(currentLang);
 }, 100);
 
 // ════════════════════════════════════
-// BINANCE API — REAL BTC PRICE
+// SUPABASE + PUSH NOTIFICATIONS
 // ════════════════════════════════════
-let lastBtcUpdate = null;
-let btcFetchTimeout = null;
+const SB_URL = ‘https://vrofpoerlphpqxtgzxpe.supabase.co’;
+const SB_KEY = ‘sb_publishable_XvmVHU6PfNNeLOpiiNQkWA_KeiMLF6U’;
 
-async function fetchBTCPrice() {
-try {
-// Try Binance first
-const r1 = await fetch(‘https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT’);
-if (!r1.ok) throw new Error(‘Binance failed’);
-const d1 = await r1.json();
-PR[‘BTC’] = parseFloat(d1.lastPrice);
-CH[‘BTC’] = parseFloat(parseFloat(d1.priceChangePercent).toFixed(2));
-lastBtcUpdate = new Date();
-updateBTCDisplay(PR[‘BTC’], CH[‘BTC’]);
-updateLastUpdated();
-} catch(e1) {
-try {
-// Fallback to CoinGecko
-const r2 = await fetch(‘https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true’);
-if (!r2.ok) throw new Error(‘CoinGecko failed’);
-const d2 = await r2.json();
-PR[‘BTC’] = d2.bitcoin.usd;
-CH[‘BTC’] = parseFloat(d2.bitcoin.usd_24h_change.toFixed(2));
-lastBtcUpdate = new Date();
-updateBTCDisplay(PR[‘BTC’], CH[‘BTC’]);
-updateLastUpdated();
-} catch(e2) {
-// Use simulated data silently
-updateLastUpdated();
+function getUserToken(){
+let t=localStorage.getItem(‘momento_token’);
+if(!t){t=‘u_’+Date.now()+’_’+Math.random().toString(36).substr(2,9);localStorage.setItem(‘momento_token’,t);}
+return t;
 }
+
+async function requestNotifPermission(){
+if(!(‘Notification’ in window))return false;
+if(Notification.permission===‘granted’)return true;
+if(Notification.permission===‘denied’)return false;
+const p=await Notification.requestPermission();
+return p===‘granted’;
+}
+
+function showPushNotif(title,body){
+if(Notification.permission===‘granted’){
+new Notification(title,{body:body,tag:‘momento’,requireInteraction:true});
+if(navigator.vibrate)navigator.vibrate([200,100,200]);
 }
 }
 
-function updateBTCDisplay(price, change) {
-document.querySelectorAll(’.btc-price-live’).forEach(el => {
-el.textContent = ‘$’ + price.toLocaleString(‘en’, {maximumFractionDigits: 0});
+async function saveAlertSB(a){
+try{
+await fetch(SB_URL+’/rest/v1/alerts’,{
+method:‘POST’,
+headers:{‘Content-Type’:‘application/json’,‘apikey’:SB_KEY,‘Authorization’:’Bearer ’+SB_KEY,‘Prefer’:‘return=minimal’},
+body:JSON.stringify({pair:a.pair,target:a.target,direction:a.dir,user_token:getUserToken(),triggered:false})
 });
-document.querySelectorAll(’.btc-change-live’).forEach(el => {
-el.textContent = (change >= 0 ? ‘+’ : ‘’) + change.toFixed(2) + ‘%’;
-el.className = el.className.replace(/sbt-up|sbt-dn|pup|pdn/g, ‘’).trim();
-el.classList.add(change >= 0 ? ‘sbt-up’ : ‘sbt-dn’);
+}catch(e){}
+}
+
+// Register SW
+if(‘serviceWorker’ in navigator){
+navigator.serviceWorker.register(’/sw.js’).catch(()=>{});
+}
+
+// Ask for permission after 4 seconds
+setTimeout(()=>requestNotifPermission(),4000);
+
+// Override checkAlerts to send push notification
+const _origCheckAlerts = checkAlerts;
+function checkAlerts(){
+userAlerts.forEach(a=>{
+if(a.triggered)return;
+const cur=PR[a.pair];if(!cur)return;
+let hit=false;
+if(a.dir===‘above’&&cur>=a.target)hit=true;
+if(a.dir===‘below’&&cur<=a.target)hit=true;
+if(hit){
+a.triggered=true;
+showPushNotif(‘Momento Alert’, a.pair+’ ‘+(a.dir===‘above’?‘rose above’:‘fell below’)+’ ’+fmt(a.target));
+toast(‘ALERT: ‘+a.pair+’ hit ‘+fmt(a.target)+’!’,‘triggered’);
+playAlertSound(880,1.5);
+alertHistory.unshift({pair:a.pair,target:a.target,dir:a.dir,ts:new Date().toISOString(),icon:a.icon||‘o’});
+localStorage.setItem(‘momento_hist’,JSON.stringify(alertHistory.slice(0,10)));
+localStorage.setItem(‘momento_alerts’,JSON.stringify(userAlerts));
+}
 });
 }
+
+// Override addAlert to save to Supabase
+const _baseAddAlert = addAlert;
+async function addAlert(){
+const pair=document.getElementById(‘fPair’)?.value;
+const priceRaw=document.getElementById(‘fPrice’)?.value?.trim();
+if(!priceRaw||isNaN(parseFloat(priceRaw))||parseFloat(priceRaw)<=0){toast(‘Enter a valid target price’,‘error’);return;}
+const target=parseFloat(priceRaw);
+const current=PR[pair];
+if(alertDir===‘above’&&target<=current){toast(‘Target must be ABOVE current price’,‘error’);return;}
+if(alertDir===‘below’&&target>=current){toast(‘Target must be BELOW current price’,‘error’);return;}
+await requestNotifPermission();
+const a={id:Date.now(),pair,icon:ICONS[pair]||‘o’,target,dir:alertDir,current,ts:new Date().toISOString()};
+userAlerts.unshift(a);
+localStorage.setItem(‘momento_alerts’,JSON.stringify(userAlerts.slice(0,20)));
+document.getElementById(‘fPrice’)&&(document.getElementById(‘fPrice’).value=’’);
+saveAlertSB(a);
+renderAlerts();renderHistory();
+toast(’Alert set: ‘+pair+’ ‘+(alertDir===‘above’?‘above’:‘below’)+’ ’+fmt(target),‘success’);
+playAlertSound(523,0.4);
+}
+
+// Disclaimer toggle
+const _origGoPage2 = goPage;
+function goPage(id){
+_origGoPage2(id);
+const db=document.getElementById(‘disclaimerBar’);
+if(db)db.classList.toggle(‘hidden’,id===‘onboard’);
+}
+
+// Binance + CoinGecko real price
+async function fetchBTCPrice(){
+try{
+const r=await fetch(‘https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT’);
+if(!r.ok)throw new Error();
+const d=await r.json();
+PR[‘BTC’]=parseFloat(d.lastPrice);
+CH[‘BTC’]=parseFloat(parseFloat(d.priceChangePercent).toFixed(2));
+return;
+}catch(e){}
+try{
+const r2=await fetch(’https:
