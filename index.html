@@ -3,14 +3,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
 <!-- Google Analytics -->
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-XXXXXXXXXX');
 </script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Momento — AI Financial Intelligence</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -1545,11 +1549,11 @@ body.light-mode .tog.on{background:#00d4aa!important}
      JAVASCRIPT — UNIFIED APP
 ══════════════════════════════════════════ -->
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script charset="utf-8">
 
-// ════════════════════════════════════
+// ====================================
 // MARKET DATA
-// ════════════════════════════════════
+// ====================================
 const PR={BTC:67420,ETH:3512,SOL:142.3,XRP:.61,USDJPY:149.82,EURUSD:1.0821,GBPUSD:1.2634,AUDUSD:.6524,USDCAD:1.3612,GOLD:2318,SILVER:27.4,OIL:78.42,SPX:5234,NDX:18420,BNB:412};
 const CH={BTC:+2.14,ETH:+1.87,SOL:+3.21,XRP:+4.12,USDJPY:+.34,EURUSD:-.12,GBPUSD:-.08,AUDUSD:-.15,USDCAD:+.08,GOLD:+.45,SILVER:+.88,OIL:-.67,SPX:+.23,NDX:+.31,BNB:+1.05};
 const NAMES={BTC:‘Bitcoin’,ETH:‘Ethereum’,SOL:‘Solana’,XRP:‘XRP’,USDJPY:‘USD/JPY’,EURUSD:‘EUR/USD’,GBPUSD:‘GBP/USD’,GOLD:‘Gold’,SILVER:‘Silver’,OIL:‘WTI Oil’,SPX:‘S&P 500’,NDX:‘Nasdaq 100’,BNB:‘BNB’,AUDUSD:‘AUD/USD’,USDCAD:‘USD/CAD’};
@@ -1559,9 +1563,9 @@ const TICKS=[{n:‘BTC’,k:‘BTC’},{n:‘ETH’,k:‘ETH’},{n:‘USD/JPY�
 function fmt(p){if(p>=10000)return p.toLocaleString(‘en’,{maximumFractionDigits:0});if(p>=100)return p.toFixed(2);return p.toFixed(4);}
 function fmtShort(p){if(p>=10000)return ‘$’+Math.round(p/1000)+‘K’;if(p>=100)return ‘$’+p.toFixed(0);return p.toFixed(4);}
 
-// ════════════════════════════════════
+// ====================================
 // PAGE NAVIGATION
-// ════════════════════════════════════
+// ====================================
 let currentPage=‘onboard’;
 const PAGE_LABELS={home:‘HOME’,calendar:‘CALENDAR’,signals:‘SIGNALS’,alerts:‘ALERTS’,profile:‘PROFILE’,about:‘ABOUT’};
 
@@ -1603,9 +1607,9 @@ document.getElementById(‘botNav’).classList.remove(‘hidden’);
 goPage(‘home’);
 }
 
-// ════════════════════════════════════
+// ====================================
 // CLOCK + TICKER
-// ════════════════════════════════════
+// ====================================
 function updateClock(){
 const n=new Date();
 const el=document.getElementById(‘sbTime’);
@@ -1635,9 +1639,9 @@ if(currentPage===‘alerts’){checkAlerts();updateAlertCurrentPrice();}
 if(currentPage===‘calendar’){const el=document.getElementById(‘sigPairPrice’);if(el&&PR[selCurr])el.textContent=fmt(PR[selCurr]);}
 },1500);
 
-// ════════════════════════════════════
+// ====================================
 // ONBOARDING
-// ════════════════════════════════════
+// ====================================
 let obSlide=0;
 function obNext(){
 if(obSlide<2){
@@ -1663,9 +1667,9 @@ c.appendChild(p);
 }
 })();
 
-// ════════════════════════════════════
+// ====================================
 // HOME PAGE
-// ════════════════════════════════════
+// ====================================
 const NEWS_ITEMS=[‘Fed signals cautious rate path · No cuts until inflation at 2%’,‘BTC breaks $67,500 resistance · Analysts target $71K next’,‘BOJ policy shift approaching · JPY may strengthen sharply’,‘Gold hits record on geopolitical tensions · $2,350 target’,‘OPEC+ extends cuts through Q2 · WTI holds $78 support’,‘S&P 500 near all-time highs · Tech earnings beat estimates’,‘ECB meeting Thursday · EUR/USD volatility expected’];
 const PULSE_DATA=[
 {pair:‘BTC/USD’,price:‘BTC’,sig:‘BUY’,type:‘buy’,conf:82},
@@ -1773,9 +1777,9 @@ if(s)s.textContent=OPP_MSGS[oppIdx].sub;
 setInterval(rotateOpp,8000);
 setInterval(updateSentiment,15000);
 
-// ════════════════════════════════════
+// ====================================
 // CALENDAR PAGE
-// ════════════════════════════════════
+// ====================================
 const CAL_CURRENCIES=[
 {id:‘USDJPY’,l:‘USD/JPY’,emoji:‘🇺🇸🇯🇵’},{id:‘EURUSD’,l:‘EUR/USD’,emoji:‘🇪🇺🇺🇸’},
 {id:‘GBPUSD’,l:‘GBP/USD’,emoji:‘🇬🇧🇺🇸’},{id:‘AUDUSD’,l:‘AUD/USD’,emoji:‘🇦🇺🇺🇸’},
@@ -1926,9 +1930,9 @@ const MTHS=[‘Jan’,‘Feb’,‘Mar’,‘Apr’,‘May’,‘Jun’,‘Jul�
 el.innerHTML=CAL_EVENTS.map(e=>`<div class="event-item" onclick="toast('${e.name} - ${e.impact==='high'?'HIGH':'MED'} IMPACT','alert-t')"> <div class="ev-date-box"><div class="ev-d">${e.day}</div><div class="ev-m">${MTHS[e.month]}</div></div> <div class="ev-info"> <div class="ev-name">${e.name}</div> <div class="ev-tags"><span class="ev-tag ${e.impact==='high'?'ev-high':'ev-med'}">${e.impact==='high'?'HIGH IMPACT':'MED IMPACT'}</span><span class="ev-pairs">${e.pairs}</span></div> </div> <div class="ev-sig">${{g:'🟢',y:'🟡',r:'🔴'}[e.sig]}</div> </div>`).join(’’);
 }
 
-// ════════════════════════════════════
+// ====================================
 // SIGNALS PAGE
-// ════════════════════════════════════
+// ====================================
 const SIGNALS_DATA=[
 {id:1,pair:‘BTC/USD’,type:‘buy’,cat:‘crypto’,price:‘BTC’,entry:67500,tp:71000,sl:65000,rr:‘1:1.4’,conf:82,tf:‘4H’,isNew:true,tags:[‘Momentum’,‘Support×3’,‘Whale Acc.’,‘Bullish RSI’],reason:’<strong>$67,000 support held 3 consecutive times</strong> - historically very bullish. On-chain whale wallets accumulating aggressively. RSI showing bullish divergence on 4H.’,aiAnalysis:null},
 {id:2,pair:‘USD/JPY’,type:‘sell’,cat:‘forex’,price:‘USDJPY’,entry:149.80,tp:147.50,sl:151.20,rr:‘1:1.6’,conf:76,tf:‘1D’,isNew:true,tags:[‘BOJ Risk’,‘Reversal’,‘Bearish Div.’,‘High R:R’],reason:’<strong>BOJ policy shift approaching Thursday</strong>. Yen historically surges post-BOJ hawkish signals. Clear bearish divergence on daily. Excellent R:R.’,aiAnalysis:null},
@@ -2032,9 +2036,9 @@ playMomento();
 toast(`🔔 Alert set: ${modalPairSig} ${dir==='above'?'↑ above':'↓ below'} ${parseFloat(price).toLocaleString()}!`,‘success’);
 }
 
-// ════════════════════════════════════
+// ====================================
 // ALERTS PAGE
-// ════════════════════════════════════
+// ====================================
 let userAlerts=[];
 let triggeredCount=0;
 let totalSetCount=0;
@@ -2161,9 +2165,9 @@ if(s<86400)return Math.floor(s/3600)+‘h ago’;
 return Math.floor(s/86400)+‘d ago’;
 }
 
-// ════════════════════════════════════
+// ====================================
 // PROFILE PAGE
-// ════════════════════════════════════
+// ====================================
 function toggleTog(el){el.classList.toggle(‘on’);toast(el.classList.contains(‘on’)?‘Notifications ON 🔔’:‘Notifications OFF 🔕’);}
 function doLogout(){
 toast(‘Logging out…’);
@@ -2180,9 +2184,9 @@ document.getElementById(‘obSlides’).style.transform=‘translateX(0)’;
 },800);
 }
 
-// ════════════════════════════════════
+// ====================================
 // AUDIO
-// ════════════════════════════════════
+// ====================================
 let AC;
 function initAC(){if(!AC){AC=new(window.AudioContext||window.webkitAudioContext)();}if(AC.state===‘suspended’)AC.resume();}
 function testAlertSound(){
@@ -2211,9 +2215,9 @@ if(‘vibrate’in navigator)navigator.vibrate([60,30,100]);
 document.addEventListener(‘touchstart’,()=>{initAC();},{once:true,passive:true});
 document.addEventListener(‘click’,()=>{initAC();},{once:true});
 
-// ════════════════════════════════════
+// ====================================
 // TOAST
-// ════════════════════════════════════
+// ====================================
 function toast(msg,type=’’){
 const el=document.createElement(‘div’);
 el.className=‘toast’+(type?’ ‘+type:’’);
@@ -2222,9 +2226,9 @@ document.getElementById(‘tw’).appendChild(el);
 setTimeout(()=>{el.style.opacity=‘0’;el.style.transition=‘opacity .3s’;setTimeout(()=>el.remove(),300);},4500);
 }
 
-// ════════════════════════════════════
+// ====================================
 // INIT
-// ════════════════════════════════════
+// ====================================
 (function init(){
 // Show onboarding
 document.getElementById(‘page-onboard’).classList.add(‘active’);
@@ -2234,9 +2238,9 @@ renderPresets();
 renderTicker();
 })();
 
-// ════════════════════════════════════
+// ====================================
 // TRANSLATIONS - 10 LANGUAGES
-// ════════════════════════════════════
+// ====================================
 const LANGS = {
 en: {
 flag:‘🇬🇧’, name:‘English’, native:‘English’, dir:‘ltr’,
@@ -2592,9 +2596,9 @@ fear:‘KORKU’, greed:‘AÇGÖZLÜLÜK’,
 },
 };
 
-// ════════════════════════════════════
+// ====================================
 // LANGUAGE SYSTEM
-// ════════════════════════════════════
+// ====================================
 let currentLang = localStorage.getItem(‘momento_lang’) || ‘en’;
 let T = LANGS[currentLang] || LANGS.en;
 
@@ -2686,9 +2690,9 @@ document.getElementById(‘langModal’).classList.add(‘show’);
 }
 function closeLangModal() { document.getElementById(‘langModal’).classList.remove(‘show’); }
 
-// ════════════════════════════════════
+// ====================================
 // SHARE SYSTEM
-// ════════════════════════════════════
+// ====================================
 const APP_URL = ‘https://momento-app-indol.vercel.app’;
 const SHARE_TEXT = ‘Check out Momento - AI financial intelligence for better trading & payment timing 🚀’;
 
@@ -2744,9 +2748,9 @@ openShareModal();
 }
 }
 
-// ════════════════════════════════════
+// ====================================
 // PRICE ALERT BANNERS (HOME)
-// ════════════════════════════════════
+// ====================================
 const PRICE_MOVEMENTS = [
 {pair:‘BTC/USD’, key:‘BTC’, threshold:1.5, msgUp:‘Breaking resistance!’, msgDn:‘Testing support’},
 {pair:‘USD/JPY’, key:‘USDJPY’, threshold:0.3, msgUp:‘JPY weakening - pay later’, msgDn:‘JPY strengthening - pay now!’},
@@ -2771,9 +2775,9 @@ el.innerHTML = ` <div class="price-alert-banner ${up?'up':'dn'}" onclick="goPage
 }
 setInterval(updatePriceAlertBanner, 5000);
 
-// ════════════════════════════════════
+// ====================================
 // DARK / LIGHT MODE
-// ════════════════════════════════════
+// ====================================
 let isDark = localStorage.getItem(‘momento_dark’) !== ‘false’;
 
 function applyDarkMode(dark) {
@@ -2793,16 +2797,16 @@ applyDarkMode(!isDark);
 // Apply on load
 applyDarkMode(isDark);
 
-// ════════════════════════════════════
+// ====================================
 // INIT LANGUAGE ON LOAD
-// ════════════════════════════════════
+// ====================================
 setTimeout(() => {
 applyLang(currentLang);
 }, 100);
 
-// ════════════════════════════════════
+// ====================================
 // REAL APIS + PUSH NOTIFICATIONS
-// ════════════════════════════════════
+// ====================================
 
 // Service Worker
 if (‘serviceWorker’ in navigator) {
@@ -2862,7 +2866,7 @@ var a = userAlerts[0];
 if (a) { requestNotifPermission(); saveAlertSB(a); }
 };
 
-// ════ REAL CRYPTO PRICES (CoinGecko) ════
+// ==== REAL CRYPTO PRICES (CoinGecko) ====
 function fetchCryptoPrices() {
 fetch(‘https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,binancecoin&vs_currencies=usd&include_24hr_change=true’)
 .then(function(r) { return r.json(); })
@@ -2881,7 +2885,7 @@ fetch(‘https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT’)
 });
 }
 
-// ════ REAL FOREX PRICES (ExchangeRate) ════
+// ==== REAL FOREX PRICES (ExchangeRate) ====
 function fetchForexPrices() {
 fetch(‘https://open.er-api.com/v6/latest/USD’)
 .then(function(r) { return r.json(); })
@@ -2896,7 +2900,7 @@ if (d.rates.CAD) { PR[‘USDCAD’] = parseFloat(d.rates.CAD.toFixed(4)); }
 .catch(function() {});
 }
 
-// ════ REAL GOLD PRICE ════
+// ==== REAL GOLD PRICE ====
 function fetchGoldPrice() {
 fetch(‘https://api.metals.live/v1/spot/gold,silver’)
 .then(function(r) { return r.json(); })
@@ -2915,9 +2919,9 @@ setInterval(fetchCryptoPrices, 30000);
 setInterval(fetchForexPrices, 60000);
 setInterval(fetchGoldPrice, 60000);
 
-// ════════════════════════════════════
+// ====================================
 // STRIPE PAYMENTS
-// ════════════════════════════════════
+// ====================================
 var STRIPE_PK = ‘pk_test_51TF2vpB3KtpS65nopkWRL2OxS57DmwuwCurkUhHAFHEA01qobjM5vrrhUzzw08rUyCeprx3GJ6fDqgs2fNBUcQKA00YPB0ML3G’;
 var selectedPlan = ‘monthly’;
 
