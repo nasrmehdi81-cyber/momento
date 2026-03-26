@@ -1446,9 +1446,9 @@ body.light-mode .tog.on{background:#00d4aa!important}
     <div class="aff-title" id="affTitle">🚀 Unlock Momento Pro</div>
     <div class="aff-sub" id="affSub">Open a trading account through Momento = Pro for life. No monthly fees.</div>
     <div class="aff-options">
-      <div class="aff-opt hot" onclick="toast('Opening Binance! Pro activates after signup 🎉','success')"><div class="aff-opt-ico">₿</div><div class="aff-opt-info"><div class="aff-opt-name">Binance</div><div class="aff-opt-desc">Crypto · World's largest exchange</div></div><div class="aff-badge">FREE ∞</div></div>
-      <div class="aff-opt hot" onclick="toast('Opening eToro! 🎉','success')"><div class="aff-opt-ico">🌐</div><div class="aff-opt-info"><div class="aff-opt-name">eToro</div><div class="aff-opt-desc">Stocks · Forex · Copy trading</div></div><div class="aff-badge">FREE ∞</div></div>
-      <div class="aff-opt" onclick="toast('Opening XM! 🎉','success')"><div class="aff-opt-ico">🔴</div><div class="aff-opt-info"><div class="aff-opt-name">XM Group</div><div class="aff-opt-desc">Forex & CFD · 0 pip spreads</div></div><div class="aff-badge">FREE ∞</div></div>
+      <div class="aff-opt hot" onclick="window.open('https://www.binance.com/en/activity/referral','_blank')"><div class="aff-opt-ico">₿</div><div class="aff-opt-info"><div class="aff-opt-name">Binance</div><div class="aff-opt-desc">Crypto · World's largest exchange</div></div><div class="aff-badge">FREE ∞</div></div>
+      <div class="aff-opt hot" onclick="window.open('https://www.etoro.com','_blank')"><div class="aff-opt-ico">🌐</div><div class="aff-opt-info"><div class="aff-opt-name">eToro</div><div class="aff-opt-desc">Stocks · Forex · Copy trading</div></div><div class="aff-badge">FREE ∞</div></div>
+      <div class="aff-opt" onclick="window.open('https://www.xm.com','_blank')"><div class="aff-opt-ico">🔴</div><div class="aff-opt-info"><div class="aff-opt-name">XM Group</div><div class="aff-opt-desc">Forex & CFD · 0 pip spreads</div></div><div class="aff-badge">FREE ∞</div></div>
     </div>
   </div>
   <div class="settings-card">
@@ -3084,12 +3084,13 @@ function selectPlan(plan) {
 }
 function startCheckout() {
   var btn = document.getElementById('stripePayBtn');
-  if (btn) { btn.disabled = true; btn.textContent = 'Processing...'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Redirecting to payment...'; }
+  var url = selectedPlan === 'yearly' ? 'https://buy.stripe.com/test_aFabJ0biW1z96g4fEo0VO02' : 'https://buy.stripe.com/test_eVq8wObiWb9JeMA8bW0VO01';
   setTimeout(function() {
+    window.open(url, '_blank');
     if (btn) { btn.disabled = false; selectPlan(selectedPlan); }
     closeStripeModal();
-    toast('Subscription coming soon! Use affiliate links for free Pro 🎉', 'success');
-  }, 1500);
+  }, 500);
 }
 </script>
 
