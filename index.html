@@ -885,7 +885,7 @@ body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4)
   </div>
 </div>
 
-<div class="disclaimer-bar" id="disclaimerBar"><span>⚠️</span><span>Not financial advice. Do your own research.</span></div>
+<div class="disclaimer-bar" id="disclaimerBar"><span>⚠️</span><span>Not financial advice. Always do your own research before making financial decisions.</span></div>
 <div class="toast-wrap" id="tw"></div>
 
 <!-- ══════════════════════════════════════════
@@ -2859,18 +2859,26 @@ setTimeout(() => {
 }, 100);
 
 
-// Show disclaimer on non-onboard pages
-const _gp = goPage;
+// ════════════════════════════════════
+// REAL MARKET DATA APIs
+// ════════════════════════════════════
+
+// Show disclaimer
+var _gp = goPage;
 goPage = function(id) {
   _gp(id);
   var db = document.getElementById('disclaimerBar');
-  if(db) { if(id === 'onboard') db.classList.remove('show'); else db.classList.add('show'); }
+  if(db) {
+    if(id === 'onboard') db.classList.remove('show');
+    else db.classList.add('show');
+  }
 };
 
 // Push notifications
 function showPushNotif(title, body) {
   if(window.Notification && Notification.permission === 'granted') {
     new Notification(title, {body: body, tag: 'momento', requireInteraction: true});
+    if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
   }
 }
 function requestNotifPermission() {
@@ -2880,26 +2888,79 @@ function requestNotifPermission() {
 }
 setTimeout(requestNotifPermission, 5000);
 
-// Binance real price
-function fetchBTCPrice() {
-  fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT')
+// ════ FETCH CRYPTO PRICES (CoinGecko) ════
+function fetchCryptoPrices() {
+  fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,binancecoin&vs_currencies=usd&include_24hr_change=true')
     .then(function(r) { return r.json(); })
     .then(function(d) {
-      PR['BTC'] = parseFloat(d.lastPrice);
-      CH['BTC'] = parseFloat(parseFloat(d.priceChangePercent).toFixed(2));
+      if(d.bitcoin) { PR['BTC'] = d.bitcoin.usd; CH['BTC'] = parseFloat((d.bitcoin.usd_24h_change||0).toFixed(2)); }
+      if(d.ethereum) { PR['ETH'] = d.ethereum.usd; CH['ETH'] = parseFloat((d.ethereum.usd_24h_change||0).toFixed(2)); }
+      if(d.solana) { PR['SOL'] = d.solana.usd; CH['SOL'] = parseFloat((d.solana.usd_24h_change||0).toFixed(2)); }
+      if(d.ripple) { PR['XRP'] = d.ripple.usd; CH['XRP'] = parseFloat((d.ripple.usd_24h_change||0).toFixed(2)); }
+      if(d.binancecoin) { PR['BNB'] = d.binancecoin.usd; CH['BNB'] = parseFloat((d.binancecoin.usd_24h_change||0).toFixed(2)); }
     })
     .catch(function() {
-      fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true')
+      // Fallback to Binance for BTC
+      fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT')
         .then(function(r) { return r.json(); })
         .then(function(d) {
-          PR['BTC'] = d.bitcoin.usd;
-          CH['BTC'] = parseFloat(d.bitcoin.usd_24h_change.toFixed(2));
+          PR['BTC'] = parseFloat(d.lastPrice);
+          CH['BTC'] = parseFloat(parseFloat(d.priceChangePercent).toFixed(2));
         })
         .catch(function() {});
     });
 }
-fetchBTCPrice();
-setInterval(fetchBTCPrice, 15000);
+
+// ════ FETCH FOREX PRICES (ExchangeRate-API) ════
+function fetchForexPrices() {
+  fetch('https://open.er-api.com/v6/latest/USD')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if(d.rates) {
+        if(d.rates.JPY) { PR['USDJPY'] = parseFloat(d.rates.JPY.toFixed(4)); CH['USDJPY'] = 0; }
+        if(d.rates.EUR) { PR['EURUSD'] = parseFloat((1/d.rates.EUR).toFixed(4)); CH['EURUSD'] = 0; }
+        if(d.rates.GBP) { PR['GBPUSD'] = parseFloat((1/d.rates.GBP).toFixed(4)); CH['GBPUSD'] = 0; }
+        if(d.rates.AUD) { PR['AUDUSD'] = parseFloat((1/d.rates.AUD).toFixed(4)); CH['AUDUSD'] = 0; }
+        if(d.rates.CAD) { PR['USDCAD'] = parseFloat(d.rates.CAD.toFixed(4)); CH['USDCAD'] = 0; }
+      }
+    })
+    .catch(function() {});
+}
+
+// ════ FETCH GOLD PRICE (metals.live) ════
+function fetchGoldPrice() {
+  fetch('https://api.metals.live/v1/spot/gold,silver')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if(Array.isArray(d)) {
+        d.forEach(function(item) {
+          if(item.gold) { PR['GOLD'] = parseFloat(item.gold); }
+          if(item.silver) { PR['SILVER'] = parseFloat(item.silver); }
+        });
+      }
+    })
+    .catch(function() {});
+}
+
+// Start all fetches
+fetchCryptoPrices();
+fetchForexPrices();
+fetchGoldPrice();
+
+// Refresh every 30 seconds
+setInterval(fetchCryptoPrices, 30000);
+setInterval(fetchForexPrices, 60000);
+setInterval(fetchGoldPrice, 60000);
+
+// Override checkAlerts to send push notification
+var _origCA = checkAlerts;
+checkAlerts = function() {
+  _origCA();
+  userAlerts.forEach(function(a) {
+    if(!a.triggered) return;
+    showPushNotif('Momento Alert', a.pair + ' target reached: ' + fmt(a.target));
+  });
+};
 
 </script>
 
