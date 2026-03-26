@@ -849,10 +849,7 @@ body.light-mode .set-s,body.light-mode .prof-bio,body.light-mode .prof-email,bod
 body.light-mode .sb-time{color:#00a86b;}
 body.light-mode .about-stat,body.light-mode .ps,body.light-mode .sc-lv,body.light-mode .factor{background:rgba(255,255,255,.8);border-color:rgba(0,0,0,.08);}
 body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4);}
-
-.disclaimer-bar{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(247,195,95,.08);border-top:1px solid rgba(247,195,95,.15);padding:6px 14px;display:flex;align-items:center;gap:8px;font-size:10px;color:#f7c35f;font-family:‘JetBrains Mono’,monospace;z-index:200;line-height:1.4;}
-.disclaimer-bar.hidden{display:none;}
-</style>
+.disclaimer-bar{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(247,195,95,.08);border-top:1px solid rgba(247,195,95,.15);padding:6px 14px;display:none;align-items:center;gap:8px;font-size:10px;color:#f7c35f;font-family:‘JetBrains Mono’,monospace;z-index:200;line-height:1.4;}.disclaimer-bar.show{display:flex;}</style>
 
 </head>
 <body>
@@ -888,7 +885,7 @@ body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4)
   </div>
 </div>
 
-<div class="disclaimer-bar hidden" id="disclaimerBar"><span style="font-size:12px;flex-shrink:0">⚠️</span><span>Not financial advice. Always do your own research.</span></div>
+<div class="disclaimer-bar" id="disclaimerBar"><span>⚠️</span><span>Not financial advice. Do your own research.</span></div>
 <div class="toast-wrap" id="tw"></div>
 
 <!-- ══════════════════════════════════════════
@@ -1022,7 +1019,7 @@ body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4)
   <div class="ob3-content">
     <div class="ob3-icon">🚀</div>
     <div class="ob3-title">Unlock <span>Momento Pro</span></div>
-    <div class="ob3-sub">Open a partner trading account and get Pro included — or subscribe for full access.</div>
+    <div class="ob3-sub">Open a partner account and get Pro included.</div>
     <div class="ob3-options">
       <div class="ob3-opt hot" onclick="toast('Opening Binance... Pro activates after signup! 🎉','success')">
         <div class="ob3-opt-ico" style="background:rgba(240,185,11,.08)">₿</div>
@@ -1046,7 +1043,7 @@ body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4)
   <div class="ob1-bottom">
     <div class="ob-progress"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot active"></div></div>
     <button class="ob-cta" onclick="obFinish()">Start 14-Day Free Trial →</button>
-    <div class="ob-signin" style="cursor:pointer" onclick="obFinish()">Maybe later</div>
+    <div class="ob-signin" style="cursor:pointer" onclick="obFinish()">I\'ll decide later</div>
   </div>
 </div>
 ```
@@ -2284,7 +2281,7 @@ const LANGS = {
     flag:'🇬🇧', name:'English', native:'English', dir:'ltr',
     home:'HOME', calendar:'CALENDAR', signals:'SIGNALS', alerts:'ALERTS', profile:'PROFILE', about:'ABOUT',
     getStarted:'Get Started Free ⚡', continue:'Continue →', startTrial:'Start 14-Day Free Trial →',
-    alreadyAccount:'Already have an account?', signIn:'Sign In', skipIntro:'Skip intro', decideLater:"Maybe later",
+    alreadyAccount:'Already have an account?', signIn:'Sign In', skipIntro:'Skip intro', decideLater:"I\'ll decide later",
     marketPulse:'⚡ Market Pulse', livePrices:'Live Prices', aiSignals:'AI Signals', communityFeed:'Community Feed',
     shareInsight:'Share a market insight...', viewAllSignals:'VIEW ALL SIGNALS →',
     payToday:'PAY TODAY ✓', doNotPay:'DO NOT PAY ✗', waitDays:'WAIT 1-2 DAYS ⚠', monitor:'MONITOR ◎',
@@ -2862,88 +2859,47 @@ setTimeout(() => {
 }, 100);
 
 
-// ════ SUPABASE + PUSH NOTIFICATIONS ════
-const SB_URL='https://vrofpoerlphpqxtgzxpe.supabase.co';
-const SB_KEY='sb_publishable_XvmVHU6PfNNeLOpiiNQkWA_KeiMLF6U';
+// Show disclaimer on non-onboard pages
+const _gp = goPage;
+goPage = function(id) {
+  _gp(id);
+  var db = document.getElementById('disclaimerBar');
+  if(db) { if(id === 'onboard') db.classList.remove('show'); else db.classList.add('show'); }
+};
 
-function getUserToken(){let t=localStorage.getItem('momento_token');if(!t){t='u_'+Date.now()+'_'+Math.random().toString(36).substr(2,9);localStorage.setItem('momento_token',t);}return t;}
-
-async function requestNotifPermission(){if(!('Notification' in window))return false;if(Notification.permission==='granted')return true;if(Notification.permission==='denied')return false;const p=await Notification.requestPermission();return p==='granted';}
-
-function showPushNotif(title,body){if(Notification.permission==='granted'){new Notification(title,{body:body,tag:'momento',requireInteraction:true});if(navigator.vibrate)navigator.vibrate([200,100,200]);}}
-
-async function saveAlertSB(a){try{await fetch(SB_URL+'/rest/v1/alerts',{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'return=minimal'},body:JSON.stringify({pair:a.pair,target:a.target,direction:a.dir,user_token:getUserToken(),triggered:false})});}catch(e){}}
-
-if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}
-
-setTimeout(function(){requestNotifPermission();},4000);
-
-const _origCheckAlerts=checkAlerts;
-function checkAlerts(){
-  userAlerts.forEach(function(a){
-    if(a.triggered)return;
-    const cur=PR[a.pair];if(!cur)return;
-    let hit=false;
-    if(a.dir==='above'&&cur>=a.target)hit=true;
-    if(a.dir==='below'&&cur<=a.target)hit=true;
-    if(hit){
-      a.triggered=true;
-      showPushNotif('Momento Alert',a.pair+' '+(a.dir==='above'?'rose above':'fell below')+' '+fmt(a.target));
-      toast('ALERT: '+a.pair+' hit '+fmt(a.target)+'!','triggered');
-      playAlertSound(880,1.5);
-      alertHistory.unshift({pair:a.pair,target:a.target,dir:a.dir,ts:new Date().toISOString(),icon:a.icon||'o'});
-      localStorage.setItem('momento_hist',JSON.stringify(alertHistory.slice(0,10)));
-      localStorage.setItem('momento_alerts',JSON.stringify(userAlerts));
-    }
-  });
+// Push notifications
+function showPushNotif(title, body) {
+  if(window.Notification && Notification.permission === 'granted') {
+    new Notification(title, {body: body, tag: 'momento', requireInteraction: true});
+  }
 }
-
-const _baseAddAlert=addAlert;
-async function addAlert(){
-  const pair=document.getElementById('fPair')?document.getElementById('fPair').value:'BTC';
-  const priceRaw=document.getElementById('fPrice')?document.getElementById('fPrice').value.trim():'';
-  if(!priceRaw||isNaN(parseFloat(priceRaw))||parseFloat(priceRaw)<=0){toast('Enter a valid target price','error');return;}
-  const target=parseFloat(priceRaw);
-  const current=PR[pair];
-  if(alertDir==='above'&&target<=current){toast('Target must be ABOVE current price','error');return;}
-  if(alertDir==='below'&&target>=current){toast('Target must be BELOW current price','error');return;}
-  await requestNotifPermission();
-  const a={id:Date.now(),pair:pair,icon:ICONS[pair]||'o',target:target,dir:alertDir,current:current,ts:new Date().toISOString()};
-  userAlerts.unshift(a);
-  localStorage.setItem('momento_alerts',JSON.stringify(userAlerts.slice(0,20)));
-  if(document.getElementById('fPrice'))document.getElementById('fPrice').value='';
-  saveAlertSB(a);
-  renderAlerts();renderHistory();
-  toast('Alert set: '+pair+' '+(alertDir==='above'?'above':'below')+' '+fmt(target),'success');
-  playAlertSound(523,0.4);
+function requestNotifPermission() {
+  if(window.Notification && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
 }
+setTimeout(requestNotifPermission, 5000);
 
-const _origGoPage2=goPage;
-function goPage(id){
-  _origGoPage2(id);
-  const db=document.getElementById('disclaimerBar');
-  if(db)db.classList.toggle('hidden',id==='onboard');
-}
-
-async function fetchBTCPrice(){
-  try{
-    const r=await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT');
-    if(!r.ok)throw new Error('binance');
-    const d=await r.json();
-    PR['BTC']=parseFloat(d.lastPrice);
-    CH['BTC']=parseFloat(parseFloat(d.priceChangePercent).toFixed(2));
-    return;
-  }catch(e1){}
-  try{
-    const r2=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');
-    if(!r2.ok)throw new Error('coingecko');
-    const d2=await r2.json();
-    PR['BTC']=d2.bitcoin.usd;
-    CH['BTC']=parseFloat(d2.bitcoin.usd_24h_change.toFixed(2));
-  }catch(e2){}
+// Binance real price
+function fetchBTCPrice() {
+  fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      PR['BTC'] = parseFloat(d.lastPrice);
+      CH['BTC'] = parseFloat(parseFloat(d.priceChangePercent).toFixed(2));
+    })
+    .catch(function() {
+      fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true')
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          PR['BTC'] = d.bitcoin.usd;
+          CH['BTC'] = parseFloat(d.bitcoin.usd_24h_change.toFixed(2));
+        })
+        .catch(function() {});
+    });
 }
 fetchBTCPrice();
-setInterval(fetchBTCPrice,15000);
+setInterval(fetchBTCPrice, 15000);
 
 </script>
 
