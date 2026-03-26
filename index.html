@@ -1614,7 +1614,7 @@ if(el)el.textContent=`${String(n.getHours()).padStart(2,'0')}:${String(n.getMinu
 setInterval(updateClock,1000);updateClock();
 
 function renderTicker(){
-const items=[…TICKS,…TICKS,…TICKS];
+const items=[...TICKS,...TICKS,...TICKS];
 const el=document.getElementById(‘sbTicker’);
 if(!el)return;
 el.innerHTML=items.map(t=>{
@@ -1709,7 +1709,7 @@ rotateOpp();
 }
 
 function renderNewsCrawl(){
-const items=[…NEWS_ITEMS,…NEWS_ITEMS];
+const items=[...NEWS_ITEMS,...NEWS_ITEMS];
 const el=document.getElementById(‘ncInner’);
 if(el)el.innerHTML=items.map(n=>`<div class="nc-item"><div class="nc-sep">◆</div>${n}</div>`).join(’’);
 }
@@ -1725,7 +1725,7 @@ const v=Math.round(55+Math.random()*20);
 const n=document.getElementById(‘sentNeedle’),vEl=document.getElementById(‘sentVal’),lEl=document.getElementById(‘sentLbl’);
 if(!n)return;
 n.style.left=v+’%’;
-const col=v<40?‘var(–red)’:v<55?‘var(–gold)’:‘var(–green)’;
+const col=v<40?‘var(--red)’:v<55?‘var(--gold)’:‘var(--green)’;
 const label=v<40?‘FEAR’:v<55?‘NEUTRAL’:v<72?‘GREED’:‘EXTREME GREED’;
 if(vEl){vEl.textContent=v;vEl.style.color=col;}
 if(lEl){lEl.textContent=label;lEl.style.color=col;}
@@ -1824,7 +1824,7 @@ function selectCurr(id){selCurr=id;renderCurrencies();updateCalSignal();renderCa
 function updateCalSignal(){
 const curr=CAL_CURRENCIES.find(c=>c.id===selCurr);
 const data=CAL_SIG[selCurr]||CAL_DEF;
-const col=data.s===‘green’?‘var(–green)’:data.s===‘red’?‘var(–red)’:‘var(–gold)’;
+const col=data.s===‘green’?‘var(--green)’:data.s===‘red’?‘var(--red)’:‘var(--gold)’;
 document.getElementById(‘sigPairName’).textContent=curr?.l||selCurr;
 document.getElementById(‘sigPairPrice’).textContent=fmt(PR[selCurr]||0);
 document.getElementById(‘sigActionTitle’).textContent=data.a;
@@ -1898,7 +1898,7 @@ el.innerHTML=html;
 function changeCalMonth(dir){
 calMonth+=dir;
 if(calMonth>11){calMonth=0;calYear++;}
-if(calMonth<0){calMonth=11;calYear–;}
+if(calMonth<0){calMonth=11;calYear--;}
 renderCalendar();
 const dd=document.getElementById(‘dayDetail’);if(dd)dd.classList.remove(‘show’);
 }
@@ -1976,7 +1976,7 @@ const sigs=getFilteredSigs();
 if(!sigs.length){el.innerHTML=`<div style="text-align:center;padding:48px 24px;color:var(--white3)">No signals match this filter</div>`;return;}
 el.innerHTML=sigs.map((s,i)=>{
 const tl={buy:‘▲ BUY’,sell:‘▼ SELL’,watch:‘◎ WATCH’}[s.type];
-const confCol=s.conf>=75?‘var(–green)’:s.conf>=60?‘var(–gold)’:‘var(–red)’;
+const confCol=s.conf>=75?‘var(--green)’:s.conf>=60?‘var(--gold)’:‘var(--red)’;
 const rrNum=s.rr?parseFloat(s.rr.split(’:’)[1]):0;
 const aiExpanded=expandedAI.has(s.id);
 return `<div class="sig-card" id="sig-${s.id}" style="animation-delay:${i*.07}s"> <div class="sig-card-line ${s.type}"></div> <div class="sig-card-body"> <div class="sc-header"> <div><div class="sc-pair">${s.pair}</div> <div class="sc-meta"><span class="sc-price">${fmt(PR[s.price]||0)}</span><span class="sc-tf">${s.tf}</span>${s.isNew?'<span class="sc-new">NEW</span>':''}</div> </div> <div class="sc-type"><div class="sc-badge ${s.type}">${tl}</div></div> </div> ${s.type!=='watch'?`
@@ -2070,8 +2070,8 @@ const p=PR[pair.value]||0;
 const c=CH[pair.value]||0;
 const up=c>=0;
 const cpEl=document.getElementById(‘cpPrice’),chEl=document.getElementById(‘cpChg’);
-if(cpEl){cpEl.textContent=fmt(p);cpEl.style.color=up?‘var(–green)’:‘var(–red)’;}
-if(chEl){chEl.textContent=(up?’+’:’’)+c+’%’;chEl.style.color=up?‘var(–green)’:‘var(–red)’;}
+if(cpEl){cpEl.textContent=fmt(p);cpEl.style.color=up?‘var(--green)’:‘var(--red)’;}
+if(chEl){chEl.textContent=(up?’+’:’’)+c+’%’;chEl.style.color=up?‘var(--green)’:‘var(--red)’;}
 renderAlertSuggestions(pair.value,p);
 }
 function renderAlertSuggestions(pair,price){
@@ -2112,11 +2112,11 @@ return;
 }
 const active=userAlerts.filter(a=>!a.triggered);
 const trig=userAlerts.filter(a=>a.triggered);
-el.innerHTML=[…active,…trig].map((a,i)=>{
+el.innerHTML=[...active,...trig].map((a,i)=>{
 const cur=PR[a.pair]||a.price;
 const progress=a.dir===‘above’?Math.min(((cur-a.setAt)/(a.price-a.setAt))*100,100):Math.min(((a.setAt-cur)/(a.setAt-a.price))*100,100);
 const pct=Math.max(0,Math.round(progress));
-const col=a.dir===‘above’?‘var(–green)’:‘var(–red)’;
+const col=a.dir===‘above’?‘var(--green)’:‘var(--red)’;
 return `<div class="alert-item ${a.dir}${a.triggered?' triggered':''}" id="al-${a.id}" style="animation-delay:${i*.06}s"> <div class="ai-icon" style="background:rgba(255,255,255,.03)">${a.icon}</div> <div class="ai-info"> <div class="ai-pair">${a.pair}</div> <div class="ai-condition"> <span class="ai-dir ${a.dir==='above'?'up':'dn'}">${a.dir==='above'?'↑ above':'↓ below'}</span> <span class="ai-target">${fmt(a.price)}</span> <span style="color:var(--white3);font-family:'JetBrains Mono',monospace;font-size:10px">· now ${fmt(cur)}</span> </div> <div class="ai-progress"> <div class="ai-prog-w"><div class="ai-prog-f" style="width:${pct}%;background:${col}"></div></div> <div class="ai-prog-pct">${pct}% to target</div> </div> </div> <div class="ai-right"> ${a.triggered?`<div class="ai-triggered-badge">TRIGGERED ✓</div>`:''} <div class="ai-del" onclick="deleteAlert(${a.id})"> <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> </div> </div> </div>`;
 }).join(’’);
 }
@@ -2150,7 +2150,7 @@ if(currentPage===‘alerts’)renderAlerts();
 }
 function renderHistory(){
 const el=document.getElementById(‘historyEl’);if(!el)return;
-const items=[…alertHistory,…DEMO_HISTORY].slice(0,8);
+const items=[...alertHistory,...DEMO_HISTORY].slice(0,8);
 el.innerHTML=items.map(h=>`<div class="hist-item"> <div class="hist-ico">${h.icon}</div> <div class="hist-info"><div class="hist-pair">${h.pair} ${h.dir==='above'?'↑':'↓'} ${fmt(h.price)}</div><div class="hist-detail">Target reached ✓ — alert triggered</div></div> <div class="hist-time">${timeAgo(h.triggeredAt)}</div> </div>`).join(’’);
 }
 function timeAgo(d){
