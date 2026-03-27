@@ -850,8 +850,8 @@ body.light-mode .sb-time{color:#00a86b;}
 body.light-mode .about-stat,body.light-mode .ps,body.light-mode .sc-lv,body.light-mode .factor{background:rgba(255,255,255,.8);border-color:rgba(0,0,0,.08);}
 body.light-mode .trial-banner{background:linear-gradient(135deg,#00d4aa,#1a6fd4);}
 
-body.light-mode .sig-pair-name,body.light-mode .sig-action-title,body.light-mode .cal-month,body.light-mode .prof-name,body.light-mode .sc-pair,body.light-mode .set-t,body.light-mode .price-name,body.light-mode .price-val,body.light-mode .ast-v,body.light-mode .ps-v,body.light-mode .opp-title,body.light-mode .sh-title,body.light-mode .aff-title,body.light-mode .ae-t{color:#0a1628!important}
-body.light-mode .set-s,body.light-mode .prof-bio,body.light-mode .prof-email,body.light-mode .sc-reason,body.light-mode .post-txt,body.light-mode .ae-s,body.light-mode .af-msg,body.light-mode .aff-sub,body.light-mode .ev-pairs,body.light-mode .tb-sub,body.light-mode .opp-sub,body.light-mode .price-sym,body.light-mode .hist-detail{color:#3a5a7a!important}
+body.light-mode .sig-pair-name,body.light-mode .sig-action-title,body.light-mode .cal-month,body.light-mode .prof-name,body.light-mode .sc-pair,body.light-mode .set-t,body.light-mode .price-name,body.light-mode .price-val,body.light-mode .ast-v,body.light-mode .ps-v,body.light-mode .opp-title,body.light-mode .aff-title,body.light-mode .ae-t{color:#0a1628!important}
+body.light-mode .set-s,body.light-mode .prof-bio,body.light-mode .prof-email,body.light-mode .sc-reason,body.light-mode .post-txt,body.light-mode .ae-s,body.light-mode .af-msg,body.light-mode .aff-sub,body.light-mode .opp-sub,body.light-mode .price-sym,body.light-mode .hist-detail{color:#3a5a7a!important}
 body.light-mode .pulse-card,body.light-mode .price-card,body.light-mode .sig-item,body.light-mode .post-card,body.light-mode .set-row,body.light-mode .settings-card,body.light-mode .aff-opt,body.light-mode .alert-item,body.light-mode .sig-card,body.light-mode .ai-card,body.light-mode .cal-card,body.light-mode .event-item,body.light-mode .form-card,body.light-mode .about-card,body.light-mode .signal-card,body.light-mode .factor,body.light-mode .ps,body.light-mode .about-stat,body.light-mode .sc-lv,body.light-mode .sugg,body.light-mode .preset,body.light-mode .curr-price-row,body.light-mode .ob3-opt,body.light-mode .feat-item{background:#fff!important;border-color:#d0dde8!important}
 body.light-mode .f-sel,body.light-mode .f-inp,body.light-mode .calc-inp,body.light-mode .calc-sel{background:#fff!important;border-color:#b0c4d8!important;color:#0a1628!important}
 body.light-mode .status-bar{background:#e8edf2!important}
@@ -988,13 +988,14 @@ body.light-mode .tog.on{background:#00d4aa!important}
       <button class="chat-close" onclick="closeChat()">x</button>
     </div>
     <div class="chat-messages" id="chatMessages">
-      <div class="chat-msg ai"><div class="chat-bubble">Hello! I am Momento AI. Ask me anything about BTC, USD/JPY, Gold, or when to make payments.</div></div>
+      <div class="chat-msg ai"><div class="chat-bubble">Hello! I am Momento AI. Ask me anything about BTC, USD/JPY, Gold, or when to make payments. I reply in your language.</div></div>
     </div>
     <div class="chat-suggestions">
       <div class="chat-sugg" onclick="sendChatSugg('Should I buy BTC now?')">Buy BTC?</div>
-      <div class="chat-sugg" onclick="sendChatSugg('Good time to pay USD/JPY suppliers?')">Pay JPY?</div>
-      <div class="chat-sugg" onclick="sendChatSugg('Gold trend today?')">Gold trend?</div>
-      <div class="chat-sugg" onclick="sendChatSugg('Active signals right now?')">Signals?</div>
+      <div class="chat-sugg" onclick="sendChatSugg('Good time to pay USD/JPY?')">Pay JPY?</div>
+      <div class="chat-sugg" onclick="sendChatSugg('Gold trend today?')">Gold?</div>
+      <div class="chat-sugg" onclick="sendChatSugg('Active signals?')">Signals?</div>
+      <div class="chat-sugg" onclick="sendChatSugg('هل يجب ان اشتري BTC الان؟')">بالعربية؟</div>
     </div>
     <div class="chat-input-row">
       <input class="chat-input" id="chatInput" placeholder="Ask about any market..." onkeydown="if(event.key==='Enter')sendChat()">
@@ -1037,11 +1038,11 @@ body.light-mode .tog.on{background:#00d4aa!important}
   </div>
 </div>
 <div class="page" id="page-privacy">
-  <div class="about-hero"><div class="about-logo">Privacy</div><div class="about-name">Privacy Policy</div><div class="about-tagline">Last updated: March 2026</div></div>
+  <div class="about-hero"><div class="about-logo">🔒</div><div class="about-name">Privacy Policy</div><div class="about-tagline">Last updated: March 2026</div></div>
   <div class="about-section">
-    <div class="about-card"><div class="about-card-title">Information We Collect</div><div class="about-card-txt">We collect your email when you create an account. Alert preferences are stored locally on your device. We do NOT collect payment details - all payments processed by Stripe.</div></div>
+    <div class="about-card"><div class="about-card-title">Information We Collect</div><div class="about-card-txt">We collect your email when you create an account. Alert preferences are stored locally. We do NOT collect payment details - all payments processed by Stripe.</div></div>
     <div class="about-card"><div class="about-card-title">Financial Disclaimer</div><div class="about-card-txt">Momento provides market information for educational purposes only. This is NOT financial advice. Always consult a qualified financial advisor before making investment decisions.</div></div>
-    <div class="about-card"><div class="about-card-title">Contact</div><div class="about-card-txt">For privacy concerns: <span style="color:#00d4aa">support@momento.app</span></div></div>
+    <div class="about-card"><div class="about-card-title">Contact</div><div class="about-card-txt">support@momento.app</div></div>
     <div style="height:16px"></div>
   </div>
 </div>
@@ -3019,16 +3020,23 @@ setTimeout(() => {
 }, 100);
 
 
-// AUTH
-var SB_URL2='https://vrofpoerlphpqxtgzxpe.supabase.co';var SB_KEY2='sb_publishable_XvmVHU6PfNNeLOpiiNQkWA_KeiMLF6U';var currentUser=null;var authMode='signin';
+var SB_URL2='https://vrofpoerlphpqxtgzxpe.supabase.co';
+var SB_KEY2='sb_publishable_XvmVHU6PfNNeLOpiiNQkWA_KeiMLF6U';
+var currentUser=null;
+var authMode='signin';
+
 function openAuthModal(){document.getElementById('authModal').classList.add('show');}
 function closeAuthModal(){document.getElementById('authModal').classList.remove('show');document.getElementById('authError').classList.remove('show');document.getElementById('authSuccess').classList.remove('show');}
 function switchAuthTab(t){authMode=t;document.getElementById('tabSignin').classList.toggle('active',t==='signin');document.getElementById('tabSignup').classList.toggle('active',t==='signup');document.getElementById('authSubmitBtn').textContent=t==='signin'?'Sign In':'Create Account';document.getElementById('nameField').style.display=t==='signup'?'block':'none';}
+
 async function submitAuth(){
-  var email=document.getElementById('authEmail').value.trim();var pass=document.getElementById('authPassword').value;var btn=document.getElementById('authSubmitBtn');
+  var email=document.getElementById('authEmail').value.trim();
+  var pass=document.getElementById('authPassword').value;
+  var btn=document.getElementById('authSubmitBtn');
   if(!email||!pass){document.getElementById('authError').textContent='Please fill in all fields';document.getElementById('authError').classList.add('show');return;}
   if(pass.length<6){document.getElementById('authError').textContent='Password must be at least 6 characters';document.getElementById('authError').classList.add('show');return;}
-  btn.disabled=true;btn.textContent=authMode==='signin'?'Signing in...':'Creating account...';
+  btn.disabled=true;
+  btn.textContent=authMode==='signin'?'Signing in...':'Creating account...';
   try{
     var ep=authMode==='signin'?'/auth/v1/token?grant_type=password':'/auth/v1/signup';
     var res=await fetch(SB_URL2+ep,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY2},body:JSON.stringify({email:email,password:pass})});
@@ -3036,9 +3044,11 @@ async function submitAuth(){
     if(d.access_token){localStorage.setItem('momento_token',d.access_token);currentUser=d.user;closeAuthModal();toast('Welcome to Momento!','success');updateAuthUI();}
     else if(authMode==='signup'&&d.id){document.getElementById('authSuccess').textContent='Account created! Check your email.';document.getElementById('authSuccess').classList.add('show');}
     else{document.getElementById('authError').textContent=d.error_description||'Authentication failed';document.getElementById('authError').classList.add('show');}
-  }catch(e){document.getElementById('authError').textContent='Connection error. Try again.';document.getElementById('authError').classList.add('show');}
-  btn.disabled=false;btn.textContent=authMode==='signin'?'Sign In':'Create Account';
+  }catch(e){document.getElementById('authError').textContent='Connection error.';document.getElementById('authError').classList.add('show');}
+  btn.disabled=false;
+  btn.textContent=authMode==='signin'?'Sign In':'Create Account';
 }
+
 function signInWithGoogle(){window.location.href=SB_URL2+'/auth/v1/authorize?provider=google&redirect_to='+encodeURIComponent(window.location.origin);}
 function signOut(){localStorage.removeItem('momento_token');currentUser=null;updateAuthUI();toast('Signed out');goPage('onboard');}
 doLogout=function(){signOut();};
@@ -3046,21 +3056,18 @@ function updateAuthUI(){if(currentUser){var n=currentUser.email?currentUser.emai
 async function initAuth(){var t=localStorage.getItem('momento_token');if(!t)return;try{var res=await fetch(SB_URL2+'/auth/v1/user',{headers:{'apikey':SB_KEY2,'Authorization':'Bearer '+t}});if(res.ok){var d=await res.json();if(d.id){currentUser=d;updateAuthUI();}}}catch(e){}}
 setTimeout(initAuth,500);
 
-// STRIPE
 var selectedPlan='monthly';
 function openStripeModal(){document.getElementById('stripeModal').classList.add('show');}
 function closeStripeModal(){document.getElementById('stripeModal').classList.remove('show');}
 function selectPlan(p){selectedPlan=p;document.getElementById('planMonthly').classList.toggle('selected',p==='monthly');document.getElementById('planYearly').classList.toggle('selected',p==='yearly');var b=document.getElementById('stripePayBtn');if(b)b.textContent=p==='monthly'?'Start Free Trial - $9.99/mo':'Start Free Trial - $79/yr';}
 function startCheckout(){var btn=document.getElementById('stripePayBtn');if(btn){btn.disabled=true;btn.textContent='Redirecting...';}var url=selectedPlan==='yearly'?'https://buy.stripe.com/test_aFabJ0biW1z96g4fEo0VO02':'https://buy.stripe.com/test_eVq8wObiWb9JeMA8bW0VO01';setTimeout(function(){window.open(url,'_blank');if(btn){btn.disabled=false;selectPlan(selectedPlan);}closeStripeModal();},500);}
 
-// REAL PRICES
 function fetchCryptoPrices(){fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,binancecoin&vs_currencies=usd&include_24hr_change=true').then(function(r){return r.json();}).then(function(d){if(d.bitcoin){PR['BTC']=d.bitcoin.usd;CH['BTC']=parseFloat((d.bitcoin.usd_24h_change||0).toFixed(2));}if(d.ethereum){PR['ETH']=d.ethereum.usd;CH['ETH']=parseFloat((d.ethereum.usd_24h_change||0).toFixed(2));}if(d.solana){PR['SOL']=d.solana.usd;CH['SOL']=parseFloat((d.solana.usd_24h_change||0).toFixed(2));}if(d.ripple){PR['XRP']=d.ripple.usd;CH['XRP']=parseFloat((d.ripple.usd_24h_change||0).toFixed(2));}if(d.binancecoin){PR['BNB']=d.binancecoin.usd;CH['BNB']=parseFloat((d.binancecoin.usd_24h_change||0).toFixed(2));}}).catch(function(){fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT').then(function(r){return r.json();}).then(function(d){PR['BTC']=parseFloat(d.price);}).catch(function(){});});}
 function fetchForexPrices(){fetch('https://open.er-api.com/v6/latest/USD').then(function(r){return r.json();}).then(function(d){if(!d.rates)return;if(d.rates.JPY)PR['USDJPY']=parseFloat(d.rates.JPY.toFixed(4));if(d.rates.EUR)PR['EURUSD']=parseFloat((1/d.rates.EUR).toFixed(4));if(d.rates.GBP)PR['GBPUSD']=parseFloat((1/d.rates.GBP).toFixed(4));if(d.rates.AUD)PR['AUDUSD']=parseFloat((1/d.rates.AUD).toFixed(4));if(d.rates.CAD)PR['USDCAD']=parseFloat(d.rates.CAD.toFixed(4));}).catch(function(){});}
 function fetchGoldPrice(){fetch('https://api.metals.live/v1/spot/gold,silver').then(function(r){return r.json();}).then(function(d){if(Array.isArray(d))d.forEach(function(item){if(item.gold)PR['GOLD']=parseFloat(item.gold);if(item.silver)PR['SILVER']=parseFloat(item.silver);});}).catch(function(){});}
 fetchCryptoPrices();fetchForexPrices();fetchGoldPrice();
 setInterval(fetchCryptoPrices,30000);setInterval(fetchForexPrices,60000);setInterval(fetchGoldPrice,60000);
 
-// PUSH + SUPABASE
 function showPushNotif(title,body){if(window.Notification&&Notification.permission==='granted'){new Notification(title,{body:body,tag:'momento',requireInteraction:true});if(navigator.vibrate)navigator.vibrate([200,100,200]);}}
 function requestNotifPermission(){if(window.Notification&&Notification.permission==='default')Notification.requestPermission();}
 setTimeout(requestNotifPermission,5000);
@@ -3070,7 +3077,6 @@ function saveAlertToSB(a){fetch('https://vrofpoerlphpqxtgzxpe.supabase.co/rest/v
 var _origAA=addAlert;addAlert=function(){_origAA();var a=userAlerts[0];if(a){requestNotifPermission();saveAlertToSB(a);}};
 var _origCA=checkAlerts;checkAlerts=function(){_origCA();userAlerts.forEach(function(a){if(a.justTriggered){showPushNotif('Momento Alert',a.pair+' reached '+fmt(a.target));a.justTriggered=false;}}); };
 
-// AI CHAT
 var chatTyping=false;
 function openChat(){document.getElementById('chatModal').classList.add('show');document.getElementById('chatInput').focus();}
 function closeChat(){document.getElementById('chatModal').classList.remove('show');}
@@ -3079,23 +3085,27 @@ function sendChat(){var input=document.getElementById('chatInput');var msg=input
 function addChatMsg(role,text){var msgs=document.getElementById('chatMessages');var div=document.createElement('div');div.className='chat-msg '+role;div.innerHTML='<div class="chat-bubble">'+text+'</div>';msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;}
 function showChatTyping(){chatTyping=true;var msgs=document.getElementById('chatMessages');var div=document.createElement('div');div.className='chat-msg ai';div.id='chatTypingEl';div.innerHTML='<div class="chat-typing"><div class="chat-typing-dot"></div><div class="chat-typing-dot"></div><div class="chat-typing-dot"></div></div>';msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;}
 function removeChatTyping(){var el=document.getElementById('chatTypingEl');if(el)el.remove();chatTyping=false;}
+
 async function callMomentoAI(msg){
   var ctx='BTC='+fmt(PR.BTC)+'('+CH.BTC+'%), ETH='+fmt(PR.ETH)+', USD/JPY='+fmt(PR.USDJPY)+', Gold='+fmt(PR.GOLD)+'('+CH.GOLD+'%), S&P='+fmt(PR.SPX);
-  var sys='You are Momento AI financial assistant. Market data: '+ctx+'. Give direct answer in 2-3 sentences. Use <strong> for key terms. End with BUY/SELL/WAIT/PAY NOW/HOLD recommendation. Add: Not financial advice.';
   try{
-    var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,system:sys,messages:[{role:'user',content:msg}]})});
+    var res=await fetch('https://vrofpoerlphpqxtgzxpe.supabase.co/functions/v1/ai-chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':'sb_publishable_XvmVHU6PfNNeLOpiiNQkWA_KeiMLF6U','Authorization':'Bearer sb_publishable_XvmVHU6PfNNeLOpiiNQkWA_KeiMLF6U'},
+      body:JSON.stringify({message:msg,market_data:ctx})
+    });
     var d=await res.json();
     removeChatTyping();
-    if(d.content&&d.content[0])addChatMsg('ai',d.content[0].text);
-    else addChatMsg('ai','Sorry, I could not analyze the market right now.');
+    if(d.response)addChatMsg('ai',d.response);
+    else addChatMsg('ai','Sorry, could not analyze the market right now.');
   }catch(e){removeChatTyping();addChatMsg('ai','Connection error. Please try again.');}
 }
 
-// Show chat FAB + disclaimer after onboarding
 var _origGP=goPage;
 goPage=function(id){
   _origGP(id);
-  var fab=document.getElementById('chatFab');if(fab)fab.classList.toggle('hidden',id==='onboard');
+  var fab=document.getElementById('chatFab');
+  if(fab)fab.classList.toggle('hidden',id==='onboard');
 };
 
 </script>
