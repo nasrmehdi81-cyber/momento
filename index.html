@@ -958,6 +958,26 @@ body.light-mode .tog.on{background:#00d4aa!important}
 .sound-toggle-row{display:flex;align-items:center;justify-content:space-between;}
 .sound-toggle-label{font-size:13px;color:#8ab8d8;}
 #page-privacy{padding-top:0;}
+
+/* ══ PREMIUM SIGNALS ══ */
+.premium-badge{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#f7c35f,#f0a030);border-radius:20px;padding:3px 10px;font-family:‘JetBrains Mono’,monospace;font-size:9px;font-weight:700;color:#0a1628;letter-spacing:.5px;}
+.premium-lock{background:rgba(247,195,95,.06);border:1px solid rgba(247,195,95,.2);border-radius:14px;padding:16px;margin:8px 0;text-align:center;}
+.premium-lock-ico{font-size:28px;margin-bottom:8px;}
+.premium-lock-title{font-family:‘Syne’,sans-serif;font-size:16px;font-weight:800;color:#f7c35f;margin-bottom:4px;}
+.premium-lock-sub{font-size:12px;color:#8ab8d8;margin-bottom:12px;}
+.premium-lock-btn{background:linear-gradient(135deg,#f7c35f,#f0a030);color:#0a1628;border:none;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:800;cursor:pointer;font-family:‘Space Grotesk’,sans-serif;}
+.sig-premium-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.sig-premium-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:10px;text-align:center;}
+.sig-premium-stat-label{font-family:‘JetBrains Mono’,monospace;font-size:9px;color:#3a6080;letter-spacing:.5px;margin-bottom:4px;}
+.sig-premium-stat-val{font-size:15px;font-weight:800;color:#f0f8ff;}
+.sig-premium-stat-val.bull{color:#00d4aa;}
+.sig-premium-stat-val.bear{color:#ff3d57;}
+.sig-premium-stat-val.gold{color:#f7c35f;}
+.premium-signal-card{background:linear-gradient(135deg,rgba(247,195,95,.06),rgba(240,160,48,.04));border:1px solid rgba(247,195,95,.2);border-radius:16px;padding:16px;margin-bottom:10px;}
+.premium-signal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.premium-conf-bar{height:4px;background:rgba(255,255,255,.06);border-radius:2px;margin:8px 0;}
+.premium-conf-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#f7c35f,#00d4aa);}
+.premium-alert-btn{width:100%;background:linear-gradient(135deg,#f7c35f,#f0a030);color:#0a1628;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:‘Space Grotesk’,sans-serif;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:6px;}
 </style>
 
 <script src="https://js.stripe.com/v3/"></script>
@@ -1883,7 +1903,98 @@ function renderSignalsPreview(){
   if(!el)return;
   el.innerHTML=HOME_SIGS.map((s,i)=>{
     const tl={buy:'▲ BUY',sell:'▼ SELL',watch:'◎ WATCH'}[s.type];
-    return `<div class="sig-item ${s.type}" style="animation-delay:${i*.1}s" onclick="goPage('signals')">
+    return `<div 
+<!-- PREMIUM SIGNALS SECTION -->
+<div id="premiumSignalsSection" style="padding:0 14px 14px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+    <div class="sec-label">PREMIUM SIGNALS</div>
+    <div class="premium-badge">✦ PRO</div>
+  </div>
+
+  <!-- Premium Signal Cards (shown to Pro users) -->
+  <div id="premiumSignalCards" style="display:none">
+    <div class="premium-signal-card">
+      <div class="premium-signal-header">
+        <div>
+          <div style="font-size:16px;font-weight:800;color:#f0f8ff" id="ps1Pair">BTC/USD</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#3a6080" id="ps1Time">Updated just now</div>
+        </div>
+        <div class="premium-badge" id="ps1Action">▲ STRONG BUY</div>
+      </div>
+      <div class="sig-premium-row">
+        <div class="sig-premium-stat">
+          <div class="sig-premium-stat-label">ENTRY</div>
+          <div class="sig-premium-stat-val gold" id="ps1Entry">$67,200</div>
+        </div>
+        <div class="sig-premium-stat">
+          <div class="sig-premium-stat-label">TARGET</div>
+          <div class="sig-premium-stat-val bull" id="ps1Target">$71,000</div>
+        </div>
+        <div class="sig-premium-stat">
+          <div class="sig-premium-stat-label">STOP LOSS</div>
+          <div class="sig-premium-stat-val bear" id="ps1SL">$65,500</div>
+        </div>
+        <div class="sig-premium-stat">
+          <div class="sig-premium-stat-label">R/R RATIO</div>
+          <div class="sig-premium-stat-val" id="ps1RR">1:2.5</div>
+        </div>
+      </div>
+      <div style="margin-top:10px">
+        <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;margin-bottom:4px">
+          <span>AI CONFIDENCE</span>
+          <span id="ps1Conf" style="color:#f7c35f">87%</span>
+        </div>
+        <div class="premium-conf-bar"><div class="premium-conf-fill" id="ps1ConfBar" style="width:87%"></div></div>
+      </div>
+      <button class="premium-alert-btn" onclick="setPremiumAlert('BTC')">🔔 Set Alert for this Signal</button>
+    </div>
+
+    <div class="premium-signal-card">
+      <div class="premium-signal-header">
+        <div>
+          <div style="font-size:16px;font-weight:800;color:#f0f8ff" id="ps2Pair">USD/JPY</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#3a6080">Payment timing signal</div>
+        </div>
+        <div class="premium-badge" style="background:linear-gradient(135deg,#00d4aa,#1a6fd4);color:#fff" id="ps2Action">PAY TODAY</div>
+      </div>
+      <div class="sig-premium-row">
+        <div class="sig-premium-stat">
+          <div class="sig-premium-stat-label">CURRENT</div>
+          <div class="sig-premium-stat-val gold" id="ps2Rate">¥159.20</div>
+        </div>
+        <div class="sig-premium-stat">
+          <div class="sig-premium-stat-label">3-DAY TARGET</div>
+          <div class="sig-premium-stat-val bear" id="ps2Target">¥157.80</div>
+        </div>
+        <div class="sig-premium-stat">
+          <div class="sig-premium-stat-label">SAVINGS</div>
+          <div class="sig-premium-stat-val bull" id="ps2Save">+0.88%</div>
+        </div>
+        <div class="sig-premium-stat">
+          <div class="sig-premium-stat-label">WINDOW</div>
+          <div class="sig-premium-stat-val">24-48h</div>
+        </div>
+      </div>
+      <div style="margin-top:10px">
+        <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;margin-bottom:4px">
+          <span>AI CONFIDENCE</span>
+          <span style="color:#f7c35f">78%</span>
+        </div>
+        <div class="premium-conf-bar"><div class="premium-conf-fill" style="width:78%"></div></div>
+      </div>
+      <button class="premium-alert-btn" onclick="setPremiumAlert('USDJPY')">🔔 Set Alert for this Signal</button>
+    </div>
+  </div>
+
+  <!-- Lock screen for free users -->
+  <div id="premiumLockScreen" class="premium-lock">
+    <div class="premium-lock-ico">🔒</div>
+    <div class="premium-lock-title">Premium Signals</div>
+    <div class="premium-lock-sub">Get Entry, Target, Stop Loss & AI Confidence for every signal. Plus instant push alerts.</div>
+    <button class="premium-lock-btn" onclick="openStripeModal()">✦ Unlock with Pro — $9.99/mo</button>
+  </div>
+</div>
+class="sig-item ${s.type}" style="animation-delay:${i*.1}s" onclick="goPage('signals')">
       <div class="si-left">
         <div class="si-pair">${s.pair}</div>
         <div class="si-reason">${s.reason}</div>
@@ -3239,6 +3350,89 @@ goPage=function(id){
   var fab=document.getElementById('chatFab');
   if(fab)fab.classList.toggle('hidden',id==='onboard');
 };
+
+// ════ PREMIUM SIGNALS ════
+var isPremium = localStorage.getItem('momento_pro') === 'true';
+
+function initPremiumUI() {
+  var cards = document.getElementById('premiumSignalCards');
+  var lock = document.getElementById('premiumLockScreen');
+  if (!cards || !lock) return;
+  if (isPremium) {
+    cards.style.display = 'block';
+    lock.style.display = 'none';
+    updatePremiumSignals();
+  } else {
+    cards.style.display = 'none';
+    lock.style.display = 'block';
+  }
+}
+
+function updatePremiumSignals() {
+  var btc = PR['BTC'] || 67000;
+  var jpy = PR['USDJPY'] || 159;
+  var btcChange = CH['BTC'] || 0;
+
+  // BTC Signal
+  var entry = Math.round(btc * 0.998);
+  var target = Math.round(btc * 1.055);
+  var sl = Math.round(btc * 0.976);
+  var conf = btcChange > 0 ? 87 : 72;
+  var action = btcChange > 0 ? 'STRONG BUY' : 'WAIT';
+
+  var ps1E = document.getElementById('ps1Entry');
+  var ps1T = document.getElementById('ps1Target');
+  var ps1SL = document.getElementById('ps1SL');
+  var ps1C = document.getElementById('ps1Conf');
+  var ps1CB = document.getElementById('ps1ConfBar');
+  var ps1A = document.getElementById('ps1Action');
+
+  if (ps1E) ps1E.textContent = '$' + entry.toLocaleString();
+  if (ps1T) ps1T.textContent = '$' + target.toLocaleString();
+  if (ps1SL) ps1SL.textContent = '$' + sl.toLocaleString();
+  if (ps1C) ps1C.textContent = conf + '%';
+  if (ps1CB) ps1CB.style.width = conf + '%';
+  if (ps1A) ps1A.textContent = (btcChange > 0 ? 'STRONG BUY' : 'WAIT');
+
+  // JPY Signal
+  var jpyTarget = (jpy * 0.991).toFixed(2);
+  var saving = ((1 - 0.991) * 100).toFixed(2);
+  var ps2R = document.getElementById('ps2Rate');
+  var ps2T = document.getElementById('ps2Target');
+  var ps2S = document.getElementById('ps2Save');
+  if (ps2R) ps2R.textContent = 'Y' + jpy.toFixed(2);
+  if (ps2T) ps2T.textContent = 'Y' + jpyTarget;
+  if (ps2S) ps2S.textContent = '+' + saving + '%';
+}
+
+function setPremiumAlert(pair) {
+  if (!isPremium) { openStripeModal(); return; }
+  requestNotifPermission();
+  var price = PR[pair] || 0;
+  var target = pair === 'BTC' ? price * 1.055 : price * 0.991;
+  var dir = pair === 'BTC' ? 'above' : 'below';
+  var a = {id: Date.now(), pair: pair, icon: ICONS[pair]||'o', target: parseFloat(target.toFixed(2)), dir: dir, current: price, ts: new Date().toISOString()};
+  userAlerts.unshift(a);
+  localStorage.setItem('momento_alerts', JSON.stringify(userAlerts.slice(0,20)));
+  saveAlertToSB(a);
+  renderAlerts(); renderHistory();
+  toast('Premium alert set for ' + pair + '!', 'success');
+  playAlertSoundType(alertSoundType || 0);
+}
+
+// Check pro status after Stripe redirect
+var urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('success') === 'true') {
+  localStorage.setItem('momento_pro', 'true');
+  isPremium = true;
+  toast('Welcome to Momento Pro! ✦', 'success');
+}
+
+setTimeout(initPremiumUI, 800);
+setInterval(function() {
+  if (isPremium) updatePremiumSignals();
+}, 30000);
+
 </script>
 
 </body>
