@@ -3219,7 +3219,11 @@ async function callMomentoAI(msg){
   try{
     var res=await fetch('https://vrofpoerlphpqxtgzxpe.supabase.co/functions/v1/ai-chat',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyb2Zwb2VybHBocHF4dGd6eHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4OTg1NjQsImV4cCI6MjA4OTQ3NDU2NH0.e6NFGuYiiusLhcacYTiiTDvxTTLXGKIRgykCC78Uh2c',
+        'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyb2Zwb2VybHBocHF4dGd6eHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4OTg1NjQsImV4cCI6MjA4OTQ3NDU2NH0.e6NFGuYiiusLhcacYTiiTDvxTTLXGKIRgykCC78Uh2c'
+      },
       body:JSON.stringify({message:msg,market_data:ctx})
     });
     var d=await res.json();
