@@ -978,6 +978,53 @@ body.light-mode .tog.on{background:#00d4aa!important}
 .premium-conf-bar{height:4px;background:rgba(255,255,255,.06);border-radius:2px;margin:8px 0;}
 .premium-conf-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#f7c35f,#00d4aa);}
 .premium-alert-btn{width:100%;background:linear-gradient(135deg,#f7c35f,#f0a030);color:#0a1628;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:‘Space Grotesk’,sans-serif;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:6px;}
+
+/* ══ PAYMENT TIMING PRO ══ */
+.ptp-section{padding:0 14px 20px;}
+.ptp-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:18px;margin-bottom:12px;}
+.ptp-card.premium{background:linear-gradient(135deg,rgba(247,195,95,.06),rgba(26,111,212,.04));border-color:rgba(247,195,95,.2);}
+.ptp-title{font-family:‘Syne’,sans-serif;font-size:17px;font-weight:800;color:#f0f8ff;margin-bottom:4px;}
+.ptp-sub{font-size:12px;color:#8ab8d8;margin-bottom:16px;}
+.ptp-row{display:flex;gap:10px;margin-bottom:12px;}
+.ptp-field{flex:1;}
+.ptp-label{font-family:‘JetBrains Mono’,monospace;font-size:9px;color:#3a6080;letter-spacing:.5px;margin-bottom:5px;display:block;}
+.ptp-inp{width:100%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:11px 12px;color:#f0f8ff;font-size:14px;font-family:‘Space Grotesk’,sans-serif;outline:none;transition:border-color .2s;box-sizing:border-box;}
+.ptp-inp:focus{border-color:#f7c35f;}
+.ptp-inp::placeholder{color:#3a6080;}
+.ptp-sel{width:100%;background:#0d2040;border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:11px 12px;color:#f0f8ff;font-size:14px;font-family:‘Space Grotesk’,sans-serif;outline:none;}
+.ptp-btn{width:100%;background:linear-gradient(135deg,#f7c35f,#f0a030);color:#0a1628;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:‘Space Grotesk’,sans-serif;margin-top:4px;}
+.ptp-result{display:none;margin-top:14px;animation:fadeUp .3s ease;}
+.ptp-result.show{display:block;}
+.ptp-verdict{text-align:center;padding:16px;border-radius:12px;margin-bottom:12px;}
+.ptp-verdict.pay{background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.25);}
+.ptp-verdict.wait{background:rgba(247,195,95,.08);border:1px solid rgba(247,195,95,.25);}
+.ptp-verdict.avoid{background:rgba(255,61,87,.08);border:1px solid rgba(255,61,87,.25);}
+.ptp-verdict-ico{font-size:32px;margin-bottom:6px;}
+.ptp-verdict-title{font-family:‘Syne’,sans-serif;font-size:20px;font-weight:800;margin-bottom:4px;}
+.ptp-verdict-title.pay{color:#00d4aa;}
+.ptp-verdict-title.wait{color:#f7c35f;}
+.ptp-verdict-title.avoid{color:#ff3d57;}
+.ptp-verdict-sub{font-size:13px;color:#8ab8d8;}
+.ptp-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.ptp-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;text-align:center;}
+.ptp-stat-label{font-family:‘JetBrains Mono’,monospace;font-size:9px;color:#3a6080;letter-spacing:.5px;margin-bottom:4px;}
+.ptp-stat-val{font-size:16px;font-weight:800;color:#f0f8ff;}
+.ptp-stat-val.save{color:#00d4aa;}
+.ptp-stat-val.lose{color:#ff3d57;}
+.ptp-ai-analysis{background:rgba(26,111,212,.06);border:1px solid rgba(26,111,212,.15);border-radius:12px;padding:14px;}
+.ptp-ai-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.ptp-ai-ico{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#00d4aa,#1a6fd4);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.ptp-ai-name{font-family:‘JetBrains Mono’,monospace;font-size:10px;color:#00d4aa;letter-spacing:.5px;}
+.ptp-ai-text{font-size:13px;color:#c8dff0;line-height:1.6;}
+.ptp-ai-text strong{color:#f0f8ff;}
+.ptp-history{margin-top:14px;}
+.ptp-hist-title{font-family:‘JetBrains Mono’,monospace;font-size:9px;color:#3a6080;letter-spacing:.5px;margin-bottom:8px;}
+.ptp-hist-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.ptp-hist-pair{font-size:13px;font-weight:700;color:#f0f8ff;min-width:70px;}
+.ptp-hist-amount{font-size:12px;color:#8ab8d8;flex:1;}
+.ptp-hist-verdict{font-family:‘JetBrains Mono’,monospace;font-size:10px;font-weight:700;}
+.ptp-hist-verdict.pay{color:#00d4aa;}
+.ptp-hist-verdict.wait{color:#f7c35f;}
 </style>
 
 <script src="https://js.stripe.com/v3/"></script>
@@ -3434,6 +3481,111 @@ setInterval(function() {
 }, 30000);
 
 </script>
+
+<!-- PAYMENT TIMING PRO PAGE -->
+
+<div class="page" id="page-ptp">
+  <div class="status-bar">
+    <div class="sb-left">
+      <button class="sb-back" onclick="goPage('home')">←</button>
+      <div class="sb-page-label">PAYMENT TIMING PRO</div>
+    </div>
+    <div class="sb-right">
+      <div class="premium-badge">✦ PRO</div>
+    </div>
+  </div>
+
+  <div class="ptp-section" style="margin-top:56px">
+
+```
+<!-- Calculator Card -->
+<div class="ptp-card premium">
+  <div class="ptp-title">💱 Payment Timing Calculator</div>
+  <div class="ptp-sub">AI analyzes current rates to find the optimal payment window</div>
+
+  <div class="ptp-row">
+    <div class="ptp-field">
+      <label class="ptp-label">AMOUNT (USD)</label>
+      <input class="ptp-inp" id="ptpAmount" type="number" placeholder="e.g. 50000">
+    </div>
+    <div class="ptp-field">
+      <label class="ptp-label">CURRENCY PAIR</label>
+      <select class="ptp-sel" id="ptpPair">
+        <option value="USDJPY">USD/JPY</option>
+        <option value="EURUSD">EUR/USD</option>
+        <option value="GBPUSD">GBP/USD</option>
+        <option value="AUDUSD">AUD/USD</option>
+        <option value="USDCAD">USD/CAD</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="ptp-row">
+    <div class="ptp-field">
+      <label class="ptp-label">PAYMENT DATE</label>
+      <input class="ptp-inp" id="ptpDate" type="date">
+    </div>
+    <div class="ptp-field">
+      <label class="ptp-label">PAYMENT PURPOSE</label>
+      <select class="ptp-sel" id="ptpPurpose">
+        <option value="supplier">Supplier Payment</option>
+        <option value="import">Import Invoice</option>
+        <option value="salary">Overseas Salary</option>
+        <option value="investment">Investment</option>
+      </select>
+    </div>
+  </div>
+
+  <button class="ptp-btn" onclick="analyzePTP()">🤖 Analyze with AI</button>
+
+  <!-- Result -->
+  <div class="ptp-result" id="ptpResult">
+    <div class="ptp-verdict" id="ptpVerdict">
+      <div class="ptp-verdict-ico" id="ptpVerdictIco">✅</div>
+      <div class="ptp-verdict-title" id="ptpVerdictTitle">PAY TODAY</div>
+      <div class="ptp-verdict-sub" id="ptpVerdictSub">Optimal window detected</div>
+    </div>
+
+    <div class="ptp-stats">
+      <div class="ptp-stat">
+        <div class="ptp-stat-label">CURRENT RATE</div>
+        <div class="ptp-stat-val" id="ptpCurrentRate">¥159.20</div>
+      </div>
+      <div class="ptp-stat">
+        <div class="ptp-stat-label">COST NOW</div>
+        <div class="ptp-stat-val" id="ptpCostNow">¥7,960,000</div>
+      </div>
+      <div class="ptp-stat">
+        <div class="ptp-stat-label">PROJECTED RATE</div>
+        <div class="ptp-stat-val" id="ptpProjRate">¥157.80</div>
+      </div>
+      <div class="ptp-stat">
+        <div class="ptp-stat-label">POTENTIAL SAVING</div>
+        <div class="ptp-stat-val save" id="ptpSaving">¥70,000</div>
+      </div>
+    </div>
+
+    <div class="ptp-ai-analysis">
+      <div class="ptp-ai-header">
+        <div class="ptp-ai-ico">🤖</div>
+        <div class="ptp-ai-name">MOMENTO AI ANALYSIS</div>
+      </div>
+      <div class="ptp-ai-text" id="ptpAiText">Analyzing...</div>
+    </div>
+  </div>
+</div>
+
+<!-- History -->
+<div class="ptp-card">
+  <div class="ptp-title">📋 Analysis History</div>
+  <div class="ptp-history" id="ptpHistory">
+    <div style="text-align:center;color:#3a6080;font-size:13px;padding:16px">No analyses yet</div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
 
 </body>
 </html>
