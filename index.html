@@ -911,6 +911,40 @@ body.light-mode .chat-header{border-bottom-color:#d0dde8!important}
 body.light-mode .chat-input{background:#fff!important;border-color:#c0d4e8!important;color:#0a1628!important}
 body.light-mode .chat-input::placeholder{color:#6a8aa8!important}
 body.light-mode .sugg{color:#0a1628!important}
+/* Converter light mode */
+body.light-mode .converter-card{background:#fff!important;border-color:#d0dde8!important}
+body.light-mode .converter-row{background:#f4f8fc!important;border-color:#c0d4e8!important}
+body.light-mode .converter-row:focus-within{border-color:#00d4aa!important}
+body.light-mode .converter-amount{color:#0a1628!important}
+body.light-mode .converter-amount::placeholder{color:#8ab8d8!important}
+body.light-mode .converter-select{background:#e8edf2!important;border-color:#c0d4e8!important;color:#0a1628!important}
+body.light-mode .converter-select option{background:#f0f4f8!important;color:#0a1628!important}
+body.light-mode .converter-result{background:rgba(0,180,140,.07)!important;border-color:rgba(0,180,140,.25)!important}
+body.light-mode .converter-result-rate{color:#4a6a8a!important}
+body.light-mode .converter-title{color:#4a6a8a!important}
+body.light-mode .converter-swap{background:rgba(0,212,170,.12)!important;border-color:rgba(0,212,170,.3)!important;color:#00a86b!important}
+/* Signal card light mode */
+body.light-mode .signal-card{background:#fff!important;border-color:#d0dde8!important}
+body.light-mode .sig-pair-name{color:#0a1628!important}
+body.light-mode .sig-pair-price{color:#0a1628!important}
+body.light-mode .sig-date-label{color:#4a6a8a!important}
+body.light-mode .sig-date{color:#0a1628!important}
+body.light-mode .sig-action-row{border-top-color:#e0eaf0!important}
+body.light-mode .sig-conf-bar-bg{background:#e0eaf0!important}
+body.light-mode .factor-label{color:#4a6a8a!important}
+body.light-mode .factor-val{color:#0a1628!important}
+/* Curr scroll chips */
+body.light-mode .curr-chip{background:#fff!important;border-color:#c0d4e8!important;color:#0a1628!important}
+body.light-mode .curr-chip.active{background:rgba(0,212,170,.1)!important;border-color:#00d4aa!important;color:#006644!important}
+/* General text fixes */
+body.light-mode h1,body.light-mode h2,body.light-mode h3,body.light-mode p{color:#0a1628!important}
+body.light-mode .opp-title{color:#0a1628!important}
+body.light-mode .opp-title span{color:#00a86b!important}
+body.light-mode .opp-sub{color:#4a6a8a!important}
+body.light-mode .opp-alert{background:linear-gradient(135deg,rgba(0,212,170,.06),rgba(26,111,212,.04))!important;border-color:rgba(0,180,140,.2)!important}
+body.light-mode .live-pill{background:rgba(0,180,140,.1)!important;color:#006644!important}
+body.light-mode .pc-pair{color:#0a1628!important}
+body.light-mode .sb-logo{-webkit-text-fill-color:transparent!important}
 
 /* ══ SEND MONEY PAGE ══ */
 .send-tabs{display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,.04);border-radius:12px;padding:3px;margin:0 14px 14px;}
@@ -1282,7 +1316,6 @@ flex-shrink:0;
       <div class="auth-title" style="font-size:18px">Edit Profile</div>
     </div>
 
-```
 <div class="auth-field">
   <label class="auth-label">FULL NAME</label>
   <input class="auth-input" id="editName" type="text" placeholder="Your full name">
@@ -1336,7 +1369,6 @@ flex-shrink:0;
 </div>
 
 <button class="auth-btn" onclick="saveProfile()">Save Profile</button>
-```
 
   </div>
 </div>
@@ -1408,7 +1440,6 @@ flex-shrink:0;
   <div class="ob1-particles" id="particles"></div>
   <div class="ob-slides" id="obSlides">
 
-```
 <!-- Slide 1 -->
 <div class="ob-slide ob1">
   <div class="ob1-content">
@@ -1511,7 +1542,6 @@ flex-shrink:0;
     <div class="ob-signin" style="cursor:pointer" onclick="obFinish()">I\'ll decide later</div>
   </div>
 </div>
-```
 
   </div>
 </div>
@@ -1602,7 +1632,6 @@ flex-shrink:0;
       CURRENCY CONVERTER
     </div>
 
-```
 <div class="converter-row">
   <input class="converter-amount" id="convFromAmt" type="number" placeholder="0" value="1000" oninput="convertCurrency()">
   <select class="converter-select" id="convFrom" onchange="convertCurrency()">
@@ -1648,7 +1677,6 @@ flex-shrink:0;
   <div class="converter-result-rate" id="convResultRate">Select currencies above</div>
   <div class="converter-result-tip" id="convResultTip"></div>
 </div>
-```
 
   </div>
 
@@ -2935,35 +2963,70 @@ function doLogout(){
 }
 
 // ════════════════════════════════════
-// AUDIO
+// AUDIO — Single unified AudioContext
+// Works on iOS Safari without headphones
 // ════════════════════════════════════
-let AC;
-function initAC(){if(!AC){AC=new(window.AudioContext||window.webkitAudioContext)();}if(AC.state==='suspended')AC.resume();}
+window._momentoAC = null;
+
+function getMomentoAC(){
+  if(!window._momentoAC){
+    window._momentoAC = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  // Resume on every call — critical for iOS after suspension
+  if(window._momentoAC.state === 'suspended' || window._momentoAC.state === 'interrupted'){
+    window._momentoAC.resume();
+  }
+  return window._momentoAC;
+}
+
+// Alias for backward compat
+let AC; // kept for legacy references
+function initAC(){
+  window._momentoAC = getMomentoAC();
+  AC = window._momentoAC;
+}
+
+// Resume AudioContext on EVERY user touch/click — NOT once:true
+// iOS suspends context after inactivity, so must resume each time
+['touchstart','touchend','click','pointerdown'].forEach(function(evt){
+  document.addEventListener(evt, function(){
+    try{ getMomentoAC(); }catch(e){}
+  }, {passive:true}); // NO {once:true}
+});
+
 function testAlertSound(){
-  initAC();
+  getMomentoAC();
   const btn=document.getElementById('soundBtn');
-  btn.classList.add('playing');
+  if(btn)btn.classList.add('playing');
   playMomento();
-  setTimeout(()=>btn.classList.remove('playing'),1000);
+  setTimeout(()=>{ if(btn)btn.classList.remove('playing'); },1200);
   toast('🔔 Momento alert sound!','success');
 }
+
 function playMomento(){
   try{
-    initAC();const ctx=AC,t=ctx.currentTime;
-    const m=ctx.createGain();m.gain.setValueAtTime(.5,t);m.connect(ctx.destination);
-    [[440,880,0,.22],[880,1760,.1,.15],[2640,5280,.12,.06]].forEach(([f1,f2,d,v])=>{
-      const o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g);g.connect(m);o.type='sine';
-      o.frequency.setValueAtTime(f1,t+d);o.frequency.exponentialRampToValueAtTime(f2,t+d+.15);
-      g.gain.setValueAtTime(0,t+d);g.gain.linearRampToValueAtTime(v,t+d+.03);
-      g.gain.exponentialRampToValueAtTime(.001,t+d+.4);
-      o.start(t+d);o.stop(t+d+.45);
+    const ctx = getMomentoAC();
+    const t = ctx.currentTime;
+    const volGain = typeof VOLUME_GAINS !== 'undefined' ? VOLUME_GAINS[alertVolume||1] : 1.0;
+    const m = ctx.createGain();
+    m.gain.setValueAtTime(volGain, t);
+    m.connect(ctx.destination);
+    // Ascending bell: 3 tones
+    [[440,880,0,.22],[880,1760,.1,.18],[1320,2640,.22,.14]].forEach(([f1,f2,d,v])=>{
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(m);
+      o.type = 'sine';
+      o.frequency.setValueAtTime(f1, t+d);
+      o.frequency.exponentialRampToValueAtTime(f2, t+d+.18);
+      g.gain.setValueAtTime(0, t+d);
+      g.gain.linearRampToValueAtTime(v, t+d+.04);
+      g.gain.exponentialRampToValueAtTime(.001, t+d+.5);
+      o.start(t+d); o.stop(t+d+.55);
     });
-    if('vibrate'in navigator)navigator.vibrate([500,200,500,200,500]);
-  }catch(e){}
+    if(navigator.vibrate) navigator.vibrate([500,200,500,200,500]);
+  }catch(e){ console.warn('playMomento error:',e); }
 }
-document.addEventListener('touchstart',()=>{initAC();},{once:true,passive:true});
-document.addEventListener('click',()=>{initAC();},{once:true});
 
 // ════════════════════════════════════
 // TOAST
@@ -3670,78 +3733,63 @@ function toggleSoundPref(type){
 }
 
 function playAlertSoundType(type){
-  // iOS requires user interaction - resume context
   try{
-    if(!window._AC){
-      window._AC=new(window.AudioContext||window.webkitAudioContext)();
-    }
-    var AC=window._AC;
-    if(AC.state==='suspended'||AC.state==='interrupted'){AC.resume();}
-    
-    if(!soundEnabled&&!vibrateEnabled)return;
-    
+    // Use unified AudioContext — always resume
+    var ctx = getMomentoAC();
+
+    if(!soundEnabled && !vibrateEnabled) return;
+
     if(soundEnabled){
-      // Master gain — respect user volume level
-      var volGain=typeof VOLUME_GAINS!=='undefined'?VOLUME_GAINS[alertVolume||1]:1.0;
-      var master=AC.createGain();
-      master.gain.setValueAtTime(volGain,AC.currentTime);
-      master.connect(AC.destination);
-      
+      var volGain = VOLUME_GAINS[alertVolume||1] || 1.0;
+      var master = ctx.createGain();
+      master.gain.setValueAtTime(volGain, ctx.currentTime);
+      master.connect(ctx.destination);
+      var t = ctx.currentTime;
+
       if(type===0){
-        // Classic bell - louder
-        var o=AC.createOscillator();var g=AC.createGain();
-        o.connect(g);g.connect(master);
-        o.type='sine';
-        o.frequency.setValueAtTime(1047,AC.currentTime);
-        o.frequency.exponentialRampToValueAtTime(523,AC.currentTime+0.5);
-        g.gain.setValueAtTime(1.0,AC.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+0.8);
-        o.start(AC.currentTime);o.stop(AC.currentTime+0.8);
-        // Second tone
-        var o2=AC.createOscillator();var g2=AC.createGain();
-        o2.connect(g2);g2.connect(master);
-        o2.type='sine';o2.frequency.value=1320;
-        g2.gain.setValueAtTime(0.8,AC.currentTime+0.1);
-        g2.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+0.5);
-        o2.start(AC.currentTime+0.1);o2.stop(AC.currentTime+0.5);
+        // Classic bell — two tones
+        var o=ctx.createOscillator(); var g=ctx.createGain();
+        o.connect(g); g.connect(master);
+        o.type='sine'; o.frequency.setValueAtTime(1047,t);
+        o.frequency.exponentialRampToValueAtTime(523,t+0.5);
+        g.gain.setValueAtTime(1.0,t);
+        g.gain.exponentialRampToValueAtTime(0.001,t+0.85);
+        o.start(t); o.stop(t+0.85);
+        var o2=ctx.createOscillator(); var g2=ctx.createGain();
+        o2.connect(g2); g2.connect(master);
+        o2.type='sine'; o2.frequency.value=1320;
+        g2.gain.setValueAtTime(0.7,t+0.1);
+        g2.gain.exponentialRampToValueAtTime(0.001,t+0.55);
+        o2.start(t+0.1); o2.stop(t+0.55);
       } else if(type===1){
-        // Sharp alert - triple beep
-        [0,0.2,0.4].forEach(function(delay){
-          var o=AC.createOscillator();var g=AC.createGain();
-          o.connect(g);g.connect(master);
-          o.type='square';o.frequency.value=1400;
-          g.gain.setValueAtTime(0.8,AC.currentTime+delay);
-          g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+delay+0.15);
-          o.start(AC.currentTime+delay);o.stop(AC.currentTime+delay+0.15);
+        // Sharp alert — triple beep
+        [0,0.22,0.44].forEach(function(d){
+          var o=ctx.createOscillator(); var g=ctx.createGain();
+          o.connect(g); g.connect(master);
+          o.type='square'; o.frequency.value=1400;
+          g.gain.setValueAtTime(0.9,t+d);
+          g.gain.exponentialRampToValueAtTime(0.001,t+d+0.18);
+          o.start(t+d); o.stop(t+d+0.18);
         });
       } else {
-        // Melody - ascending
-        [[523,0,0.25],[659,0.2,0.25],[784,0.4,0.25],[1047,0.6,0.4]].forEach(function(n){
-          var o=AC.createOscillator();var g=AC.createGain();
-          o.connect(g);g.connect(master);
-          o.type='sine';o.frequency.value=n[0];
-          g.gain.setValueAtTime(0.9,AC.currentTime+n[1]);
-          g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+n[1]+n[2]);
-          o.start(AC.currentTime+n[1]);o.stop(AC.currentTime+n[1]+n[2]);
+        // Melody — ascending 4 notes
+        [[523,0,0.28],[659,0.22,0.28],[784,0.44,0.28],[1047,0.66,0.42]].forEach(function(n){
+          var o=ctx.createOscillator(); var g=ctx.createGain();
+          o.connect(g); g.connect(master);
+          o.type='sine'; o.frequency.value=n[0];
+          g.gain.setValueAtTime(0.9,t+n[1]);
+          g.gain.exponentialRampToValueAtTime(0.001,t+n[1]+n[2]);
+          o.start(t+n[1]); o.stop(t+n[1]+n[2]+0.05);
         });
       }
     }
-    
-    // Vibration - works on Android, limited on iOS
-    if(vibrateEnabled){
-      if(navigator.vibrate){
-        navigator.vibrate([500,200,500,200,500]);
-      }
-      // iOS haptic via AudioContext (silent click trick)
-      try{
-        var hap=AC.createOscillator();var hapG=AC.createGain();
-        hap.connect(hapG);hapG.connect(AC.destination);
-        hap.frequency.value=200;
-        hapG.gain.setValueAtTime(0.001,AC.currentTime);
-        hap.start(AC.currentTime);hap.stop(AC.currentTime+0.01);
-      }catch(e){}
+
+    // Vibration — Android only (iOS Safari not supported)
+    if(vibrateEnabled && navigator.vibrate){
+      navigator.vibrate([500,200,500,200,500]);
     }
-  }catch(e){console.log('Sound error:',e);}
+
+  }catch(e){ console.warn('playAlertSoundType error:',e); }
 }
 
 // Override playAlertSound
@@ -3758,29 +3806,8 @@ setTimeout(function(){
   if(tv)tv.classList.toggle('on',vibrateEnabled);
 },300);
 
-// iOS Audio + Vibration fix
-function initAudioContext() {
-  if (!window._AC) {
-    window._AC = new (window.AudioContext || window.webkitAudioContext)();
-  }
-  if (window._AC.state === 'suspended' || window._AC.state === 'interrupted') {
-    window._AC.resume();
-  }
-}
-
-// Auto-init on any user interaction
-['touchstart','touchend','click','keydown'].forEach(function(evt) {
-  document.addEventListener(evt, function handler() {
-    initAudioContext();
-    document.removeEventListener(evt, handler);
-  }, {once: true, passive: true});
-});
-
-// Override checkAlerts to use vibration via Notification API on iOS
-var _origCheckAlerts2 = checkAlerts;
-checkAlerts = function() {
-  _origCheckAlerts2();
-};
+// initAudioContext alias for safety
+function initAudioContext(){ getMomentoAC(); }
 
 // AI CHAT
 var chatTyping=false;
@@ -4313,7 +4340,6 @@ function claimProViaPartner(id){
 
   <div class="ptp-section" style="margin-top:56px">
 
-```
 <!-- Calculator Card -->
 <div class="ptp-card premium">
   <div class="ptp-title">💱 Payment Timing Calculator</div>
@@ -4398,7 +4424,6 @@ function claimProViaPartner(id){
     <div style="text-align:center;color:#3a6080;font-size:13px;padding:16px">No analyses yet</div>
   </div>
 </div>
-```
 
   </div>
 </div>
