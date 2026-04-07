@@ -1084,6 +1084,20 @@ body.light-mode .send-tabs{background:rgba(0,0,0,.05)!important}
 .sound-toggle-label{font-size:13px;color:#8ab8d8;}
 #page-privacy{padding-top:0;}
 
+/* ══ SIGNALS LOADING SPINNER ══ */
+.sig-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 24px;gap:14px;}
+.sig-spinner{width:36px;height:36px;border:3px solid rgba(0,212,170,.15);border-top-color:#00d4aa;border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.sig-loading-txt{font-family:'JetBrains Mono',monospace;font-size:10px;color:#3a6080;letter-spacing:.5px;}
+.sig-error{text-align:center;padding:40px 20px;}
+.sig-error-ico{font-size:32px;margin-bottom:8px;}
+.sig-error-msg{font-size:13px;color:#8ab8d8;margin-bottom:12px;}
+.sig-error-retry{background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.25);border-radius:10px;padding:9px 20px;font-size:12px;font-weight:700;color:#00d4aa;cursor:pointer;font-family:'Space Grotesk',sans-serif;}
+.api-sig-badge{display:inline-flex;align-items:center;gap:3px;background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.15);border-radius:12px;padding:2px 7px;font-family:'JetBrains Mono',monospace;font-size:8px;color:#00d4aa;margin-left:6px;}
+body.light-mode .sig-spinner{border-color:rgba(0,180,140,.15);border-top-color:#00a86b;}
+body.light-mode .sig-loading-txt{color:#4a6a8a;}
+body.light-mode .sig-error-msg{color:#4a6a8a;}
+
 /* ══ PREMIUM SIGNALS ══ */
 .premium-badge{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#f7c35f,#f0a030);border-radius:20px;padding:3px 10px;font-family:‘JetBrains Mono’,monospace;font-size:9px;font-weight:700;color:#0a1628;letter-spacing:.5px;}
 .premium-lock{background:rgba(247,195,95,.06);border:1px solid rgba(247,195,95,.2);border-radius:14px;padding:16px;margin:8px 0;text-align:center;}
@@ -1788,10 +1802,10 @@ flex-shrink:0;
     <div class="af-scroll" id="afScroll"></div>
   </div>
   <div class="stats-row">
-    <div class="stat-box"><div class="stat-v" style="color:var(--green)">5</div><div class="stat-l">BUY</div></div>
-    <div class="stat-box"><div class="stat-v" style="color:var(--red)">3</div><div class="stat-l">SELL</div></div>
-    <div class="stat-box"><div class="stat-v" style="color:var(--gold)">2</div><div class="stat-l">WATCH</div></div>
-    <div class="stat-box"><div class="stat-v" style="color:var(--blue2)">74%</div><div class="stat-l">WIN RATE</div></div>
+    <div class="stat-box"><div class="stat-v" id="statBuyCount" style="color:var(--green)">5</div><div class="stat-l">BUY</div></div>
+    <div class="stat-box"><div class="stat-v" id="statSellCount" style="color:var(--red)">3</div><div class="stat-l">SELL</div></div>
+    <div class="stat-box"><div class="stat-v" id="statWatchCount" style="color:var(--gold)">2</div><div class="stat-l">WATCH</div></div>
+    <div class="stat-box"><div class="stat-v" id="statWinRate" style="color:var(--blue2)">74%</div><div class="stat-l">WIN RATE</div></div>
   </div>
   <div class="filter-section">
     <div class="filter-tabs" id="filterTabs">
@@ -1805,7 +1819,17 @@ flex-shrink:0;
     </div>
   </div>
   <div class="signals-list">
-    <div class="sec-label">Active Signals</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 14px;margin-bottom:10px">
+      <div class="sec-label" style="padding:0;margin:0">Active Signals</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="live-pill" id="sigLivePill"><div class="live-blink"></div>LIVE</div>
+        <button onclick="fetchSignalsFromAPI(true)" style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.2);border-radius:8px;padding:5px 10px;font-family:'JetBrains Mono',monospace;font-size:9px;color:#00d4aa;cursor:pointer;display:flex;align-items:center;gap:4px" id="sigRefreshBtn">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          REFRESH
+        </button>
+      </div>
+    </div>
+    <div id="sigLastUpdated" style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;padding:0 14px;margin-bottom:8px"></div>
     <div id="signalsList"></div>
   </div>
 </div>
@@ -2112,7 +2136,7 @@ function goPage(name){
   currentPage=name;
   // page-specific init
   if(name==='calendar'){initCalendarPage();}
-  if(name==='signals'){renderSignals();renderLiveAlerts();}
+  if(name==='signals'){fetchSignalsFromAPI(false);renderSignals();renderLiveAlerts();}
   if(name==='alerts'){updateAlertCurrentPrice();renderAlerts();renderHistory();}
   if(name==='home'){renderHome();}
   if(name==='send'){initSendPage();}
@@ -2642,6 +2666,154 @@ function renderEvents(){
 // ════════════════════════════════════
 // SIGNALS PAGE
 // ════════════════════════════════════
+
+// ── API config ───────────────────────────────────────────────────────────────
+var SIGNALS_API_URL = 'https://vrofpoerlphpqxtgzxpe.supabase.co/functions/v1/generate-signals';
+var SIGNALS_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyb2Zwb2VybHBocHF4dGd6eHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1NTI0MTIsImV4cCI6MjA1NjEyODQxMn0.yYMtMEEasqcXCbKuDFpAFdAyFE0kKdQm-A5iQVTqXTg';
+var _sigsFetching = false;
+var _sigsLastFetch = 0;
+var _sigsRefreshTimer = null;
+
+// Map pair name → internal price key
+var PAIR_PRICE_MAP = {
+  'BTC/USD':'BTC','ETH/USD':'ETH','SOL/USD':'SOL','XRP/USD':'XRP',
+  'USD/JPY':'USDJPY','EUR/USD':'EURUSD','GBP/USD':'GBPUSD','AUD/USD':'AUDUSD',
+  'XAU/USD':'GOLD','XAG/USD':'SILVER','WTI/USD':'OIL','SPX/USD':'SPX',
+};
+
+// Map pair → category
+function pairToCat(pair){
+  var p=pair.toUpperCase();
+  if(/BTC|ETH|SOL|XRP|BNB|CRYPTO/.test(p)) return 'crypto';
+  if(/XAU|XAG|OIL|GOLD|SILVER/.test(p)) return 'commodities';
+  if(/SPX|NDX|DAX|NKY/.test(p)) return 'indices';
+  return 'forex';
+}
+
+// Convert API signal → internal SIGNALS_DATA format
+function apiSigToInternal(s, idx){
+  var type = (s.type||'WATCH').toLowerCase();
+  var pair = s.pair||'';
+  var entry = s.entry||0;
+  var tp = s.target||0;
+  var sl = s.stop_loss||0;
+  var conf = s.confidence||50;
+  var reason = s.reason||'Signal generated by Momento AI.';
+  // Risk:reward
+  var rr = '—';
+  if(tp&&sl&&entry&&type!=='watch'){
+    var reward = Math.abs(tp-entry);
+    var risk = Math.abs(entry-sl);
+    if(risk>0) rr = '1:'+(reward/risk).toFixed(1);
+  }
+  var priceKey = PAIR_PRICE_MAP[pair]||pair.split('/')[0];
+  return {
+    id: 100+idx,
+    pair: pair,
+    type: type,
+    cat: pairToCat(pair),
+    price: priceKey,
+    entry: entry,
+    tp: tp,
+    sl: sl,
+    rr: rr,
+    conf: conf,
+    tf: '4H',
+    isNew: true,
+    tags: [type==='buy'?'▲ Bullish':type==='sell'?'▼ Bearish':'◎ Neutral', 'AI Generated', 'Live Data'],
+    reason: '<strong>'+pair+'</strong> — '+reason,
+    aiAnalysis: null,
+    _fromAPI: true,
+  };
+}
+
+function updateSignalStats(data){
+  var buys  = data.filter(function(s){return s.type==='buy';}).length;
+  var sells = data.filter(function(s){return s.type==='sell';}).length;
+  var watch = data.filter(function(s){return s.type==='watch';}).length;
+  var avgConf = data.length ? Math.round(data.reduce(function(a,s){return a+s.conf;},0)/data.length) : 74;
+  var bc=document.getElementById('statBuyCount');
+  var sc=document.getElementById('statSellCount');
+  var wc=document.getElementById('statWatchCount');
+  var wr=document.getElementById('statWinRate');
+  if(bc)bc.textContent=buys;
+  if(sc)sc.textContent=sells;
+  if(wc)wc.textContent=watch;
+  if(wr)wr.textContent=avgConf+'%';
+  // also update header badge
+  var afCount=document.querySelector('.af-count');
+  if(afCount)afCount.textContent=data.length;
+}
+
+async function fetchSignalsFromAPI(force){
+  var now=Date.now();
+  // Debounce: skip if fetched in last 60s (unless forced)
+  if(_sigsFetching) return;
+  if(!force && (now-_sigsLastFetch)<60000) return;
+  _sigsFetching=true;
+
+  // Show loading spinner in the list
+  var el=document.getElementById('signalsList');
+  if(el){
+    el.innerHTML='<div class="sig-loading"><div class="sig-spinner"></div><div class="sig-loading-txt">FETCHING LIVE SIGNALS...</div></div>';
+  }
+  // Spin refresh button
+  var btn=document.getElementById('sigRefreshBtn');
+  if(btn)btn.style.opacity='0.5';
+
+  try{
+    var res = await fetch(SIGNALS_API_URL, {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer '+SIGNALS_ANON_KEY,
+        'apikey': SIGNALS_ANON_KEY,
+      },
+      body: JSON.stringify({}),
+    });
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    var d = await res.json();
+    if(d.success && d.signals && d.signals.length){
+      // Replace SIGNALS_DATA with API data
+      SIGNALS_DATA.length=0;
+      d.signals.forEach(function(s,i){SIGNALS_DATA.push(apiSigToInternal(s,i));});
+      _sigsLastFetch=Date.now();
+      updateSignalStats(SIGNALS_DATA);
+      // Update last-updated label
+      var lu=document.getElementById('sigLastUpdated');
+      if(lu){
+        var ts=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+        lu.textContent='Last updated: '+ts+' · Auto-refresh every 5 min · '+d.generated+' signals generated';
+      }
+      // Re-render if on signals page
+      if(currentPage==='signals'){ renderSignals(); renderLiveAlerts(); }
+      // Update home preview
+      if(currentPage==='home'){ renderSignalsPreview(); }
+    } else {
+      throw new Error(d.error||'No signals returned');
+    }
+  } catch(err){
+    console.warn('Signals API error:',err.message);
+    // Show error + retry button — keep existing SIGNALS_DATA
+    if(el){
+      el.innerHTML='<div class="sig-error"><div class="sig-error-ico">📡</div><div class="sig-error-msg">Could not reach signals server.<br>Showing cached signals.</div><button class="sig-error-retry" onclick="fetchSignalsFromAPI(true)">Retry Now</button></div>';
+      // After 1.5s fall back to cached render
+      setTimeout(function(){renderSignals();},1500);
+    }
+  } finally{
+    _sigsFetching=false;
+    if(btn)btn.style.opacity='1';
+  }
+}
+
+// Auto-refresh every 5 minutes
+function startSignalsAutoRefresh(){
+  if(_sigsRefreshTimer) clearInterval(_sigsRefreshTimer);
+  _sigsRefreshTimer = setInterval(function(){
+    fetchSignalsFromAPI(true);
+  }, 5*60*1000);
+}
+
 const SIGNALS_DATA=[
   {id:1,pair:'BTC/USD',type:'buy',cat:'crypto',price:'BTC',entry:67500,tp:71000,sl:65000,rr:'1:1.4',conf:82,tf:'4H',isNew:true,tags:['Momentum','Support×3','Whale Acc.','Bullish RSI'],reason:'<strong>$67,000 support held 3 consecutive times</strong> — historically very bullish. On-chain whale wallets accumulating aggressively. RSI showing bullish divergence on 4H.',aiAnalysis:null},
   {id:2,pair:'USD/JPY',type:'sell',cat:'forex',price:'USDJPY',entry:149.80,tp:147.50,sl:151.20,rr:'1:1.6',conf:76,tf:'1D',isNew:true,tags:['BOJ Risk','Reversal','Bearish Div.','High R:R'],reason:'<strong>BOJ policy shift approaching Thursday</strong>. Yen historically surges post-BOJ hawkish signals. Clear bearish divergence on daily. Excellent R:R.',aiAnalysis:null},
@@ -2703,7 +2875,7 @@ function renderSignals(){
       <div class="sig-card-body">
         <div class="sc-header">
           <div><div class="sc-pair">${s.pair}</div>
-            <div class="sc-meta"><span class="sc-price">${fmt(PR[s.price]||0)}</span><span class="sc-tf">${s.tf}</span>${s.isNew?'<span class="sc-new">NEW</span>':''}</div>
+            <div class="sc-meta"><span class="sc-price">${fmt(PR[s.price]||s.entry||0)}</span><span class="sc-tf">${s.tf}</span>${s.isNew?'<span class="sc-new">NEW</span>':''}${s._fromAPI?'<span class="api-sig-badge">⚡ AI LIVE</span>':''}</div>
           </div>
           <div class="sc-type"><div class="sc-badge ${s.type}">${tl}</div></div>
         </div>
@@ -3051,6 +3223,10 @@ function toast(msg,type=''){
   renderTicker();
   // pre-load community feed with real financial news
   loadRealNews();
+  // Fetch live signals from API on startup
+  fetchSignalsFromAPI(true);
+  // Auto-refresh signals every 5 minutes
+  startSignalsAutoRefresh();
 })();
 
 // ════════════════════════════════════
