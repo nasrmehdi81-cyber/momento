@@ -2136,7 +2136,13 @@ function goPage(name){
   currentPage=name;
   // page-specific init
   if(name==='calendar'){initCalendarPage();}
-  if(name==='signals'){fetchSignalsFromAPI(false);renderSignals();renderLiveAlerts();}
+  if(name==='signals'){
+    // fetchSignalsFromAPI is async — it sets the spinner then yields.
+    // Only call renderSignals() immediately if the fetch was debounced
+    // (i.e. _sigsFetching stayed false = fetch didn't start).
+    fetchSignalsFromAPI(false);
+    if(!_sigsFetching){renderSignals();renderLiveAlerts();}
+  }
   if(name==='alerts'){updateAlertCurrentPrice();renderAlerts();renderHistory();}
   if(name==='home'){renderHome();}
   if(name==='send'){initSendPage();}
