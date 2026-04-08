@@ -4144,22 +4144,7 @@ async function analyzePTP(){
 }
 
 
-// ─── Global delegated click handler (mobile-safe, no inline onclick needed) ──
-document.addEventListener('click', function(e) {
-  var el = e.target;
-  while (el && el !== document) {
-    if (el.textContent && el.textContent.trim().indexOf('Unlock with Pro') !== -1) {
-      openStripeModal(); return;
-    }
-    if (el.classList && el.classList.contains('sig-item')) {
-      goPage('signals'); return;
-    }
-    if (el.textContent && el.textContent.trim().indexOf('VIEW ALL SIGNALS') !== -1) {
-      goPage('signals'); return;
-    }
-    el = el.parentElement;
-  }
-});
+// ─── Global click handler removed (was causing stripe modal to open on every tap) ───
 
 // STRIPE
 var selectedPlan='monthly';
