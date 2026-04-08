@@ -2188,6 +2188,26 @@ flex-shrink:0;
 ══════════════════════════════════════════ -->
 
 <script>
+
+// ─── Robot icon source init ───────────────────────────────────────────────
+(function initRobotSrc(){
+  // Extract base64 data-url from the .robot-ico-sm CSS background-image
+  var tmp = document.createElement('span');
+  tmp.className = 'robot-ico-sm';
+  tmp.style.cssText = 'position:absolute;visibility:hidden;width:20px;height:20px;pointer-events:none';
+  document.body.appendChild(tmp);
+  try {
+    var bg = window.getComputedStyle(tmp).backgroundImage;
+    var m  = bg.match(/url\(["']?(data:[^"')]+)["']?\)/);
+    if(m) {
+      window._robotSrc = m[1];
+      var ri = document.getElementById('robotImg');
+      if(ri) ri.src = m[1];
+    }
+  } catch(e){}
+  document.body.removeChild(tmp);
+})();
+
 // ════════════════════════════════════
 // MARKET DATA
 // ════════════════════════════════════
@@ -2239,6 +2259,7 @@ function goPage(name){
     if(!_sigsFetching){renderSignals();renderLiveAlerts();}
   }
   if(name==='alerts'){updateAlertCurrentPrice();renderAlerts();renderHistory();}
+  if(name==='payment'){setTimeout(function(){openStripeModal();},50);return;}
   if(name==='home'){renderHome();}
   if(name==='send'){initSendPage();}
   // scroll to top
@@ -2919,7 +2940,7 @@ function renderSignals(){
         <div class="sc-actions">
           <button class="sc-btn sc-btn-primary" onclick="openAlertModal('${s.pair}',${s.tp||PR[s.price]||0})">
             <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Set Alert</button>
-          <button class="sc-btn sc-btn-sec" onclick="toggleSigAI(${s.id})"><span class=\"robot-ico-sm\"></span> ${aiExpanded?'Hide':'AI Analysis'}</button>
+          <button class="sc-btn sc-btn-sec" onclick="toggleSigAI(${s.id})"><img src="${window._robotSrc||''}" width="20" height="20" style="border-radius:50%;vertical-align:middle;margin-right:4px" alt="AI"> ${aiExpanded?'Hide':'AI Analysis'}</button>
           ${s.type!=='watch'?`<button class="sc-btn sc-btn-alert" onclick="toast('Trade saved! 💼','success')">+ Trade</button>`:''}
         </div>
       </div>
@@ -4133,6 +4154,24 @@ async function analyzePTP(){
 
   if(btn){ btn.disabled=false; btn.textContent='⚡ Analyze Now — Get Live Decision'; }
 }
+
+
+// ─── Global delegated click handler (mobile-safe, no inline onclick needed) ──
+document.addEventListener('click', function(e) {
+  var el = e.target;
+  while (el && el !== document) {
+    if (el.textContent && el.textContent.trim().indexOf('Unlock with Pro') !== -1) {
+      openStripeModal(); return;
+    }
+    if (el.classList && el.classList.contains('sig-item')) {
+      goPage('signals'); return;
+    }
+    if (el.textContent && el.textContent.trim().indexOf('VIEW ALL SIGNALS') !== -1) {
+      goPage('signals'); return;
+    }
+    el = el.parentElement;
+  }
+});
 
 // STRIPE
 var selectedPlan='monthly';
