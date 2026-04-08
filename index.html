@@ -1214,6 +1214,52 @@ body.light-mode .sig-spinner{border-color:rgba(0,180,140,.15);border-top-color:#
 body.light-mode .sig-loading-txt{color:#4a6a8a;}
 body.light-mode .sig-error-msg{color:#4a6a8a;}
 
+/* ══ LIGHT MODE UNIVERSAL CATCH-ALL ══
+   Catches any element not covered by specific rules above.
+   Specificity of body.light-mode * (0,1,0) is LOWER than all
+   specific rules above (0,2,0+), so those still win. ══ */
+body.light-mode *{color:#1a1a2e!important}
+/* Re-assert green/red/gold/white on elements that must keep colour */
+body.light-mode .sbt-up,.sbt-up{color:#00a86b!important}
+body.light-mode .sbt-dn,.sbt-dn{color:#ff3d57!important}
+body.light-mode .sc-badge.buy{color:#00d4aa!important}
+body.light-mode .sc-badge.sell{color:#ff3d57!important}
+body.light-mode .api-sig-badge{color:#00d4aa!important}
+body.light-mode .cached-badge{color:#f7c35f!important}
+body.light-mode .cached-banner{color:#f7c35f!important}
+body.light-mode .sb-logo{-webkit-text-fill-color:transparent!important}
+body.light-mode .sb-dot{color:#00d4aa!important}
+body.light-mode .sb-time{color:#00a86b!important}
+body.light-mode .live-pill{color:#006644!important}
+body.light-mode .trial-banner *{color:#fff!important}
+body.light-mode .btn-grad,.btn-grad,body.light-mode [class*="btn-"]{color:inherit}
+body.light-mode .f-tab.active{color:#fff!important}
+body.light-mode .sc-new{color:#00a86b!important}
+body.light-mode input,body.light-mode select,body.light-mode textarea{color:#1a1a2e!important;background:#f5f5f5!important;border-color:#ddd!important}
+
+/* ══ LEGAL PAGES ══ */
+.legal-header{display:flex;align-items:center;gap:12px;padding:16px 16px 0;margin-bottom:16px;}
+.legal-back{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;color:#f0f8ff;flex-shrink:0;}
+.legal-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#f0f8ff;}
+.legal-section{padding:0 16px 80px;}
+.legal-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:16px;margin-bottom:12px;}
+.legal-card-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:#00d4aa;margin-bottom:10px;letter-spacing:.5px;text-transform:uppercase;}
+.legal-card-body{font-size:13px;color:#8ab8d8;line-height:1.7;}
+.legal-card-body li{margin-bottom:6px;padding-left:4px;}
+.legal-card-body ul{list-style:none;padding:0;margin:0;}
+.legal-card-body ul li::before{content:"· ";color:#00d4aa;}
+.legal-warn{background:rgba(247,195,95,.06);border:1px solid rgba(247,195,95,.2);border-radius:14px;padding:14px 16px;margin-bottom:12px;font-size:13px;color:#f7c35f;line-height:1.6;}
+.legal-warn strong{color:#f7c35f;}
+.prof-footer{padding:12px 16px 4px;display:flex;justify-content:center;gap:18px;flex-wrap:wrap;}
+.prof-footer a{font-size:11px;color:#3a6080;text-decoration:none;font-family:'JetBrains Mono',monospace;}
+.prof-footer a:hover{color:#00d4aa;}
+body.light-mode .legal-back{background:rgba(0,0,0,.06)!important;border-color:#d0dde8!important;color:#0a1628!important}
+body.light-mode .legal-title{color:#0a1628!important}
+body.light-mode .legal-card{background:#fff!important;border-color:#d0dde8!important}
+body.light-mode .legal-card-body{color:#3a5a7a!important}
+body.light-mode .legal-warn{background:rgba(247,195,95,.08)!important;color:#7a5500!important}
+body.light-mode .prof-footer a{color:#5a7a9a!important}
+
 /* ══ PREMIUM SIGNALS ══ */
 .premium-badge{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#f7c35f,#f0a030);border-radius:20px;padding:3px 10px;font-family:‘JetBrains Mono’,monospace;font-size:9px;font-weight:700;color:#0a1628;letter-spacing:.5px;}
 .premium-lock{background:rgba(247,195,95,.06);border:1px solid rgba(247,195,95,.2);border-radius:14px;padding:16px;margin:8px 0;text-align:center;}
@@ -2147,6 +2193,16 @@ flex-shrink:0;
       <div class="set-body"><div class="set-t">About Momento</div><div class="set-s">Mission · Features · Contact</div></div>
       <div class="set-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
+    <div class="set-row" onclick="goPage('disclaimer')">
+      <div class="set-ico" style="background:linear-gradient(135deg,#f7c35f,#f0a030)"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+      <div class="set-body"><div class="set-t">Important Disclaimer</div><div class="set-s">Not financial advice · Regulatory notice</div></div>
+      <div class="set-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+    <div class="set-row" onclick="goPage('terms')">
+      <div class="set-ico" style="background:linear-gradient(135deg,#667eea,#764ba2)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+      <div class="set-body"><div class="set-t">Terms &amp; Privacy</div><div class="set-s">Terms of service · Privacy policy</div></div>
+      <div class="set-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
     <div class="set-row" onclick="openShareModal()">
       <div class="set-ico" style="background:linear-gradient(135deg,#43e97b,#38f9d7)"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
       <div class="set-body"><div class="set-t" id="shareRowT">Share Momento</div><div class="set-s" id="shareRowS">Invite friends & traders</div></div>
@@ -2157,6 +2213,14 @@ flex-shrink:0;
     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
     <span id="logoutTxt">Log Out</span>
   </button>
+  <div class="prof-footer">
+    <a href="#" onclick="goPage('disclaimer');return false;">Disclaimer</a>
+    <span style="color:#3a6080;font-size:11px;">·</span>
+    <a href="#" onclick="goPage('terms');return false;">Terms &amp; Privacy</a>
+    <span style="color:#3a6080;font-size:11px;">·</span>
+    <a href="mailto:support@momento.app">Contact</a>
+  </div>
+  <div style="height:20px"></div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -2205,6 +2269,102 @@ flex-shrink:0;
 </div>
 
 <!-- ══════════════════════════════════════════
+     PAGE: DISCLAIMER
+══════════════════════════════════════════ -->
+
+<div class="page" id="page-disclaimer">
+  <div class="legal-header">
+    <button class="legal-back" onclick="goPage('profile')">←</button>
+    <div class="legal-title">Important Disclaimer</div>
+  </div>
+  <div class="legal-section">
+    <div class="legal-warn">
+      <strong>⚠ NOT FINANCIAL ADVICE</strong><br>
+      Momento provides financial information and analysis for educational purposes only. Nothing on this platform constitutes financial, investment, or trading advice.
+    </div>
+    <div class="legal-card">
+      <div class="legal-card-title">📊 About Our Signals</div>
+      <div class="legal-card-body">
+        <ul>
+          <li>All signals and recommendations are generated algorithmically and may be inaccurate</li>
+          <li>Past performance does not guarantee future results</li>
+          <li>Markets are unpredictable — any trade may result in a loss</li>
+          <li>Never invest more than you can afford to lose</li>
+          <li>AI-generated analysis is for informational purposes only</li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal-card">
+      <div class="legal-card-title">⚖️ Regulatory Notice</div>
+      <div class="legal-card-body">
+        <ul>
+          <li>Momento is <strong style="color:#ff3d57">not licensed</strong> as a financial advisor in Japan or any other jurisdiction</li>
+          <li>We do not provide investment advice regulated under the Financial Instruments and Exchange Act (FIEA) or equivalent legislation</li>
+          <li>Users in regulated jurisdictions should consult a licensed financial professional before making any investment decisions</li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal-card">
+      <div class="legal-card-title">✅ Your Responsibility</div>
+      <div class="legal-card-body">
+        <ul>
+          <li>By using this app you agree that all trading and financial decisions are your own responsibility</li>
+          <li>Momento and its developers are not liable for any financial losses arising from use of this app</li>
+          <li>For regulated financial advice, consult a licensed professional in your jurisdiction</li>
+        </ul>
+      </div>
+    </div>
+    <div style="height:16px"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: TERMS & PRIVACY
+══════════════════════════════════════════ -->
+
+<div class="page" id="page-terms">
+  <div class="legal-header">
+    <button class="legal-back" onclick="goPage('profile')">←</button>
+    <div class="legal-title">Terms &amp; Privacy</div>
+  </div>
+  <div class="legal-section">
+    <div class="legal-card">
+      <div class="legal-card-title">📋 Terms of Service</div>
+      <div class="legal-card-body">
+        <ul>
+          <li>The service is provided "as-is" without warranties of any kind</li>
+          <li>We reserve the right to modify or discontinue the service at any time</li>
+          <li>Users must be <strong>18 years of age or older</strong> to use Momento</li>
+          <li>Prohibited activities include: market manipulation, illegal trading activity, and any activity that violates applicable law</li>
+          <li>Accounts may be suspended for violations of these terms</li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal-card">
+      <div class="legal-card-title">🔒 Privacy Policy</div>
+      <div class="legal-card-body">
+        <ul>
+          <li><strong>What we collect:</strong> Email address, app usage data, and alert preferences</li>
+          <li><strong>What we do NOT do:</strong> We never sell, rent, or share your personal data with third parties for marketing purposes</li>
+          <li><strong>Data storage:</strong> All data is stored securely on Supabase (EU-based servers) with encryption at rest and in transit</li>
+          <li><strong>Data deletion:</strong> You can request full deletion of your account and data at any time by contacting us</li>
+          <li><strong>Cookies:</strong> We use minimal local storage only for app preferences — no tracking cookies</li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal-card">
+      <div class="legal-card-title">📬 Contact</div>
+      <div class="legal-card-body">
+        For privacy requests, data deletion, or legal inquiries:<br><br>
+        <strong style="color:#00d4aa">support@momento.app</strong><br><br>
+        We aim to respond within 5 business days.
+      </div>
+    </div>
+    <div style="height:16px"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
      JAVASCRIPT — UNIFIED APP
 ══════════════════════════════════════════ -->
 
@@ -2225,7 +2385,7 @@ function fmtShort(p){if(p>=10000)return '$'+Math.round(p/1000)+'K';if(p>=100)ret
 // PAGE NAVIGATION
 // ════════════════════════════════════
 let currentPage='onboard';
-const PAGE_LABELS={home:'HOME',calendar:'CALENDAR',send:'SEND MONEY',signals:'SIGNALS',alerts:'ALERTS',profile:'PROFILE',about:'ABOUT'};
+const PAGE_LABELS={home:'HOME',calendar:'CALENDAR',send:'SEND MONEY',signals:'SIGNALS',alerts:'ALERTS',profile:'PROFILE',about:'ABOUT',disclaimer:'DISCLAIMER',terms:'TERMS & PRIVACY'};
 
 function goPage(name){
   // hide all
