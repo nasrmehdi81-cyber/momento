@@ -4163,7 +4163,7 @@ document.addEventListener('click', function(e) {
 
 // STRIPE
 var selectedPlan='monthly';
-function openStripeModal(){loadStripe();document.getElementById('stripeModal').classList.add('show');}
+function openStripeModal(){document.getElementById('stripeModal').classList.add('show');}
 function closeStripeModal(){document.getElementById('stripeModal').classList.remove('show');}
 function selectPlan(p){selectedPlan=p;document.getElementById('planMonthly').classList.toggle('selected',p==='monthly');document.getElementById('planYearly').classList.toggle('selected',p==='yearly');var b=document.getElementById('stripePayBtn');if(b)b.textContent=p==='monthly'?'Start Free Trial - $9.99/mo':'Start Free Trial - $79/yr';}
 function startCheckout(){var btn=document.getElementById('stripePayBtn');if(btn){btn.disabled=true;btn.textContent='Redirecting...';}var url=selectedPlan==='yearly'?'https://buy.stripe.com/test_aFabJ0biW1z96g4fEo0VO02':'https://buy.stripe.com/test_eVq8wObiWb9JeMA8bW0VO01';setTimeout(function(){window.open(url,'_blank');if(btn){btn.disabled=false;selectPlan(selectedPlan);}closeStripeModal();},500);}
