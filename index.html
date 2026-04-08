@@ -568,19 +568,21 @@ animation:alertPulse 3s ease infinite;
 /* alert modal */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:2000;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
 .modal-bg.show{display:flex;}
-.modal{background:#0a1a2e;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:480px;animation:mUp .3s cubic-bezier(.34,1.4,.64,1);border-top:1px solid rgba(0,212,170,.2);}
+.modal{background:#0d1f35;border-radius:20px 20px 0 0;padding:20px 20px 0 20px;width:100%;max-width:480px;animation:mUp .3s cubic-bezier(.34,1.4,.64,1);border-top:2px solid rgba(0,212,170,.25);max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;box-sizing:border-box;}
 @keyframes mUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
-.modal-pill{width:32px;height:4px;background:rgba(255,255,255,.1);border-radius:2px;margin:0 auto 16px;}
-.modal-title{font-size:17px;font-weight:700;color:#f0f8ff;margin-bottom:4px;}
-.modal-sub{font-size:12px;color:#3a6080;margin-bottom:16px;font-family:‘JetBrains Mono’,monospace;}
-.modal-inp{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;color:#f0f8ff;font-family:‘JetBrains Mono’,monospace;font-size:15px;outline:none;margin-bottom:10px;}
-.modal-inp:focus{border-color:#00d4aa;}
-.modal-inp::placeholder{color:#3a6080;}
-.modal-sel{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;color:#f0f8ff;font-family:‘Space Grotesk’,sans-serif;font-size:14px;outline:none;margin-bottom:16px;}
-.modal-sel option{background:#0a1a2e;}
-.modal-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.modal-set{background:linear-gradient(135deg,#00d4aa,#1a6fd4);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:‘Space Grotesk’,sans-serif;}
-.modal-cancel{background:rgba(255,255,255,.04);color:#8ab8d8;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:‘Space Grotesk’,sans-serif;}
+.modal-pill{width:36px;height:4px;background:rgba(255,255,255,.12);border-radius:2px;margin:0 auto 18px;}
+.modal-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#f0f8ff;margin-bottom:3px;}
+.modal-sub{font-size:12px;color:#3a6080;font-family:'JetBrains Mono',monospace;letter-spacing:.5px;margin-bottom:6px;}
+.modal-inp{width:100%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;color:#f0f8ff;font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;outline:none;margin-bottom:12px;box-sizing:border-box;}
+.modal-inp:focus{border-color:#00d4aa;background:rgba(0,212,170,.05);}
+.modal-inp::placeholder{color:#3a6080;font-size:14px;font-weight:400;}
+.modal-sel{width:100%;background:#0d1f35;border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;color:#f0f8ff;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;outline:none;margin-bottom:16px;box-sizing:border-box;-webkit-appearance:none;appearance:none;}
+.modal-sel option{background:#0d1f35;color:#f0f8ff;}
+.modal-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:sticky;bottom:0;background:#0d1f35;padding:16px 0 max(20px,env(safe-area-inset-bottom,20px));}
+.modal-set{background:linear-gradient(135deg,#00d4aa,#1a6fd4);color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;}
+.modal-cancel{background:rgba(255,255,255,.05);color:#8ab8d8;border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:15px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;}
+.modal-current{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:800;color:#00d4aa;margin-bottom:18px;letter-spacing:-0.5px;}
+.modal-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;letter-spacing:1.5px;margin-bottom:6px;display:block;text-transform:uppercase;}
 
 /* ══════════════════════════════════════════
 ⑤ ALERTS PAGE
@@ -1768,7 +1770,10 @@ flex-shrink:0;
       <div class="modal-pill"></div>
       <div class="modal-title" id="modalTitle">Set Price Alert</div>
       <div class="modal-sub" id="modalSub">BTC/USD</div>
-      <input class="modal-inp" id="modalPrice" type="number" placeholder="Target price">
+      <div class="modal-current" id="modalCurrent">—</div>
+      <label class="modal-label">TARGET PRICE</label>
+      <input class="modal-inp" id="modalPrice" type="number" placeholder="Enter target price" inputmode="decimal">
+      <label class="modal-label">CONDITION</label>
       <select class="modal-sel" id="modalDir">
         <option value="above">Notify when price goes ABOVE ↑</option>
         <option value="below">Notify when price goes BELOW ↓</option>
@@ -2965,10 +2970,14 @@ async function toggleSigAI(id){
 
 function openAlertModal(pair,price){
   modalPairSig=pair;
-  document.getElementById('modalTitle').textContent=`Set Alert — ${pair}`;
-  document.getElementById('modalSub').textContent=`Current: ${fmt(PR[pair.split('/')[0]]||price)}`;
-  document.getElementById('modalPrice').value=price;
+  var currentPrice = PR[pair.replace('/','').replace('XAU','GOLD').replace('WTI','OIL')] || price || 0;
+  document.getElementById('modalTitle').textContent='Set Alert — '+pair;
+  document.getElementById('modalSub').textContent='Current: '+currentPrice.toLocaleString('en',{maximumFractionDigits:2});
+  var curEl = document.getElementById('modalCurrent');
+  if(curEl) curEl.textContent = currentPrice.toLocaleString('en',{maximumFractionDigits:2});
+  document.getElementById('modalPrice').value = price ? parseFloat(price).toFixed(2) : '';
   document.getElementById('alertModal').classList.add('show');
+  setTimeout(function(){ document.getElementById('modalPrice').focus(); }, 350);
 }
 function closeAlertModal(){document.getElementById('alertModal').classList.remove('show');}
 function saveAlertFromModal(){
