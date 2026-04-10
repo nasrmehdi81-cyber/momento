@@ -1133,6 +1133,52 @@ background:url(‘data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QCMRXhpZgA
 vertical-align:middle;
 flex-shrink:0;
 }
+
+/* ── PTP Enhanced Display ── */
+/* Saving preview banner (shown immediately on click) */
+.ptp-saving-preview{
+  display:none;
+  align-items:center;gap:10px;
+  background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.22);
+  border-radius:12px;padding:12px 16px;margin-top:10px;
+  animation:fadeUp .3s ease;
+}
+.ptp-saving-preview.visible{display:flex;}
+.ptp-sp-ico{font-size:20px;flex-shrink:0;}
+.ptp-sp-txt{font-size:13px;font-weight:700;color:#00d4aa;font-family:'JetBrains Mono',monospace;letter-spacing:.3px;}
+
+/* Enhanced decision card */
+.ptp-enhanced-decision{
+  display:none;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:16px;margin-bottom:12px;
+  animation:fadeUp .35s ease;
+}
+.ptp-enhanced-decision.visible{display:block;}
+.ptp-ed-row{display:flex;align-items:center;gap:16px;margin-bottom:14px;}
+/* Confidence circle */
+.ptp-ed-conf-wrap{position:relative;width:80px;height:80px;flex-shrink:0;}
+.ptp-ed-conf-svg{display:block;}
+.ptp-ed-conf-bg{stroke:rgba(255,255,255,.07);}
+.ptp-ed-conf-arc{stroke:#00d4aa;transition:stroke-dashoffset .7s ease,stroke .4s ease;}
+.ptp-ed-conf-arc.pay{stroke:#00d4aa;}
+.ptp-ed-conf-arc.wait{stroke:#f7c35f;}
+.ptp-ed-conf-arc.avoid{stroke:#ff3d57;}
+.ptp-ed-conf-inner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.ptp-ed-conf-num{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#f0f8ff;line-height:1;}
+.ptp-ed-conf-lbl{font-family:'JetBrains Mono',monospace;font-size:7px;color:#3a6080;letter-spacing:1px;margin-top:2px;}
+/* Saving block */
+.ptp-ed-saving-block{flex:1;}
+.ptp-ed-saving-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;color:#3a6080;letter-spacing:1.5px;margin-bottom:4px;}
+.ptp-ed-saving-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#00d4aa;line-height:1;}
+.ptp-ed-saving-val.wait{color:#f7c35f;}
+.ptp-ed-saving-val.avoid{color:#ff3d57;}
+.ptp-ed-saving-sub{font-size:11px;color:#3a6080;margin-top:3px;}
+/* Reasons */
+.ptp-ed-reasons-title{font-family:'JetBrains Mono',monospace;font-size:8px;color:#3a6080;letter-spacing:1.5px;margin-bottom:8px;}
+.ptp-ed-reasons{display:flex;flex-direction:column;gap:6px;}
+.ptp-ed-reason-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#c8dff0;line-height:1.5;}
+.ptp-ed-reason-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px;background:var(--dot-clr,#00d4aa);}
 </style>
 
 </head>
@@ -4273,6 +4319,135 @@ async function analyzePTP(){
 }
 
 
+// ══════════════════════════════════════════════════════════
+// PTP ENHANCED DISPLAY — additive, no existing code modified
+// ══════════════════════════════════════════════════════════
+
+// Currency symbol helper for the selected pair
+function _ptpCurrSym(pair) {
+  if(pair === 'USDJPY') return '¥';
+  if(pair === 'EURUSD') return '€';
+  if(pair === 'GBPUSD') return '£';
+  if(pair === 'AUDUSD') return 'A$';
+  if(pair === 'USDCAD') return 'C$';
+  return '$';
+}
+
+// Expected saving formula from spec:
+// (abs(change24h)*0.4 + abs(change1h)*0.3 + volatility*0.3) / 100 * amount
+// volatility = abs(change24h) as proxy
+function calcExpectedSaving(change24h, change1h, amount, pair, currentRate) {
+  var abs24 = Math.abs(change24h);
+  var abs1h  = (change1h !== null && change1h !== undefined && !isNaN(change1h))
+               ? Math.abs(change1h) : abs24 * 0.5;
+  var vol    = abs24; // volatility proxy
+  var savingPct = (abs24 * 0.4 + abs1h * 0.3 + vol * 0.3) / 100;
+  var sym = _ptpCurrSym(pair);
+  var raw, label;
+  if(pair === 'USDJPY'){
+    raw   = Math.round(amount * currentRate * savingPct);
+    label = sym + raw.toLocaleString();
+  } else {
+    raw   = parseFloat((amount * savingPct).toFixed(0));
+    label = sym + raw.toLocaleString();
+  }
+  return { sym: sym, raw: raw, label: label, pct: (savingPct * 100).toFixed(2) };
+}
+
+// Show the saving preview banner BEFORE the result card appears (uses cached prices)
+function _ptpShowSavingPreview() {
+  var pair      = (document.getElementById('ptpPair')   || {}).value || 'USDJPY';
+  var amount    = parseFloat((document.getElementById('ptpAmount') || {}).value) || 10000;
+  var change24h = CH[pair]  || 0;
+  var change1h  = (CH1H[pair] !== undefined) ? CH1H[pair] : null;
+  var rate      = PR[pair]  || 150;
+  var saving    = calcExpectedSaving(change24h, change1h, amount, pair, rate);
+  var preview   = document.getElementById('ptpSavingPreview');
+  var txt       = document.getElementById('ptpSavingPreviewTxt');
+  if(preview) preview.classList.add('visible');
+  if(txt)     txt.textContent = '\ud83d\udcb0 Expected saving: ' + saving.label + ' if decision is correct';
+}
+
+// Render the enhanced decision card after analyzePTP completes with fresh data
+function _ptpRenderEnhanced() {
+  var pair      = (document.getElementById('ptpPair')   || {}).value || 'USDJPY';
+  var amount    = parseFloat((document.getElementById('ptpAmount') || {}).value) || 10000;
+  var change24h = CH[pair]  || 0;
+  var change1h  = (CH1H[pair] !== undefined) ? CH1H[pair] : null;
+  var rate      = PR[pair]  || 150;
+  var scoreEl   = document.getElementById('ptpScoreNum');
+  var score     = scoreEl ? (parseInt(scoreEl.textContent) || 50) : 50;
+  var decision  = getDecision(score);
+  var saving    = calcExpectedSaving(change24h, change1h, amount, pair, rate);
+  var reasons   = buildReasons(change24h, change1h, score, pair, rate);
+
+  // Update saving preview with fresh rate
+  var txt = document.getElementById('ptpSavingPreviewTxt');
+  if(txt) txt.textContent = '\ud83d\udcb0 Expected saving: ' + saving.label + ' if decision is correct';
+
+  // Show enhanced card
+  var card = document.getElementById('ptpEnhancedDecision');
+  if(!card) return;
+  card.classList.add('visible');
+
+  // Confidence arc (reuse 201 circumference for r=32 circle)
+  var arc = document.getElementById('ptpEdConfArc');
+  if(arc){
+    arc.setAttribute('stroke-dashoffset', 201 * (1 - score / 100));
+    arc.className.baseVal = 'ptp-ed-conf-arc ' + decision.cls;
+  }
+  var confNum = document.getElementById('ptpEdConfNum');
+  if(confNum) confNum.textContent = score + '%';
+
+  // Saving value
+  var savingVal = document.getElementById('ptpEdSavingVal');
+  var savingSub = document.getElementById('ptpEdSavingSub');
+  if(savingVal){
+    savingVal.textContent = saving.label;
+    savingVal.className   = 'ptp-ed-saving-val ' + decision.cls;
+  }
+  if(savingSub) savingSub.textContent = '~' + saving.pct + '% of ' + _ptpCurrSym(pair) + amount.toLocaleString() + ' transfer';
+
+  // 3 key reasons as bullet points
+  var reasonsEl = document.getElementById('ptpEdReasons');
+  if(reasonsEl){
+    reasonsEl.innerHTML = reasons.slice(0, 3).map(function(r){
+      var clr = r.dot === 'bad' ? '#ff3d57' : (r.dot === 'warn' ? '#f7c35f' : '#00d4aa');
+      return '<div class="ptp-ed-reason-item" style="--dot-clr:' + clr + '">' +
+             '<div class="ptp-ed-reason-dot"></div>' +
+             '<div>' + r.txt + '</div>' +
+             '</div>';
+    }).join('');
+  }
+}
+
+// Hide enhanced elements when a new analysis starts
+function _ptpResetEnhanced() {
+  var prev = document.getElementById('ptpSavingPreview');
+  var card = document.getElementById('ptpEnhancedDecision');
+  if(prev) prev.classList.remove('visible');
+  if(card) card.classList.remove('visible');
+}
+
+// Override analyzePTP: wrap so enhanced display renders after original completes
+var _origAnalyzePTP = analyzePTP;
+analyzePTP = async function(){
+  _ptpResetEnhanced();
+  await _origAnalyzePTP.apply(this, arguments);
+  _ptpRenderEnhanced();
+};
+
+// Register button listeners for the enhanced layer
+function _initPTPEnhanced(){
+  var btn = document.getElementById('ptpAnalyzeBtn');
+  if(!btn || btn._enhancedBound) return;
+  btn._enhancedBound = true;
+  // Show saving preview immediately on click (cached data, synchronous)
+  btn.addEventListener('click', _ptpShowSavingPreview);
+}
+document.addEventListener('DOMContentLoaded', _initPTPEnhanced);
+setTimeout(_initPTPEnhanced, 600);
+
 // ─── Global click handler removed (was causing stripe modal to open on every tap) ───
 
 // STRIPE
@@ -5001,6 +5176,12 @@ function claimProViaPartner(id){
 
   <button class="ptp-btn" id="ptpAnalyzeBtn">⚡ Analyze Now — Get Live Decision</button>
 
+  <!-- Expected Saving Preview — shown immediately on click before result reveals -->
+  <div id="ptpSavingPreview" class="ptp-saving-preview">
+    <span class="ptp-sp-ico">💰</span>
+    <span id="ptpSavingPreviewTxt" class="ptp-sp-txt">Calculating expected saving...</span>
+  </div>
+
   <!-- Result -->
   <div class="ptp-result" id="ptpResult">
     <!-- Score Circle -->
@@ -5022,6 +5203,34 @@ function claimProViaPartner(id){
       <div class="ptp-verdict-title" id="ptpVerdictTitle">ANALYZING</div>
       <div class="ptp-verdict-sub" id="ptpVerdictSub">Fetching live rates...</div>
     </div>
+    <!-- Enhanced Decision Card — additive display below verdict -->
+    <div id="ptpEnhancedDecision" class="ptp-enhanced-decision">
+      <div class="ptp-ed-row">
+        <!-- Confidence circle -->
+        <div class="ptp-ed-conf-wrap">
+          <svg class="ptp-ed-conf-svg" viewBox="0 0 80 80" width="80" height="80">
+            <circle class="ptp-ed-conf-bg" cx="40" cy="40" r="32" fill="none" stroke-width="7"/>
+            <circle class="ptp-ed-conf-arc" id="ptpEdConfArc" cx="40" cy="40" r="32" fill="none" stroke-width="7"
+              stroke-linecap="round" transform="rotate(-90 40 40)"
+              stroke-dasharray="201" stroke-dashoffset="201"/>
+          </svg>
+          <div class="ptp-ed-conf-inner">
+            <div class="ptp-ed-conf-num" id="ptpEdConfNum">—</div>
+            <div class="ptp-ed-conf-lbl">CONF.</div>
+          </div>
+        </div>
+        <!-- Saving amount -->
+        <div class="ptp-ed-saving-block">
+          <div class="ptp-ed-saving-lbl">IF CORRECT, YOU SAVE</div>
+          <div class="ptp-ed-saving-val" id="ptpEdSavingVal">—</div>
+          <div class="ptp-ed-saving-sub" id="ptpEdSavingSub"></div>
+        </div>
+      </div>
+      <!-- 3 key reasons -->
+      <div class="ptp-ed-reasons-title">WHY THIS DECISION</div>
+      <div class="ptp-ed-reasons" id="ptpEdReasons"></div>
+    </div>
+
     <!-- Session badge + volatility warning -->
     <div class="ptp-meta-badges" id="ptpMetaBadges">
       <div class="ptp-session-badge off" id="ptpSessionBadge">&#9675; OFF HOURS</div>
