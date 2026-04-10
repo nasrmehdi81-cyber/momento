@@ -977,6 +977,7 @@ animation:alertPulse 3s ease infinite;
 .api-sig-badge{display:inline-flex;align-items:center;gap:3px;background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.15);border-radius:12px;padding:2px 7px;font-family:'JetBrains Mono',monospace;font-size:8px;color:#00d4aa;margin-left:6px;}
 .cached-badge{display:inline-flex;align-items:center;background:rgba(247,195,95,.12);border:1px solid rgba(247,195,95,.25);border-radius:10px;padding:2px 7px;font-family:'JetBrains Mono',monospace;font-size:8px;color:#f7c35f;margin-left:4px;}
 .cached-banner{background:rgba(247,195,95,.10);border:1px solid rgba(247,195,95,.25);border-radius:10px;padding:8px 14px;margin:0 0 12px;font-size:12px;color:#f7c35f;display:flex;align-items:center;gap:8px;}
+.cached-banner.stale{background:rgba(255,61,87,.08);border-color:rgba(255,61,87,.25);color:#ff3d57;}
 
 /* Re-assert green/red/gold/white on elements that must keep colour */
 
@@ -1025,6 +1026,14 @@ animation:alertPulse 3s ease infinite;
 .ptp-compare-best{font-family:'JetBrains Mono',monospace;font-size:9px;color:#00d4aa;background:rgba(0,212,170,.1);border-radius:6px;padding:2px 6px;flex-shrink:0;}
 .ptp-disclaimer{font-size:11px;color:#3a6080;text-align:center;padding:8px 0;line-height:1.5;}
 .ptp-updated{font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;text-align:center;padding:4px 0;}
+/* Market session badge + high-volatility warning */
+.ptp-meta-badges{display:none;flex-wrap:wrap;gap:8px;margin-bottom:12px;justify-content:center;}
+.ptp-session-badge{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:20px;border:1px solid;}
+.ptp-session-badge.tokyo{color:#7c3aed;border-color:rgba(124,58,237,.4);background:rgba(124,58,237,.1);}
+.ptp-session-badge.london{color:#1a6fd4;border-color:rgba(26,111,212,.4);background:rgba(26,111,212,.1);}
+.ptp-session-badge.ny{color:#00d4aa;border-color:rgba(0,212,170,.4);background:rgba(0,212,170,.1);}
+.ptp-session-badge.off{color:#3a6080;border-color:rgba(58,96,128,.3);background:rgba(58,96,128,.07);}
+.ptp-vol-warn{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.5px;padding:4px 10px;border-radius:20px;color:#f7c35f;border:1px solid rgba(247,195,95,.4);background:rgba(247,195,95,.08);display:none;}
 
 /* ══ PREMIUM SIGNALS ══ */
 .premium-badge{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#f7c35f,#f0a030);border-radius:20px;padding:3px 10px;font-family:‘JetBrains Mono’,monospace;font-size:9px;font-weight:700;color:#0a1628;letter-spacing:.5px;}
@@ -1124,6 +1133,75 @@ background:url(‘data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QCMRXhpZgA
 vertical-align:middle;
 flex-shrink:0;
 }
+
+/* ── PTP Enhanced Display ── */
+/* Saving preview banner (shown immediately on click) */
+.ptp-saving-preview{
+  display:none;
+  align-items:center;gap:10px;
+  background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.22);
+  border-radius:12px;padding:12px 16px;margin-top:10px;
+  animation:fadeUp .3s ease;
+}
+.ptp-saving-preview.visible{display:flex;}
+.ptp-sp-ico{font-size:20px;flex-shrink:0;}
+.ptp-sp-txt{font-size:13px;font-weight:700;color:#00d4aa;font-family:'JetBrains Mono',monospace;letter-spacing:.3px;}
+
+/* Enhanced decision card */
+.ptp-enhanced-decision{
+  display:none;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:16px;margin-bottom:12px;
+  animation:fadeUp .35s ease;
+}
+.ptp-enhanced-decision.visible{display:block;}
+.ptp-ed-row{display:flex;align-items:center;gap:16px;margin-bottom:14px;}
+/* Confidence circle */
+.ptp-ed-conf-wrap{position:relative;width:80px;height:80px;flex-shrink:0;}
+.ptp-ed-conf-svg{display:block;}
+.ptp-ed-conf-bg{stroke:rgba(255,255,255,.07);}
+.ptp-ed-conf-arc{stroke:#00d4aa;transition:stroke-dashoffset .7s ease,stroke .4s ease;}
+.ptp-ed-conf-arc.pay{stroke:#00d4aa;}
+.ptp-ed-conf-arc.wait{stroke:#f7c35f;}
+.ptp-ed-conf-arc.avoid{stroke:#ff3d57;}
+.ptp-ed-conf-inner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.ptp-ed-conf-num{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#f0f8ff;line-height:1;}
+.ptp-ed-conf-lbl{font-family:'JetBrains Mono',monospace;font-size:7px;color:#3a6080;letter-spacing:1px;margin-top:2px;}
+/* Saving block */
+.ptp-ed-saving-block{flex:1;}
+.ptp-ed-saving-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;color:#3a6080;letter-spacing:1.5px;margin-bottom:4px;}
+.ptp-ed-saving-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#00d4aa;line-height:1;}
+.ptp-ed-saving-val.wait{color:#f7c35f;}
+.ptp-ed-saving-val.avoid{color:#ff3d57;}
+.ptp-ed-saving-sub{font-size:11px;color:#3a6080;margin-top:3px;}
+/* Reasons */
+.ptp-ed-reasons-title{font-family:'JetBrains Mono',monospace;font-size:8px;color:#3a6080;letter-spacing:1.5px;margin-bottom:8px;}
+.ptp-ed-reasons{display:flex;flex-direction:column;gap:6px;}
+.ptp-ed-reason-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#c8dff0;line-height:1.5;}
+.ptp-ed-reason-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px;background:var(--dot-clr,#00d4aa);}
+
+/* ── Proof System / Track Record ── */
+.proof-card{background:linear-gradient(135deg,rgba(0,212,170,.05),rgba(26,111,212,.03));border:1px solid rgba(0,212,170,.18);border-radius:16px;padding:18px;margin-bottom:12px;}
+.proof-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.proof-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#f0f8ff;}
+.proof-badge-live{font-family:'JetBrains Mono',monospace;font-size:9px;color:#00d4aa;border:1px solid rgba(0,212,170,.3);border-radius:8px;padding:2px 7px;letter-spacing:.5px;}
+.proof-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.proof-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:10px;text-align:center;}
+.proof-stat-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#00d4aa;line-height:1;}
+.proof-stat-val.neutral{color:#f0f8ff;}
+.proof-stat-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;color:#3a6080;letter-spacing:.5px;margin-top:3px;}
+.proof-results-title{font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;letter-spacing:1.5px;margin-bottom:8px;}
+.proof-result-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.proof-result-item:last-child{border-bottom:none;padding-bottom:0;}
+.proof-result-badge{font-size:16px;flex-shrink:0;width:24px;text-align:center;}
+.proof-result-pair{font-size:13px;font-weight:700;color:#f0f8ff;min-width:72px;}
+.proof-result-decision{font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 6px;border-radius:5px;flex-shrink:0;}
+.proof-result-decision.pay{color:#00d4aa;background:rgba(0,212,170,.1);}
+.proof-result-decision.wait{color:#f7c35f;background:rgba(247,195,95,.1);}
+.proof-result-decision.avoid{color:#ff3d57;background:rgba(255,61,87,.1);}
+.proof-result-saving{font-family:'JetBrains Mono',monospace;font-size:11px;color:#8ab8d8;flex:1;text-align:right;}
+.proof-empty{text-align:center;color:#3a6080;font-size:13px;padding:16px;}
+.proof-loading{text-align:center;color:#3a6080;font-size:12px;padding:12px;font-family:'JetBrains Mono',monospace;letter-spacing:.5px;}
 </style>
 
 </head>
@@ -2206,6 +2284,7 @@ var _robotImgSrc = '';
 // ════════════════════════════════════
 const PR={BTC:67420,ETH:3512,SOL:142.3,XRP:.61,USDJPY:149.82,EURUSD:1.0821,GBPUSD:1.2634,AUDUSD:.6524,USDCAD:1.3612,GOLD:2318,SILVER:27.4,OIL:78.42,SPX:5234,NDX:18420,BNB:412};
 const CH={BTC:+2.14,ETH:+1.87,SOL:+3.21,XRP:+4.12,USDJPY:+.34,EURUSD:-.12,GBPUSD:-.08,AUDUSD:-.15,USDCAD:+.08,GOLD:+.45,SILVER:+.88,OIL:-.67,SPX:+.23,NDX:+.31,BNB:+1.05};
+const CH1H={}; // 1-hour price changes (populated from CoinGecko)
 const NAMES={BTC:'Bitcoin',ETH:'Ethereum',SOL:'Solana',XRP:'XRP',USDJPY:'USD/JPY',EURUSD:'EUR/USD',GBPUSD:'GBP/USD',GOLD:'Gold',SILVER:'Silver',OIL:'WTI Oil',SPX:'S&P 500',NDX:'Nasdaq 100',BNB:'BNB',AUDUSD:'AUD/USD',USDCAD:'USD/CAD'};
 const ICONS={BTC:'₿',ETH:'Ξ',SOL:'◎',XRP:'✕',USDJPY:'¥',EURUSD:'€',GBPUSD:'£',GOLD:'⬡',SILVER:'◈',OIL:'⬟',SPX:'📈',NDX:'💻',BNB:'◆',AUDUSD:'A$',USDCAD:'C$'};
 const TICKS=[{n:'BTC',k:'BTC'},{n:'ETH',k:'ETH'},{n:'USD/JPY',k:'USDJPY'},{n:'EUR/USD',k:'EURUSD'},{n:'GBP/USD',k:'GBPUSD'},{n:'GOLD',k:'GOLD'},{n:'WTI',k:'OIL'},{n:'S&P',k:'SPX'},{n:'SOL',k:'SOL'}];
@@ -2802,10 +2881,17 @@ async function fetchSignalsFromAPI(force){
     if(!res.ok) throw new Error('HTTP '+res.status);
     var d = await res.json();
     if(d.success && d.signals && d.signals.length){
-      // Replace SIGNALS_DATA with API data
+      // Replace SIGNALS_DATA with fresh API data
       SIGNALS_DATA.length=0;
       d.signals.forEach(function(s,i){SIGNALS_DATA.push(apiSigToInternal(s,i));});
       _sigsLastFetch=Date.now();
+      // Persist to localStorage as real cache for next offline visit
+      try{
+        localStorage.setItem('momento_signals_cache', JSON.stringify({
+          signals: SIGNALS_DATA,
+          cachedAt: _sigsLastFetch
+        }));
+      }catch(e){}
       updateSignalStats(SIGNALS_DATA);
       // Update last-updated label
       var lu=document.getElementById('sigLastUpdated');
@@ -2822,17 +2908,47 @@ async function fetchSignalsFromAPI(force){
     }
   } catch(err){
     console.warn('Signals API error:',err.message);
-    // Show error + retry button — keep existing SIGNALS_DATA
-    if(el){
-      // Immediately render cached data
-      renderSignals();
-      // Show a toast/banner that we are using cached data
-      var banner=document.createElement('div');
-      banner.className='cached-banner';
-      banner.innerHTML='📡 Live signals unavailable — showing cached data &nbsp;<button class="sig-error-retry" onclick="fetchSignalsFromAPI(true)" style="padding:2px 10px;font-size:11px;">Retry</button>';
-      var sl2=document.getElementById('signalsList');
-      if(sl2)sl2.insertAdjacentElement('beforebegin',banner);
-      setTimeout(function(){if(banner.parentNode)banner.parentNode.removeChild(banner);},8000);
+    // Try to load from localStorage cache
+    var cacheLoaded = false;
+    try{
+      var raw = localStorage.getItem('momento_signals_cache');
+      if(raw){
+        var cache = JSON.parse(raw);
+        if(cache && Array.isArray(cache.signals) && cache.signals.length){
+          SIGNALS_DATA.length=0;
+          cache.signals.forEach(function(s){ SIGNALS_DATA.push(s); });
+          cacheLoaded = true;
+          var cacheAge = Date.now() - (cache.cachedAt || 0);
+          var cacheTs  = new Date(cache.cachedAt||0).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+          var isStale  = cacheAge > 24*60*60*1000;
+          var bannerTxt = isStale
+            ? '\u26a0 Data may be outdated \u2014 cached '+Math.round(cacheAge/3600000)+'h ago'
+            : '\ud83d\udce1 Cached from '+cacheTs+' \u2014 live feed unavailable';
+          renderSignals();
+          var banner = document.createElement('div');
+          banner.className = isStale ? 'cached-banner stale' : 'cached-banner';
+          banner.textContent = bannerTxt + ' \u00a0';
+          var retryBtn = document.createElement('button');
+          retryBtn.className = 'sig-error-retry';
+          retryBtn.style.cssText = 'padding:2px 10px;font-size:11px;';
+          retryBtn.textContent = 'Retry';
+          retryBtn.addEventListener('click', function(){ fetchSignalsFromAPI(true); });
+          banner.appendChild(retryBtn);
+          var sl2=document.getElementById('signalsList');
+          if(sl2) sl2.insertAdjacentElement('beforebegin',banner);
+          setTimeout(function(){if(banner.parentNode)banner.parentNode.removeChild(banner);},10000);
+        }
+      }
+    }catch(e){}
+    if(!cacheLoaded){
+      if(el){
+        el.innerHTML='<div style="text-align:center;padding:24px;color:#3a6080;font-size:13px;">'+
+          'Unable to load signals.<br>'+
+          '<button class="sig-error-retry" id="sigRetryBtn" style="margin-top:10px;padding:6px 16px;font-size:12px;">Retry</button>'+
+          '</div>';
+        var retryEl = document.getElementById('sigRetryBtn');
+        if(retryEl) retryEl.addEventListener('click', function(){ fetchSignalsFromAPI(true); });
+      }
     }
   } finally{
     _sigsFetching=false;
@@ -2848,16 +2964,18 @@ function startSignalsAutoRefresh(){
   }, 5*60*1000);
 }
 
-const SIGNALS_DATA=[
-  {id:1,pair:'BTC/USD',type:'buy',cat:'crypto',price:'BTC',entry:67500,tp:71000,sl:65000,rr:'1:1.4',conf:82,tf:'4H',isNew:true,_cached:true,tags:['Momentum','Support×3','Whale Acc.','Bullish RSI'],reason:'<strong>$67,000 support held 3 consecutive times</strong> — historically very bullish. On-chain whale wallets accumulating aggressively. RSI showing bullish divergence on 4H.',aiAnalysis:null},
-  {id:2,pair:'USD/JPY',type:'sell',cat:'forex',price:'USDJPY',entry:149.80,tp:147.50,sl:151.20,rr:'1:1.6',conf:76,tf:'1D',isNew:true,_cached:true,tags:['BOJ Risk','Reversal','Bearish Div.','High R:R'],reason:'<strong>BOJ policy shift approaching Thursday</strong>. Yen historically surges post-BOJ hawkish signals. Clear bearish divergence on daily. Excellent R:R.',aiAnalysis:null},
-  {id:3,pair:'XAU/USD',type:'buy',cat:'commodities',price:'GOLD',entry:2315,tp:2380,sl:2280,rr:'1:1.8',conf:79,tf:'4H',isNew:false,_cached:true,tags:['Breakout','Geopolitics','Weak USD','Volume Conf.'],reason:'<strong>Breaking $2,318 resistance</strong> with strong volume confirmation. Geopolitical demand surge + weak dollar = textbook setup.',aiAnalysis:null},
-  {id:4,pair:'EUR/USD',type:'watch',cat:'forex',price:'EURUSD',entry:null,tp:null,sl:null,rr:null,conf:55,tf:'1D',isNew:false,_cached:true,tags:['ECB Thursday','High Volatility','Wait'],reason:'<strong>ECB meeting Thursday creates uncertainty</strong>. No clear directional edge currently. Wait for post-meeting clarity.',aiAnalysis:null},
-  {id:5,pair:'ETH/USD',type:'buy',cat:'crypto',price:'ETH',entry:3520,tp:3900,sl:3200,rr:'1:1.2',conf:71,tf:'4H',isNew:false,_cached:true,tags:['BTC Follow','L2 Activity','Support Hold'],reason:'<strong>Following BTC bullish structure</strong>. Layer 2 activity surging. Clear support at $3,400 confirmed twice.',aiAnalysis:null},
-  {id:6,pair:'WTI OIL',type:'sell',cat:'commodities',price:'OIL',entry:78.50,tp:74.00,sl:80.50,rr:'1:2.2',conf:68,tf:'1D',isNew:false,_cached:true,tags:['Bearish Candle','China Demand','High R:R'],reason:'<strong>OPEC+ cuts already fully priced in</strong>. Chinese demand disappointing for 3rd consecutive week. Bearish engulfing candle on daily.',aiAnalysis:null},
-  {id:7,pair:'S&P 500',type:'buy',cat:'indices',price:'SPX',entry:5240,tp:5450,sl:5100,rr:'1:1.5',conf:80,tf:'1W',isNew:false,_cached:true,tags:['Bull Market','Earnings Beat','Fed Pause'],reason:'<strong>Bull market structure intact</strong>. Tech earnings beating estimates by 12% average. Fed pause supportive of equity valuations.',aiAnalysis:null},
-  {id:8,pair:'GBP/USD',type:'sell',cat:'forex',price:'GBPUSD',entry:1.2640,tp:1.2400,sl:1.2750,rr:'1:2.1',conf:74,tf:'4H',isNew:true,_cached:true,tags:['UK CPI Hot','Overbought','Key Resistance'],reason:'<strong>GBP overbought after hot UK inflation data</strong>. Price at key resistance 1.2640. RSI > 70.',aiAnalysis:null},
-];
+// Signals — populated from API or localStorage cache; no hardcoded fallback
+var SIGNALS_DATA = [];
+(function loadCachedSignals(){
+  try{
+    var raw = localStorage.getItem('momento_signals_cache');
+    if(!raw) return;
+    var cache = JSON.parse(raw);
+    if(!cache || !Array.isArray(cache.signals) || !cache.signals.length) return;
+    cache.signals.forEach(function(s){ SIGNALS_DATA.push(s); });
+    _sigsLastFetch = cache.cachedAt || 0;
+  } catch(e){ /* ignore parse errors */ }
+})();
 const LIVE_ALERTS_DATA=[
   {ico:'🚨',pair:'BTC/USD',msg:'Broke $67,500 resistance',badge:'BUY',bc:'af-buy'},
   {ico:'⚡',pair:'XAU/USD',msg:'Momentum at $2,318',badge:'BUY',bc:'af-buy'},
@@ -3933,22 +4051,51 @@ setTimeout(initHomePageEvents, 500);
 // ════════════════════════════════════
 // PAYMENT TIMING DECISION ENGINE
 // ════════════════════════════════════
-function calcPTScore(change24h, pair){
-  var score = 50;
-  // Direction scoring
-  if(change24h > 2)  score = 80;   // strongly up → pay now (rate favorable)
-  else if(change24h < -2) score = 20;  // strongly down → avoid
-  else if(Math.abs(change24h) < 1) score = 50; // sideways → wait
-  else if(change24h > 0) score = 65;
-  else score = 35;
-  // High volatility penalty
-  if(Math.abs(change24h) > 3) score = Math.max(0, score - 10);
-  // For payment pairs (USD/JPY etc.) a rising USD means favorable for USD sender
-  // For EURUSD/GBPUSD a rising rate means USD is weakening — unfavorable for USD sender
-  if(pair === 'EURUSD' || pair === 'GBPUSD' || pair === 'AUDUSD'){
-    // Invert logic: higher EURUSD = weaker USD = bad time to pay from USD
-    score = 100 - score;
+// Returns current UTC market session: {name, cls, active}
+function getMarketSession(){
+  var hm = new Date().getUTCHours() + new Date().getUTCMinutes()/60;
+  if(hm >= 13 && hm < 22) return {name:'NEW YORK',  cls:'ny',     active:true};
+  if(hm >= 8  && hm < 17) return {name:'LONDON',    cls:'london', active:true};
+  if(hm >= 0  && hm < 9)  return {name:'TOKYO',     cls:'tokyo',  active:true};
+  return                          {name:'OFF HOURS', cls:'off',    active:false};
+}
+
+// Weighted score: 24h (40%) + 1h (30%) + volatility (20%) + session (10%)
+function calcPTScore(change24h, change1h, pair){
+  // Factor 1: 24h direction (40%)
+  var d24 = 50;
+  if(change24h > 2)             d24 = 80;
+  else if(change24h < -2)       d24 = 20;
+  else if(Math.abs(change24h) < 1) d24 = 50;
+  else if(change24h > 0)        d24 = 65;
+  else                          d24 = 35;
+
+  // Factor 2: 1h direction (30%, skipped if unavailable)
+  var has1h = (change1h !== null && change1h !== undefined && !isNaN(change1h));
+  var d1h = 50;
+  if(has1h){
+    if(change1h > 0.5)       d1h = 75;
+    else if(change1h < -0.5) d1h = 25;
+    else                     d1h = 50;
   }
+
+  // Factor 3: Volatility (20%) — high vol = uncertain timing
+  var absChg = Math.abs(change24h);
+  var dVol = absChg > 3 ? 20 : (absChg < 1 ? 80 : 55);
+
+  // Factor 4: Market session (10%) — active = better liquidity
+  var dSess = getMarketSession().active ? 65 : 35;
+
+  // Weighted average (redistribute 1h weight when unavailable)
+  var w1 = has1h ? 0.40 : 0.55;
+  var w2 = has1h ? 0.30 : 0.00;
+  var w3 = has1h ? 0.20 : 0.30;
+  var w4 = 0.10;
+  var score = w1*d24 + w2*d1h + w3*dVol + w4*dSess;
+
+  // Invert for pairs where higher rate = weaker USD
+  if(pair === 'EURUSD' || pair === 'GBPUSD' || pair === 'AUDUSD') score = 100 - score;
+
   return Math.max(0, Math.min(100, Math.round(score)));
 }
 
@@ -3958,32 +4105,53 @@ function getDecision(score){
   return              {label:'AVOID',   cls:'avoid', ico:'🚫', sub:'Unfavorable conditions — hold payment'};
 }
 
-function buildReasons(change24h, score, pair, currentRate){
+function buildReasons(change24h, change1h, score, pair, currentRate){
   var reasons = [];
   var absChg = Math.abs(change24h).toFixed(2);
-  var dir = change24h >= 0 ? 'up' : 'down';
-  var dotCls = change24h > 1 ? '' : (change24h < -1 ? 'bad' : 'warn');
+  var has1h  = (change1h !== null && change1h !== undefined && !isNaN(change1h));
+  var session = getMarketSession();
 
+  // 24h direction
   if(pair === 'USDJPY'){
-    if(change24h > 1)  reasons.push({dot:'',   txt:'USD/JPY rose '+absChg+'% today — USD is stronger, cheaper to pay JPY invoices now'});
-    else if(change24h < -1) reasons.push({dot:'bad', txt:'USD/JPY fell '+absChg+'% today — JPY is strengthening, delaying payment may cost more'});
-    else reasons.push({dot:'warn', txt:'USD/JPY moved '+absChg+'% — limited directional signal, monitor BOJ announcements'});
+    if(change24h > 1)       reasons.push({dot:'',    txt:'USD/JPY rose '+absChg+'% today — USD stronger, cheaper to pay JPY invoices now'});
+    else if(change24h < -1) reasons.push({dot:'bad', txt:'USD/JPY fell '+absChg+'% today — JPY strengthening, delaying may cost more'});
+    else                    reasons.push({dot:'warn',txt:'USD/JPY moved '+absChg+'% — limited directional signal, monitor BOJ announcements'});
   } else if(pair === 'EURUSD'){
-    if(change24h > 1)  reasons.push({dot:'bad', txt:'EUR/USD rose '+absChg+'% — EUR stronger vs USD, unfavorable for USD-to-EUR payments'});
+    if(change24h > 1)       reasons.push({dot:'bad', txt:'EUR/USD rose '+absChg+'% — EUR stronger vs USD, unfavorable for USD→EUR payments'});
     else if(change24h < -1) reasons.push({dot:'',    txt:'EUR/USD fell '+absChg+'% — USD strengthening, favorable window for EUR payments'});
-    else reasons.push({dot:'warn', txt:'EUR/USD moved '+absChg+'% — range-bound, no strong directional edge today'});
+    else                    reasons.push({dot:'warn',txt:'EUR/USD moved '+absChg+'% — range-bound, no strong directional edge today'});
   } else if(pair === 'GBPUSD'){
-    if(change24h > 1)  reasons.push({dot:'bad', txt:'GBP/USD rose '+absChg+'% — GBP stronger, USD payments to GBP more expensive'});
+    if(change24h > 1)       reasons.push({dot:'bad', txt:'GBP/USD rose '+absChg+'% — GBP stronger, USD payments to GBP more expensive'});
     else if(change24h < -1) reasons.push({dot:'',    txt:'GBP/USD fell '+absChg+'% — GBP weakening, favorable window for GBP payments'});
-    else reasons.push({dot:'warn', txt:'GBP/USD nearly flat today ('+absChg+'%) — no clear timing edge'});
+    else                    reasons.push({dot:'warn',txt:'GBP/USD nearly flat ('+absChg+'%) — no clear timing edge'});
+  } else {
+    if(change24h > 1)       reasons.push({dot:'',    txt:pair+' moved +'+absChg+'% in 24h — rate trending favorably'});
+    else if(change24h < -1) reasons.push({dot:'bad', txt:pair+' fell '+absChg+'% in 24h — unfavorable recent move'});
+    else                    reasons.push({dot:'warn',txt:pair+' nearly flat ('+absChg+'% 24h) — limited directional signal'});
   }
 
-  if(Math.abs(change24h) > 3) reasons.push({dot:'warn', txt:'High volatility alert: '+absChg+'% move exceeds 3% — rate may shift further in either direction'});
-  else reasons.push({dot:'',   txt:'Volatility within normal range ('+absChg+'% 24h) — rate relatively stable for timing'});
+  // 1h momentum
+  if(has1h){
+    var abs1h = Math.abs(change1h).toFixed(3);
+    if(change1h > 0.3)       reasons.push({dot:'',    txt:'Short-term: +'+abs1h+'% in the last hour — bullish near-term momentum'});
+    else if(change1h < -0.3) reasons.push({dot:'bad', txt:'Short-term: \u2212'+abs1h+'% in the last hour — bearish near-term pressure'});
+    else                     reasons.push({dot:'warn',txt:'1h change: '+abs1h+'% — very low short-term volatility, rate likely stable'});
+  }
 
-  if(score >= 70) reasons.push({dot:'',   txt:'Score '+score+'/100: Strong execution window — consider locking rate with your bank or Wise today'});
-  else if(score >= 40) reasons.push({dot:'warn', txt:'Score '+score+'/100: Mixed signals — split your payment or wait 24h for clearer direction'});
-  else reasons.push({dot:'bad', txt:'Score '+score+'/100: High-risk window — consider delaying until rate stabilizes'});
+  // Volatility
+  if(Math.abs(change24h) > 3) reasons.push({dot:'warn',txt:'High volatility: '+absChg+'% 24h move exceeds 3% — rate may shift further in either direction'});
+  else                        reasons.push({dot:'',   txt:'Normal volatility ('+absChg+'% 24h) — rate relatively stable for payment timing'});
+
+  // Market session
+  if(session.active)
+    reasons.push({dot:'',    txt:session.name+' session active — deeper liquidity, tighter spreads, more reliable rates'});
+  else
+    reasons.push({dot:'warn',txt:'Off-hours trading — lower liquidity, wider spreads may apply until next session opens'});
+
+  // Score summary
+  if(score >= 70)      reasons.push({dot:'',    txt:'Score '+score+'/100: Strong execution window — consider locking rate with Wise or your bank today'});
+  else if(score >= 40) reasons.push({dot:'warn',txt:'Score '+score+'/100: Mixed signals — split your payment or wait 24h for clearer direction'});
+  else                 reasons.push({dot:'bad', txt:'Score '+score+'/100: High-risk window — consider delaying until conditions stabilize'});
 
   return reasons;
 }
@@ -4065,9 +4233,12 @@ async function analyzePTP(){
     console.warn('PTP live fetch failed, using cached rates');
   }
 
-  var score    = calcPTScore(change24h, pair);
-  var decision = getDecision(score);
-  var reasons  = buildReasons(change24h, score, pair, currentRate);
+  var change1h  = (CH1H[pair] !== undefined) ? CH1H[pair] : null;
+  var score     = calcPTScore(change24h, change1h, pair);
+  var decision  = getDecision(score);
+  var session   = getMarketSession();
+  var isHighVol = Math.abs(change24h) > 3;
+  var reasons   = buildReasons(change24h, change1h, score, pair, currentRate);
   var compare  = buildCompareTable(amount, pair, currentRate);
 
   // Calculate saving estimate
@@ -4105,6 +4276,24 @@ async function analyzePTP(){
   if(vIco)   vIco.textContent   = decision.ico;
   if(vTitle){ vTitle.className='ptp-verdict-title '+decision.cls; vTitle.textContent=decision.label; }
   if(vSub)   vSub.textContent   = decision.sub;
+
+  // Session badge + volatility warning
+  var metaBadges = document.getElementById('ptpMetaBadges');
+  var sessBadge  = document.getElementById('ptpSessionBadge');
+  var volWarn    = document.getElementById('ptpVolWarn');
+  if(metaBadges) metaBadges.style.display = 'flex';
+  if(sessBadge){
+    sessBadge.className = 'ptp-session-badge ' + session.cls;
+    sessBadge.textContent = (session.active ? '\u25cf ' : '\u25cb ') + session.name;
+  }
+  if(volWarn){
+    if(isHighVol){
+      volWarn.style.display = 'flex';
+      volWarn.textContent   = '\u26a0 HIGH VOLATILITY \u2014 ' + Math.abs(change24h).toFixed(2) + '% in 24h';
+    } else {
+      volWarn.style.display = 'none';
+    }
+  }
 
   // Stats
   var rateLabel = pair==='USDJPY'?'¥'+currentRate.toFixed(2):currentRate.toFixed(4);
@@ -4153,6 +4342,312 @@ async function analyzePTP(){
 }
 
 
+// ══════════════════════════════════════════════════════════
+// PTP ENHANCED DISPLAY — additive, no existing code modified
+// ══════════════════════════════════════════════════════════
+
+// Currency symbol helper for the selected pair
+function _ptpCurrSym(pair) {
+  if(pair === 'USDJPY') return '¥';
+  if(pair === 'EURUSD') return '€';
+  if(pair === 'GBPUSD') return '£';
+  if(pair === 'AUDUSD') return 'A$';
+  if(pair === 'USDCAD') return 'C$';
+  return '$';
+}
+
+// Expected saving formula from spec:
+// (abs(change24h)*0.4 + abs(change1h)*0.3 + volatility*0.3) / 100 * amount
+// volatility = abs(change24h) as proxy
+function calcExpectedSaving(change24h, change1h, amount, pair, currentRate) {
+  var abs24 = Math.abs(change24h);
+  var abs1h  = (change1h !== null && change1h !== undefined && !isNaN(change1h))
+               ? Math.abs(change1h) : abs24 * 0.5;
+  var vol    = abs24; // volatility proxy
+  var savingPct = (abs24 * 0.4 + abs1h * 0.3 + vol * 0.3) / 100;
+  var sym = _ptpCurrSym(pair);
+  var raw, label;
+  if(pair === 'USDJPY'){
+    raw   = Math.round(amount * currentRate * savingPct);
+    label = sym + raw.toLocaleString();
+  } else {
+    raw   = parseFloat((amount * savingPct).toFixed(0));
+    label = sym + raw.toLocaleString();
+  }
+  return { sym: sym, raw: raw, label: label, pct: (savingPct * 100).toFixed(2) };
+}
+
+// Show the saving preview banner BEFORE the result card appears (uses cached prices)
+function _ptpShowSavingPreview() {
+  var pair      = (document.getElementById('ptpPair')   || {}).value || 'USDJPY';
+  var amount    = parseFloat((document.getElementById('ptpAmount') || {}).value) || 10000;
+  var change24h = CH[pair]  || 0;
+  var change1h  = (CH1H[pair] !== undefined) ? CH1H[pair] : null;
+  var rate      = PR[pair]  || 150;
+  var saving    = calcExpectedSaving(change24h, change1h, amount, pair, rate);
+  var preview   = document.getElementById('ptpSavingPreview');
+  var txt       = document.getElementById('ptpSavingPreviewTxt');
+  if(preview) preview.classList.add('visible');
+  if(txt)     txt.textContent = '\ud83d\udcb0 Expected saving: ' + saving.label + ' if decision is correct';
+}
+
+// Render the enhanced decision card after analyzePTP completes with fresh data
+function _ptpRenderEnhanced() {
+  var pair      = (document.getElementById('ptpPair')   || {}).value || 'USDJPY';
+  var amount    = parseFloat((document.getElementById('ptpAmount') || {}).value) || 10000;
+  var change24h = CH[pair]  || 0;
+  var change1h  = (CH1H[pair] !== undefined) ? CH1H[pair] : null;
+  var rate      = PR[pair]  || 150;
+  var scoreEl   = document.getElementById('ptpScoreNum');
+  var score     = scoreEl ? (parseInt(scoreEl.textContent) || 50) : 50;
+  var decision  = getDecision(score);
+  var saving    = calcExpectedSaving(change24h, change1h, amount, pair, rate);
+  var reasons   = buildReasons(change24h, change1h, score, pair, rate);
+
+  // Update saving preview with fresh rate
+  var txt = document.getElementById('ptpSavingPreviewTxt');
+  if(txt) txt.textContent = '\ud83d\udcb0 Expected saving: ' + saving.label + ' if decision is correct';
+
+  // Show enhanced card
+  var card = document.getElementById('ptpEnhancedDecision');
+  if(!card) return;
+  card.classList.add('visible');
+
+  // Confidence arc (reuse 201 circumference for r=32 circle)
+  var arc = document.getElementById('ptpEdConfArc');
+  if(arc){
+    arc.setAttribute('stroke-dashoffset', 201 * (1 - score / 100));
+    arc.className.baseVal = 'ptp-ed-conf-arc ' + decision.cls;
+  }
+  var confNum = document.getElementById('ptpEdConfNum');
+  if(confNum) confNum.textContent = score + '%';
+
+  // Saving value
+  var savingVal = document.getElementById('ptpEdSavingVal');
+  var savingSub = document.getElementById('ptpEdSavingSub');
+  if(savingVal){
+    savingVal.textContent = saving.label;
+    savingVal.className   = 'ptp-ed-saving-val ' + decision.cls;
+  }
+  if(savingSub) savingSub.textContent = '~' + saving.pct + '% of ' + _ptpCurrSym(pair) + amount.toLocaleString() + ' transfer';
+
+  // 3 key reasons as bullet points
+  var reasonsEl = document.getElementById('ptpEdReasons');
+  if(reasonsEl){
+    reasonsEl.innerHTML = reasons.slice(0, 3).map(function(r){
+      var clr = r.dot === 'bad' ? '#ff3d57' : (r.dot === 'warn' ? '#f7c35f' : '#00d4aa');
+      return '<div class="ptp-ed-reason-item" style="--dot-clr:' + clr + '">' +
+             '<div class="ptp-ed-reason-dot"></div>' +
+             '<div>' + r.txt + '</div>' +
+             '</div>';
+    }).join('');
+  }
+}
+
+// Hide enhanced elements when a new analysis starts
+function _ptpResetEnhanced() {
+  var prev = document.getElementById('ptpSavingPreview');
+  var card = document.getElementById('ptpEnhancedDecision');
+  if(prev) prev.classList.remove('visible');
+  if(card) card.classList.remove('visible');
+}
+
+// Override analyzePTP: wrap so enhanced display renders after original completes
+var _origAnalyzePTP = analyzePTP;
+analyzePTP = async function(){
+  _ptpResetEnhanced();
+  await _origAnalyzePTP.apply(this, arguments);
+  _ptpRenderEnhanced();
+};
+
+// Register button listeners for the enhanced layer
+function _initPTPEnhanced(){
+  var btn = document.getElementById('ptpAnalyzeBtn');
+  if(!btn || btn._enhancedBound) return;
+  btn._enhancedBound = true;
+  // Show saving preview immediately on click (cached data, synchronous)
+  btn.addEventListener('click', _ptpShowSavingPreview);
+}
+document.addEventListener('DOMContentLoaded', _initPTPEnhanced);
+setTimeout(_initPTPEnhanced, 600);
+
+// ══════════════════════════════════════════════════════════
+// PROOF SYSTEM — Task 1 (additive only, no existing code modified)
+// ══════════════════════════════════════════════════════════
+
+var _PROOF_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyb2Zwb2VybHBocHF4dGd6eHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1NTI0MTIsImV4cCI6MjA1NjEyODQxMn0.yYMtMEEasqcXCbKuDFpAFdAyFE0kKdQm-A5iQVTqXTg';
+var _PROOF_URL = 'https://vrofpoerlphpqxtgzxpe.supabase.co/rest/v1/decisions';
+var _PROOF_HEADERS = {
+  'Content-Type': 'application/json',
+  'apikey': _PROOF_KEY,
+  'Authorization': 'Bearer ' + _PROOF_KEY
+};
+
+// 1 ── Save a new decision to Supabase after analysis
+async function saveDecision(pair, decision, rate, amount, currency) {
+  try {
+    await fetch(_PROOF_URL, {
+      method: 'POST',
+      headers: Object.assign({}, _PROOF_HEADERS, {'Prefer': 'return=minimal'}),
+      body: JSON.stringify({
+        pair:            pair,
+        decision:        decision,
+        rate_at_decision: rate,
+        amount:          amount,
+        currency:        currency,
+        user_id:         (currentUser && currentUser.id) ? currentUser.id : 'anonymous'
+      })
+    });
+  } catch(e) {
+    console.warn('[Proof] saveDecision failed:', e.message);
+  }
+}
+
+// Helper: extract live rate for a pair from ExchangeRate API response
+function _proofRateFromFX(fxData, pair) {
+  if (!fxData || !fxData.rates) return null;
+  if (pair === 'USDJPY') return fxData.rates.JPY ? parseFloat(fxData.rates.JPY.toFixed(4)) : null;
+  if (pair === 'EURUSD') return fxData.rates.EUR ? parseFloat((1 / fxData.rates.EUR).toFixed(4)) : null;
+  if (pair === 'GBPUSD') return fxData.rates.GBP ? parseFloat((1 / fxData.rates.GBP).toFixed(4)) : null;
+  if (pair === 'AUDUSD') return fxData.rates.AUD ? parseFloat((1 / fxData.rates.AUD).toFixed(4)) : null;
+  if (pair === 'USDCAD') return fxData.rates.CAD ? parseFloat(fxData.rates.CAD.toFixed(4)) : null;
+  return null;
+}
+
+// 2 ── Check decisions older than 24 h, fetch current rate, update Supabase
+async function checkDecisions() {
+  try {
+    var cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    var res = await fetch(
+      _PROOF_URL + '?select=*&rate_after_24h=is.null&timestamp=lt.' + encodeURIComponent(cutoff),
+      { headers: _PROOF_HEADERS }
+    );
+    if (!res.ok) return;
+    var pending = await res.json();
+    if (!Array.isArray(pending) || !pending.length) return;
+
+    // Fetch current FX rates once for all pending rows
+    var fxRes  = await fetch('https://open.er-api.com/v6/latest/USD').catch(function(){ return null; });
+    var fxData = fxRes && fxRes.ok ? await fxRes.json() : null;
+
+    for (var i = 0; i < pending.length; i++) {
+      var d = pending[i];
+      var rateAfter = _proofRateFromFX(fxData, d.pair);
+      if (rateAfter === null) continue;
+
+      // actual_saving = (rate_after - rate_at) / rate_at * amount
+      var actual_saving = ((rateAfter - d.rate_at_decision) / d.rate_at_decision) * d.amount;
+
+      // was_correct: PAY_NOW + rate went up, or WAIT/AVOID + rate went down
+      var rateWentUp = rateAfter > d.rate_at_decision;
+      var was_correct = (d.decision === 'PAY NOW' && rateWentUp) ||
+                        (d.decision !== 'PAY NOW' && !rateWentUp);
+
+      await fetch(_PROOF_URL + '?id=eq.' + d.id, {
+        method: 'PATCH',
+        headers: Object.assign({}, _PROOF_HEADERS, {'Prefer': 'return=minimal'}),
+        body: JSON.stringify({
+          rate_after_24h: rateAfter,
+          actual_saving:  parseFloat(actual_saving.toFixed(2)),
+          was_correct:    was_correct,
+          checked_at:     new Date().toISOString()
+        })
+      });
+    }
+  } catch(e) {
+    console.warn('[Proof] checkDecisions failed:', e.message);
+  }
+}
+
+// 3 ── Render Track Record section from fetched data
+function _proofRenderTrackRecord(rows) {
+  var totalEl    = document.getElementById('proofTotal');
+  var accEl      = document.getElementById('proofAccuracy');
+  var avgEl      = document.getElementById('proofAvgSaving');
+  var resultsEl  = document.getElementById('proofResults');
+  if (!resultsEl) return;
+
+  var checked = rows.filter(function(r){ return r.was_correct !== null && r.was_correct !== undefined; });
+  var correct = checked.filter(function(r){ return r.was_correct; });
+  var accuracy = checked.length ? Math.round(correct.length / checked.length * 100) : null;
+  var avgSaving = checked.length
+    ? checked.reduce(function(s, r){ return s + (r.actual_saving || 0); }, 0) / checked.length
+    : null;
+
+  if (totalEl) { totalEl.textContent = rows.length || '0'; }
+  if (accEl)   { accEl.textContent   = accuracy !== null ? accuracy + '%' : '—'; }
+  if (avgEl)   {
+    if (avgSaving !== null) {
+      var sym = avgSaving >= 0 ? '+' : '';
+      avgEl.textContent = sym + parseFloat(avgSaving.toFixed(0)).toLocaleString();
+    } else {
+      avgEl.textContent = '—';
+    }
+  }
+
+  var last5 = checked.slice(0, 5);
+  if (!last5.length) {
+    resultsEl.className = 'proof-empty';
+    resultsEl.textContent = 'No verified decisions yet — check back in 24 h';
+    return;
+  }
+
+  resultsEl.className = '';
+  resultsEl.innerHTML = last5.map(function(r){
+    var ok   = r.was_correct;
+    var badge = ok ? '✅' : '❌';
+    var decCls = r.decision === 'PAY NOW' ? 'pay' : (r.decision === 'WAIT' ? 'wait' : 'avoid');
+    var savFmt = r.actual_saving !== null
+      ? (r.actual_saving >= 0 ? '+' : '') + parseFloat(r.actual_saving.toFixed(0)).toLocaleString()
+      : '—';
+    return '<div class="proof-result-item">' +
+      '<div class="proof-result-badge">' + badge + '</div>' +
+      '<div class="proof-result-pair">' + (r.pair || '—') + '</div>' +
+      '<div class="proof-result-decision ' + decCls + '">' + (r.decision || '—') + '</div>' +
+      '<div class="proof-result-saving">' + savFmt + '</div>' +
+      '</div>';
+  }).join('');
+}
+
+// Load and render track record from Supabase
+async function loadTrackRecord() {
+  var resultsEl = document.getElementById('proofResults');
+  if (resultsEl) { resultsEl.className = 'proof-loading'; resultsEl.textContent = 'Loading track record…'; }
+  try {
+    var res = await fetch(
+      _PROOF_URL + '?select=*&order=timestamp.desc&limit=200',
+      { headers: _PROOF_HEADERS }
+    );
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    var rows = await res.json();
+    _proofRenderTrackRecord(Array.isArray(rows) ? rows : []);
+  } catch(e) {
+    console.warn('[Proof] loadTrackRecord failed:', e.message);
+    if (resultsEl) { resultsEl.className = 'proof-empty'; resultsEl.textContent = 'Could not load track record'; }
+  }
+}
+
+// Wrap analyzePTP to save decision after each analysis (layered on top of Task 2 wrapper)
+var _origAnalyzePTPProof = analyzePTP;
+analyzePTP = async function(){
+  await _origAnalyzePTPProof.apply(this, arguments);
+  // Read outcome from DOM (Task 2 wrapper has already rendered these)
+  var pair     = (document.getElementById('ptpPair')        || {}).value || 'USDJPY';
+  var amount   = parseFloat((document.getElementById('ptpAmount') || {}).value) || 10000;
+  var decLabel = (document.getElementById('ptpVerdictTitle') || {}).textContent || '';
+  var rate     = PR[pair] || 0;
+  var currency = pair.slice(-3); // e.g. 'JPY' from 'USDJPY'
+  if (decLabel && rate) {
+    saveDecision(pair, decLabel, rate, amount, currency);
+    // Refresh track record after save
+    setTimeout(loadTrackRecord, 1500);
+  }
+};
+
+// Run on app load
+checkDecisions();
+loadTrackRecord();
+
 // ─── Global click handler removed (was causing stripe modal to open on every tap) ───
 
 // STRIPE
@@ -4163,7 +4658,7 @@ function selectPlan(p){selectedPlan=p;document.getElementById('planMonthly').cla
 function startCheckout(){var btn=document.getElementById('stripePayBtn');if(btn){btn.disabled=true;btn.textContent='Redirecting...';}var url=selectedPlan==='yearly'?'https://buy.stripe.com/test_aFabJ0biW1z96g4fEo0VO02':'https://buy.stripe.com/test_eVq8wObiWb9JeMA8bW0VO01';setTimeout(function(){window.open(url,'_blank');if(btn){btn.disabled=false;selectPlan(selectedPlan);}closeStripeModal();},500);}
 
 // REAL PRICES
-function fetchCryptoPrices(){fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,binancecoin&vs_currencies=usd&include_24hr_change=true').then(function(r){return r.json();}).then(function(d){if(d.bitcoin){PR['BTC']=d.bitcoin.usd;CH['BTC']=parseFloat((d.bitcoin.usd_24h_change||0).toFixed(2));}if(d.ethereum){PR['ETH']=d.ethereum.usd;CH['ETH']=parseFloat((d.ethereum.usd_24h_change||0).toFixed(2));}if(d.solana){PR['SOL']=d.solana.usd;CH['SOL']=parseFloat((d.solana.usd_24h_change||0).toFixed(2));}if(d.ripple){PR['XRP']=d.ripple.usd;CH['XRP']=parseFloat((d.ripple.usd_24h_change||0).toFixed(2));}if(d.binancecoin){PR['BNB']=d.binancecoin.usd;CH['BNB']=parseFloat((d.binancecoin.usd_24h_change||0).toFixed(2));}}).catch(function(){fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT').then(function(r){return r.json();}).then(function(d){PR['BTC']=parseFloat(d.price);}).catch(function(){});});}
+function fetchCryptoPrices(){fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,binancecoin&vs_currencies=usd&include_24hr_change=true&include_1hr_in_currency=true').then(function(r){return r.json();}).then(function(d){if(d.bitcoin){PR['BTC']=d.bitcoin.usd;CH['BTC']=parseFloat((d.bitcoin.usd_24h_change||0).toFixed(2));if(d.bitcoin.usd_1h_change!=null)CH1H['BTC']=parseFloat(d.bitcoin.usd_1h_change.toFixed(3));}if(d.ethereum){PR['ETH']=d.ethereum.usd;CH['ETH']=parseFloat((d.ethereum.usd_24h_change||0).toFixed(2));if(d.ethereum.usd_1h_change!=null)CH1H['ETH']=parseFloat(d.ethereum.usd_1h_change.toFixed(3));}if(d.solana){PR['SOL']=d.solana.usd;CH['SOL']=parseFloat((d.solana.usd_24h_change||0).toFixed(2));}if(d.ripple){PR['XRP']=d.ripple.usd;CH['XRP']=parseFloat((d.ripple.usd_24h_change||0).toFixed(2));}if(d.binancecoin){PR['BNB']=d.binancecoin.usd;CH['BNB']=parseFloat((d.binancecoin.usd_24h_change||0).toFixed(2));}}).catch(function(){fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT').then(function(r){return r.json();}).then(function(d){PR['BTC']=parseFloat(d.price);}).catch(function(){});});}
 function fetchForexPrices(){fetch('https://open.er-api.com/v6/latest/USD').then(function(r){return r.json();}).then(function(d){if(!d.rates)return;if(d.rates.JPY)PR['USDJPY']=parseFloat(d.rates.JPY.toFixed(4));if(d.rates.EUR)PR['EURUSD']=parseFloat((1/d.rates.EUR).toFixed(4));if(d.rates.GBP)PR['GBPUSD']=parseFloat((1/d.rates.GBP).toFixed(4));if(d.rates.AUD)PR['AUDUSD']=parseFloat((1/d.rates.AUD).toFixed(4));if(d.rates.CAD)PR['USDCAD']=parseFloat(d.rates.CAD.toFixed(4));}).catch(function(){});}
 function fetchGoldPrice(){fetch('https://api.metals.live/v1/spot/gold,silver').then(function(r){return r.json();}).then(function(d){if(Array.isArray(d))d.forEach(function(item){if(item.gold)PR['GOLD']=parseFloat(item.gold);if(item.silver)PR['SILVER']=parseFloat(item.silver);});}).catch(function(){});}
 fetchCryptoPrices();fetchForexPrices();fetchGoldPrice();
@@ -4173,13 +4668,33 @@ setInterval(fetchCryptoPrices,30000);setInterval(fetchForexPrices,60000);setInte
 function showPushNotif(title,body){if(window.Notification&&Notification.permission==='granted'){new Notification(title,{body:body,tag:'momento',requireInteraction:true});}}
 function requestNotifPermission(){if(window.Notification&&Notification.permission==='default')Notification.requestPermission();}
 setTimeout(requestNotifPermission,5000);
-if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(function(){});
+
+// Service Worker registration + periodicSync + alert sync bridge
+var _swReg = null;
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/sw.js').then(function(reg){
+    _swReg = reg;
+    if('periodicSync' in reg){
+      Notification.requestPermission().then(function(){
+        reg.periodicSync.register('check-alerts',{minInterval:15*60*1000}).catch(function(){});
+      });
+    }
+  }).catch(function(){});
+}
+function _syncAlertsToSW(){
+  var ctrl = navigator.serviceWorker && navigator.serviceWorker.controller;
+  if(ctrl){ ctrl.postMessage({type:'SYNC_ALERTS',alerts:userAlerts}); return; }
+  if(_swReg && _swReg.active) _swReg.active.postMessage({type:'SYNC_ALERTS',alerts:userAlerts});
+}
+
 function getUserToken(){var t=localStorage.getItem('momento_uid');if(!t){t='u_'+Date.now()+'_'+Math.random().toString(36).substr(2,9);localStorage.setItem('momento_uid',t);}return t;}
 function saveAlertToSB(a){fetch('https://vrofpoerlphpqxtgzxpe.supabase.co/rest/v1/alerts',{method:'POST',headers:{'Content-Type':'application/json','apikey':'sb_publishable_XvmVHU6PfNNeLOpiiNQkWA_KeiMLF6U','Authorization':'Bearer sb_publishable_XvmVHU6PfNNeLOpiiNQkWA_KeiMLF6U','Prefer':'return=minimal'},body:JSON.stringify({pair:a.pair,target:a.target,direction:a.dir,user_token:getUserToken(),triggered:false})}).catch(function(){});}
 var _origAA=addAlert;
-addAlert=function(){_origAA();var a=userAlerts[0];if(a){requestNotifPermission();saveAlertToSB(a);}};
+addAlert=function(){_origAA();var a=userAlerts[0];if(a){requestNotifPermission();saveAlertToSB(a);}_syncAlertsToSW();};
 var _origCA=checkAlerts;
 checkAlerts=function(){_origCA();userAlerts.forEach(function(a){if(a.justTriggered){showPushNotif('Momento Alert',a.pair+' reached '+fmt(a.target));a.justTriggered=false;}}); };
+var _origDA=deleteAlert;
+deleteAlert=function(id){_origDA(id);_syncAlertsToSW();};
 
 // SOUND SETTINGS
 var alertSoundType=parseInt(localStorage.getItem('momento_sound')||'0');
@@ -4861,6 +5376,12 @@ function claimProViaPartner(id){
 
   <button class="ptp-btn" id="ptpAnalyzeBtn">⚡ Analyze Now — Get Live Decision</button>
 
+  <!-- Expected Saving Preview — shown immediately on click before result reveals -->
+  <div id="ptpSavingPreview" class="ptp-saving-preview">
+    <span class="ptp-sp-ico">💰</span>
+    <span id="ptpSavingPreviewTxt" class="ptp-sp-txt">Calculating expected saving...</span>
+  </div>
+
   <!-- Result -->
   <div class="ptp-result" id="ptpResult">
     <!-- Score Circle -->
@@ -4881,6 +5402,39 @@ function claimProViaPartner(id){
       <div class="ptp-verdict-ico" id="ptpVerdictIco">⏳</div>
       <div class="ptp-verdict-title" id="ptpVerdictTitle">ANALYZING</div>
       <div class="ptp-verdict-sub" id="ptpVerdictSub">Fetching live rates...</div>
+    </div>
+    <!-- Enhanced Decision Card — additive display below verdict -->
+    <div id="ptpEnhancedDecision" class="ptp-enhanced-decision">
+      <div class="ptp-ed-row">
+        <!-- Confidence circle -->
+        <div class="ptp-ed-conf-wrap">
+          <svg class="ptp-ed-conf-svg" viewBox="0 0 80 80" width="80" height="80">
+            <circle class="ptp-ed-conf-bg" cx="40" cy="40" r="32" fill="none" stroke-width="7"/>
+            <circle class="ptp-ed-conf-arc" id="ptpEdConfArc" cx="40" cy="40" r="32" fill="none" stroke-width="7"
+              stroke-linecap="round" transform="rotate(-90 40 40)"
+              stroke-dasharray="201" stroke-dashoffset="201"/>
+          </svg>
+          <div class="ptp-ed-conf-inner">
+            <div class="ptp-ed-conf-num" id="ptpEdConfNum">—</div>
+            <div class="ptp-ed-conf-lbl">CONF.</div>
+          </div>
+        </div>
+        <!-- Saving amount -->
+        <div class="ptp-ed-saving-block">
+          <div class="ptp-ed-saving-lbl">IF CORRECT, YOU SAVE</div>
+          <div class="ptp-ed-saving-val" id="ptpEdSavingVal">—</div>
+          <div class="ptp-ed-saving-sub" id="ptpEdSavingSub"></div>
+        </div>
+      </div>
+      <!-- 3 key reasons -->
+      <div class="ptp-ed-reasons-title">WHY THIS DECISION</div>
+      <div class="ptp-ed-reasons" id="ptpEdReasons"></div>
+    </div>
+
+    <!-- Session badge + volatility warning -->
+    <div class="ptp-meta-badges" id="ptpMetaBadges">
+      <div class="ptp-session-badge off" id="ptpSessionBadge">&#9675; OFF HOURS</div>
+      <div class="ptp-vol-warn" id="ptpVolWarn"></div>
     </div>
     <!-- Stats Row -->
     <div class="ptp-stats">
@@ -4920,6 +5474,30 @@ function claimProViaPartner(id){
   <div class="ptp-history" id="ptpHistory">
     <div style="text-align:center;color:#3a6080;font-size:13px;padding:16px">No analyses yet</div>
   </div>
+</div>
+
+<!-- Track Record — Proof System -->
+<div class="proof-card" id="ptpTrackRecord">
+  <div class="proof-header">
+    <div class="proof-title">📊 Our Track Record</div>
+    <div class="proof-badge-live">LIVE DATA</div>
+  </div>
+  <div class="proof-stats-row">
+    <div class="proof-stat">
+      <div class="proof-stat-val neutral" id="proofTotal">—</div>
+      <div class="proof-stat-lbl">DECISIONS</div>
+    </div>
+    <div class="proof-stat">
+      <div class="proof-stat-val" id="proofAccuracy">—</div>
+      <div class="proof-stat-lbl">ACCURACY</div>
+    </div>
+    <div class="proof-stat">
+      <div class="proof-stat-val" id="proofAvgSaving">—</div>
+      <div class="proof-stat-lbl">AVG SAVING</div>
+    </div>
+  </div>
+  <div class="proof-results-title">LAST 5 VERIFIED DECISIONS</div>
+  <div id="proofResults" class="proof-loading">Loading track record…</div>
 </div>
 
   </div>
