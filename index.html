@@ -1202,6 +1202,56 @@ flex-shrink:0;
 .proof-result-saving{font-family:'JetBrains Mono',monospace;font-size:11px;color:#8ab8d8;flex:1;text-align:right;}
 .proof-empty{text-align:center;color:#3a6080;font-size:13px;padding:16px;}
 .proof-loading{text-align:center;color:#3a6080;font-size:12px;padding:12px;font-family:'JetBrains Mono',monospace;letter-spacing:.5px;}
+/* ─── Home Decision Page ─────────────────────────────────────────────────── */
+#page-home{padding-top:52px;}
+.hd-hero{padding:24px 18px 20px;border-bottom:1px solid rgba(255,255,255,.04);}
+.hd-hero-title{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#f0f8ff;line-height:1.2;margin-bottom:8px;}
+.hd-hero-sub{font-size:13px;color:#8ab8d8;margin-bottom:22px;line-height:1.5;}
+.hd-amount-wrap{margin-bottom:12px;}
+.hd-amount{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:#f0f8ff;outline:none;box-sizing:border-box;-webkit-appearance:none;-moz-appearance:textfield;}
+.hd-amount:focus{border-color:rgba(0,212,170,.45);background:rgba(0,212,170,.03);}
+.hd-amount::placeholder{color:#3a6080;}
+.hd-pair-row{display:flex;align-items:center;gap:8px;margin-bottom:16px;}
+.hd-pair-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;letter-spacing:1px;flex-shrink:0;}
+.hd-sel{flex:1;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;color:#f0f8ff;font-size:14px;font-weight:600;font-family:'Space Grotesk',sans-serif;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;}
+.hd-arrow{font-size:16px;color:#3a6080;flex-shrink:0;}
+.hd-get-btn{width:100%;background:linear-gradient(135deg,#00d4aa,#1a6fd4);color:#fff;border:none;border-radius:14px;padding:16px;font-size:17px;font-weight:800;cursor:pointer;font-family:'Space Grotesk',sans-serif;letter-spacing:.3px;-webkit-tap-highlight-color:transparent;transition:opacity .15s;}
+.hd-get-btn:active{opacity:.82;}
+.hd-get-btn:disabled{opacity:.5;cursor:default;}
+.hd-result{display:none;margin:16px 18px 0;padding:22px 18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:18px;}
+.hd-result.show{display:block;animation:fadeUp .3s ease;}
+.hd-decision-text{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;text-align:center;letter-spacing:1px;margin-bottom:6px;}
+.hd-decision-text.pay{color:#00d4aa;}
+.hd-decision-text.wait{color:#f7c35f;}
+.hd-decision-text.avoid{color:#ff3d57;}
+.hd-saving-txt{text-align:center;font-size:17px;font-weight:700;color:#f0f8ff;margin-bottom:5px;}
+.hd-conf-txt{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8ab8d8;margin-bottom:14px;}
+.hd-reason-main{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.12);border-radius:12px;padding:12px 14px;font-size:13px;color:#c8dae8;line-height:1.55;margin-bottom:10px;}
+.hd-disclaimer{text-align:center;font-size:11px;color:#3a6080;}
+.hd-why{display:none;margin:14px 18px 0;}
+.hd-why.show{display:block;animation:fadeUp .3s ease;}
+.hd-why-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:#3a6080;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.hd-factor{display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;margin-bottom:7px;}
+.hd-factor-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:#3a6080;letter-spacing:.5px;min-width:98px;flex-shrink:0;}
+.hd-factor-val{flex:1;font-size:13px;color:#c8dae8;font-weight:600;}
+.hd-factor-ico{font-size:16px;flex-shrink:0;}
+.hd-details-btn{width:100%;margin-top:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px;font-size:13px;color:#8ab8d8;cursor:pointer;font-family:'Space Grotesk',sans-serif;-webkit-tap-highlight-color:transparent;}
+.hd-details-btn:active{background:rgba(255,255,255,.09);}
+.hd-details{display:none;margin-top:10px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:14px;}
+.hd-details.show{display:block;}
+.hd-detail-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;}
+.hd-detail-row:last-child{border-bottom:none;}
+.hd-detail-row span:first-child{color:#3a6080;}
+.hd-detail-row span:last-child{color:#f0f8ff;font-family:'JetBrains Mono',monospace;font-size:12px;}
+.hd-alerts-sec{margin:14px 18px 0;padding:18px;background:rgba(26,111,212,.06);border:1px solid rgba(26,111,212,.15);border-radius:16px;}
+.hd-alerts-title{font-size:15px;font-weight:700;color:#f0f8ff;margin-bottom:4px;}
+.hd-alerts-sub{font-size:13px;color:#8ab8d8;margin-bottom:14px;line-height:1.45;}
+.hd-alert-btn{width:100%;background:rgba(26,111,212,.12);border:1.5px solid rgba(26,111,212,.3);border-radius:12px;padding:13px;font-size:14px;font-weight:700;color:#5ba3f5;cursor:pointer;font-family:'Space Grotesk',sans-serif;-webkit-tap-highlight-color:transparent;}
+.hd-alert-btn:active{background:rgba(26,111,212,.22);}
+.hd-track{margin:12px 18px 20px;padding:16px;background:rgba(0,212,170,.04);border:1px solid rgba(0,212,170,.12);border-radius:16px;}
+.hd-tr-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;letter-spacing:2px;margin-bottom:8px;}
+.hd-tr-accuracy{font-size:17px;font-weight:800;color:#00d4aa;margin-bottom:4px;}
+.hd-tr-saving{font-size:13px;color:#8ab8d8;}
 </style>
 
 </head>
@@ -1571,121 +1621,69 @@ flex-shrink:0;
 ══════════════════════════════════════════ -->
 
 <div class="page" id="page-home">
-  <!-- MARKET PULSE -->
-  <div class="pulse-section">
-    <div class="pulse-header">
-      <div class="pulse-title">⚡ Market Pulse</div>
-      <div class="live-pill"><div class="live-blink"></div>LIVE</div>
-    </div>
-    <div class="pulse-grid" id="pulseGrid"></div>
-    <div class="sentiment-row">
-      <div class="sent-label">FEAR</div>
-      <div class="sent-bar-w">
-        <div class="sent-bar"></div>
-        <div class="sent-needle" id="sentNeedle" style="left:65%"></div>
-      </div>
-      <div class="sent-label">GREED</div>
-      <div style="margin-left:8px">
-        <div class="sent-val" id="sentVal" style="color:var(--green)">65</div>
-        <div class="sent-lbl" id="sentLbl" style="color:var(--green)">GREED</div>
-      </div>
-    </div>
-  </div>
-  <!-- PRICE ALERTS TICKER -->
-  <div id="priceAlertBanner"></div>
 
-  <!-- OPP ALERT -->
+  <!-- HERO -->
+  <div class="hd-hero">
+    <div class="hd-hero-title">Should I pay now or wait?</div>
+    <div class="hd-hero-sub">Enter your transfer details for an instant AI decision</div>
 
-  <div class="opp-alert" id="oppAlertBanner" role="button" tabindex="0" onclick="goPage('signals')">
-    <div class="opp-blink"></div>
-    <div class="opp-info">
-      <div class="opp-title" id="oppTitle">⚡ <span>3 active opportunities</span> detected now</div>
-      <div class="opp-sub" id="oppSub">BTC BUY · USD/JPY PAY · GOLD LONG</div>
+    <div class="hd-amount-wrap">
+      <input class="hd-amount" id="hdAmount" type="number" inputmode="numeric" placeholder="1,000,000">
     </div>
-    <div class="opp-arrow">›</div>
-  </div>
-  <!-- PRICES -->
-  <div class="prices-section">
-    <div class="sec-label">Live Prices</div>
-    <div class="prices-grid" id="pricesGrid"></div>
-  </div>
-  <!-- SIGNALS PREVIEW -->
-  <div class="signals-section">
-    <div class="sec-label">AI Signals</div>
-    <div id="signalsPreview"></div>
-    <div style="text-align:center;padding:6px 0">
-      <span id="viewAllSignalsBtn" onclick="goPage('signals')" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);cursor:pointer;letter-spacing:.5px;display:inline-block;padding:4px 8px">VIEW ALL SIGNALS →</span>
+
+    <div class="hd-pair-row">
+      <div class="hd-pair-label">FROM</div>
+      <select class="hd-sel" id="hdFrom">
+        <option value="USD">🇺🇸 USD</option>
+        <option value="EUR">🇪🇺 EUR</option>
+        <option value="GBP">🇬🇧 GBP</option>
+        <option value="AUD">🇦🇺 AUD</option>
+        <option value="CAD">🇨🇦 CAD</option>
+      </select>
+      <div class="hd-arrow">→</div>
+      <div class="hd-pair-label">TO</div>
+      <select class="hd-sel" id="hdTo">
+        <option value="JPY">🇯🇵 JPY</option>
+        <option value="USD">🇺🇸 USD</option>
+        <option value="EUR">🇪🇺 EUR</option>
+        <option value="GBP">🇬🇧 GBP</option>
+      </select>
     </div>
+
+    <button class="hd-get-btn" id="hdGetDecision">🔍 Get My Decision</button>
   </div>
 
-  <!-- PREMIUM SIGNALS SECTION -->
-  <div id="premiumSignalsSection" style="padding:0 14px 14px">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-      <div class="sec-label">PREMIUM SIGNALS</div>
-      <div class="premium-badge">✦ PRO</div>
-    </div>
-    <div id="premiumSignalCards" style="display:none">
-      <div class="premium-signal-card" id="psCard1">
-        <div class="premium-signal-header">
-          <div>
-            <div style="font-size:16px;font-weight:800;color:#f0f8ff" id="ps1Pair">BTC/USD</div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#3a6080" id="ps1Time">Updated just now</div>
-          </div>
-          <div class="premium-badge" id="ps1Action">▲ STRONG BUY</div>
-        </div>
-        <div class="sig-premium-row">
-          <div class="sig-premium-stat"><div class="sig-premium-stat-label">ENTRY</div><div class="sig-premium-stat-val gold" id="ps1Entry">$67,200</div></div>
-          <div class="sig-premium-stat"><div class="sig-premium-stat-label">TARGET</div><div class="sig-premium-stat-val bull" id="ps1Target">$71,000</div></div>
-          <div class="sig-premium-stat"><div class="sig-premium-stat-label">STOP LOSS</div><div class="sig-premium-stat-val bear" id="ps1SL">$65,500</div></div>
-          <div class="sig-premium-stat"><div class="sig-premium-stat-label">R/R RATIO</div><div class="sig-premium-stat-val" id="ps1RR">1:2.5</div></div>
-        </div>
-        <div style="margin-top:10px">
-          <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;margin-bottom:4px">
-            <span>AI CONFIDENCE</span><span id="ps1Conf" style="color:#f7c35f">87%</span>
-          </div>
-          <div class="premium-conf-bar"><div class="premium-conf-fill" id="ps1ConfBar" style="width:87%"></div></div>
-        </div>
-        <button class="premium-alert-btn" id="psAlert1Btn" onclick="setPremiumAlert('BTC')">🔔 Set Alert for this Signal</button>
-      </div>
-      <div class="premium-signal-card" id="psCard2">
-        <div class="premium-signal-header">
-          <div>
-            <div style="font-size:16px;font-weight:800;color:#f0f8ff" id="ps2Pair">USD/JPY</div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#3a6080">Payment timing signal</div>
-          </div>
-          <div class="premium-badge" style="background:linear-gradient(135deg,#00d4aa,#1a6fd4);color:#fff" id="ps2Action">PAY TODAY</div>
-        </div>
-        <div class="sig-premium-row">
-          <div class="sig-premium-stat"><div class="sig-premium-stat-label">CURRENT</div><div class="sig-premium-stat-val gold" id="ps2Rate">¥159.20</div></div>
-          <div class="sig-premium-stat"><div class="sig-premium-stat-label">3-DAY TARGET</div><div class="sig-premium-stat-val bear" id="ps2Target">¥157.80</div></div>
-          <div class="sig-premium-stat"><div class="sig-premium-stat-label">SAVINGS</div><div class="sig-premium-stat-val bull" id="ps2Save">+0.88%</div></div>
-          <div class="sig-premium-stat"><div class="sig-premium-stat-label">WINDOW</div><div class="sig-premium-stat-val">24-48h</div></div>
-        </div>
-        <div style="margin-top:10px">
-          <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;margin-bottom:4px">
-            <span>AI CONFIDENCE</span><span style="color:#f7c35f">78%</span>
-          </div>
-          <div class="premium-conf-bar"><div class="premium-conf-fill" style="width:78%"></div></div>
-        </div>
-        <button class="premium-alert-btn" id="psAlert2Btn" onclick="setPremiumAlert('USDJPY')">🔔 Set Alert for this Signal</button>
-      </div>
-    </div>
-    <div id="premiumLockScreen" class="premium-lock">
-      <div class="premium-lock-ico">🔒</div>
-      <div class="premium-lock-title">Premium Signals</div>
-      <div class="premium-lock-sub">Get Entry, Target, Stop Loss & AI Confidence for every signal. Plus instant push alerts.</div>
-      <button class="premium-lock-btn" id="premiumUnlockBtn" onclick="openStripeModal()">✦ Unlock with Pro — $9.99/mo</button>
-    </div>
+  <!-- RESULT CARD — hidden until decision runs -->
+  <div class="hd-result" id="hdResult">
+    <div class="hd-decision-text pay" id="hdDecisionText">PAY NOW</div>
+    <div class="hd-saving-txt" id="hdSavingTxt">💰 You could save ¥12,300</div>
+    <div class="hd-conf-txt" id="hdConfTxt">78% confidence</div>
+    <div class="hd-reason-main" id="hdReasonMain"></div>
+    <div class="hd-disclaimer">⚠️ Not financial advice</div>
   </div>
-  <!-- FEED -->
-  <div class="compose-bar">
-    <div class="compose-av">V</div>
-    <div class="compose-input" id="composeInputBtn">Share a market insight...</div>
+
+  <!-- WHY THIS DECISION — shows after result -->
+  <div class="hd-why" id="hdWhy">
+    <div class="hd-why-title">Why this decision?</div>
+    <div id="hdFactors"></div>
+    <button class="hd-details-btn" id="hdShowDetails">Show Details</button>
+    <div class="hd-details" id="hdDetails"></div>
   </div>
-  <div class="feed-section">
-    <div class="sec-label">Community Feed</div>
-    <div id="feedEl"></div>
+
+  <!-- SMART ALERTS -->
+  <div class="hd-alerts-sec">
+    <div class="hd-alerts-title">We'll watch the market for you</div>
+    <div class="hd-alerts-sub">Get notified instantly when rates improve</div>
+    <button class="hd-alert-btn" id="hdSetAlert">🔔 Set Rate Alert</button>
   </div>
+
+  <!-- TRACK RECORD -->
+  <div class="hd-track">
+    <div class="hd-tr-label">OUR TRACK RECORD</div>
+    <div class="hd-tr-accuracy" id="hdTrAccuracy">Loading...</div>
+    <div class="hd-tr-saving" id="hdTrSaving"></div>
+  </div>
+
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -2372,10 +2370,8 @@ function goPage(name){
   }
   // status bar label
   document.getElementById('sbPageLabel').textContent=PAGE_LABELS[name]||name.toUpperCase();
-  // news crawl only on home
-  document.getElementById('newsCrawl').classList.toggle('hidden',name!=='home');
-  // top padding for home (extra crawl bar)
-  document.getElementById('page-home').style.paddingTop=name==='home'?'76px':'52px';
+  // news crawl — always hidden (removed from home)
+  document.getElementById('newsCrawl').classList.add('hidden');
   currentPage=name;
   // page-specific init
   if(name==='calendar'){initCalendarPage();}
@@ -2427,7 +2423,6 @@ setInterval(()=>{
     PR[k]=parseFloat(PR[k].toFixed(PR[k]>1000?0:PR[k]>10?2:4));
   });
   renderTicker();
-  if(currentPage==='home')updatePricesGrid();
   if(currentPage==='alerts'){checkAlerts();updateAlertCurrentPrice();}
   if(currentPage==='calendar'){const el=document.getElementById('sigPairPrice');if(el&&PR[selCurr])el.textContent=fmt(PR[selCurr]);}
 },1500);
@@ -2524,14 +2519,7 @@ let oppIdx=0;
 
 function renderHome(){
   renderTicker();
-  renderNewsCrawl();
-  renderPulseGrid();
-  updateSentiment();
-  renderPricesGrid();
-  renderSignalsPreview();
-  loadRealNews();
-  renderFeed();
-  rotateOpp();
+  initHomePage();
 }
 
 function renderNewsCrawl(){
@@ -2981,7 +2969,7 @@ async function fetchSignalsFromAPI(force){
       // Re-render if on signals page
       if(currentPage==='signals'){ renderSignals(); renderLiveAlerts(); }
       // Update home preview
-      if(currentPage==='home'){ renderSignalsPreview(); }
+      // home page no longer has signals preview
     } else {
       throw new Error((d&&(d.error||d.message))||'No signals returned');
     }
@@ -4086,46 +4074,187 @@ handleOAuthCallback().then(function(handled){if(!handled)initAuth();});
 // ════════════════════════════════════
 // HOME PAGE EVENT LISTENERS (no inline onclick)
 // ════════════════════════════════════
-function initHomePageEvents(){
-  // Opp alert banner
-  var opp = document.getElementById('oppAlertBanner');
-  if(opp){
-    opp.addEventListener('click', function(){ goPage('signals'); });
-  }
-  // View all signals
-  var vas = document.getElementById('viewAllSignalsBtn');
-  if(vas){
-    vas.addEventListener('click', function(){ goPage('signals'); });
-  }
-  // Compose input
-  var ci = document.getElementById('composeInputBtn');
-  if(ci){
-    ci.addEventListener('click', function(){ toast('Post feature — coming soon! 🔥'); });
-  }
-  // Premium unlock button
-  var pul = document.getElementById('premiumUnlockBtn');
-  if(pul){
-    pul.addEventListener('click', function(){ openStripeModal(); });
-  }
-  // Premium alert buttons
-  var pa1 = document.getElementById('psAlert1Btn');
-  if(pa1){ pa1.addEventListener('click', function(){ setPremiumAlert('BTC'); }); }
-  var pa2 = document.getElementById('psAlert2Btn');
-  if(pa2){ pa2.addEventListener('click', function(){ setPremiumAlert('USDJPY'); }); }
-  // PTP analyze button
-  var ptpBtn = document.getElementById('ptpAnalyzeBtn');
-  if(ptpBtn){ ptpBtn.addEventListener('click', function(){ analyzePTP(); }); }
+// ─── Home Decision Page ────────────────────────────────────────────────────
+
+function initHomePage(){
   // PTP back button
   var ptpBack = document.querySelector('#page-ptp .sb-back');
-  if(ptpBack){
+  if(ptpBack && !ptpBack._hdBound){
+    ptpBack._hdBound = true;
     ptpBack.removeAttribute('onclick');
     ptpBack.addEventListener('click', function(){ goPage('home'); });
   }
+  // PTP analyze button (on PTP page)
+  var ptpBtn = document.getElementById('ptpAnalyzeBtn');
+  if(ptpBtn && !ptpBtn._hdBound){
+    ptpBtn._hdBound = true;
+    ptpBtn.addEventListener('click', function(){ analyzePTP(); });
+  }
+  // "Get My Decision" button
+  var btn = document.getElementById('hdGetDecision');
+  if(btn && !btn._hdBound){
+    btn._hdBound = true;
+    btn.addEventListener('click', runHomeDecision);
+  }
+  // "Set Rate Alert" button
+  var alertBtn = document.getElementById('hdSetAlert');
+  if(alertBtn && !alertBtn._hdBound){
+    alertBtn._hdBound = true;
+    alertBtn.addEventListener('click', function(){ goPage('alerts'); });
+  }
+  // "Show Details" toggle
+  var detBtn = document.getElementById('hdShowDetails');
+  if(detBtn && !detBtn._hdBound){
+    detBtn._hdBound = true;
+    detBtn.addEventListener('click', function(){
+      var d = document.getElementById('hdDetails');
+      if(!d) return;
+      d.classList.toggle('show');
+      detBtn.textContent = d.classList.contains('show') ? 'Hide Details' : 'Show Details';
+    });
+  }
+  loadHomeTrackRecord();
 }
-// Call on DOM ready
-document.addEventListener('DOMContentLoaded', initHomePageEvents);
-// Also call after 500ms as fallback (SPA may render elements after DOMContentLoaded)
-setTimeout(initHomePageEvents, 500);
+
+// Map from+to currency codes → pair key used by calcPTScore / CH / PR
+function _hdPairKey(from, to){
+  var k = from + to;
+  if(from==='USD' && to==='JPY') return 'USDJPY';
+  if((from==='USD' && to==='EUR')||(from==='EUR' && to==='USD')) return 'EURUSD';
+  if((from==='USD' && to==='GBP')||(from==='GBP' && to==='USD')) return 'GBPUSD';
+  if((from==='AUD' && to==='USD')||(from==='USD' && to==='AUD')) return 'AUDUSD';
+  if((from==='CAD' && to==='USD')||(from==='USD' && to==='CAD')) return 'USDCAD';
+  return k; // fallback e.g. EURJPY
+}
+
+async function runHomeDecision(){
+  var from   = (document.getElementById('hdFrom') || {}).value || 'USD';
+  var to     = (document.getElementById('hdTo')   || {}).value || 'JPY';
+  var amount = parseFloat((document.getElementById('hdAmount') || {}).value) || 100000;
+  var pairKey = _hdPairKey(from, to);
+
+  var btn = document.getElementById('hdGetDecision');
+  if(btn){ btn.textContent = '⏳ Analyzing...'; btn.disabled = true; }
+
+  var rate = 0;
+  try{
+    var res = await fetch('https://open.er-api.com/v6/latest/USD',
+      { signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined });
+    if(res.ok){
+      var d = await res.json();
+      var r = d.rates || {};
+      // Cross rate via USD: 1 from-currency = rate to-currency
+      var fromUSD = (from === 'USD') ? 1 : (r[from] ? 1/r[from] : 1);
+      rate = fromUSD * (r[to] || 1);
+    }
+  } catch(e){ console.warn('[Home] rate fetch failed:', e.message); }
+
+  // Fall back to cached global PR
+  if(!rate) rate = PR[pairKey] || 1;
+
+  var change24h = CH[pairKey]  || 0;
+  var change1h  = (CH1H[pairKey] !== undefined) ? CH1H[pairKey] : null;
+  var score     = calcPTScore(change24h, change1h, pairKey);
+  var decision  = getDecision(score);
+  var saving    = calcExpectedSaving(change24h, change1h, amount, pairKey, rate);
+  var reasons   = buildReasons(change24h, change1h, score, pairKey, rate);
+
+  // Render result
+  var decEl  = document.getElementById('hdDecisionText');
+  var savEl  = document.getElementById('hdSavingTxt');
+  var confEl = document.getElementById('hdConfTxt');
+  var reaEl  = document.getElementById('hdReasonMain');
+  if(decEl){ decEl.textContent = decision.label; decEl.className = 'hd-decision-text ' + decision.cls; }
+  if(savEl){ savEl.textContent = '\uD83D\uDCB0 You could save ' + saving.label; }
+  if(confEl){ confEl.textContent = score + '% confidence'; }
+  if(reaEl && reasons.length){ reaEl.textContent = reasons[0].txt; }
+
+  var resultEl = document.getElementById('hdResult');
+  var whyEl    = document.getElementById('hdWhy');
+  if(resultEl) resultEl.classList.add('show');
+  if(whyEl)    whyEl.classList.add('show');
+
+  // Reset Show Details state
+  var detEl = document.getElementById('hdDetails');
+  var detBtn = document.getElementById('hdShowDetails');
+  if(detEl){ detEl.classList.remove('show'); }
+  if(detBtn){ detBtn.textContent = 'Show Details'; }
+
+  // Factors (max 3, plain language)
+  _hdRenderFactors(change24h, change1h);
+  _hdRenderDetails(change24h, change1h, rate, from, to);
+
+  // Save decision to Supabase
+  saveDecision(pairKey, decision.label, rate, amount, to);
+
+  if(btn){ btn.textContent = '\uD83D\uDD0D Get My Decision'; btn.disabled = false; }
+}
+
+function _hdRenderFactors(change24h, change1h){
+  var el = document.getElementById('hdFactors');
+  if(!el) return;
+  var has1h = (change1h !== null && change1h !== undefined && !isNaN(change1h));
+  var abs24  = Math.abs(change24h);
+  var abs24s = abs24.toFixed(2);
+
+  var trendIco = change24h > 1 ? '✅' : change24h < -1 ? '❌' : '⚠️';
+  var trendVal = (change24h >= 0 ? '+' : '') + parseFloat(change24h.toFixed(2)) + '% today';
+
+  var momIco = '—', momVal = 'Not available';
+  if(has1h){
+    var abs1h = Math.abs(change1h).toFixed(3);
+    momIco = change1h > 0.3 ? '✅' : change1h < -0.3 ? '❌' : '⚠️';
+    momVal = (change1h >= 0 ? '+' : '') + parseFloat(change1h.toFixed(3)) + '% last hour';
+  }
+
+  var volLevel = abs24 > 3 ? 'High' : abs24 < 1 ? 'Low' : 'Medium';
+  var volIco   = abs24 > 3 ? '❌' : abs24 < 1 ? '✅' : '⚠️';
+
+  el.innerHTML =
+    '<div class="hd-factor"><div class="hd-factor-lbl">Trend (24h)</div><div class="hd-factor-val">'+trendVal+'</div><div class="hd-factor-ico">'+trendIco+'</div></div>' +
+    '<div class="hd-factor"><div class="hd-factor-lbl">Momentum (1h)</div><div class="hd-factor-val">'+momVal+'</div><div class="hd-factor-ico">'+momIco+'</div></div>' +
+    '<div class="hd-factor"><div class="hd-factor-lbl">Volatility</div><div class="hd-factor-val">'+volLevel+'</div><div class="hd-factor-ico">'+volIco+'</div></div>';
+}
+
+function _hdRenderDetails(change24h, change1h, rate, from, to){
+  var el = document.getElementById('hdDetails');
+  if(!el) return;
+  var has1h = (change1h !== null && change1h !== undefined && !isNaN(change1h));
+  var session = getMarketSession();
+  var abs24 = Math.abs(change24h);
+  el.innerHTML =
+    '<div class="hd-detail-row"><span>24h change</span><span>'+(change24h>=0?'+':'')+parseFloat(change24h.toFixed(3))+'%</span></div>' +
+    '<div class="hd-detail-row"><span>1h change</span><span>'+(has1h?(change1h>=0?'+':'')+parseFloat(change1h.toFixed(3))+'%':'N/A')+'</span></div>' +
+    '<div class="hd-detail-row"><span>Volatility</span><span>'+(abs24>3?'High':abs24<1?'Low':'Medium')+'</span></div>' +
+    '<div class="hd-detail-row"><span>Market session</span><span>'+session.name+(session.active?' ✅':' 💤')+'</span></div>' +
+    '<div class="hd-detail-row"><span>Live rate</span><span>1 '+from+' = '+parseFloat(rate.toFixed(4))+' '+to+'</span></div>';
+}
+
+async function loadHomeTrackRecord(){
+  var accEl = document.getElementById('hdTrAccuracy');
+  var savEl = document.getElementById('hdTrSaving');
+  try{
+    var res = await fetch(_PROOF_URL + '?select=*&order=timestamp.desc&limit=200', { headers: _PROOF_HEADERS });
+    if(!res.ok) throw new Error();
+    var rows = await res.json();
+    if(!Array.isArray(rows)) throw new Error();
+    var checked = rows.filter(function(r){ return r.was_correct !== null && r.was_correct !== undefined; });
+    var correct = checked.filter(function(r){ return r.was_correct; });
+    var accuracy = checked.length ? Math.round(correct.length / checked.length * 100) : null;
+    var avgSav   = checked.length ? checked.reduce(function(s,r){ return s+(r.actual_saving||0); }, 0) / checked.length : null;
+    if(accEl) accEl.textContent = accuracy !== null ? 'Our accuracy: ' + accuracy + '%' : 'Building track record...';
+    if(savEl && avgSav !== null){
+      var sym = avgSav >= 0 ? '+' : '';
+      savEl.textContent = 'Average saving: ' + sym + Math.round(avgSav).toLocaleString() + ' per decision';
+    } else if(savEl) { savEl.textContent = ''; }
+  } catch(e){
+    if(accEl) accEl.textContent = 'Track record loading...';
+    if(savEl) savEl.textContent = '';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', initHomePage);
+setTimeout(initHomePage, 600);
 
 // ════════════════════════════════════
 // PAYMENT TIMING DECISION ENGINE
