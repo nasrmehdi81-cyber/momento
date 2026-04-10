@@ -1790,6 +1790,62 @@ flex-shrink:0;
       <div class="factors-grid" id="factorsGrid"></div>
     </div>
   </div>
+
+  <!-- Expected Saving Preview -->
+  <div class="ptp-saving-preview visible" id="calSavingPreview" style="margin:12px 14px 0">
+    <span class="ptp-sp-ico">💰</span>
+    <span id="calSavingPreviewTxt" class="ptp-sp-txt">Calculating expected saving...</span>
+  </div>
+
+  <!-- Enhanced Decision Card -->
+  <div class="ptp-enhanced-decision visible" id="calEnhancedDecision" style="margin:10px 14px 0">
+    <div class="ptp-ed-row">
+      <div class="ptp-ed-conf-wrap">
+        <svg class="ptp-ed-conf-svg" viewBox="0 0 80 80" width="80" height="80">
+          <circle class="ptp-ed-conf-bg" cx="40" cy="40" r="32" fill="none" stroke-width="7"/>
+          <circle class="ptp-ed-conf-arc" id="calEdConfArc" cx="40" cy="40" r="32" fill="none" stroke-width="7"
+            stroke-linecap="round" transform="rotate(-90 40 40)"
+            stroke-dasharray="201" stroke-dashoffset="201"/>
+        </svg>
+        <div class="ptp-ed-conf-inner">
+          <div class="ptp-ed-conf-num" id="calEdConfNum">—</div>
+          <div class="ptp-ed-conf-lbl">CONF.</div>
+        </div>
+      </div>
+      <div class="ptp-ed-saving-block">
+        <div class="ptp-ed-saving-lbl">IF CORRECT, YOU SAVE</div>
+        <div class="ptp-ed-saving-val" id="calEdSavingVal">—</div>
+        <div class="ptp-ed-saving-sub" id="calEdSavingSub"></div>
+      </div>
+    </div>
+    <div class="ptp-ed-reasons-title">WHY THIS DECISION</div>
+    <div class="ptp-ed-reasons" id="calEdReasons"></div>
+  </div>
+
+  <!-- Track Record -->
+  <div class="proof-card" id="calTrackRecord" style="margin:10px 14px 0">
+    <div class="proof-header">
+      <div class="proof-title">📊 Our Track Record</div>
+      <div class="proof-badge-live">LIVE DATA</div>
+    </div>
+    <div class="proof-stats-row">
+      <div class="proof-stat">
+        <div class="proof-stat-val neutral" id="calProofTotal">—</div>
+        <div class="proof-stat-lbl">DECISIONS</div>
+      </div>
+      <div class="proof-stat">
+        <div class="proof-stat-val" id="calProofAccuracy">—</div>
+        <div class="proof-stat-lbl">ACCURACY</div>
+      </div>
+      <div class="proof-stat">
+        <div class="proof-stat-val" id="calProofAvgSaving">—</div>
+        <div class="proof-stat-lbl">AVG SAVING</div>
+      </div>
+    </div>
+    <div class="proof-results-title">LAST 5 VERIFIED DECISIONS</div>
+    <div id="calProofResults" class="proof-loading">Loading track record…</div>
+  </div>
+
   <div class="ai-section">
     <div class="sec-label">AI Analysis</div>
     <div class="ai-card">
@@ -2674,6 +2730,24 @@ function updateCalSignal(){
   if(cv){cv.textContent=data.conf+'%';cv.style.color=col;}
   const fg=document.getElementById('factorsGrid');
   if(fg)fg.innerHTML=data.f.map(f=>`<div class="factor"><div class="factor-label">${f[0]}</div><div class="factor-val">${f[1]}</div><div class="factor-trend ${f[3]}">${f[2]}</div></div>`).join('');
+
+  // Populate calendar extras using existing PTP functions
+  var _c24=CH[selCurr]||0, _c1h=(CH1H[selCurr]!==undefined)?CH1H[selCurr]:null;
+  var _rate=PR[selCurr]||0, _score=data.conf;
+  var _dec=getDecision(_score);
+  var _saving=calcExpectedSaving(_c24,_c1h,10000,selCurr,_rate);
+  var _reasons=buildReasons(_c24,_c1h,_score,selCurr,_rate);
+  var cTxt=document.getElementById('calSavingPreviewTxt');
+  if(cTxt)cTxt.textContent='\uD83D\uDCB0 Expected saving: '+_saving.label+' if decision is correct';
+  var cArc=document.getElementById('calEdConfArc');
+  if(cArc){cArc.setAttribute('stroke-dashoffset',Math.round(201*(1-_score/100)));cArc.className.baseVal='ptp-ed-conf-arc '+_dec.cls;}
+  var cNum=document.getElementById('calEdConfNum');if(cNum)cNum.textContent=_score+'%';
+  var cVal=document.getElementById('calEdSavingVal');
+  if(cVal){cVal.textContent=_saving.label;cVal.className='ptp-ed-saving-val '+_dec.cls;}
+  var cSub=document.getElementById('calEdSavingSub');
+  if(cSub)cSub.textContent=(_saving.pct>0?'~'+_saving.pct+'% volatility-based estimate':'');
+  var cReas=document.getElementById('calEdReasons');
+  if(cReas)cReas.innerHTML=_reasons.slice(0,3).map(function(r){return'<div class="ptp-ed-reason"><span class="ptp-ed-dot '+(r.dot||'good')+'"></span>'+r.txt+'</div>';}).join('');
 }
 
 async function runCalAI(){
@@ -4593,7 +4667,7 @@ function _proofRenderTrackRecord(rows) {
   }
 
   resultsEl.className = '';
-  resultsEl.innerHTML = last5.map(function(r){
+  var html = last5.map(function(r){
     var ok   = r.was_correct;
     var badge = ok ? '✅' : '❌';
     var decCls = r.decision === 'PAY NOW' ? 'pay' : (r.decision === 'WAIT' ? 'wait' : 'avoid');
@@ -4607,6 +4681,17 @@ function _proofRenderTrackRecord(rows) {
       '<div class="proof-result-saving">' + savFmt + '</div>' +
       '</div>';
   }).join('');
+  resultsEl.innerHTML = html;
+
+  // Mirror to Calendar page track record
+  var calTotal=document.getElementById('calProofTotal');
+  var calAcc=document.getElementById('calProofAccuracy');
+  var calAvg=document.getElementById('calProofAvgSaving');
+  var calRes=document.getElementById('calProofResults');
+  if(calTotal)calTotal.textContent=totalEl?totalEl.textContent:'—';
+  if(calAcc)calAcc.textContent=accEl?accEl.textContent:'—';
+  if(calAvg)calAvg.textContent=avgEl?avgEl.textContent:'—';
+  if(calRes){calRes.className='';calRes.innerHTML=html;}
 }
 
 // Load and render track record from Supabase
