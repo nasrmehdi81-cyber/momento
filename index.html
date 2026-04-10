@@ -2954,10 +2954,15 @@ async function fetchSignalsFromAPI(force){
     });
     if(!res.ok) throw new Error('HTTP '+res.status);
     var d = await res.json();
-    if(d.success && d.signals && d.signals.length){
+    // Accept {success,signals}, {signals}, plain array, or {data}
+    var _sigs = (Array.isArray(d.signals) && d.signals.length) ? d.signals
+               : (Array.isArray(d) && d.length) ? d
+               : (Array.isArray(d.data) && d.data.length) ? d.data
+               : null;
+    if(_sigs){
       // Replace SIGNALS_DATA with fresh API data
       SIGNALS_DATA.length=0;
-      d.signals.forEach(function(s,i){SIGNALS_DATA.push(apiSigToInternal(s,i));});
+      _sigs.forEach(function(s,i){SIGNALS_DATA.push(apiSigToInternal(s,i));});
       _sigsLastFetch=Date.now();
       // Persist to localStorage as real cache for next offline visit
       try{
@@ -2971,14 +2976,14 @@ async function fetchSignalsFromAPI(force){
       var lu=document.getElementById('sigLastUpdated');
       if(lu){
         var ts=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-        lu.textContent='Last updated: '+ts+' · Auto-refresh every 5 min · '+d.generated+' signals generated';
+        lu.textContent='Last updated: '+ts+' · Auto-refresh every 5 min · '+(d.generated||SIGNALS_DATA.length)+' signals generated';
       }
       // Re-render if on signals page
       if(currentPage==='signals'){ renderSignals(); renderLiveAlerts(); }
       // Update home preview
       if(currentPage==='home'){ renderSignalsPreview(); }
     } else {
-      throw new Error(d.error||'No signals returned');
+      throw new Error((d&&(d.error||d.message))||'No signals returned');
     }
   } catch(err){
     console.warn('Signals API error:',err.message);
