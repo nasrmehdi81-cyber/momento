@@ -1203,55 +1203,66 @@ flex-shrink:0;
 .proof-empty{text-align:center;color:#3a6080;font-size:13px;padding:16px;}
 .proof-loading{text-align:center;color:#3a6080;font-size:12px;padding:12px;font-family:'JetBrains Mono',monospace;letter-spacing:.5px;}
 /* ─── Home Decision Page ─────────────────────────────────────────────────── */
+@keyframes hdPulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,170,.4)}50%{box-shadow:0 0 0 10px rgba(0,212,170,0)}}
+@keyframes hdGlow{0%,100%{text-shadow:0 0 20px rgba(0,212,170,.6)}50%{text-shadow:0 0 40px rgba(0,212,170,.9),0 0 60px rgba(26,111,212,.4)}}
 #page-home{padding-top:52px;}
-.hd-hero{padding:24px 18px 20px;border-bottom:1px solid rgba(255,255,255,.04);}
-.hd-hero-title{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#f0f8ff;line-height:1.2;margin-bottom:8px;}
-.hd-hero-sub{font-size:13px;color:#8ab8d8;margin-bottom:22px;line-height:1.5;}
-.hd-amount-wrap{margin-bottom:12px;}
-.hd-amount{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:#f0f8ff;outline:none;box-sizing:border-box;-webkit-appearance:none;-moz-appearance:textfield;}
-.hd-amount:focus{border-color:rgba(0,212,170,.45);background:rgba(0,212,170,.03);}
-.hd-amount::placeholder{color:#3a6080;}
+.hd-hero{padding:28px 18px 22px;border-bottom:1px solid rgba(255,255,255,.04);background:radial-gradient(ellipse at 50% 0%,rgba(0,212,170,.06) 0%,transparent 65%);}
+.hd-hero-title{font-family:'Syne',sans-serif;font-size:30px;font-weight:900;background:linear-gradient(135deg,#00d4aa,#1a6fd4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.15;margin-bottom:8px;}
+.hd-hero-sub{font-size:13px;color:#8ab8d8;margin-bottom:22px;line-height:1.55;}
+.hd-amount-wrap{position:relative;margin-bottom:12px;}
+.hd-amount-prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:#3a6080;pointer-events:none;z-index:1;}
+.hd-amount{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:16px 16px 16px 38px;font-family:'Syne',sans-serif;font-size:26px;font-weight:700;color:#f0f8ff;outline:none;box-sizing:border-box;-webkit-appearance:none;-moz-appearance:textfield;transition:border-color .2s,box-shadow .2s;}
+.hd-amount:focus{border-color:rgba(0,212,170,.5);box-shadow:0 0 0 3px rgba(0,212,170,.08),0 0 20px rgba(0,212,170,.12);}
+.hd-amount::placeholder{color:#2a4060;}
 .hd-pair-row{display:flex;align-items:center;gap:8px;margin-bottom:16px;}
-.hd-pair-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;letter-spacing:1px;flex-shrink:0;}
-.hd-sel{flex:1;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;color:#f0f8ff;font-size:14px;font-weight:600;font-family:'Space Grotesk',sans-serif;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;}
-.hd-arrow{font-size:16px;color:#3a6080;flex-shrink:0;}
-.hd-get-btn{width:100%;background:linear-gradient(135deg,#00d4aa,#1a6fd4);color:#fff;border:none;border-radius:14px;padding:16px;font-size:17px;font-weight:800;cursor:pointer;font-family:'Space Grotesk',sans-serif;letter-spacing:.3px;-webkit-tap-highlight-color:transparent;transition:opacity .15s;}
-.hd-get-btn:active{opacity:.82;}
-.hd-get-btn:disabled{opacity:.5;cursor:default;}
-.hd-result{display:none;margin:16px 18px 0;padding:22px 18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:18px;}
-.hd-result.show{display:block;animation:fadeUp .3s ease;}
-.hd-decision-text{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;text-align:center;letter-spacing:1px;margin-bottom:6px;}
-.hd-decision-text.pay{color:#00d4aa;}
+.hd-pair-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;letter-spacing:1.5px;flex-shrink:0;}
+.hd-sel{flex:1;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;color:#f0f8ff;font-size:15px;font-weight:700;font-family:'Space Grotesk',sans-serif;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;transition:border-color .2s;}
+.hd-sel:focus{border-color:rgba(0,212,170,.4);}
+.hd-arrow{font-size:18px;color:#1a6fd4;flex-shrink:0;font-weight:900;}
+.hd-get-btn{width:100%;background:linear-gradient(135deg,#00d4aa 0%,#1a6fd4 100%);color:#fff;border:none;border-radius:14px;padding:18px;font-size:18px;font-weight:900;cursor:pointer;font-family:'Space Grotesk',sans-serif;letter-spacing:.5px;-webkit-tap-highlight-color:transparent;animation:hdPulse 2.5s ease-in-out infinite;transition:opacity .15s,transform .1s;}
+.hd-get-btn:active{opacity:.85;transform:scale(.98);}
+.hd-get-btn:disabled{opacity:.5;cursor:default;animation:none;}
+.hd-result{display:none;margin:16px 18px 0;padding:24px 18px;background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.07);border-radius:20px;transition:border-color .4s;}
+.hd-result.show{display:block;animation:fadeUp .35s ease;}
+.hd-decision-text{font-family:'Syne',sans-serif;font-size:44px;font-weight:900;text-align:center;letter-spacing:2px;margin-bottom:8px;}
+.hd-decision-text.pay{color:#00d4aa;animation:hdGlow 2.5s ease-in-out infinite;}
 .hd-decision-text.wait{color:#f7c35f;}
 .hd-decision-text.avoid{color:#ff3d57;}
-.hd-saving-txt{text-align:center;font-size:17px;font-weight:700;color:#f0f8ff;margin-bottom:5px;}
-.hd-conf-txt{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8ab8d8;margin-bottom:14px;}
-.hd-reason-main{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.12);border-radius:12px;padding:12px 14px;font-size:13px;color:#c8dae8;line-height:1.55;margin-bottom:10px;}
+.hd-saving-txt{text-align:center;font-size:20px;font-weight:800;color:#f0f8ff;margin-bottom:12px;}
+.hd-conf-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;}
+.hd-conf-arc-wrap{position:relative;width:60px;height:60px;flex-shrink:0;}
+.hd-conf-arc-txt{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:#f0f8ff;}
+.hd-conf-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:#8ab8d8;letter-spacing:.5px;}
+.hd-reason-main{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.14);border-radius:12px;padding:13px 14px;font-size:13px;color:#c8dae8;line-height:1.6;margin-bottom:10px;}
 .hd-disclaimer{text-align:center;font-size:11px;color:#3a6080;}
 .hd-why{display:none;margin:14px 18px 0;}
 .hd-why.show{display:block;animation:fadeUp .3s ease;}
 .hd-why-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:#3a6080;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
-.hd-factor{display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;margin-bottom:7px;}
-.hd-factor-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:#3a6080;letter-spacing:.5px;min-width:98px;flex-shrink:0;}
+.hd-factor{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;margin-bottom:8px;}
+.hd-factor-ico{font-size:20px;flex-shrink:0;}
+.hd-factor-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:#3a6080;letter-spacing:.5px;flex-shrink:0;min-width:82px;}
 .hd-factor-val{flex:1;font-size:13px;color:#c8dae8;font-weight:600;}
-.hd-factor-ico{font-size:16px;flex-shrink:0;}
-.hd-details-btn{width:100%;margin-top:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px;font-size:13px;color:#8ab8d8;cursor:pointer;font-family:'Space Grotesk',sans-serif;-webkit-tap-highlight-color:transparent;}
+.hd-factor-sig{font-size:18px;flex-shrink:0;}
+.hd-details-btn{width:100%;margin-top:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:11px;font-size:13px;color:#8ab8d8;cursor:pointer;font-family:'Space Grotesk',sans-serif;-webkit-tap-highlight-color:transparent;transition:background .15s;}
 .hd-details-btn:active{background:rgba(255,255,255,.09);}
-.hd-details{display:none;margin-top:10px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:14px;}
-.hd-details.show{display:block;}
-.hd-detail-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;}
+.hd-details{display:none;margin-top:10px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:14px;}
+.hd-details.show{display:block;animation:fadeUp .2s ease;}
+.hd-detail-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;}
 .hd-detail-row:last-child{border-bottom:none;}
 .hd-detail-row span:first-child{color:#3a6080;}
 .hd-detail-row span:last-child{color:#f0f8ff;font-family:'JetBrains Mono',monospace;font-size:12px;}
-.hd-alerts-sec{margin:14px 18px 0;padding:18px;background:rgba(26,111,212,.06);border:1px solid rgba(26,111,212,.15);border-radius:16px;}
-.hd-alerts-title{font-size:15px;font-weight:700;color:#f0f8ff;margin-bottom:4px;}
-.hd-alerts-sub{font-size:13px;color:#8ab8d8;margin-bottom:14px;line-height:1.45;}
-.hd-alert-btn{width:100%;background:rgba(26,111,212,.12);border:1.5px solid rgba(26,111,212,.3);border-radius:12px;padding:13px;font-size:14px;font-weight:700;color:#5ba3f5;cursor:pointer;font-family:'Space Grotesk',sans-serif;-webkit-tap-highlight-color:transparent;}
-.hd-alert-btn:active{background:rgba(26,111,212,.22);}
-.hd-track{margin:12px 18px 20px;padding:16px;background:rgba(0,212,170,.04);border:1px solid rgba(0,212,170,.12);border-radius:16px;}
-.hd-tr-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;letter-spacing:2px;margin-bottom:8px;}
-.hd-tr-accuracy{font-size:17px;font-weight:800;color:#00d4aa;margin-bottom:4px;}
-.hd-tr-saving{font-size:13px;color:#8ab8d8;}
+.hd-alerts-sec{margin:14px 18px 0;padding:20px;background:rgba(26,111,212,.06);border:1px solid rgba(26,111,212,.15);border-radius:18px;}
+.hd-alerts-title{font-size:16px;font-weight:800;color:#f0f8ff;margin-bottom:5px;}
+.hd-alerts-sub{font-size:13px;color:#8ab8d8;margin-bottom:16px;line-height:1.5;}
+.hd-alert-btn{width:100%;background:linear-gradient(135deg,rgba(26,111,212,.2),rgba(0,212,170,.1));border:1.5px solid rgba(26,111,212,.35);border-radius:12px;padding:14px;font-size:15px;font-weight:700;color:#5ba3f5;cursor:pointer;font-family:'Space Grotesk',sans-serif;-webkit-tap-highlight-color:transparent;transition:opacity .15s;}
+.hd-alert-btn:active{opacity:.8;}
+.hd-track{margin:12px 18px 20px;padding:18px;background:rgba(0,212,170,.04);border:1px solid rgba(0,212,170,.12);border-radius:18px;}
+.hd-tr-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;letter-spacing:2px;margin-bottom:12px;}
+.hd-tr-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.hd-tr-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px;text-align:center;}
+.hd-tr-accuracy{font-size:20px;font-weight:900;color:#00d4aa;line-height:1.1;}
+.hd-tr-saving{font-size:20px;font-weight:900;color:#f7c35f;line-height:1.1;}
+.hd-tr-stat-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a6080;letter-spacing:.5px;margin-top:4px;}
 </style>
 
 </head>
@@ -1628,6 +1639,7 @@ flex-shrink:0;
     <div class="hd-hero-sub">Enter your transfer details for an instant AI decision</div>
 
     <div class="hd-amount-wrap">
+      <span class="hd-amount-prefix">#</span>
       <input class="hd-amount" id="hdAmount" type="number" inputmode="numeric" placeholder="1,000,000">
     </div>
 
@@ -1657,7 +1669,18 @@ flex-shrink:0;
   <div class="hd-result" id="hdResult">
     <div class="hd-decision-text pay" id="hdDecisionText">PAY NOW</div>
     <div class="hd-saving-txt" id="hdSavingTxt">💰 You could save ¥12,300</div>
-    <div class="hd-conf-txt" id="hdConfTxt">78% confidence</div>
+    <div class="hd-conf-row">
+      <div class="hd-conf-arc-wrap">
+        <svg viewBox="0 0 60 60" width="60" height="60">
+          <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="5"/>
+          <circle id="hdConfArc" cx="30" cy="30" r="24" fill="none" stroke="#00d4aa" stroke-width="5"
+            stroke-linecap="round" transform="rotate(-90 30 30)"
+            stroke-dasharray="151" stroke-dashoffset="39"/>
+        </svg>
+        <div class="hd-conf-arc-txt" id="hdConfTxt">78%</div>
+      </div>
+      <div class="hd-conf-label">confidence</div>
+    </div>
     <div class="hd-reason-main" id="hdReasonMain"></div>
     <div class="hd-disclaimer">⚠️ Not financial advice</div>
   </div>
@@ -1680,8 +1703,16 @@ flex-shrink:0;
   <!-- TRACK RECORD -->
   <div class="hd-track">
     <div class="hd-tr-label">OUR TRACK RECORD</div>
-    <div class="hd-tr-accuracy" id="hdTrAccuracy">Loading...</div>
-    <div class="hd-tr-saving" id="hdTrSaving"></div>
+    <div class="hd-tr-stats">
+      <div class="hd-tr-stat">
+        <div class="hd-tr-accuracy" id="hdTrAccuracy">—</div>
+        <div class="hd-tr-stat-lbl">ACCURACY</div>
+      </div>
+      <div class="hd-tr-stat">
+        <div class="hd-tr-saving" id="hdTrSaving">—</div>
+        <div class="hd-tr-stat-lbl">AVG SAVING</div>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -1691,6 +1722,7 @@ flex-shrink:0;
 ══════════════════════════════════════════ -->
 
 <div class="page" id="page-calendar">
+  <div style="padding:14px 14px 0;"><div class="sec-label" style="font-size:13px;letter-spacing:2px;">PAYMENT CALENDAR</div></div>
   <div class="curr-section">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
       <div class="sec-label">SELECT CURRENCY PAIR</div>
@@ -1787,61 +1819,6 @@ flex-shrink:0;
       </div>
       <div class="factors-grid" id="factorsGrid"></div>
     </div>
-  </div>
-
-  <!-- Expected Saving Preview -->
-  <div class="ptp-saving-preview visible" id="calSavingPreview" style="margin:12px 14px 0">
-    <span class="ptp-sp-ico">💰</span>
-    <span id="calSavingPreviewTxt" class="ptp-sp-txt">Calculating expected saving...</span>
-  </div>
-
-  <!-- Enhanced Decision Card -->
-  <div class="ptp-enhanced-decision visible" id="calEnhancedDecision" style="margin:10px 14px 0">
-    <div class="ptp-ed-row">
-      <div class="ptp-ed-conf-wrap">
-        <svg class="ptp-ed-conf-svg" viewBox="0 0 80 80" width="80" height="80">
-          <circle class="ptp-ed-conf-bg" cx="40" cy="40" r="32" fill="none" stroke-width="7"/>
-          <circle class="ptp-ed-conf-arc" id="calEdConfArc" cx="40" cy="40" r="32" fill="none" stroke-width="7"
-            stroke-linecap="round" transform="rotate(-90 40 40)"
-            stroke-dasharray="201" stroke-dashoffset="201"/>
-        </svg>
-        <div class="ptp-ed-conf-inner">
-          <div class="ptp-ed-conf-num" id="calEdConfNum">—</div>
-          <div class="ptp-ed-conf-lbl">CONF.</div>
-        </div>
-      </div>
-      <div class="ptp-ed-saving-block">
-        <div class="ptp-ed-saving-lbl">IF CORRECT, YOU SAVE</div>
-        <div class="ptp-ed-saving-val" id="calEdSavingVal">—</div>
-        <div class="ptp-ed-saving-sub" id="calEdSavingSub"></div>
-      </div>
-    </div>
-    <div class="ptp-ed-reasons-title">WHY THIS DECISION</div>
-    <div class="ptp-ed-reasons" id="calEdReasons"></div>
-  </div>
-
-  <!-- Track Record -->
-  <div class="proof-card" id="calTrackRecord" style="margin:10px 14px 0">
-    <div class="proof-header">
-      <div class="proof-title">📊 Our Track Record</div>
-      <div class="proof-badge-live">LIVE DATA</div>
-    </div>
-    <div class="proof-stats-row">
-      <div class="proof-stat">
-        <div class="proof-stat-val neutral" id="calProofTotal">—</div>
-        <div class="proof-stat-lbl">DECISIONS</div>
-      </div>
-      <div class="proof-stat">
-        <div class="proof-stat-val" id="calProofAccuracy">—</div>
-        <div class="proof-stat-lbl">ACCURACY</div>
-      </div>
-      <div class="proof-stat">
-        <div class="proof-stat-val" id="calProofAvgSaving">—</div>
-        <div class="proof-stat-lbl">AVG SAVING</div>
-      </div>
-    </div>
-    <div class="proof-results-title">LAST 5 VERIFIED DECISIONS</div>
-    <div id="calProofResults" class="proof-loading">Loading track record…</div>
   </div>
 
   <div class="ai-section">
@@ -2376,11 +2353,9 @@ function goPage(name){
   // page-specific init
   if(name==='calendar'){initCalendarPage();}
   if(name==='signals'){
-    // fetchSignalsFromAPI is async — it sets the spinner then yields.
-    // Only call renderSignals() immediately if the fetch was debounced
-    // (i.e. _sigsFetching stayed false = fetch didn't start).
+    if(SIGNALS_DATA.length) renderSignals();
+    renderLiveAlerts();
     fetchSignalsFromAPI(false);
-    if(!_sigsFetching){renderSignals();renderLiveAlerts();}
   }
   if(name==='alerts'){updateAlertCurrentPrice();renderAlerts();renderHistory();}
   if(name==='payment'){setTimeout(function(){openStripeModal();},50);return;}
@@ -2719,23 +2694,6 @@ function updateCalSignal(){
   const fg=document.getElementById('factorsGrid');
   if(fg)fg.innerHTML=data.f.map(f=>`<div class="factor"><div class="factor-label">${f[0]}</div><div class="factor-val">${f[1]}</div><div class="factor-trend ${f[3]}">${f[2]}</div></div>`).join('');
 
-  // Populate calendar extras using existing PTP functions
-  var _c24=CH[selCurr]||0, _c1h=(CH1H[selCurr]!==undefined)?CH1H[selCurr]:null;
-  var _rate=PR[selCurr]||0, _score=data.conf;
-  var _dec=getDecision(_score);
-  var _saving=calcExpectedSaving(_c24,_c1h,10000,selCurr,_rate);
-  var _reasons=buildReasons(_c24,_c1h,_score,selCurr,_rate);
-  var cTxt=document.getElementById('calSavingPreviewTxt');
-  if(cTxt)cTxt.textContent='\uD83D\uDCB0 Expected saving: '+_saving.label+' if decision is correct';
-  var cArc=document.getElementById('calEdConfArc');
-  if(cArc){cArc.setAttribute('stroke-dashoffset',Math.round(201*(1-_score/100)));cArc.className.baseVal='ptp-ed-conf-arc '+_dec.cls;}
-  var cNum=document.getElementById('calEdConfNum');if(cNum)cNum.textContent=_score+'%';
-  var cVal=document.getElementById('calEdSavingVal');
-  if(cVal){cVal.textContent=_saving.label;cVal.className='ptp-ed-saving-val '+_dec.cls;}
-  var cSub=document.getElementById('calEdSavingSub');
-  if(cSub)cSub.textContent=(_saving.pct>0?'~'+_saving.pct+'% volatility-based estimate':'');
-  var cReas=document.getElementById('calEdReasons');
-  if(cReas)cReas.innerHTML=_reasons.slice(0,3).map(function(r){return'<div class="ptp-ed-reason"><span class="ptp-ed-dot '+(r.dot||'good')+'"></span>'+r.txt+'</div>';}).join('');
 }
 
 async function runCalAI(){
@@ -2914,113 +2872,46 @@ function updateSignalStats(data){
   if(afCount)afCount.textContent=data.length;
 }
 
-async function fetchSignalsFromAPI(force){
-  var now=Date.now();
-  // Debounce: skip if fetched in last 60s (unless forced)
-  if(_sigsFetching) return;
-  if(!force && (now-_sigsLastFetch)<60000) return;
-  _sigsFetching=true;
+async function fetchSignalsFromAPI(force) {
+  var now = Date.now();
+  if (!force && window._lastSignalFetch && (now - window._lastSignalFetch) < 60000) return;
+  window._lastSignalFetch = now;
 
-  // Show loading spinner in the list
-  var el=document.getElementById('signalsList');
-  if(el){
-    el.innerHTML='<div class="sig-loading"><div class="sig-spinner"></div><div class="sig-loading-txt">FETCHING LIVE SIGNALS...</div></div>';
-  }
-  // Spin refresh button
-  var btn=document.getElementById('sigRefreshBtn');
-  if(btn)btn.style.opacity='0.5';
+  var el = document.getElementById('signalsList');
+  if(el) el.innerHTML = '<div class="sig-loading"><div class="sig-spinner"></div><div class="sig-loading-txt">FETCHING LIVE SIGNALS...</div></div>';
+  var btn = document.getElementById('sigRefreshBtn');
+  if(btn) btn.style.opacity = '0.5';
 
-  try{
-    var res = await fetch(SIGNALS_API_URL, {
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'Authorization':'Bearer '+SIGNALS_ANON_KEY,
-        'apikey': SIGNALS_ANON_KEY,
+  try {
+    var res = await fetch('https://vrofpoerlphpqxtgzxpe.supabase.co/functions/v1/generate-signals', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyb2Zwb2VybHBocHF4dGd6eHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1NTI0MTIsImV4cCI6MjA1NjEyODQxMn0.yYMtMEEasqcXCbKuDFpAFdAyFE0kKdQm-A5iQVTqXTg'
       },
-      body: JSON.stringify({}),
+      body: JSON.stringify({})
     });
-    if(!res.ok) throw new Error('HTTP '+res.status);
     var d = await res.json();
-    // Accept {success,signals}, {signals}, plain array, or {data}
-    var _sigs = (Array.isArray(d.signals) && d.signals.length) ? d.signals
-               : (Array.isArray(d) && d.length) ? d
-               : (Array.isArray(d.data) && d.data.length) ? d.data
-               : null;
-    if(_sigs){
-      // Replace SIGNALS_DATA with fresh API data
-      SIGNALS_DATA.length=0;
-      _sigs.forEach(function(s,i){SIGNALS_DATA.push(apiSigToInternal(s,i));});
-      _sigsLastFetch=Date.now();
-      // Persist to localStorage as real cache for next offline visit
-      try{
-        localStorage.setItem('momento_signals_cache', JSON.stringify({
-          signals: SIGNALS_DATA,
-          cachedAt: _sigsLastFetch
-        }));
-      }catch(e){}
-      updateSignalStats(SIGNALS_DATA);
-      // Update last-updated label
-      var lu=document.getElementById('sigLastUpdated');
-      if(lu){
-        var ts=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-        lu.textContent='Last updated: '+ts+' · Auto-refresh every 5 min · '+(d.generated||SIGNALS_DATA.length)+' signals generated';
-      }
-      // Re-render if on signals page
-      if(currentPage==='signals'){ renderSignals(); renderLiveAlerts(); }
-      // Update home preview
-      // home page no longer has signals preview
+    var signals = d.signals || d.data || (Array.isArray(d) ? d : null);
+    if (signals && signals.length) {
+      localStorage.setItem('momento_signals_cache', JSON.stringify({signals: signals, cachedAt: now}));
+      renderSignals(signals, false);
+      if(btn) btn.style.opacity = '1';
+      return;
+    }
+    throw new Error('No signals');
+  } catch(e) {
+    var cache = localStorage.getItem('momento_signals_cache');
+    if (cache) {
+      try {
+        var c = JSON.parse(cache);
+        renderSignals(c.signals, true, c.cachedAt);
+      } catch(e2) { renderSignals(SIGNALS_DATA, true, null); }
     } else {
-      throw new Error((d&&(d.error||d.message))||'No signals returned');
+      renderSignals(SIGNALS_DATA, true, null);
     }
-  } catch(err){
-    console.warn('Signals API error:',err.message);
-    // Try to load from localStorage cache
-    var cacheLoaded = false;
-    try{
-      var raw = localStorage.getItem('momento_signals_cache');
-      if(raw){
-        var cache = JSON.parse(raw);
-        if(cache && Array.isArray(cache.signals) && cache.signals.length){
-          SIGNALS_DATA.length=0;
-          cache.signals.forEach(function(s){ SIGNALS_DATA.push(s); });
-          cacheLoaded = true;
-          var cacheAge = Date.now() - (cache.cachedAt || 0);
-          var cacheTs  = new Date(cache.cachedAt||0).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-          var isStale  = cacheAge > 24*60*60*1000;
-          var bannerTxt = isStale
-            ? '\u26a0 Data may be outdated \u2014 cached '+Math.round(cacheAge/3600000)+'h ago'
-            : '\ud83d\udce1 Cached from '+cacheTs+' \u2014 live feed unavailable';
-          renderSignals();
-          var banner = document.createElement('div');
-          banner.className = isStale ? 'cached-banner stale' : 'cached-banner';
-          banner.textContent = bannerTxt + ' \u00a0';
-          var retryBtn = document.createElement('button');
-          retryBtn.className = 'sig-error-retry';
-          retryBtn.style.cssText = 'padding:2px 10px;font-size:11px;';
-          retryBtn.textContent = 'Retry';
-          retryBtn.addEventListener('click', function(){ fetchSignalsFromAPI(true); });
-          banner.appendChild(retryBtn);
-          var sl2=document.getElementById('signalsList');
-          if(sl2) sl2.insertAdjacentElement('beforebegin',banner);
-          setTimeout(function(){if(banner.parentNode)banner.parentNode.removeChild(banner);},10000);
-        }
-      }
-    }catch(e){}
-    if(!cacheLoaded){
-      if(el){
-        el.innerHTML='<div style="text-align:center;padding:24px;color:#3a6080;font-size:13px;">'+
-          'Unable to load signals.<br>'+
-          '<button class="sig-error-retry" id="sigRetryBtn" style="margin-top:10px;padding:6px 16px;font-size:12px;">Retry</button>'+
-          '</div>';
-        var retryEl = document.getElementById('sigRetryBtn');
-        if(retryEl) retryEl.addEventListener('click', function(){ fetchSignalsFromAPI(true); });
-      }
-    }
-  } finally{
-    _sigsFetching=false;
-    if(btn)btn.style.opacity='1';
   }
+  if(btn) btn.style.opacity = '1';
 }
 
 // Auto-refresh every 5 minutes
@@ -3080,8 +2971,42 @@ function getFilteredSigs(){
   return SIGNALS_DATA.filter(s=>s.cat===sigFilter);
 }
 
-function renderSignals(){
+function renderSignals(rawSignals, isCached, cachedAt){
   const el=document.getElementById('signalsList');if(!el)return;
+  // If fresh signals array provided, convert and load into SIGNALS_DATA
+  if(rawSignals && rawSignals.length){
+    SIGNALS_DATA.length=0;
+    rawSignals.forEach(function(s,i){
+      // Already internal if it has _fromAPI or id>=100; otherwise convert
+      SIGNALS_DATA.push(typeof s._fromAPI !== 'undefined' || s.id >= 100 ? s : apiSigToInternal(s, i));
+    });
+    updateSignalStats(SIGNALS_DATA);
+    var lu=document.getElementById('sigLastUpdated');
+    if(lu){
+      var ts=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+      lu.textContent='Last updated: '+ts+' · Auto-refresh every 5 min · '+SIGNALS_DATA.length+' signals';
+    }
+  }
+  // Show cache banner when serving offline data
+  var existingBanner = document.getElementById('sigCacheBanner');
+  if(existingBanner) existingBanner.remove();
+  if(isCached){
+    var banner = document.createElement('div');
+    banner.id = 'sigCacheBanner';
+    var cacheTs = cachedAt ? new Date(cachedAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) : null;
+    var isStale = cachedAt ? (Date.now() - cachedAt) > 24*60*60*1000 : false;
+    banner.className = isStale ? 'cached-banner stale' : 'cached-banner';
+    banner.textContent = cacheTs
+      ? (isStale ? '\u26a0 Stale data \u2014 cached ' + Math.round((Date.now()-cachedAt)/3600000) + 'h ago \u00a0' : '\ud83d\udce1 Cached from ' + cacheTs + ' \u2014 live feed unavailable \u00a0')
+      : '\u26a0 Showing offline data \u00a0';
+    var retryBtn = document.createElement('button');
+    retryBtn.className = 'sig-error-retry';
+    retryBtn.style.cssText = 'padding:2px 10px;font-size:11px;';
+    retryBtn.textContent = 'Retry';
+    retryBtn.addEventListener('click', function(){ fetchSignalsFromAPI(true); });
+    banner.appendChild(retryBtn);
+    el.insertAdjacentElement('beforebegin', banner);
+  }
   const sigs=getFilteredSigs();
   if(!sigs.length){el.innerHTML=`<div style="text-align:center;padding:48px 24px;color:var(--white3)">No signals match this filter</div>`;return;}
   el.innerHTML=sigs.map((s,i)=>{
@@ -4134,23 +4059,42 @@ async function runHomeDecision(){
   var pairKey = _hdPairKey(from, to);
 
   var btn = document.getElementById('hdGetDecision');
-  if(btn){ btn.textContent = '⏳ Analyzing...'; btn.disabled = true; }
+  if(btn){ btn.textContent = '\u23f3 Analyzing...'; btn.disabled = true; }
 
-  var rate = 0;
-  try{
-    var res = await fetch('https://open.er-api.com/v6/latest/USD',
-      { signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined });
-    if(res.ok){
-      var d = await res.json();
+  var rate = 0, yesterdayRate = null;
+
+  // Fetch today's live rate + yesterday's rate in parallel
+  var [erRes, fxRes] = await Promise.allSettled([
+    fetch('https://open.er-api.com/v6/latest/USD'),
+    fetch('https://api.frankfurter.app/latest?from=' + from + '&to=' + to)
+  ]);
+
+  if(erRes.status === 'fulfilled' && erRes.value.ok){
+    try{
+      var d = await erRes.value.json();
       var r = d.rates || {};
-      // Cross rate via USD: 1 from-currency = rate to-currency
       var fromUSD = (from === 'USD') ? 1 : (r[from] ? 1/r[from] : 1);
       rate = fromUSD * (r[to] || 1);
-    }
-  } catch(e){ console.warn('[Home] rate fetch failed:', e.message); }
+    }catch(e){}
+  }
+  if(fxRes.status === 'fulfilled' && fxRes.value.ok){
+    try{
+      var fd = await fxRes.value.json();
+      var fr = fd.rates || {};
+      if(fr[to]){
+        var ffromUSD = (from === 'USD') ? 1 : (fr[from] ? 1/fr[from] : 1);
+        yesterdayRate = ffromUSD * fr[to];
+      }
+    }catch(e){}
+  }
 
   // Fall back to cached global PR
   if(!rate) rate = PR[pairKey] || 1;
+
+  // Compute vs-yesterday change %
+  var vsYesterday = (yesterdayRate && yesterdayRate > 0)
+    ? ((rate - yesterdayRate) / yesterdayRate) * 100
+    : null;
 
   var change24h = CH[pairKey]  || 0;
   var change1h  = (CH1H[pairKey] !== undefined) ? CH1H[pairKey] : null;
@@ -4169,20 +4113,23 @@ async function runHomeDecision(){
   if(confEl){ confEl.textContent = score + '% confidence'; }
   if(reaEl && reasons.length){ reaEl.textContent = reasons[0].txt; }
 
+  // Confidence arc
+  _hdUpdateConfArc(score, decision.cls);
+
   var resultEl = document.getElementById('hdResult');
   var whyEl    = document.getElementById('hdWhy');
-  if(resultEl) resultEl.classList.add('show');
+  if(resultEl){ resultEl.classList.add('show'); resultEl.style.borderColor = decision.cls==='pay'?'rgba(0,212,170,.35)':decision.cls==='wait'?'rgba(247,195,95,.35)':'rgba(255,61,87,.35)'; }
   if(whyEl)    whyEl.classList.add('show');
 
   // Reset Show Details state
   var detEl = document.getElementById('hdDetails');
   var detBtn = document.getElementById('hdShowDetails');
-  if(detEl){ detEl.classList.remove('show'); }
-  if(detBtn){ detBtn.textContent = 'Show Details'; }
+  if(detEl) detEl.classList.remove('show');
+  if(detBtn) detBtn.textContent = 'Show Details';
 
-  // Factors (max 3, plain language)
-  _hdRenderFactors(change24h, change1h);
-  _hdRenderDetails(change24h, change1h, rate, from, to);
+  // Factors (max 3, plain language, with vs-yesterday)
+  _hdRenderFactors(change24h, vsYesterday);
+  _hdRenderDetails(change24h, change1h, rate, from, to, vsYesterday);
 
   // Save decision to Supabase
   saveDecision(pairKey, decision.label, rate, amount, to);
@@ -4190,33 +4137,30 @@ async function runHomeDecision(){
   if(btn){ btn.textContent = '\uD83D\uDD0D Get My Decision'; btn.disabled = false; }
 }
 
-function _hdRenderFactors(change24h, change1h){
+function _hdRenderFactors(change24h, vsYesterday){
   var el = document.getElementById('hdFactors');
   if(!el) return;
-  var has1h = (change1h !== null && change1h !== undefined && !isNaN(change1h));
-  var abs24  = Math.abs(change24h);
-  var abs24s = abs24.toFixed(2);
+  var abs24 = Math.abs(change24h);
 
   var trendIco = change24h > 1 ? '✅' : change24h < -1 ? '❌' : '⚠️';
   var trendVal = (change24h >= 0 ? '+' : '') + parseFloat(change24h.toFixed(2)) + '% today';
 
-  var momIco = '—', momVal = 'Not available';
-  if(has1h){
-    var abs1h = Math.abs(change1h).toFixed(3);
-    momIco = change1h > 0.3 ? '✅' : change1h < -0.3 ? '❌' : '⚠️';
-    momVal = (change1h >= 0 ? '+' : '') + parseFloat(change1h.toFixed(3)) + '% last hour';
+  var ystIco = '⚠️', ystVal = 'Fetching...';
+  if(vsYesterday !== null && vsYesterday !== undefined){
+    ystIco = vsYesterday > 0.1 ? '✅' : vsYesterday < -0.1 ? '❌' : '⚠️';
+    ystVal = 'Trend (vs yesterday): ' + (vsYesterday >= 0 ? '+' : '') + parseFloat(vsYesterday.toFixed(2)) + '%';
   }
 
   var volLevel = abs24 > 3 ? 'High' : abs24 < 1 ? 'Low' : 'Medium';
   var volIco   = abs24 > 3 ? '❌' : abs24 < 1 ? '✅' : '⚠️';
 
   el.innerHTML =
-    '<div class="hd-factor"><div class="hd-factor-lbl">Trend (24h)</div><div class="hd-factor-val">'+trendVal+'</div><div class="hd-factor-ico">'+trendIco+'</div></div>' +
-    '<div class="hd-factor"><div class="hd-factor-lbl">Momentum (1h)</div><div class="hd-factor-val">'+momVal+'</div><div class="hd-factor-ico">'+momIco+'</div></div>' +
-    '<div class="hd-factor"><div class="hd-factor-lbl">Volatility</div><div class="hd-factor-val">'+volLevel+'</div><div class="hd-factor-ico">'+volIco+'</div></div>';
+    '<div class="hd-factor"><div class="hd-factor-ico">📈</div><div class="hd-factor-lbl">Trend (24h)</div><div class="hd-factor-val">'+trendVal+'</div><div class="hd-factor-sig">'+trendIco+'</div></div>' +
+    '<div class="hd-factor"><div class="hd-factor-ico">📅</div><div class="hd-factor-lbl">vs Yesterday</div><div class="hd-factor-val">'+ystVal+'</div><div class="hd-factor-sig">'+ystIco+'</div></div>' +
+    '<div class="hd-factor"><div class="hd-factor-ico">🌡️</div><div class="hd-factor-lbl">Volatility</div><div class="hd-factor-val">'+volLevel+'</div><div class="hd-factor-sig">'+volIco+'</div></div>';
 }
 
-function _hdRenderDetails(change24h, change1h, rate, from, to){
+function _hdRenderDetails(change24h, change1h, rate, from, to, vsYesterday){
   var el = document.getElementById('hdDetails');
   if(!el) return;
   var has1h = (change1h !== null && change1h !== undefined && !isNaN(change1h));
@@ -4224,10 +4168,22 @@ function _hdRenderDetails(change24h, change1h, rate, from, to){
   var abs24 = Math.abs(change24h);
   el.innerHTML =
     '<div class="hd-detail-row"><span>24h change</span><span>'+(change24h>=0?'+':'')+parseFloat(change24h.toFixed(3))+'%</span></div>' +
+    '<div class="hd-detail-row"><span>vs yesterday</span><span>'+(vsYesterday!==null&&vsYesterday!==undefined ? (vsYesterday>=0?'+':'')+parseFloat(vsYesterday.toFixed(3))+'%' : 'N/A')+'</span></div>' +
     '<div class="hd-detail-row"><span>1h change</span><span>'+(has1h?(change1h>=0?'+':'')+parseFloat(change1h.toFixed(3))+'%':'N/A')+'</span></div>' +
     '<div class="hd-detail-row"><span>Volatility</span><span>'+(abs24>3?'High':abs24<1?'Low':'Medium')+'</span></div>' +
     '<div class="hd-detail-row"><span>Market session</span><span>'+session.name+(session.active?' ✅':' 💤')+'</span></div>' +
     '<div class="hd-detail-row"><span>Live rate</span><span>1 '+from+' = '+parseFloat(rate.toFixed(4))+' '+to+'</span></div>';
+}
+
+function _hdUpdateConfArc(score, cls){
+  var arc = document.getElementById('hdConfArc');
+  var txt = document.getElementById('hdConfTxt');
+  if(arc){
+    var offset = Math.round(151 * (1 - score / 100));
+    arc.setAttribute('stroke-dashoffset', offset);
+    arc.setAttribute('stroke', cls==='pay'?'#00d4aa':cls==='wait'?'#f7c35f':'#ff3d57');
+  }
+  if(txt) txt.textContent = score + '%';
 }
 
 async function loadHomeTrackRecord(){
@@ -4242,14 +4198,16 @@ async function loadHomeTrackRecord(){
     var correct = checked.filter(function(r){ return r.was_correct; });
     var accuracy = checked.length ? Math.round(correct.length / checked.length * 100) : null;
     var avgSav   = checked.length ? checked.reduce(function(s,r){ return s+(r.actual_saving||0); }, 0) / checked.length : null;
-    if(accEl) accEl.textContent = accuracy !== null ? 'Our accuracy: ' + accuracy + '%' : 'Building track record...';
-    if(savEl && avgSav !== null){
-      var sym = avgSav >= 0 ? '+' : '';
-      savEl.textContent = 'Average saving: ' + sym + Math.round(avgSav).toLocaleString() + ' per decision';
-    } else if(savEl) { savEl.textContent = ''; }
+    if(accEl) accEl.textContent = accuracy !== null ? accuracy + '%' : '—';
+    if(savEl){
+      if(avgSav !== null){
+        var sym = avgSav >= 0 ? '+' : '';
+        savEl.textContent = sym + Math.round(avgSav).toLocaleString();
+      } else { savEl.textContent = '—'; }
+    }
   } catch(e){
-    if(accEl) accEl.textContent = 'Track record loading...';
-    if(savEl) savEl.textContent = '';
+    if(accEl) accEl.textContent = '—';
+    if(savEl) savEl.textContent = '—';
   }
 }
 
@@ -4816,16 +4774,6 @@ function _proofRenderTrackRecord(rows) {
       '</div>';
   }).join('');
   resultsEl.innerHTML = html;
-
-  // Mirror to Calendar page track record
-  var calTotal=document.getElementById('calProofTotal');
-  var calAcc=document.getElementById('calProofAccuracy');
-  var calAvg=document.getElementById('calProofAvgSaving');
-  var calRes=document.getElementById('calProofResults');
-  if(calTotal)calTotal.textContent=totalEl?totalEl.textContent:'—';
-  if(calAcc)calAcc.textContent=accEl?accEl.textContent:'—';
-  if(calAvg)calAvg.textContent=avgEl?avgEl.textContent:'—';
-  if(calRes){calRes.className='';calRes.innerHTML=html;}
 }
 
 // Load and render track record from Supabase
