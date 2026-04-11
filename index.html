@@ -2885,6 +2885,105 @@ function updateSignalStats(data){
 var _SB_URL  = 'https://vrofpoerlphpqxtgzxpe.supabase.co';
 var _SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyb2Zwb2VybHBocHF4dGd6eHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1NTI0MTIsImV4cCI6MjA1NjEyODQxMn0.yYMtMEEasqcXCbKuDFpAFdAyFE0kKdQm-A5iQVTqXTg';
 
+// ── Client-side signal engine (no server needed) ───────────────────────────────
+
+function _sigPrevDay() {
+  var d = new Date();
+  d.setUTCDate(d.getUTCDate() - 1);
+  while (d.getUTCDay() === 0 || d.getUTCDay() === 6) d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().split('T')[0];
+}
+
+function _sigScore(ch) {
+  var a = Math.abs(ch);
+  if (ch >=  4) return { type:'buy',  conf: Math.min(92, Math.round(82 + a * 2)) };
+  if (ch >=  2) return { type:'buy',  conf: Math.min(82, Math.round(65 + a * 8)) };
+  if (ch >=  1) return { type:'buy',  conf: Math.round(55 + a * 5) };
+  if (ch <= -4) return { type:'sell', conf: Math.min(92, Math.round(82 + a * 2)) };
+  if (ch <= -2) return { type:'sell', conf: Math.min(82, Math.round(65 + a * 8)) };
+  if (ch <= -1) return { type:'sell', conf: Math.round(55 + a * 5) };
+  return { type:'watch', conf: Math.max(38, Math.round(55 - a * 10)) };
+}
+
+function _sigTargets(price, type, ch) {
+  var dec = price > 100 ? 2 : 4;
+  var atr = Math.max(Math.abs(ch) / 100, 0.01) * price;
+  if (type === 'buy')  return { tp: +(price + atr*2.5).toFixed(dec), sl: +(price - atr).toFixed(dec), rr:'1:2.5' };
+  if (type === 'sell') return { tp: +(price - atr*2).toFixed(dec),   sl: +(price + atr).toFixed(dec), rr:'1:2'   };
+  return { tp: +(price + atr).toFixed(dec), sl: +(price - atr*0.5).toFixed(dec), rr:'1:1' };
+}
+
+function _sigReason(pair, type, price, ch) {
+  var sign = ch >= 0 ? '+' : '';
+  var s = Math.abs(ch) >= 3 ? 'strong' : Math.abs(ch) >= 1.5 ? 'moderate' : 'slight';
+  if (type === 'buy')   return pair+' gained '+sign+ch.toFixed(2)+'% in 24h — '+s+' bullish momentum. Entry at '+price+', targeting continuation higher.';
+  if (type === 'sell')  return pair+' fell '+sign+ch.toFixed(2)+'% in 24h — '+s+' selling pressure. Entry at '+price+', targeting further downside.';
+  return pair+' flat at '+sign+ch.toFixed(2)+'% over 24h — no clear trend. Wait for a directional break before entering.';
+}
+
+function _sigBuild(assets) {
+  return assets.map(function(a, i) {
+    var s = _sigScore(a.ch);
+    var t = _sigTargets(a.price, s.type, a.ch);
+    return {
+      _fromAPI: true, id: 200+i,
+      pair: a.pair, type: s.type, entry: a.price,
+      tp: t.tp, sl: t.sl, conf: s.conf,
+      reason: _sigReason(a.pair, s.type, a.price, a.ch),
+      tags: a.tags, rr: t.rr, tf: a.tf,
+      price: a.priceKey, isNew: true, change24h: a.ch
+    };
+  });
+}
+
+async function generateSignalsLive() {
+  var yd = _sigPrevDay();
+  var assets = [];
+
+  // ── Crypto: CoinGecko (has native 24h change) ──
+  try {
+    var cr = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd&include_24hr_change=true');
+    if (cr.ok) {
+      var cd = await cr.json();
+      if (cd.bitcoin)  assets.push({pair:'BTC/USD',price:cd.bitcoin.usd, ch:+(cd.bitcoin.usd_24h_change||0).toFixed(2), tags:['CRYPTO'],tf:'4H',priceKey:'BTC'});
+      if (cd.ethereum) assets.push({pair:'ETH/USD',price:cd.ethereum.usd,ch:+(cd.ethereum.usd_24h_change||0).toFixed(2),tags:['CRYPTO'],tf:'4H',priceKey:'ETH'});
+      if (cd.solana)   assets.push({pair:'SOL/USD',price:cd.solana.usd,  ch:+(cd.solana.usd_24h_change||0).toFixed(2),  tags:['CRYPTO'],tf:'4H',priceKey:'SOL'});
+      if (cd.ripple)   assets.push({pair:'XRP/USD',price:cd.ripple.usd,  ch:+(cd.ripple.usd_24h_change||0).toFixed(2),  tags:['CRYPTO'],tf:'4H',priceKey:'XRP'});
+    }
+  } catch(e) {}
+
+  // ── Forex: Frankfurter today vs yesterday = real 24h change ──
+  try {
+    var fr = await Promise.all([
+      fetch('https://api.frankfurter.app/latest?from=USD&to=JPY,EUR,GBP'),
+      fetch('https://api.frankfurter.app/'+yd+'?from=USD&to=JPY,EUR,GBP')
+    ]);
+    if (fr[0].ok && fr[1].ok) {
+      var ft = (await fr[0].json()).rates || {};
+      var fy = (await fr[1].json()).rates || {};
+      if (ft.JPY && fy.JPY) assets.push({pair:'USD/JPY',price:+ft.JPY.toFixed(3),ch:+(((ft.JPY-fy.JPY)/fy.JPY)*100).toFixed(2),tags:['FOREX'],tf:'4H',priceKey:'USDJPY'});
+      if (ft.EUR && fy.EUR) { var ep=1/ft.EUR,eyp=1/fy.EUR; assets.push({pair:'EUR/USD',price:+ep.toFixed(4),ch:+(((ep-eyp)/eyp)*100).toFixed(2),tags:['FOREX'],tf:'4H',priceKey:'EURUSD'}); }
+      if (ft.GBP && fy.GBP) { var gp=1/ft.GBP,gyp=1/fy.GBP; assets.push({pair:'GBP/USD',price:+gp.toFixed(4),ch:+(((gp-gyp)/gyp)*100).toFixed(2),tags:['FOREX'],tf:'4H',priceKey:'GBPUSD'}); }
+    }
+  } catch(e) {}
+
+  // ── Gold: Frankfurter XAU today vs yesterday = real 24h change ──
+  try {
+    var xr = await Promise.all([
+      fetch('https://api.frankfurter.app/latest?from=XAU&to=USD'),
+      fetch('https://api.frankfurter.app/'+yd+'?from=XAU&to=USD')
+    ]);
+    if (xr[0].ok && xr[1].ok) {
+      var xt = (await xr[0].json()).rates || {};
+      var xy = (await xr[1].json()).rates || {};
+      if (xt.USD && xy.USD) assets.push({pair:'XAU/USD',price:+xt.USD.toFixed(2),ch:+(((xt.USD-xy.USD)/xy.USD)*100).toFixed(2),tags:['COMMODITY'],tf:'1D',priceKey:'GOLD'});
+    }
+  } catch(e) {}
+
+  if (!assets.length) return null;
+  return _sigBuild(assets);
+}
+
 async function fetchSignalsFromAPI(force) {
   var now = Date.now();
   if (!force && window._lastSignalFetch && (now - window._lastSignalFetch) < 60000) return;
@@ -2895,44 +2994,18 @@ async function fetchSignalsFromAPI(force) {
   if(el)  el.innerHTML = '<div class="sig-loading"><div class="sig-spinner"></div><div class="sig-loading-txt">FETCHING LIVE SIGNALS...</div></div>';
   if(btn) btn.style.opacity = '0.5';
 
-  // ── Stage 1: Edge Function (generates fresh signals & saves to DB) ──────────
+  // ── Stage 1: Generate directly in browser from live market APIs ──────────────
   try {
-    var res = await fetch(_SB_URL + '/functions/v1/generate-signals', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _SB_ANON },
-      body: JSON.stringify({})
-    });
-    if (res.ok) {
-      var d = await res.json();
-      var sigs = d.signals || d.data || (Array.isArray(d) ? d : null);
-      if (sigs && sigs.length) {
-        localStorage.setItem('momento_signals_cache', JSON.stringify({signals: sigs, cachedAt: now}));
-        renderSignals(sigs, false);
-        if(btn) btn.style.opacity = '1';
-        return;
-      }
+    var liveSigs = await generateSignalsLive();
+    if (liveSigs && liveSigs.length) {
+      localStorage.setItem('momento_signals_cache', JSON.stringify({signals: liveSigs, cachedAt: now}));
+      renderSignals(liveSigs, false);
+      if(btn) btn.style.opacity = '1';
+      return;
     }
-  } catch(e1) { /* edge function unreachable or crashed — try next stage */ }
+  } catch(e1) { /* market APIs failed — try cache */ }
 
-  // ── Stage 2: Read from Supabase signals table directly ──────────────────────
-  try {
-    var r2 = await fetch(_SB_URL + '/rest/v1/signals?select=*&order=created_at.desc&limit=20', {
-      headers: { 'apikey': _SB_ANON, 'Authorization': 'Bearer ' + _SB_ANON }
-    });
-    if (r2.ok) {
-      var rows = await r2.json();
-      if (Array.isArray(rows) && rows.length) {
-        var dbCachedAt = rows[0].created_at ? new Date(rows[0].created_at).getTime() : now;
-        localStorage.setItem('momento_signals_cache', JSON.stringify({signals: rows, cachedAt: dbCachedAt}));
-        var isOldDb = (now - dbCachedAt) > 60 * 60 * 1000; // > 1h old
-        renderSignals(rows, isOldDb, isOldDb ? dbCachedAt : null);
-        if(btn) btn.style.opacity = '1';
-        return;
-      }
-    }
-  } catch(e2) { /* DB read failed — try cache */ }
-
-  // ── Stage 3: localStorage cache ──────────────────────────────────────────────
+  // ── Stage 2: localStorage cache ──────────────────────────────────────────────
   try {
     var raw = localStorage.getItem('momento_signals_cache');
     if (raw) {
@@ -2943,9 +3016,9 @@ async function fetchSignalsFromAPI(force) {
         return;
       }
     }
-  } catch(e3) { /* ignore */ }
+  } catch(e2) { /* ignore */ }
 
-  // ── Stage 4: Built-in demo signals (always visible) ─────────────────────────
+  // ── Stage 3: Built-in demo signals (always visible) ─────────────────────────
   renderSignals(_SIGNALS_DEMO, true, null);
   if(btn) btn.style.opacity = '1';
 }
