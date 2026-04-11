@@ -1219,6 +1219,8 @@ flex-shrink:0;
 .hd-sel{flex:1;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;color:#f0f8ff;font-size:15px;font-weight:700;font-family:'Space Grotesk',sans-serif;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;transition:border-color .2s;}
 .hd-sel:focus{border-color:rgba(0,212,170,.4);}
 .hd-arrow{font-size:18px;color:#1a6fd4;flex-shrink:0;font-weight:900;}
+.hd-swap-btn{background:rgba(0,212,170,.1);border:1.5px solid rgba(0,212,170,.3);border-radius:10px;padding:10px 12px;color:#00d4aa;font-size:18px;font-weight:900;cursor:pointer;flex-shrink:0;transition:all .2s;-webkit-tap-highlight-color:transparent;line-height:1;}
+.hd-swap-btn:active{transform:scale(.9);background:rgba(0,212,170,.2);}
 .hd-get-btn{width:100%;background:linear-gradient(135deg,#00d4aa 0%,#1a6fd4 100%);color:#fff;border:none;border-radius:14px;padding:18px;font-size:18px;font-weight:900;cursor:pointer;font-family:'Space Grotesk',sans-serif;letter-spacing:.5px;-webkit-tap-highlight-color:transparent;animation:hdPulse 2.5s ease-in-out infinite;transition:opacity .15s,transform .1s;}
 .hd-get-btn:active{opacity:.85;transform:scale(.98);}
 .hd-get-btn:disabled{opacity:.5;cursor:default;animation:none;}
@@ -1651,14 +1653,23 @@ flex-shrink:0;
         <option value="GBP">🇬🇧 GBP</option>
         <option value="AUD">🇦🇺 AUD</option>
         <option value="CAD">🇨🇦 CAD</option>
+        <option value="JPY">🇯🇵 JPY</option>
+        <option value="SGD">🇸🇬 SGD</option>
+        <option value="AED">🇦🇪 AED</option>
+        <option value="SAR">🇸🇦 SAR</option>
       </select>
-      <div class="hd-arrow">→</div>
+      <button class="hd-swap-btn" id="hdSwap">⇄</button>
       <div class="hd-pair-label">TO</div>
       <select class="hd-sel" id="hdTo">
         <option value="JPY">🇯🇵 JPY</option>
         <option value="USD">🇺🇸 USD</option>
         <option value="EUR">🇪🇺 EUR</option>
         <option value="GBP">🇬🇧 GBP</option>
+        <option value="AUD">🇦🇺 AUD</option>
+        <option value="CAD">🇨🇦 CAD</option>
+        <option value="SGD">🇸🇬 SGD</option>
+        <option value="AED">🇦🇪 AED</option>
+        <option value="SAR">🇸🇦 SAR</option>
       </select>
     </div>
 
@@ -1963,6 +1974,53 @@ flex-shrink:0;
     <div class="sec-label">New Alert</div>
     <div class="presets" id="presetsEl"></div>
 
+<div class="form-card">
+      <div class="form-sel-row">
+        <div><label class="f-label">ASSET</label>
+          <select class="f-sel" id="fPair" onchange="updateAlertCurrentPrice()">
+            <option value="BTC">BTC/USD</option><option value="ETH">ETH/USD</option>
+            <option value="SOL">SOL/USD</option><option value="XRP">XRP/USD</option>
+            <option value="USDJPY">USD/JPY</option><option value="EURUSD">EUR/USD</option>
+            <option value="GBPUSD">GBP/USD</option><option value="GOLD">Gold XAU/USD</option>
+            <option value="SILVER">Silver XAG/USD</option><option value="OIL">WTI Crude</option>
+            <option value="SPX">S&amp;P 500</option><option value="NDX">Nasdaq 100</option>
+          </select>
+        </div>
+        <div><label class="f-label">CONDITION</label>
+          <select class="f-sel" id="fDir"><option value="above">Goes ABOVE ↑</option><option value="below">Goes BELOW ↓</option></select>
+        </div>
+      </div>
+      <div class="curr-price-row">
+        <span class="cp-label">CURRENT PRICE</span>
+        <span class="cp-price" id="cpPrice">$67,420</span>
+        <span class="cp-chg" id="cpChg" style="color:var(--green)">+2.14%</span>
+      </div>
+      <div class="sec-label" style="font-size:8px;margin-bottom:8px">AI SUGGESTED TARGETS</div>
+      <div class="suggestions" id="suggestionsEl"></div>
+      <div class="form-inp-full">
+        <label class="f-label">TARGET PRICE</label>
+        <input class="f-inp" id="fPrice" type="number" placeholder="Enter target price...">
+      </div>
+      <div class="sec-label" style="font-size:8px;margin-bottom:8px">ALERT WHEN</div>
+      <div class="dir-toggle">
+        <div class="dir-btn active-up" id="dirUp" onclick="setAlertDir('above')">↑ PRICE GOES ABOVE</div>
+        <div class="dir-btn" id="dirDn" onclick="setAlertDir('below')">↓ PRICE GOES BELOW</div>
+      </div>
+      <button class="add-btn" onclick="addAlert()">
+        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        Set Alert Now
+      </button>
+    </div>
+  </div>
+  <div class="alerts-section">
+    <div class="sec-label">Active Alerts</div>
+    <div id="activeAlertsEl"><div class="alerts-empty"><div class="ae-ico">🔔</div><div class="ae-t">No alerts yet</div><div class="ae-s">Set your first alert above.</div></div></div>
+  </div>
+  <div class="hist-section">
+    <div class="sec-label">Recent History</div>
+    <div id="historyEl"></div>
+    <div style="height:16px"></div>
+  </div>
 <div class="sound-settings" id="soundSettings">
   <div class="sound-title">ALERT SOUND SETTINGS</div>
   <div class="sound-options">
@@ -2011,54 +2069,6 @@ flex-shrink:0;
     </div>
   </div>
 </div>
-
-<div class="form-card">
-      <div class="form-sel-row">
-        <div><label class="f-label">ASSET</label>
-          <select class="f-sel" id="fPair" onchange="updateAlertCurrentPrice()">
-            <option value="BTC">BTC/USD</option><option value="ETH">ETH/USD</option>
-            <option value="SOL">SOL/USD</option><option value="XRP">XRP/USD</option>
-            <option value="USDJPY">USD/JPY</option><option value="EURUSD">EUR/USD</option>
-            <option value="GBPUSD">GBP/USD</option><option value="GOLD">Gold XAU/USD</option>
-            <option value="SILVER">Silver XAG/USD</option><option value="OIL">WTI Crude</option>
-            <option value="SPX">S&amp;P 500</option><option value="NDX">Nasdaq 100</option>
-          </select>
-        </div>
-        <div><label class="f-label">CONDITION</label>
-          <select class="f-sel" id="fDir"><option value="above">Goes ABOVE ↑</option><option value="below">Goes BELOW ↓</option></select>
-        </div>
-      </div>
-      <div class="curr-price-row">
-        <span class="cp-label">CURRENT PRICE</span>
-        <span class="cp-price" id="cpPrice">$67,420</span>
-        <span class="cp-chg" id="cpChg" style="color:var(--green)">+2.14%</span>
-      </div>
-      <div class="sec-label" style="font-size:8px;margin-bottom:8px">AI SUGGESTED TARGETS</div>
-      <div class="suggestions" id="suggestionsEl"></div>
-      <div class="form-inp-full">
-        <label class="f-label">TARGET PRICE</label>
-        <input class="f-inp" id="fPrice" type="number" placeholder="Enter target price...">
-      </div>
-      <div class="sec-label" style="font-size:8px;margin-bottom:8px">ALERT WHEN</div>
-      <div class="dir-toggle">
-        <div class="dir-btn active-up" id="dirUp" onclick="setAlertDir('above')">↑ PRICE GOES ABOVE</div>
-        <div class="dir-btn" id="dirDn" onclick="setAlertDir('below')">↓ PRICE GOES BELOW</div>
-      </div>
-      <button class="add-btn" onclick="addAlert()">
-        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        Set Alert Now
-      </button>
-    </div>
-  </div>
-  <div class="alerts-section">
-    <div class="sec-label">Active Alerts</div>
-    <div id="activeAlertsEl"><div class="alerts-empty"><div class="ae-ico">🔔</div><div class="ae-t">No alerts yet</div><div class="ae-s">Set your first alert above.</div></div></div>
-  </div>
-  <div class="hist-section">
-    <div class="sec-label">Recent History</div>
-    <div id="historyEl"></div>
-    <div style="height:16px"></div>
-  </div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -2357,7 +2367,7 @@ function goPage(name){
     renderLiveAlerts();
     fetchSignalsFromAPI(false);
   }
-  if(name==='alerts'){updateAlertCurrentPrice();renderAlerts();renderHistory();}
+  if(name==='alerts'){updateAlertCurrentPrice();renderAlerts();renderHistory();checkPendingAlert();}
   if(name==='payment'){setTimeout(function(){openStripeModal();},50);return;}
   if(name==='home'){renderHome();}
   if(name==='send'){initSendPage();}
@@ -2906,9 +2916,9 @@ async function fetchSignalsFromAPI(force) {
       try {
         var c = JSON.parse(cache);
         renderSignals(c.signals, true, c.cachedAt);
-      } catch(e2) { renderSignals(SIGNALS_DATA, true, null); }
+      } catch(e2) { renderSignals([], true, null); }
     } else {
-      renderSignals(SIGNALS_DATA, true, null);
+      renderSignals([], true, null);
     }
   }
   if(btn) btn.style.opacity = '1';
@@ -2977,8 +2987,24 @@ function renderSignals(rawSignals, isCached, cachedAt){
   if(rawSignals && rawSignals.length){
     SIGNALS_DATA.length=0;
     rawSignals.forEach(function(s,i){
-      // Already internal if it has _fromAPI or id>=100; otherwise convert
-      SIGNALS_DATA.push(typeof s._fromAPI !== 'undefined' || s.id >= 100 ? s : apiSigToInternal(s, i));
+      // Normalize raw API format inline (handles uppercase type, tp/target, sl/stop_loss, conf/confidence)
+      var _norm = (typeof s._fromAPI !== 'undefined') ? s : {
+        _fromAPI: true,
+        id: 100 + i,
+        pair: s.pair || 'UNKNOWN',
+        type: (s.type || 'watch').toLowerCase(),
+        entry: s.entry || 0,
+        tp: s.tp || s.target || 0,
+        sl: s.sl || s.stop_loss || 0,
+        conf: s.conf || s.confidence || 70,
+        reason: s.reason || '',
+        tags: s.tags || [],
+        rr: s.rr || '1:2',
+        tf: s.tf || s.timeframe || '4H',
+        price: s.price || s.pair || '',
+        isNew: true
+      };
+      SIGNALS_DATA.push(_norm);
     });
     updateSignalStats(SIGNALS_DATA);
     var lu=document.getElementById('sigLastUpdated');
@@ -4021,11 +4047,30 @@ function initHomePage(){
     btn._hdBound = true;
     btn.addEventListener('click', runHomeDecision);
   }
-  // "Set Rate Alert" button
+  // Swap currencies button
+  var swapBtn = document.getElementById('hdSwap');
+  if(swapBtn && !swapBtn._hdBound){
+    swapBtn._hdBound = true;
+    swapBtn.addEventListener('click', function(){
+      var f = document.getElementById('hdFrom');
+      var t = document.getElementById('hdTo');
+      if(!f || !t) return;
+      var tmp = f.value; f.value = t.value; t.value = tmp;
+    });
+  }
+  // "Set Rate Alert" button — saves pair/rate/amount to sessionStorage for pre-fill
   var alertBtn = document.getElementById('hdSetAlert');
   if(alertBtn && !alertBtn._hdBound){
     alertBtn._hdBound = true;
-    alertBtn.addEventListener('click', function(){ goPage('alerts'); });
+    alertBtn.addEventListener('click', function(){
+      var from = (document.getElementById('hdFrom') || {}).value || 'USD';
+      var to   = (document.getElementById('hdTo')   || {}).value || 'JPY';
+      var amount = parseFloat((document.getElementById('hdAmount') || {}).value) || 100000;
+      var pair = _hdPairKey(from, to);
+      var currentRate = window._hdCurrentRate || PR[pair] || 0;
+      sessionStorage.setItem('pendingAlert', JSON.stringify({pair: pair, rate: currentRate, amount: amount}));
+      goPage('alerts');
+    });
   }
   // "Show Details" toggle
   var detBtn = document.getElementById('hdShowDetails');
@@ -4039,6 +4084,43 @@ function initHomePage(){
     });
   }
   loadHomeTrackRecord();
+}
+
+// Pre-fill Alerts page from sessionStorage set by home page "Set Rate Alert"
+function checkPendingAlert(){
+  var raw = sessionStorage.getItem('pendingAlert');
+  if(!raw) return;
+  try {
+    var p = JSON.parse(raw);
+    sessionStorage.removeItem('pendingAlert');
+    // Pre-fill asset pair
+    var fPair = document.getElementById('fPair');
+    if(fPair && p.pair){
+      var opts = Array.from(fPair.options);
+      var match = opts.find(function(o){ return o.value === p.pair; });
+      if(match){ fPair.value = p.pair; updateAlertCurrentPrice(); }
+    }
+    // Set direction to above
+    var fDir = document.getElementById('fDir');
+    if(fDir) fDir.value = 'above';
+    var dirUp = document.getElementById('dirUp');
+    var dirDn = document.getElementById('dirDn');
+    if(dirUp) dirUp.classList.add('active-up');
+    if(dirDn) dirDn.classList.remove('active-up');
+    // Pre-fill target = rate + 0.5%
+    var fPrice = document.getElementById('fPrice');
+    if(fPrice && p.rate){ fPrice.value = parseFloat((p.rate * 1.005).toFixed(p.rate > 100 ? 2 : 4)); }
+    // Show confirmation message
+    var existing = document.getElementById('pendingAlertMsg');
+    if(existing) existing.remove();
+    var msg = document.createElement('div');
+    msg.id = 'pendingAlertMsg';
+    msg.style.cssText = 'background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.3);border-radius:10px;padding:12px 14px;margin:0 14px 12px;font-family:"Space Grotesk",sans-serif;font-size:13px;color:#00d4aa;line-height:1.4;';
+    msg.textContent = '\u2705 Alert pre-filled from your analysis \u2014 tap Set Alert Now to confirm';
+    var formCard = document.querySelector('.form-card');
+    if(formCard) formCard.insertAdjacentElement('beforebegin', msg);
+    setTimeout(function(){ if(msg.parentNode) msg.parentNode.removeChild(msg); }, 6000);
+  } catch(e){ sessionStorage.removeItem('pendingAlert'); }
 }
 
 // Map from+to currency codes → pair key used by calcPTScore / CH / PR
@@ -4090,6 +4172,7 @@ async function runHomeDecision(){
 
   // Fall back to cached global PR
   if(!rate) rate = PR[pairKey] || 1;
+  window._hdCurrentRate = rate; // expose for alert pre-fill
 
   // Compute vs-yesterday change %
   var vsYesterday = (yesterdayRate && yesterdayRate > 0)
