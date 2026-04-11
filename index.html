@@ -2958,14 +2958,15 @@ function startSignalsAutoRefresh(){
   }, 5*60*1000);
 }
 
-// Built-in demo signals — shown only when all network sources fail
+// Built-in demo signals — shown ONLY when all live sources fail (edge fn + DB + cache)
+// Prices are approximate; marked with _isDemo flag
 var _SIGNALS_DEMO = [
-  {id:1,pair:'BTC/USD',type:'buy',entry:67200,tp:70400,sl:65600,conf:78,reason:'BTC holding key $67k support with increasing volume. Momentum building toward $70k resistance.',tags:['CRYPTO','MOMENTUM'],rr:'1:2',tf:'4H',price:'BTC',isNew:false},
-  {id:2,pair:'USD/JPY',type:'sell',entry:151.80,tp:149.20,sl:153.40,conf:72,reason:'USD/JPY rejected at 152 resistance. BOJ intervention risk elevated. Bearish RSI divergence on 4H.',tags:['FOREX','REVERSAL'],rr:'1:1.6',tf:'4H',price:'USDJPY',isNew:false},
-  {id:3,pair:'XAU/USD',type:'buy',entry:2318,tp:2370,sl:2290,conf:81,reason:'Gold breakout above 200-day MA confirmed. Geopolitical demand and Fed pause narrative supporting bulls.',tags:['COMMODITY','BREAKOUT'],rr:'1:1.8',tf:'1D',price:'GOLD',isNew:false},
-  {id:4,pair:'EUR/USD',type:'watch',entry:1.0840,tp:1.0960,sl:1.0730,conf:58,reason:'EUR/USD ranging ahead of ECB meeting. Wait for break above 1.0900 or below 1.0780 before entering.',tags:['FOREX','WAIT'],rr:'1:1',tf:'1D',price:'EURUSD',isNew:false},
-  {id:5,pair:'ETH/USD',type:'buy',entry:3480,tp:3760,sl:3310,conf:74,reason:'ETH accumulation zone active. On-chain metrics strong, rotation from BTC into ETH expected.',tags:['CRYPTO','ALTCOIN'],rr:'1:1.6',tf:'4H',price:'ETH',isNew:false},
-  {id:6,pair:'GBP/USD',type:'sell',entry:1.2650,tp:1.2480,sl:1.2740,conf:67,reason:'GBP/USD losing upside momentum at key resistance. UK data disappointment adding pressure.',tags:['FOREX','TREND'],rr:'1:1.9',tf:'4H',price:'GBPUSD',isNew:false},
+  {id:1,pair:'BTC/USD',type:'buy',entry:93500,tp:98200,sl:91500,conf:76,reason:'BTC gained +3.2% in 24h — moderate bullish momentum. Entry at 93500, targeting continuation move higher.',tags:['CRYPTO','MOMENTUM'],rr:'1:2.4',tf:'4H',price:'BTC',isNew:false,_isDemo:true},
+  {id:2,pair:'ETH/USD',type:'buy',entry:3120,tp:3280,sl:3040,conf:68,reason:'ETH gained +1.8% in 24h — moderate bullish momentum. Entry at 3120, targeting continuation move higher.',tags:['CRYPTO','ALTCOIN'],rr:'1:2',tf:'4H',price:'ETH',isNew:false,_isDemo:true},
+  {id:3,pair:'USD/JPY',type:'sell',entry:153.20,tp:150.10,sl:154.50,conf:71,reason:'USD/JPY fell -0.9% in 24h — slight selling pressure. Entry at 153.20, targeting further downside.',tags:['FOREX','TREND'],rr:'1:2.4',tf:'4H',price:'USDJPY',isNew:false,_isDemo:true},
+  {id:4,pair:'EUR/USD',type:'watch',entry:1.0820,tp:1.0960,sl:1.0740,conf:45,reason:'EUR/USD is flat at +0.1% over 24h — no clear trend. Wait for a break above 1.0900 or below 1.0750.',tags:['FOREX','WAIT'],rr:'1:1',tf:'1D',price:'EURUSD',isNew:false,_isDemo:true},
+  {id:5,pair:'XAU/USD',type:'buy',entry:3280,tp:3350,sl:3245,conf:73,reason:'Gold gained +1.5% in 24h — moderate bullish momentum. Entry at 3280, targeting continuation move higher.',tags:['COMMODITY','BREAKOUT'],rr:'1:2',tf:'1D',price:'GOLD',isNew:false,_isDemo:true},
+  {id:6,pair:'GBP/USD',type:'sell',entry:1.2580,tp:1.2420,sl:1.2660,conf:64,reason:'GBP/USD fell -1.1% in 24h — moderate selling pressure. Entry at 1.2580, targeting further downside.',tags:['FOREX','REVERSAL'],rr:'1:2',tf:'4H',price:'GBPUSD',isNew:false,_isDemo:true},
 ];
 
 // Signals — populated from API, DB, localStorage cache, or demo fallback
@@ -3081,7 +3082,7 @@ function renderSignals(rawSignals, isCached, cachedAt){
       <div class="sig-card-body">
         <div class="sc-header">
           <div><div class="sc-pair">${s.pair}</div>
-            <div class="sc-meta"><span class="sc-price">${fmt(PR[s.price]||s.entry||0)}</span><span class="sc-tf">${s.tf}</span>${s.isNew?'<span class="sc-new">NEW</span>':''}${s._fromAPI?'<span class="api-sig-badge">⚡ AI LIVE</span>':''}${s._cached?'<span class="cached-badge">CACHED</span>':''}</div>
+            <div class="sc-meta"><span class="sc-price">${fmt(PR[s.price]||s.entry||0)}</span><span class="sc-tf">${s.tf}</span>${s.isNew?'<span class="sc-new">NEW</span>':''}${s._fromAPI?'<span class="api-sig-badge">⚡ AI LIVE</span>':''}${s._cached?'<span class="cached-badge">CACHED</span>':''}${s._isDemo?'<span class="cached-badge" style="background:rgba(247,195,95,.15);color:#f7c35f;border-color:rgba(247,195,95,.3)">SAMPLE</span>':''}</div>
           </div>
           <div class="sc-type"><div class="sc-badge ${s.type}">${tl}</div></div>
         </div>
