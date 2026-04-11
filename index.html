@@ -2882,45 +2882,71 @@ function updateSignalStats(data){
   if(afCount)afCount.textContent=data.length;
 }
 
+var _SB_URL  = 'https://vrofpoerlphpqxtgzxpe.supabase.co';
+var _SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyb2Zwb2VybHBocHF4dGd6eHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1NTI0MTIsImV4cCI6MjA1NjEyODQxMn0.yYMtMEEasqcXCbKuDFpAFdAyFE0kKdQm-A5iQVTqXTg';
+
 async function fetchSignalsFromAPI(force) {
   var now = Date.now();
   if (!force && window._lastSignalFetch && (now - window._lastSignalFetch) < 60000) return;
   window._lastSignalFetch = now;
 
-  var el = document.getElementById('signalsList');
-  if(el) el.innerHTML = '<div class="sig-loading"><div class="sig-spinner"></div><div class="sig-loading-txt">FETCHING LIVE SIGNALS...</div></div>';
+  var el  = document.getElementById('signalsList');
   var btn = document.getElementById('sigRefreshBtn');
+  if(el)  el.innerHTML = '<div class="sig-loading"><div class="sig-spinner"></div><div class="sig-loading-txt">FETCHING LIVE SIGNALS...</div></div>';
   if(btn) btn.style.opacity = '0.5';
 
+  // ── Stage 1: Edge Function (generates fresh signals & saves to DB) ──────────
   try {
-    var res = await fetch('https://vrofpoerlphpqxtgzxpe.supabase.co/functions/v1/generate-signals', {
+    var res = await fetch(_SB_URL + '/functions/v1/generate-signals', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyb2Zwb2VybHBocHF4dGd6eHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1NTI0MTIsImV4cCI6MjA1NjEyODQxMn0.yYMtMEEasqcXCbKuDFpAFdAyFE0kKdQm-A5iQVTqXTg'
-      },
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _SB_ANON },
       body: JSON.stringify({})
     });
-    var d = await res.json();
-    var signals = d.signals || d.data || (Array.isArray(d) ? d : null);
-    if (signals && signals.length) {
-      localStorage.setItem('momento_signals_cache', JSON.stringify({signals: signals, cachedAt: now}));
-      renderSignals(signals, false);
-      if(btn) btn.style.opacity = '1';
-      return;
+    if (res.ok) {
+      var d = await res.json();
+      var sigs = d.signals || d.data || (Array.isArray(d) ? d : null);
+      if (sigs && sigs.length) {
+        localStorage.setItem('momento_signals_cache', JSON.stringify({signals: sigs, cachedAt: now}));
+        renderSignals(sigs, false);
+        if(btn) btn.style.opacity = '1';
+        return;
+      }
     }
-    throw new Error('No signals');
-  } catch(e) {
-    var cache = localStorage.getItem('momento_signals_cache');
-    if (cache) {
-      try {
-        var c = JSON.parse(cache);
+  } catch(e1) { /* edge function unreachable or crashed — try next stage */ }
+
+  // ── Stage 2: Read from Supabase signals table directly ──────────────────────
+  try {
+    var r2 = await fetch(_SB_URL + '/rest/v1/signals?select=*&order=created_at.desc&limit=20', {
+      headers: { 'apikey': _SB_ANON, 'Authorization': 'Bearer ' + _SB_ANON }
+    });
+    if (r2.ok) {
+      var rows = await r2.json();
+      if (Array.isArray(rows) && rows.length) {
+        var dbCachedAt = rows[0].created_at ? new Date(rows[0].created_at).getTime() : now;
+        localStorage.setItem('momento_signals_cache', JSON.stringify({signals: rows, cachedAt: dbCachedAt}));
+        var isOldDb = (now - dbCachedAt) > 60 * 60 * 1000; // > 1h old
+        renderSignals(rows, isOldDb, isOldDb ? dbCachedAt : null);
+        if(btn) btn.style.opacity = '1';
+        return;
+      }
+    }
+  } catch(e2) { /* DB read failed — try cache */ }
+
+  // ── Stage 3: localStorage cache ──────────────────────────────────────────────
+  try {
+    var raw = localStorage.getItem('momento_signals_cache');
+    if (raw) {
+      var c = JSON.parse(raw);
+      if (c.signals && c.signals.length) {
         renderSignals(c.signals, true, c.cachedAt);
-      } catch(e2) { renderSignals([], true, null); }
-    } else {
-      renderSignals([], true, null);
+        if(btn) btn.style.opacity = '1';
+        return;
+      }
     }
-  }
+  } catch(e3) { /* ignore */ }
+
+  // ── Stage 4: Built-in demo signals (always visible) ─────────────────────────
+  renderSignals(_SIGNALS_DEMO, true, null);
   if(btn) btn.style.opacity = '1';
 }
 
@@ -2932,7 +2958,17 @@ function startSignalsAutoRefresh(){
   }, 5*60*1000);
 }
 
-// Signals — populated from API or localStorage cache; no hardcoded fallback
+// Built-in demo signals — shown only when all network sources fail
+var _SIGNALS_DEMO = [
+  {id:1,pair:'BTC/USD',type:'buy',entry:67200,tp:70400,sl:65600,conf:78,reason:'BTC holding key $67k support with increasing volume. Momentum building toward $70k resistance.',tags:['CRYPTO','MOMENTUM'],rr:'1:2',tf:'4H',price:'BTC',isNew:false},
+  {id:2,pair:'USD/JPY',type:'sell',entry:151.80,tp:149.20,sl:153.40,conf:72,reason:'USD/JPY rejected at 152 resistance. BOJ intervention risk elevated. Bearish RSI divergence on 4H.',tags:['FOREX','REVERSAL'],rr:'1:1.6',tf:'4H',price:'USDJPY',isNew:false},
+  {id:3,pair:'XAU/USD',type:'buy',entry:2318,tp:2370,sl:2290,conf:81,reason:'Gold breakout above 200-day MA confirmed. Geopolitical demand and Fed pause narrative supporting bulls.',tags:['COMMODITY','BREAKOUT'],rr:'1:1.8',tf:'1D',price:'GOLD',isNew:false},
+  {id:4,pair:'EUR/USD',type:'watch',entry:1.0840,tp:1.0960,sl:1.0730,conf:58,reason:'EUR/USD ranging ahead of ECB meeting. Wait for break above 1.0900 or below 1.0780 before entering.',tags:['FOREX','WAIT'],rr:'1:1',tf:'1D',price:'EURUSD',isNew:false},
+  {id:5,pair:'ETH/USD',type:'buy',entry:3480,tp:3760,sl:3310,conf:74,reason:'ETH accumulation zone active. On-chain metrics strong, rotation from BTC into ETH expected.',tags:['CRYPTO','ALTCOIN'],rr:'1:1.6',tf:'4H',price:'ETH',isNew:false},
+  {id:6,pair:'GBP/USD',type:'sell',entry:1.2650,tp:1.2480,sl:1.2740,conf:67,reason:'GBP/USD losing upside momentum at key resistance. UK data disappointment adding pressure.',tags:['FOREX','TREND'],rr:'1:1.9',tf:'4H',price:'GBPUSD',isNew:false},
+];
+
+// Signals — populated from API, DB, localStorage cache, or demo fallback
 var SIGNALS_DATA = [];
 (function loadCachedSignals(){
   try{
@@ -3024,7 +3060,7 @@ function renderSignals(rawSignals, isCached, cachedAt){
     banner.className = isStale ? 'cached-banner stale' : 'cached-banner';
     banner.textContent = cacheTs
       ? (isStale ? '\u26a0 Stale data \u2014 cached ' + Math.round((Date.now()-cachedAt)/3600000) + 'h ago \u00a0' : '\ud83d\udce1 Cached from ' + cacheTs + ' \u2014 live feed unavailable \u00a0')
-      : '\u26a0 Showing offline data \u00a0';
+      : '\ud83d\udcca Sample signals \u2014 live feed unavailable \u00a0';
     var retryBtn = document.createElement('button');
     retryBtn.className = 'sig-error-retry';
     retryBtn.style.cssText = 'padding:2px 10px;font-size:11px;';
