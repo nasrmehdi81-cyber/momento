@@ -2885,103 +2885,197 @@ function updateSignalStats(data){
 var _SB_URL  = 'https://vrofpoerlphpqxtgzxpe.supabase.co';
 var _SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyb2Zwb2VybHBocHF4dGd6eHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1NTI0MTIsImV4cCI6MjA1NjEyODQxMn0.yYMtMEEasqcXCbKuDFpAFdAyFE0kKdQm-A5iQVTqXTg';
 
-// ── Client-side signal engine (no server needed) ───────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════════
+//  PROFESSIONAL TECHNICAL ANALYSIS ENGINE
+//  Sources : Binance OHLCV 4H (crypto) · Frankfurter 90-day (forex/gold)
+//  Indicators: RSI(14) · EMA(20,50) · MACD(12,26,9) · ATR(14) · BB(20,2)
+//  No random numbers — every value derived from real market data
+// ══════════════════════════════════════════════════════════════════════════════
 
-function _sigPrevDay() {
-  var d = new Date();
-  d.setUTCDate(d.getUTCDate() - 1);
-  while (d.getUTCDay() === 0 || d.getUTCDay() === 6) d.setUTCDate(d.getUTCDate() - 1);
-  return d.toISOString().split('T')[0];
+function _taEMA(arr, p) {
+  if (!arr || arr.length < p) return arr ? arr[arr.length-1] : 0;
+  var k = 2/(p+1), e = arr.slice(0,p).reduce(function(a,b){return a+b;},0)/p;
+  for (var i=p;i<arr.length;i++) e = arr[i]*k + e*(1-k);
+  return e;
 }
 
-function _sigScore(ch) {
-  var a = Math.abs(ch);
-  if (ch >=  4) return { type:'buy',  conf: Math.min(92, Math.round(82 + a * 2)) };
-  if (ch >=  2) return { type:'buy',  conf: Math.min(82, Math.round(65 + a * 8)) };
-  if (ch >=  1) return { type:'buy',  conf: Math.round(55 + a * 5) };
-  if (ch <= -4) return { type:'sell', conf: Math.min(92, Math.round(82 + a * 2)) };
-  if (ch <= -2) return { type:'sell', conf: Math.min(82, Math.round(65 + a * 8)) };
-  if (ch <= -1) return { type:'sell', conf: Math.round(55 + a * 5) };
-  return { type:'watch', conf: Math.max(38, Math.round(55 - a * 10)) };
+function _taRSI(c, p) {
+  p = p||14;
+  if (c.length < p+1) return 50;
+  var g=0,l=0;
+  for (var i=c.length-p;i<c.length;i++){var d=c[i]-c[i-1];d>0?g+=d:l-=d;}
+  var ag=g/p,al=l/p;
+  if (al===0) return 100;
+  return +(100-100/(1+ag/al)).toFixed(1);
 }
 
-function _sigTargets(price, type, ch) {
-  var dec = price > 100 ? 2 : 4;
-  var atr = Math.max(Math.abs(ch) / 100, 0.01) * price;
-  if (type === 'buy')  return { tp: +(price + atr*2.5).toFixed(dec), sl: +(price - atr).toFixed(dec), rr:'1:2.5' };
-  if (type === 'sell') return { tp: +(price - atr*2).toFixed(dec),   sl: +(price + atr).toFixed(dec), rr:'1:2'   };
-  return { tp: +(price + atr).toFixed(dec), sl: +(price - atr*0.5).toFixed(dec), rr:'1:1' };
+function _taMACD(c) {
+  if (c.length<34) return null;
+  var k12=2/13,k26=2/27,k9=2/10;
+  var e12=c.slice(0,12).reduce(function(a,b){return a+b;},0)/12;
+  var e26=c.slice(0,26).reduce(function(a,b){return a+b;},0)/26;
+  var ml=[];
+  for (var i=11;i<c.length;i++){
+    e12=c[i]*k12+e12*(1-k12);
+    if(i>=25){e26=c[i]*k26+e26*(1-k26);ml.push(e12-e26);}
+  }
+  if (ml.length<9) return null;
+  var sig=ml.slice(0,9).reduce(function(a,b){return a+b;},0)/9;
+  for (var j=9;j<ml.length;j++) sig=ml[j]*k9+sig*(1-k9);
+  var h=ml[ml.length-1]-sig, ph=ml.length>1?ml[ml.length-2]-sig:h;
+  return {macd:ml[ml.length-1],signal:sig,hist:h,prevHist:ph};
 }
 
-function _sigReason(pair, type, price, ch) {
-  var sign = ch >= 0 ? '+' : '';
-  var s = Math.abs(ch) >= 3 ? 'strong' : Math.abs(ch) >= 1.5 ? 'moderate' : 'slight';
-  if (type === 'buy')   return pair+' gained '+sign+ch.toFixed(2)+'% in 24h — '+s+' bullish momentum. Entry at '+price+', targeting continuation higher.';
-  if (type === 'sell')  return pair+' fell '+sign+ch.toFixed(2)+'% in 24h — '+s+' selling pressure. Entry at '+price+', targeting further downside.';
-  return pair+' flat at '+sign+ch.toFixed(2)+'% over 24h — no clear trend. Wait for a directional break before entering.';
+function _taATR(kl, p) {
+  p=p||14;
+  if (!kl||kl.length<2) return 0;
+  var trs=[];
+  for (var i=1;i<kl.length;i++) trs.push(Math.max(kl[i].h-kl[i].l,Math.abs(kl[i].h-kl[i-1].c),Math.abs(kl[i].l-kl[i-1].c)));
+  var r=trs.slice(-p);
+  return r.reduce(function(a,b){return a+b;},0)/r.length;
 }
 
-function _sigBuild(assets) {
-  return assets.map(function(a, i) {
-    var s = _sigScore(a.ch);
-    var t = _sigTargets(a.price, s.type, a.ch);
-    return {
-      _fromAPI: true, id: 200+i,
-      pair: a.pair, type: s.type, entry: a.price,
-      tp: t.tp, sl: t.sl, conf: s.conf,
-      reason: _sigReason(a.pair, s.type, a.price, a.ch),
-      tags: a.tags, rr: t.rr, tf: a.tf,
-      price: a.priceKey, isNew: true, change24h: a.ch
-    };
-  });
+function _taBB(c,p,m){
+  p=p||20;m=m||2;
+  if(c.length<p) return null;
+  var s=c.slice(-p),sma=s.reduce(function(a,b){return a+b;},0)/p;
+  var std=Math.sqrt(s.reduce(function(a,v){return a+Math.pow(v-sma,2);},0)/p);
+  return {upper:sma+m*std,mid:sma,lower:sma-m*std};
 }
+
+function _taAnalyze(closes, candles) {
+  if (!closes||closes.length<20) return null;
+  var price=closes[closes.length-1];
+  var rsi=_taRSI(closes,14);
+  var ema20=_taEMA(closes,20);
+  var ema50=_taEMA(closes,Math.min(50,Math.floor(closes.length*0.7)));
+  var macd=closes.length>=34?_taMACD(closes):null;
+  var bb=_taBB(closes,20);
+  var atr=candles?_taATR(candles,14):Math.abs(closes[closes.length-1]-closes[closes.length-2])*1.8||price*0.01;
+  if(atr<price*0.001) atr=price*0.01;
+
+  var score=0, bull=[], bear=[];
+
+  // RSI
+  if      (rsi<=25){score+=3;bull.push('RSI oversold at '+rsi+' — strong reversal zone');}
+  else if (rsi<=38){score+=2;bull.push('RSI oversold at '+rsi);}
+  else if (rsi<=48){score+=1;}
+  else if (rsi>=75){score-=3;bear.push('RSI overbought at '+rsi+' — strong reversal zone');}
+  else if (rsi>=62){score-=2;bear.push('RSI overbought at '+rsi);}
+  else if (rsi>=52){score-=1;}
+
+  // EMA structure
+  if      (price>ema20&&ema20>ema50){score+=2;bull.push('Price above EMA20>EMA50 — confirmed uptrend');}
+  else if (price<ema20&&ema20<ema50){score-=2;bear.push('Price below EMA20<EMA50 — confirmed downtrend');}
+  else if (price>ema20)             {score+=1;bull.push('Price reclaimed EMA20');}
+  else                              {score-=1;bear.push('Price rejected below EMA20');}
+
+  // EMA golden/death cross (last 2 bars)
+  if (closes.length>=3) {
+    var pe20=_taEMA(closes.slice(0,-1),20);
+    var pe50=_taEMA(closes.slice(0,-1),Math.min(50,Math.floor((closes.length-1)*0.7)));
+    if (ema20>ema50&&pe20<=pe50){score+=2;bull.push('Golden cross: EMA20 crossed above EMA50');}
+    if (ema20<ema50&&pe20>=pe50){score-=2;bear.push('Death cross: EMA20 crossed below EMA50');}
+  }
+
+  // MACD
+  if (macd) {
+    if      (macd.hist>0&&macd.hist>macd.prevHist){score+=2;bull.push('MACD histogram expanding — accelerating bullish momentum');}
+    else if (macd.hist>0)                         {score+=1;bull.push('MACD above signal line');}
+    else if (macd.hist<0&&macd.hist<macd.prevHist){score-=2;bear.push('MACD histogram expanding — accelerating bearish momentum');}
+    else if (macd.hist<0)                         {score-=1;bear.push('MACD below signal line');}
+  }
+
+  // Bollinger Bands
+  if (bb) {
+    if      (price<=bb.lower){score+=2;bull.push('Price at lower Bollinger Band — statistically oversold');}
+    else if (price>=bb.upper){score-=2;bear.push('Price at upper Bollinger Band — statistically overbought');}
+  }
+
+  score=Math.round(score);
+
+  var type,conf,factors;
+  if      (score>=6) {type='buy'; conf=Math.min(93,78+score*2);  factors=bull;}
+  else if (score>=4) {type='buy'; conf=Math.min(80,65+score*3);  factors=bull;}
+  else if (score>=2) {type='buy'; conf=Math.min(70,55+score*4);  factors=bull;}
+  else if (score<=-6){type='sell';conf=Math.min(93,78+Math.abs(score)*2); factors=bear;}
+  else if (score<=-4){type='sell';conf=Math.min(80,65+Math.abs(score)*3); factors=bear;}
+  else if (score<=-2){type='sell';conf=Math.min(70,55+Math.abs(score)*4); factors=bear;}
+  else               {type='watch';conf=Math.max(35,50-Math.abs(score)*5);factors=score>0?bull:bear;}
+
+  var dec=price>1000?2:price>10?4:6;
+  var tp,sl;
+  if (type==='buy') {tp=+(price+atr*2).toFixed(dec);sl=+(price-atr).toFixed(dec);}
+  else if(type==='sell'){tp=+(price-atr*2).toFixed(dec);sl=+(price+atr).toFixed(dec);}
+  else  {tp=+(price+atr).toFixed(dec);sl=+(price-atr).toFixed(dec);}
+
+  var top=factors.slice(0,2);
+  var reason=top.length>=2?top[0]+'. '+top[1]+'.':top.length===1?top[0]+'.':type==='watch'?'Mixed signals — no strong directional bias. Wait for confirmation.':'Confluence of multiple indicators aligned.';
+
+  return {type:type,conf:Math.round(conf),tp:tp,sl:sl,rr:'1:2',reason:reason,rsi:rsi,ema20:ema20,ema50:ema50,atr:atr,score:score,factors:factors};
+}
+
+// ── Data fetchers ──────────────────────────────────────────────────────────────
+
+async function _fetchBinanceKlines(symbol) {
+  var r=await fetch('https://api.binance.com/api/v3/klines?symbol='+symbol+'&interval=4h&limit=100');
+  if(!r.ok) throw new Error('binance:'+symbol);
+  var rows=await r.json();
+  return rows.map(function(k){return{o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]};});
+}
+
+async function _fetchFrankfurterHistory(base, to, days) {
+  var s=new Date(); s.setDate(s.getDate()-(days||90));
+  var r=await fetch('https://api.frankfurter.app/'+s.toISOString().split('T')[0]+'..?from='+base+'&to='+to);
+  if(!r.ok) throw new Error('frankfurter:'+base);
+  var d=await r.json();
+  return {dates:Object.keys(d.rates||{}).sort(),rates:d.rates||{}};
+}
+
+// ── Main live signal generator ─────────────────────────────────────────────────
 
 async function generateSignalsLive() {
-  var yd = _sigPrevDay();
-  var assets = [];
+  var out=[];
 
-  // ── Crypto: CoinGecko (has native 24h change) ──
+  // ── Crypto — Binance 4H OHLCV (parallel) ──────────────────────────────────────
+  var cryptos=[
+    {sym:'BTCUSDT',pair:'BTC/USD',priceKey:'BTC',tags:['CRYPTO']},
+    {sym:'ETHUSDT',pair:'ETH/USD',priceKey:'ETH',tags:['CRYPTO']},
+    {sym:'SOLUSDT',pair:'SOL/USD',priceKey:'SOL',tags:['CRYPTO']},
+    {sym:'XRPUSDT',pair:'XRP/USD',priceKey:'XRP',tags:['CRYPTO']},
+  ];
+  var binRes=await Promise.allSettled(cryptos.map(function(c){return _fetchBinanceKlines(c.sym);}));
+  binRes.forEach(function(res,i){
+    if(res.status!=='fulfilled') return;
+    var kl=res.value, cl=kl.map(function(k){return k.c;}), ta=_taAnalyze(cl,kl);
+    if(!ta) return;
+    var c=cryptos[i];
+    out.push({_fromAPI:true,id:200+out.length,pair:c.pair,type:ta.type,entry:cl[cl.length-1],tp:ta.tp,sl:ta.sl,conf:ta.conf,reason:ta.reason,tags:c.tags,rr:ta.rr,tf:'4H',price:c.priceKey,isNew:true,_ta:{rsi:ta.rsi,score:ta.score}});
+  });
+
+  // ── Forex — Frankfurter 90-day history ────────────────────────────────────────
   try {
-    var cr = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd&include_24hr_change=true');
-    if (cr.ok) {
-      var cd = await cr.json();
-      if (cd.bitcoin)  assets.push({pair:'BTC/USD',price:cd.bitcoin.usd, ch:+(cd.bitcoin.usd_24h_change||0).toFixed(2), tags:['CRYPTO'],tf:'4H',priceKey:'BTC'});
-      if (cd.ethereum) assets.push({pair:'ETH/USD',price:cd.ethereum.usd,ch:+(cd.ethereum.usd_24h_change||0).toFixed(2),tags:['CRYPTO'],tf:'4H',priceKey:'ETH'});
-      if (cd.solana)   assets.push({pair:'SOL/USD',price:cd.solana.usd,  ch:+(cd.solana.usd_24h_change||0).toFixed(2),  tags:['CRYPTO'],tf:'4H',priceKey:'SOL'});
-      if (cd.ripple)   assets.push({pair:'XRP/USD',price:cd.ripple.usd,  ch:+(cd.ripple.usd_24h_change||0).toFixed(2),  tags:['CRYPTO'],tf:'4H',priceKey:'XRP'});
-    }
-  } catch(e) {}
+    var fxH=await _fetchFrankfurterHistory('USD','JPY,EUR,GBP',90);
+    [{key:'JPY',pair:'USD/JPY',pk:'USDJPY',inv:false},{key:'EUR',pair:'EUR/USD',pk:'EURUSD',inv:true},{key:'GBP',pair:'GBP/USD',pk:'GBPUSD',inv:true}].forEach(function(fp){
+      var cl=fxH.dates.filter(function(d){return fxH.rates[d]&&fxH.rates[d][fp.key];}).map(function(d){var r=fxH.rates[d][fp.key];return fp.inv?1/r:r;});
+      if(cl.length<20) return;
+      var ta=_taAnalyze(cl,null);
+      if(!ta) return;
+      out.push({_fromAPI:true,id:200+out.length,pair:fp.pair,type:ta.type,entry:cl[cl.length-1],tp:ta.tp,sl:ta.sl,conf:ta.conf,reason:ta.reason,tags:['FOREX'],rr:ta.rr,tf:'1D',price:fp.pk,isNew:true,_ta:{rsi:ta.rsi,score:ta.score}});
+    });
+  } catch(e){}
 
-  // ── Forex: Frankfurter today vs yesterday = real 24h change ──
+  // ── Gold — Frankfurter XAU 90-day history ─────────────────────────────────────
   try {
-    var fr = await Promise.all([
-      fetch('https://api.frankfurter.app/latest?from=USD&to=JPY,EUR,GBP'),
-      fetch('https://api.frankfurter.app/'+yd+'?from=USD&to=JPY,EUR,GBP')
-    ]);
-    if (fr[0].ok && fr[1].ok) {
-      var ft = (await fr[0].json()).rates || {};
-      var fy = (await fr[1].json()).rates || {};
-      if (ft.JPY && fy.JPY) assets.push({pair:'USD/JPY',price:+ft.JPY.toFixed(3),ch:+(((ft.JPY-fy.JPY)/fy.JPY)*100).toFixed(2),tags:['FOREX'],tf:'4H',priceKey:'USDJPY'});
-      if (ft.EUR && fy.EUR) { var ep=1/ft.EUR,eyp=1/fy.EUR; assets.push({pair:'EUR/USD',price:+ep.toFixed(4),ch:+(((ep-eyp)/eyp)*100).toFixed(2),tags:['FOREX'],tf:'4H',priceKey:'EURUSD'}); }
-      if (ft.GBP && fy.GBP) { var gp=1/ft.GBP,gyp=1/fy.GBP; assets.push({pair:'GBP/USD',price:+gp.toFixed(4),ch:+(((gp-gyp)/gyp)*100).toFixed(2),tags:['FOREX'],tf:'4H',priceKey:'GBPUSD'}); }
+    var xH=await _fetchFrankfurterHistory('XAU','USD',90);
+    var xCl=xH.dates.filter(function(d){return xH.rates[d]&&xH.rates[d].USD;}).map(function(d){return xH.rates[d].USD;});
+    if(xCl.length>=20){
+      var xta=_taAnalyze(xCl,null);
+      if(xta) out.push({_fromAPI:true,id:200+out.length,pair:'XAU/USD',type:xta.type,entry:xCl[xCl.length-1],tp:xta.tp,sl:xta.sl,conf:xta.conf,reason:xta.reason,tags:['COMMODITY'],rr:xta.rr,tf:'1D',price:'GOLD',isNew:true,_ta:{rsi:xta.rsi,score:xta.score}});
     }
-  } catch(e) {}
+  } catch(e){}
 
-  // ── Gold: Frankfurter XAU today vs yesterday = real 24h change ──
-  try {
-    var xr = await Promise.all([
-      fetch('https://api.frankfurter.app/latest?from=XAU&to=USD'),
-      fetch('https://api.frankfurter.app/'+yd+'?from=XAU&to=USD')
-    ]);
-    if (xr[0].ok && xr[1].ok) {
-      var xt = (await xr[0].json()).rates || {};
-      var xy = (await xr[1].json()).rates || {};
-      if (xt.USD && xy.USD) assets.push({pair:'XAU/USD',price:+xt.USD.toFixed(2),ch:+(((xt.USD-xy.USD)/xy.USD)*100).toFixed(2),tags:['COMMODITY'],tf:'1D',priceKey:'GOLD'});
-    }
-  } catch(e) {}
-
-  if (!assets.length) return null;
-  return _sigBuild(assets);
+  return out.length?out:null;
 }
 
 async function fetchSignalsFromAPI(force) {
